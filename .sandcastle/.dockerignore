@@ -1,0 +1,15 @@
+# # Secrets
+# .env
+# opencode-auth.json
+
+# # Runtime
+# logs/
+# worktrees/
+
+# # Build artefacts
+# web-src/node_modules/
+# web-src/.next/
+# web-src/dist/
+
+# # Not needed in image
+# .gitignore

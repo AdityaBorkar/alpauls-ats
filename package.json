@@ -77,7 +77,8 @@
     "dev": "vite dev --port 3020",
     "gen:auth-schema": "bunx auth generate -y --output ./src/schema/auth.ts --config ./src/lib/auth/server.ts",
     "preview": "vite preview",
-    "sandcastle": "bun ./.sandcastle/main.ts",
+    "sandcastle:build": "bun sandcastle docker build-image",
+    "sandcastle:start": "bun ./.sandcastle/main.ts",
     "test": "bun vitest run"
   },
   "type": "module"
