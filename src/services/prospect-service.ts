@@ -1,8 +1,8 @@
 import type { SQL } from "drizzle-orm";
 import { and, asc, desc, eq, ilike, or, sql } from "drizzle-orm";
 
+import { prospects } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { prospects } from "@/schema";
 
 import { recordProspectEvent } from "./prospect-event-service";
 

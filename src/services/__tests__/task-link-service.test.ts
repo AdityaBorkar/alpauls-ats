@@ -24,7 +24,7 @@ describe("task-link-service", () => {
   describe("addLink", () => {
     it("adds a link with correct taskId, entityType, entityId", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({ assigneeId: user.id, createdBy: user.id, title: "Link task" })
@@ -41,7 +41,7 @@ describe("task-link-service", () => {
 
     it("rejects duplicate link (same taskId + entityType + entityId)", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({ assigneeId: user.id, createdBy: user.id, title: "Dup task" })
@@ -56,7 +56,7 @@ describe("task-link-service", () => {
 
     it("allows same entityId with different entityType on the same task", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -77,7 +77,7 @@ describe("task-link-service", () => {
   describe("removeLink", () => {
     it("removes the link from the database", async () => {
       const user = await seedUser(db);
-      const { tasks, taskLinks } = await import("@/schema");
+      const { tasks, taskLinks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({

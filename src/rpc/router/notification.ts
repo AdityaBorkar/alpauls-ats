@@ -1,15 +1,23 @@
+import { z } from "zod";
+
 import { protectedProcedure } from "@/rpc/middleware";
-import {
-  listNotificationsSchema,
-  markAllNotificationsReadSchema,
-  markNotificationReadSchema,
-} from "@/rpc/schema/notification";
 import {
   getUnreadCount,
   listNotifications,
   markAllRead,
   markRead,
 } from "@/services/notification-service";
+
+const listNotificationsSchema = z.object({
+  limit: z.number().int().min(1).max(100).optional(),
+  unreadOnly: z.boolean().optional(),
+});
+
+const markNotificationReadSchema = z.object({
+  id: z.number().int().positive(),
+});
+
+const markAllNotificationsReadSchema = z.object({});
 
 export const notificationList = protectedProcedure
   .meta({ permission: { action: "read", resource: "notification" } })

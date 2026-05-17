@@ -10,11 +10,11 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { TeamHierarchyCanvas } from "@/components/team-hierarchy-canvas";
-import { MembersTable } from "@/components/templates/tables/members-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { rpc } from "@/rpc/client";
+import { MembersTable } from "@/templates/tables/members-table";
 
 const searchSchema = z.object({
   view: z.enum(["table", "canvas"]).default("table"),

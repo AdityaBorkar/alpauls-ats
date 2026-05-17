@@ -129,12 +129,12 @@ function Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {
   );
 }
 
-function renderField(
+function renderField<T>(
   resolved: ReturnType<typeof resolveFieldDef>,
   field: any,
   meta: FieldMeta | undefined,
   disabled: boolean | undefined,
-  config: FieldConfig | undefined,
+  config: FieldConfig<T> | undefined,
 ): React.ReactNode {
   if (meta?.component === "combobox") {
     return (

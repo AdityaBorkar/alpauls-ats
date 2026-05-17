@@ -3,7 +3,10 @@ import type { z } from "zod";
 
 import { Field, Form } from "@/components/forms";
 import { Button } from "@/components/ui/button";
-import { clientFormSchema, clientUpdateFormSchema } from "@/schema/client-form";
+import {
+  clientFormSchema,
+  clientUpdateFormSchema,
+} from "@/lib/form-schemas/client";
 
 import { LogoUpload } from "./logo-upload";
 

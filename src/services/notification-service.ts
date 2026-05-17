@@ -1,7 +1,7 @@
 import { and, desc, eq, isNull, sql } from "drizzle-orm";
 
+import { notifications } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { notifications } from "@/schema";
 
 export type CreateNotificationInput = {
   body?: string;

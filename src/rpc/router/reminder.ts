@@ -1,14 +1,15 @@
 import { protectedProcedure } from "@/rpc/middleware";
 import {
-  archiveReminderSchema,
-  createReminderSchema,
-  listRemindersSchema,
-} from "@/rpc/schema/task";
-import {
   archiveReminder,
   createReminder,
   listReminders,
 } from "@/services/reminder-service";
+
+import {
+  archiveReminderSchema,
+  createReminderSchema,
+  listRemindersSchema,
+} from "./task";
 
 export const reminderCreate = protectedProcedure
   .input(createReminderSchema)

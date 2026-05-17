@@ -15,10 +15,10 @@ import "@xyflow/react/dist/style.css";
 import { useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
 
-import type { MemberItem } from "@/components/templates/tables/members-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ROLE_DISPLAY_NAMES } from "@/lib/constants";
+import type { MemberItem } from "@/templates/tables/members-table";
 
 type MemberNodeData = {
   email: string;

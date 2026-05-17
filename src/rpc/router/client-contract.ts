@@ -1,18 +1,56 @@
 import { and, asc, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
+import { z } from "zod";
 
 import type { contractStatusEnum } from "@/db-schemas";
 import { clientContracts, clients, contractEvents, user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
+import { ClientContract_FormSchema } from "@/lib/form-schemas/client-contract";
 import { protectedProcedure } from "@/rpc/middleware";
-import {
-  archiveContractSchema,
-  ClientContract_FormSchema,
-  getContractByIdSchema,
-  listContractEventsSchema,
-  listContractsSchema,
-  updateContractSchema,
-} from "@/rpc/schema/client-contract";
+
+const contractStatusSchema = z.enum(["active", "inactive"]);
+
+const listContractsSchema = z.object({
+  archived: z.boolean().optional(),
+  assigneeId: z.array(z.string()).optional(),
+  clientId: z.number().int().positive().optional(),
+  cursor: z.string().optional(),
+  limit: z.number().int().min(1).max(100).optional(),
+  search: z.string().optional(),
+  sortBy: z.enum(["title", "createdAt", "startDate", "endDate"]).optional(),
+  sortOrder: z.enum(["asc", "desc"]).optional(),
+  status: z.array(contractStatusSchema).optional(),
+});
+
+const getContractByIdSchema = z.object({
+  id: z.number().int().positive(),
+});
+
+const archiveContractSchema = z.object({
+  id: z.number().int().positive(),
+});
+
+const updateContractSchema = z.object({
+  archived: z.boolean().optional(),
+  assigneeId: z.string().optional(),
+  clientId: z.number().int().positive().optional(),
+  description: z.string().optional(),
+  endDate: z.string().optional(),
+  id: z.number().int().positive(),
+  pdfLink: z.string().optional(),
+  referenceNumber: z.string().optional(),
+  rmId: z.string().optional(),
+  signedDate: z.string().optional(),
+  startDate: z.string().optional(),
+  status: contractStatusSchema.optional(),
+  title: z.string().optional(),
+});
+
+const listContractEventsSchema = z.object({
+  contractId: z.number().int().positive(),
+  cursor: z.string().optional(),
+  limit: z.number().int().min(1).max(100).optional(),
+});
 
 export type ContractStatus = (typeof contractStatusEnum.enumValues)[number];
 

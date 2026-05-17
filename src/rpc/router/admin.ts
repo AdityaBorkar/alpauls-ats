@@ -2,18 +2,41 @@ import { ORPCError } from "@orpc/server";
 import { hashPassword } from "better-auth/crypto";
 import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
+import { z } from "zod";
 
+import { account, session, user } from "@/db-schemas";
 import { listPredefinedRoles } from "@/lib/auth/access-control";
 import { db } from "@/lib/db/server";
+import { memberFormSchema as createUserSchema } from "@/lib/form-schemas/auth";
 import { protectedProcedure } from "@/rpc/middleware";
-import {
-  archiveUserSchema,
-  createUserSchema,
-  resetPasswordSchema,
-  updateUserSchema,
-} from "@/rpc/schema/admin";
-import { account, session, user } from "@/schema";
 import { validateNoCircularSupervisor } from "@/services/supervisor-hierarchy-service";
+
+const updateUserSchema = z.object({
+  banExpires: z
+    .string()
+    .datetime()
+    .optional()
+    .transform((v) => (v ? new Date(v) : null)),
+  banned: z.boolean().optional(),
+  banReason: z.string().optional(),
+  email: z.string().email().optional(),
+  name: z.string().optional(),
+  permissions: z.record(z.string(), z.array(z.string())).optional(),
+  role: z
+    .enum(["admin", "bd", "rm", "sc", "tl", "caller", "qc", "custom"])
+    .optional(),
+  supervisorId: z.string().optional(),
+  userId: z.string(),
+});
+
+const archiveUserSchema = z.object({
+  userId: z.string(),
+});
+
+const resetPasswordSchema = z.object({
+  newPassword: z.string().min(8),
+  userId: z.string(),
+});
 
 export const createUser = protectedProcedure
   .meta({

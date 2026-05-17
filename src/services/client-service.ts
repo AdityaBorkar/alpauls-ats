@@ -1,8 +1,8 @@
 import type { SQL } from "drizzle-orm";
 import { and, asc, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 
+import { clients, user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { clients, user } from "@/schema";
 
 import { recordClientEvent } from "./client-event-service";
 import type { SubordinateCache } from "./supervisor-hierarchy-service";

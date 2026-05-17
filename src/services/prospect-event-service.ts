@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 
+import { prospectEvents } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { prospectEvents } from "@/schema";
 
 export async function recordProspectEvent(
   prospectId: number,

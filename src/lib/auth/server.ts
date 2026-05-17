@@ -5,6 +5,7 @@ import { admin, customSession, phoneNumber } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { eq } from "drizzle-orm";
 
+import * as schema from "@/db-schemas";
 import {
   ac,
   type RoleCode,
@@ -12,7 +13,6 @@ import {
   roles,
 } from "@/lib/auth/access-control";
 import { db } from "@/lib/db/server";
-import * as schema from "@/schema";
 
 const options = {
   database: drizzleAdapter(db, {

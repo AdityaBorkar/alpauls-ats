@@ -23,7 +23,7 @@ describe("task-event-service", () => {
   describe("recordEvent", () => {
     it("inserts an event row with correct fields", async () => {
       const user = await seedUser(db);
-      const { tasks, taskEvents } = await import("@/schema");
+      const { tasks, taskEvents } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -50,7 +50,7 @@ describe("task-event-service", () => {
   describe("listEvents", () => {
     it("returns events for a task ordered by changedAt desc", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({ assigneeId: user.id, createdBy: user.id, title: "Task" })
@@ -68,7 +68,7 @@ describe("task-event-service", () => {
 
     it("returns empty items for a task with no events", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({ assigneeId: user.id, createdBy: user.id, title: "No events" })
@@ -82,7 +82,7 @@ describe("task-event-service", () => {
 
     it("paginates with cursor and limit", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({

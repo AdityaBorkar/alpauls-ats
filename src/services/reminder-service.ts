@@ -1,8 +1,8 @@
 import { ORPCError } from "@orpc/server";
 import { and, eq, isNotNull, sql } from "drizzle-orm";
 
+import { reminders, tasks } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { reminders, tasks } from "@/schema";
 
 export type CreateReminderInput = {
   taskId?: number;

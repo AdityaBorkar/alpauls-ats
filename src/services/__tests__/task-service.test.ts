@@ -112,7 +112,7 @@ describe("task-service", () => {
 
       const events = await db
         .select()
-        .from((await import("@/schema")).taskEvents);
+        .from((await import("@/db-schemas")).taskEvents);
       expect(events).toHaveLength(1);
       expect(events[0]).toMatchObject({
         changedBy: user.id,
@@ -139,7 +139,7 @@ describe("task-service", () => {
 
       const events = await db
         .select()
-        .from((await import("@/schema")).taskEvents);
+        .from((await import("@/db-schemas")).taskEvents);
       expect(events).toHaveLength(3);
 
       const fields = events.map((e: any) => e.field).sort();
@@ -158,7 +158,7 @@ describe("task-service", () => {
 
       const events = await db
         .select()
-        .from((await import("@/schema")).taskEvents);
+        .from((await import("@/db-schemas")).taskEvents);
       expect(events).toHaveLength(0);
     });
 
@@ -171,7 +171,7 @@ describe("task-service", () => {
         title: "Deadline task",
       }))!;
 
-      const { reminders: taskReminders } = await import("@/schema");
+      const { reminders: taskReminders } = await import("@/db-schemas");
       await db.insert(taskReminders).values({
         offsetMinutes: 1440,
         taskId: task.id,
@@ -212,7 +212,7 @@ describe("task-service", () => {
 
       const events = await db
         .select()
-        .from((await import("@/schema")).taskEvents);
+        .from((await import("@/db-schemas")).taskEvents);
       expect(events).toHaveLength(1);
       expect(events[0]).toMatchObject({
         field: "archived",
@@ -240,7 +240,7 @@ describe("task-service", () => {
 
       const events = await db
         .select()
-        .from((await import("@/schema")).taskEvents);
+        .from((await import("@/db-schemas")).taskEvents);
       expect(events).toHaveLength(1);
       expect(events[0]).toMatchObject({
         field: "description",
@@ -265,7 +265,7 @@ describe("task-service", () => {
 
       const events = await db
         .select()
-        .from((await import("@/schema")).taskEvents);
+        .from((await import("@/db-schemas")).taskEvents);
       expect(events).toHaveLength(1);
       expect(events[0]).toMatchObject({
         field: "archived",
@@ -284,7 +284,9 @@ describe("task-service", () => {
         title: "Full task",
       }))!;
 
-      const { taskLinks, reminders: taskReminders } = await import("@/schema");
+      const { taskLinks, reminders: taskReminders } = await import(
+        "@/db-schemas"
+      );
       await db.insert(taskLinks).values({
         entityId: "cand-1",
         entityType: "prospect",
@@ -440,7 +442,7 @@ describe("task-service", () => {
         title: "Unlinked",
       });
 
-      const { taskLinks } = await import("@/schema");
+      const { taskLinks } = await import("@/db-schemas");
       await db.insert(taskLinks).values({
         entityId: "cand-42",
         entityType: "prospect",
@@ -538,7 +540,9 @@ describe("task-service", () => {
         title: "Rich task",
       }))!;
 
-      const { taskLinks, reminders: taskReminders } = await import("@/schema");
+      const { taskLinks, reminders: taskReminders } = await import(
+        "@/db-schemas"
+      );
       await db.insert(taskLinks).values({
         entityId: "mandate-1",
         entityType: "job_mandate",

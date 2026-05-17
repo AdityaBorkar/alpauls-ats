@@ -6,7 +6,7 @@ import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { API_VERSION, SITE_NAME } from "@/lib/constants";
-import router from "@/rpc/router";
+import { router } from "@/rpc/router";
 
 const handler = new OpenAPIHandler(router, {
   interceptors: [

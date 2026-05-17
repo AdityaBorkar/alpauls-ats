@@ -7,9 +7,9 @@ config({ path: [".env.local", ".env"] });
 
 import { eq } from "drizzle-orm";
 
+import { user } from "@/db-schemas";
 import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db/server";
-import { user } from "@/schema";
 
 function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

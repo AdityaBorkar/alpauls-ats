@@ -4,8 +4,8 @@ import type { z } from "zod";
 
 import { Field, Form } from "@/components/forms";
 import { Button } from "@/components/ui/button";
+import { ClientContract_FormSchema } from "@/lib/form-schemas/client-contract";
 import { rpc } from "@/rpc/client";
-import { ClientContract_FormSchema } from "@/schema/forms/client-contract";
 
 type ClientContractType = z.infer<typeof ClientContract_FormSchema>;
 

@@ -1,8 +1,8 @@
 import { ORPCError } from "@orpc/server";
 import { and, eq } from "drizzle-orm";
 
+import { taskLinks } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { taskLinks } from "@/schema";
 
 export async function addLink(
   taskId: number,

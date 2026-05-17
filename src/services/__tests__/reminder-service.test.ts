@@ -44,7 +44,7 @@ describe("reminder-service", () => {
 
     it("creates a relative reminder on a task with a deadline", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -71,7 +71,7 @@ describe("reminder-service", () => {
 
     it("rejects relative reminder on a task without a deadline", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -138,7 +138,7 @@ describe("reminder-service", () => {
 
       await archiveReminder(reminder.id);
 
-      const { reminders } = await import("@/schema");
+      const { reminders } = await import("@/db-schemas");
       const rows = await db.select().from(reminders);
       expect(rows).toHaveLength(1);
       expect(rows[0].archived).toBe(true);
@@ -148,7 +148,7 @@ describe("reminder-service", () => {
   describe("listReminders", () => {
     it("lists reminders by taskId", async () => {
       const user = await seedUser(db);
-      const { tasks, reminders: taskReminders } = await import("@/schema");
+      const { tasks, reminders: taskReminders } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -181,7 +181,7 @@ describe("reminder-service", () => {
     it("lists reminders by userId", async () => {
       const user1 = await seedUser(db, { id: "u1" });
       const user2 = await seedUser(db, { email: "u2@test.com", id: "u2" });
-      const { reminders: taskReminders } = await import("@/schema");
+      const { reminders: taskReminders } = await import("@/db-schemas");
 
       await db.insert(taskReminders).values([
         {
@@ -203,7 +203,7 @@ describe("reminder-service", () => {
 
     it("lists standalone reminders only", async () => {
       const user = await seedUser(db);
-      const { tasks, reminders: taskReminders } = await import("@/schema");
+      const { tasks, reminders: taskReminders } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -237,7 +237,7 @@ describe("reminder-service", () => {
   describe("recomputeRelativeReminders", () => {
     it("updates trigger_at for all relative reminders when deadline changes", async () => {
       const user = await seedUser(db);
-      const { tasks, reminders: taskReminders } = await import("@/schema");
+      const { tasks, reminders: taskReminders } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -292,7 +292,7 @@ describe("reminder-service", () => {
 
     it("does not modify absolute reminders", async () => {
       const user = await seedUser(db);
-      const { tasks, reminders: taskReminders } = await import("@/schema");
+      const { tasks, reminders: taskReminders } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({
@@ -328,7 +328,7 @@ describe("reminder-service", () => {
 
     it("is a no-op when the task has no deadline", async () => {
       const user = await seedUser(db);
-      const { tasks } = await import("@/schema");
+      const { tasks } = await import("@/db-schemas");
       const [task] = await db
         .insert(tasks)
         .values({

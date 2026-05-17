@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 
+import { clientEvents } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { clientEvents } from "@/schema";
 
 export async function recordClientEvent(
   clientId: number,

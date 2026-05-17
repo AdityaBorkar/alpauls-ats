@@ -1,10 +1,13 @@
 import type { z } from "zod";
 
 import { Field, Form } from "@/components/forms";
+import { PermissionsEditor } from "@/components/permissions-editor";
 import { Button } from "@/components/ui/button";
-import { memberFormSchema, memberUpdateFormSchema } from "@/schema/auth-form";
+import {
+  memberFormSchema,
+  memberUpdateFormSchema,
+} from "@/lib/form-schemas/auth";
 
-import { PermissionsEditor } from "../../permissions-editor";
 import { SupervisorCombobox } from "../inputs/supervisor-combobox";
 
 type CreateValues = z.infer<typeof memberFormSchema>;

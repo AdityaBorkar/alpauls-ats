@@ -1,8 +1,8 @@
 import { ORPCError } from "@orpc/server";
 import { eq, sql } from "drizzle-orm";
 
+import { user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { user } from "@/schema";
 
 export type SubordinateCache = Map<string, string[]>;
 

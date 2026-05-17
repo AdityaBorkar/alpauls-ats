@@ -1,10 +1,18 @@
 import { and, asc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
+import { z } from "zod";
 
+import { user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
 import { protectedProcedure } from "@/rpc/middleware";
-import { listUsersSchema } from "@/rpc/schema/users";
-import { user } from "@/schema";
+
+const listUsersSchema = z.object({
+  cursor: z.string().optional(),
+  includeBanned: z.boolean().optional(),
+  limit: z.number().int().min(1).max(100).optional(),
+  role: z.array(z.string()).optional(),
+  search: z.string().optional(),
+});
 
 export const usersList = protectedProcedure
   .meta({ permission: { action: "read", resource: "team_members" } })

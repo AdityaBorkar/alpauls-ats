@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
-import { MemberForm } from "@/components/templates/forms/member-form";
 import type { UserOption } from "@/components/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { rpc } from "@/rpc/client";
+import { MemberForm } from "@/templates/forms/member-form";
 
 export const Route = createFileRoute("/(protected)/settings/members/new")({
   component: NewMemberPage,

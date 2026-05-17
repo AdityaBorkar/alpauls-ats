@@ -1,14 +1,11 @@
+import { z } from "zod";
+
+import {
+  clientFormSchema as createClientSchema,
+  clientUpdateFormSchema as updateClientSchema,
+} from "@/lib/form-schemas/client";
 import { getPresignedUploadUrl, getR2PublicUrl } from "@/lib/storage";
 import { protectedProcedure } from "@/rpc/middleware";
-import {
-  archiveClientSchema,
-  createClientSchema,
-  getClientByIdSchema,
-  getUploadUrlSchema,
-  listClientEventsSchema,
-  listClientsSchema,
-  updateClientSchema,
-} from "@/rpc/schema/client";
 import { listClientEvents } from "@/services/client-event-service";
 import {
   archiveClient as archiveClientService,
@@ -17,6 +14,35 @@ import {
   listClients,
   updateClient,
 } from "@/services/client-service";
+
+const listClientsSchema = z.object({
+  archived: z.boolean().optional(),
+  assigneeId: z.array(z.string()).optional(),
+  cursor: z.string().optional(),
+  limit: z.number().int().min(1).max(100).optional(),
+  search: z.string().optional(),
+  sortBy: z.enum(["name", "createdAt"]).optional(),
+  sortOrder: z.enum(["asc", "desc"]).optional(),
+});
+
+const getClientByIdSchema = z.object({
+  id: z.number().int().positive(),
+});
+
+const archiveClientSchema = z.object({
+  id: z.number().int().positive(),
+});
+
+const listClientEventsSchema = z.object({
+  clientId: z.number().int().positive(),
+  cursor: z.string().optional(),
+  limit: z.number().int().min(1).max(100).optional(),
+});
+
+const getUploadUrlSchema = z.object({
+  contentType: z.string().min(1),
+  filename: z.string().min(1),
+});
 
 export const clientCreate = protectedProcedure
   .meta({ permission: { action: "create", resource: "clients" } })

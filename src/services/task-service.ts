@@ -1,8 +1,8 @@
 import type { SQL } from "drizzle-orm";
 import { and, asc, desc, eq, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 
+import { reminders, taskLinks, tasks, user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { reminders, taskLinks, tasks, user } from "@/schema";
 
 import { recomputeRelativeReminders } from "./reminder-service";
 import { recordEvent } from "./task-event-service";

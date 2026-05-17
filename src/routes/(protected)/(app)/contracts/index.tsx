@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { ContractsTable } from "@/components/templates/tables/contracts-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { rpc } from "@/rpc/client";
+import { ContractsTable } from "@/templates/tables/contracts-table";
 
 export const Route = createFileRoute("/(protected)/(app)/contracts/")({
   component: ContractsPage,

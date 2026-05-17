@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 
+import { taskEvents, tasks } from "@/db-schemas";
 import { db } from "@/lib/db/server";
-import { taskEvents, tasks } from "@/schema";
 import { createNotification } from "@/services/notification-service";
 
 export async function recordEvent(

@@ -1,7 +1,7 @@
 import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
 
-import * as schema from "@/schema";
+import * as schema from "@/db-schemas";
 
 const SCHEMA_SQL = `
 CREATE TYPE "task_status" AS ENUM ('todo', 'in_progress', 'done');
