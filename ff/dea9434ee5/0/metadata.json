@@ -1,0 +1,80 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "ffdea9434ee5",
+  "session_id": "ses_1ca216e82ffeYmbI74CjPQ6ELY",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-17T12:43:49.081341616Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "bun.lock",
+    "drizzle.config.ts",
+    "package.json",
+    "src/rpc/router/admin.ts",
+    "src/rpc/router/client-contract.ts",
+    "src/rpc/router/client.ts",
+    "src/rpc/router/notification.ts",
+    "src/rpc/router/prospect.ts",
+    "src/rpc/router/reminder.ts",
+    "src/rpc/router/task.ts",
+    "src/rpc/router/users.ts",
+    "src/rpc/schema/admin.ts",
+    "src/rpc/schema/client-contract.ts",
+    "src/rpc/schema/client.ts",
+    "src/rpc/schema/notification.ts",
+    "src/rpc/schema/prospect.ts",
+    "src/rpc/schema/task.ts",
+    "src/rpc/schema/users.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "15d916fbc7f8",
+  "token_usage": {
+    "input_tokens": 109809,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1863360,
+    "output_tokens": 32392,
+    "api_call_count": 28
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-17T12:43:49.065410522Z",
+    "agent_lines": 175,
+    "agent_removed": 309,
+    "human_added": 796,
+    "human_modified": 86,
+    "human_removed": 0,
+    "total_committed": 1057,
+    "total_lines_changed": 2234,
+    "agent_percentage": 21.665174574753802,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 66,
+      "user_lines_removed": 84,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "bun.lock": 64,
+        "drizzle.config.ts": 1,
+        "package.json": 1
+      },
+      "user_removed_per_file": {
+        "bun.lock": 76,
+        "drizzle.config.ts": 1,
+        "package.json": 7
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 66,
+      "agent_lines_removed": 84
+    }
+  ]
+}

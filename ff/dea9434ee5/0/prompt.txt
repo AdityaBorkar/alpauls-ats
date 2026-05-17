@@ -1,0 +1,31 @@
+Merge the schema definations from @src/rpc/schema/ to @src/rpc/router/ . Do not maintain a separate schema from the router files.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/rpc/schema/"}
+<path>/home/aditya/projects/alpauls-ats/src/rpc/schema/</path>
+<type>directory</type>
+<entries>
+admin.ts
+client-contract.ts
+client.ts
+notification.ts
+prospect.ts
+task.ts
+users.ts
+
+(7 entries)
+</entries>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/rpc/router/"}
+<path>/home/aditya/projects/alpauls-ats/src/rpc/router/</path>
+<type>directory</type>
+<entries>
+admin.ts
+client-contract.ts
+client.ts
+index.ts
+notification.ts
+prospect.ts
+reminder.ts
+task.ts
+users.ts
+
+(9 entries)
+</entries>
