@@ -1,9 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
 import { ContractForm } from "@/components/forms/contract-form";
-import type { UserOption } from "@/components/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,17 +20,6 @@ export const Route = createFileRoute("/(protected)/(app)/contracts/new")({
 function NewContractPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const { data: users } = useQuery(
-    rpc.admin.listUsers.queryOptions({ input: {} }),
-  );
-
-  const userOptions: UserOption[] = (users ?? []).map((u) => ({
-    email: u.email,
-    id: u.id,
-    name: u.name,
-    role: u.role,
-  }));
 
   const createMutation = useMutation({
     mutationFn: (input: Record<string, any>) =>
@@ -77,7 +65,6 @@ function NewContractPage() {
             isPending={createMutation.isPending}
             mode="create"
             onSubmit={(values) => createMutation.mutate(values)}
-            users={userOptions}
           />
         </CardContent>
       </Card>
