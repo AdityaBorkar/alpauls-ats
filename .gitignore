@@ -10,6 +10,7 @@ node_modules
 .agents
 .codegraphcontext
 .expect
+.opencode
 .sandcastle
 
 ./src/routeTree.gen.ts

@@ -7,7 +7,7 @@ import { z } from "zod";
 import { account, session, user } from "@/db-schemas";
 import { listPredefinedRoles } from "@/lib/auth/access-control";
 import { db } from "@/lib/db/server";
-import { memberFormSchema as createUserSchema } from "@/lib/form-schemas/auth";
+import { Member_FormSchema as createUserSchema } from "@/lib/form-schemas/auth";
 import { protectedProcedure } from "@/rpc/middleware";
 import { validateNoCircularSupervisor } from "@/services/supervisor-hierarchy-service";
 

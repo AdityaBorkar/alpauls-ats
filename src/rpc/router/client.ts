@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import {
-  clientFormSchema as createClientSchema,
-  clientUpdateFormSchema as updateClientSchema,
+  Client_FormSchema as createClientSchema,
+  Client_FormSchema as updateClientSchema,
 } from "@/lib/form-schemas/client";
 import { getPresignedUploadUrl, getR2PublicUrl } from "@/lib/storage";
 import { protectedProcedure } from "@/rpc/middleware";

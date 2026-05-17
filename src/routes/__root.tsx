@@ -3,6 +3,7 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import PostHogProvider from "#/posthog/provider";
+import { Devtools } from "@/components/devtools";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import css from "./styles.css?url";
@@ -28,15 +29,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="bg-sidebar">
         <PostHogProvider>
           <TooltipProvider>{children}</TooltipProvider>
-          <TanStackDevtools
-            config={{ position: "bottom-right" }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
+          <Devtools />
         </PostHogProvider>
         <Scripts />
       </body>
