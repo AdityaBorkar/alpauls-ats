@@ -1,0 +1,458 @@
+Update @src/rpc/router/client-contract.ts and @src/services/client-contract-service.ts to reflect the changes
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/rpc/router/client-contract.ts"}
+<path>/home/aditya/projects/alpauls-ats/src/rpc/router/client-contract.ts</path>
+<type>file</type>
+<content>
+1: import { protectedProcedure } from "@/rpc/middleware";
+2: import {
+3:   archiveContractSchema,
+4:   ClientContract_FormSchema,
+5:   getContractByIdSchema,
+6:   listContractEventsSchema,
+7:   listContractsSchema,
+8: } from "@/rpc/schema/client-contract";
+9: import {
+10:   archiveContract,
+11:   createContract,
+12:   getContract,
+13:   listContractEvents,
+14:   listContracts,
+15:   updateContract,
+16: } from "@/services/client-contract-service";
+17: 
+18: export const contractCreate = protectedProcedure
+19:   .meta({ permission: { action: "create", resource: "client_contracts" } })
+20:   .input(ClientContract_FormSchema)
+21:   .handler(async ({ context, input }) => {
+22:     const contract = await createContract(input, context.user.id);
+23:     return contract;
+24:   });
+25: 
+26: export const contractList = protectedProcedure
+27:   .meta({ permission: { action: "read", resource: "client_contracts" } })
+28:   .input(listContractsSchema)
+29:   .handler(async ({ input }) => {
+30:     return listContracts({
+31:       cursor: input.cursor,
+32:       filters: {
+33:         archived: input.archived,
+34:         assigneeId: input.assigneeId,
+35:         clientId: input.clientId,
+36:         search: input.search,
+37:         status: input.status,
+38:       },
+39:       limit: input.limit,
+40:       sortBy: input.sortBy,
+41:       sortOrder: input.sortOrder,
+42:     });
+43:   });
+44: 
+45: export const contractGetById = protectedProcedure
+46:   .meta({ permission: { action: "read", resource: "client_contracts" } })
+47:   .input(getContractByIdSchema)
+48:   .handler(async ({ input }) => {
+49:     const contract = await getContract(input.id);
+50:     if (!contract) throw new Error("Contract not found");
+51:     return contract;
+52:   });
+53: 
+54: export const contractUpdate = protectedProcedure
+55:   .meta({ permission: { action: "update", resource: "client_contracts" } })
+56:   .input(updateContractSchema)
+57:   .handler(async ({ context, input }) => {
+58:     const { id, ...updates } = input;
+59:     return updateContract(id, updates, context.user.id);
+60:   });
+61: 
+62: export const contractArchive = protectedProcedure
+63:   .meta({ permission: { action: "archive", resource: "client_contracts" } })
+64:   .input(archiveContractSchema)
+65:   .handler(async ({ context, input }) => {
+66:     return archiveContract(input.id, context.user.id);
+67:   });
+68: 
+69: export const contractListEvents = protectedProcedure
+70:   .meta({ permission: { action: "read", resource: "client_contracts" } })
+71:   .input(listContractEventsSchema)
+72:   .handler(async ({ input }) => {
+73:     return listContractEvents(
+74:       input.contractId,
+75:       input.cursor,
+76:       input.limit ?? 50,
+77:     );
+78:   });
+
+(End of file - total 78 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/services/client-contract-service.ts"}
+<path>/home/aditya/projects/alpauls-ats/src/services/client-contract-service.ts</path>
+<type>file</type>
+<content>
+1: import { and, asc, desc, eq, ilike, inArray, sql } from "drizzle-orm";
+2: import { alias } from "drizzle-orm/pg-core";
+3: 
+4: import { db } from "@/lib/db/server";
+5: import type { contractStatusEnum } from "@/schema";
+6: import { clientContracts, clients, contractEvents, user } from "@/schema";
+7: 
+8: export type ContractStatus = (typeof contractStatusEnum.enumValues)[number];
+9: 
+10: export type CreateContractInput = {
+11:   title: string;
+12:   description?: string;
+13:   clientId: number;
+14:   assigneeId: string;
+15:   rmId?: string | null;
+16:   startDate?: string | null;
+17:   endDate?: string | null;
+18:   signedDate?: string | null;
+19:   pdfLink?: string | null;
+20:   referenceNumber?: string | null;
+21:   status?: ContractStatus;
+22: };
+23: 
+24: export type UpdateContractInput = {
+25:   title?: string;
+26:   description?: string | null;
+27:   clientId?: number;
+28:   assigneeId?: string;
+29:   rmId?: string | null;
+30:   startDate?: string | null;
+31:   endDate?: string | null;
+32:   signedDate?: string | null;
+33:   pdfLink?: string | null;
+34:   referenceNumber?: string | null;
+35:   status?: ContractStatus;
+36:   archived?: boolean;
+37: };
+38: 
+39: export type ListContractsFilters = {
+40:   clientId?: number;
+41:   assigneeId?: string[];
+42:   status?: ContractStatus[];
+43:   search?: string;
+44:   archived?: boolean;
+45: };
+46: 
+47: export type ListContractsInput = {
+48:   filters?: ListContractsFilters;
+49:   cursor?: string;
+50:   limit?: number;
+51:   sortBy?: "title" | "createdAt" | "startDate" | "endDate";
+52:   sortOrder?: "asc" | "desc";
+53: };
+54: 
+55: const COLUMN_MAP: Record<string, string> = {
+56:   archived: "archived",
+57:   assigneeId: "assignee_id",
+58:   clientId: "client_id",
+59:   description: "description",
+60:   endDate: "end_date",
+61:   pdfLink: "pdf_link",
+62:   referenceNumber: "reference_number",
+63:   rmId: "rm_id",
+64:   signedDate: "signed_date",
+65:   startDate: "start_date",
+66:   status: "status",
+67:   title: "title",
+68: };
+69: 
+70: const UPDATABLE_FIELDS = [
+71:   "title",
+72:   "description",
+73:   "clientId",
+74:   "assigneeId",
+75:   "rmId",
+76:   "startDate",
+77:   "endDate",
+78:   "signedDate",
+79:   "pdfLink",
+80:   "referenceNumber",
+81:   "status",
+82:   "archived",
+83: ] as const;
+84: 
+85: const bdUser = alias(user, "bd_user");
+86: const rmUser = alias(user, "rm_user");
+87: 
+88: async function recordContractEvent(
+89:   contractId: number,
+90:   field: string,
+91:   oldValue: string | null,
+92:   newValue: string | null,
+93:   changedBy: string,
+94: ) {
+95:   await db.insert(contractEvents).values({
+96:     changedBy,
+97:     contractId,
+98:     field,
+99:     newValue,
+100:     oldValue,
+101:   });
+102: }
+103: 
+104: function buildContractSelect() {
+105:   return {
+106:     archived: clientContracts.archived,
+107:     assigneeId: clientContracts.assigneeId,
+108:     bdImage: bdUser.image,
+109:     bdName: bdUser.name,
+110:     clientId: clientContracts.clientId,
+111:     clientName: clients.name,
+112:     createdAt: clientContracts.createdAt,
+113:     description: clientContracts.description,
+114:     endDate: clientContracts.endDate,
+115:     id: clientContracts.id,
+116:     pdfLink: clientContracts.pdfLink,
+117:     referenceNumber: clientContracts.referenceNumber,
+118:     rmId: clientContracts.rmId,
+119:     rmImage: rmUser.image,
+120:     rmName: rmUser.name,
+121:     signedDate: clientContracts.signedDate,
+122:     startDate: clientContracts.startDate,
+123:     status: clientContracts.status,
+124:     title: clientContracts.title,
+125:     updatedAt: clientContracts.updatedAt,
+126:   };
+127: }
+128: 
+129: export async function createContract(
+130:   input: CreateContractInput,
+131:   userId: string,
+132: ) {
+133:   const [contract] = await db
+134:     .insert(clientContracts)
+135:     .values({
+136:       assigneeId: input.assigneeId,
+137:       clientId: input.clientId,
+138:       description: input.description ?? null,
+139:       endDate: input.endDate ?? null,
+140:       pdfLink: input.pdfLink ?? null,
+141:       referenceNumber: input.referenceNumber ?? null,
+142:       rmId: input.rmId ?? null,
+143:       signedDate: input.signedDate ?? null,
+144:       startDate: input.startDate ?? null,
+145:       status: input.status ?? "active",
+146:       title: input.title,
+147:     })
+148:     .returning();
+149: 
+150:   const fieldsToRecord: [string, string | null][] = [
+151:     ["title", input.title],
+152:     ["description", input.description ?? null],
+153:     ["client_id", input.clientId != null ? String(input.clientId) : null],
+154:     ["assignee_id", input.assigneeId],
+155:     ["rm_id", input.rmId ?? null],
+156:     ["start_date", input.startDate ?? null],
+157:     ["end_date", input.endDate ?? null],
+158:     ["signed_date", input.signedDate ?? null],
+159:     ["pdf_link", input.pdfLink ?? null],
+160:     ["reference_number", input.referenceNumber ?? null],
+161:     ["status", input.status ?? "active"],
+162:   ];
+163: 
+164:   for (const [field, value] of fieldsToRecord) {
+165:     if (value !== null) {
+166:       await recordContractEvent(contract.id, field, null, value, userId);
+167:     }
+168:   }
+169: 
+170:   return getContract(contract.id);
+171: }
+172: 
+173: export async function updateContract(
+174:   id: number,
+175:   input: UpdateContractInput,
+176:   userId: string,
+177: ) {
+178:   const [existing] = await db
+179:     .select()
+180:     .from(clientContracts)
+181:     .where(eq(clientContracts.id, id));
+182: 
+183:   if (!existing) throw new Error("Contract not found");
+184: 
+185:   const updateData: Record<string, unknown> = {};
+186: 
+187:   for (const field of UPDATABLE_FIELDS) {
+188:     if (input[field] !== undefined) {
+189:       const oldVal = existing[field as keyof typeof existing];
+190:       const newVal = input[field];
+191: 
+192:       const oldStr = oldVal === null ? null : String(oldVal);
+193:       const newStr = newVal === null ? null : String(newVal);
+194: 
+195:       if (oldStr !== newStr) {
+196:         updateData[field] = newVal;
+197:         await recordContractEvent(
+198:           id,
+199:           COLUMN_MAP[field],
+200:           oldStr,
+201:           newStr,
+202:           userId,
+203:         );
+204:       }
+205:     }
+206:   }
+207: 
+208:   if (Object.keys(updateData).length > 0) {
+209:     updateData.updatedAt = new Date();
+210:     await db
+211:       .update(clientContracts)
+212:       .set(updateData)
+213:       .where(eq(clientContracts.id, id));
+214:   }
+215: 
+216:   return getContract(id);
+217: }
+218: 
+219: export async function archiveContract(id: number, userId: string) {
+220:   return updateContract(id, { archived: true }, userId);
+221: }
+222: 
+223: export async function getContract(id: number) {
+224:   const [row] = await db
+225:     .select(buildContractSelect())
+226:     .from(clientContracts)
+227:     .leftJoin(bdUser, eq(clientContracts.assigneeId, bdUser.id))
+228:     .leftJoin(rmUser, eq(clientContracts.rmId, rmUser.id))
+229:     .leftJoin(clients, eq(clientContracts.clientId, clients.id))
+230:     .where(eq(clientContracts.id, id));
+231: 
+232:   if (!row) return null;
+233: 
+234:   return {
+235:     ...row,
+236:     bd: {
+237:       id: row.assigneeId,
+238:       image: row.bdImage,
+239:       name: row.bdName,
+240:     },
+241:     client: {
+242:       id: row.clientId,
+243:       name: row.clientName,
+244:     },
+245:     rm: row.rmId
+246:       ? { id: row.rmId, image: row.rmImage, name: row.rmName }
+247:       : null,
+248:   };
+249: }
+250: 
+251: export async function listContracts(input: ListContractsInput = {}) {
+252:   const {
+253:     filters = {},
+254:     limit = 20,
+255:     sortBy = "createdAt",
+256:     sortOrder = "desc",
+257:   } = input;
+258: 
+259:   const conditions = [];
+260: 
+261:   if (filters.archived !== undefined) {
+262:     conditions.push(eq(clientContracts.archived, filters.archived));
+263:   } else {
+264:     conditions.push(eq(clientContracts.archived, false));
+265:   }
+266: 
+267:   if (filters.clientId !== undefined) {
+268:     conditions.push(eq(clientContracts.clientId, filters.clientId));
+269:   }
+270: 
+271:   if (filters.status?.length) {
+272:     conditions.push(inArray(clientContracts.status, filters.status));
+273:   }
+274: 
+275:   if (filters.assigneeId?.length) {
+276:     conditions.push(inArray(clientContracts.assigneeId, filters.assigneeId));
+277:   }
+278: 
+279:   if (filters.search) {
+280:     const pattern = `%${filters.search}%`;
+281:     conditions.push(
+282:       sql`(${ilike(clientContracts.title, pattern)} OR ${ilike(clientContracts.referenceNumber, pattern)})`,
+283:     );
+284:   }
+285: 
+286:   const cursorId = input.cursor ? Number.parseInt(input.cursor, 10) : null;
+287:   if (cursorId !== null && !Number.isNaN(cursorId)) {
+288:     if (sortOrder === "asc") {
+289:       conditions.push(sql`${clientContracts.id} > ${cursorId}`);
+290:     } else {
+291:       conditions.push(sql`${clientContracts.id} < ${cursorId}`);
+292:     }
+293:   }
+294: 
+295:   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+296: 
+297:   const sortColumn =
+298:     sortBy === "title"
+299:       ? clientContracts.title
+300:       : sortBy === "startDate"
+301:         ? clientContracts.startDate
+302:         : sortBy === "endDate"
+303:           ? clientContracts.endDate
+304:           : clientContracts.createdAt;
+305: 
+306:   const orderFn = sortOrder === "asc" ? asc(sortColumn) : desc(sortColumn);
+307: 
+308:   const rows = await db
+309:     .select(buildContractSelect())
+310:     .from(clientContracts)
+311:     .leftJoin(bdUser, eq(clientContracts.assigneeId, bdUser.id))
+312:     .leftJoin(rmUser, eq(clientContracts.rmId, rmUser.id))
+313:     .leftJoin(clients, eq(clientContracts.clientId, clients.id))
+314:     .where(whereClause)
+315:     .orderBy(orderFn)
+316:     .limit(limit + 1);
+317: 
+318:   const hasMore = rows.length > limit;
+319:   const items = hasMore ? rows.slice(0, limit) : rows;
+320: 
+321:   const enriched = items.map((row) => ({
+322:     ...row,
+323:     bd: {
+324:       id: row.assigneeId,
+325:       image: row.bdImage,
+326:       name: row.bdName,
+327:     },
+328:     client: {
+329:       id: row.clientId,
+330:       name: row.clientName,
+331:     },
+332:     rm: row.rmId
+333:       ? { id: row.rmId, image: row.rmImage, name: row.rmName }
+334:       : null,
+335:   }));
+336: 
+337:   const nextCursor =
+338:     hasMore && enriched.length > 0
+339:       ? String(enriched[enriched.length - 1].id)
+340:       : null;
+341: 
+342:   return { items: enriched, nextCursor };
+343: }
+344: 
+345: export async function listContractEvents(
+346:   contractId: number,
+347:   _cursor?: string,
+348:   limit = 50,
+349: ) {
+350:   const rows = await db
+351:     .select()
+352:     .from(contractEvents)
+353:     .where(eq(contractEvents.contractId, contractId))
+354:     .orderBy(desc(contractEvents.changedAt))
+355:     .limit(limit + 1);
+356: 
+357:   const hasMore = rows.length > limit;
+358:   const items = hasMore ? rows.slice(0, limit) : rows;
+359: 
+360:   return {
+361:     items,
+362:     nextCursor:
+363:       hasMore && items.length > 0 ? String(items[items.length - 1].id) : null,
+364:   };
+365: }
+
+(End of file - total 365 lines)
+</content>
