@@ -3,11 +3,11 @@ import { Calendar, Columns3, List, Plus } from "lucide-react";
 import { useCallback, useState } from "react";
 import { z } from "zod";
 
-import { TaskCalendarView } from "@/components/tasks/task-calendar-view";
-import { TaskDetailPanel } from "@/components/tasks/task-detail-panel";
-import { TaskKanbanView } from "@/components/tasks/task-kanban-view";
-import { TaskListView } from "@/components/tasks/task-list-view";
-import type { TaskItem } from "@/components/tasks/types";
+import { TaskCalendarView } from "@/components/task-calendar-view";
+import { TaskDetailPanel } from "@/components/task-detail-panel";
+import { TaskKanbanView } from "@/components/task-kanban-view";
+import { TaskListView } from "@/components/task-list-view";
+import type { TaskItem } from "@/components/tasks.types";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

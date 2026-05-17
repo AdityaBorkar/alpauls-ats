@@ -5,7 +5,6 @@ import type {
 } from "recharts";
 import { Sankey } from "recharts";
 
-import { alluvialData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -13,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+import { alluvialData } from "./stub-data";
 
 const sourceColors = [
   "var(--chart-1)",

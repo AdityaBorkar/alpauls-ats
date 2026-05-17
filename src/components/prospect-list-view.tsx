@@ -15,7 +15,7 @@ import {
 import { useORPCQuery } from "@/hooks/use-orpc-query";
 import { client } from "@/rpc/client";
 
-import type { ProspectItem, ProspectListResponse } from "./types";
+import type { ProspectItem, ProspectListResponse } from "./prospect.types";
 
 type ProspectListViewProps = {
   onProspectClick: (prospect: ProspectItem) => void;

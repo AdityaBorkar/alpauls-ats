@@ -1,4 +1,3 @@
-import { dotMatrixData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -12,6 +11,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import { dotMatrixData } from "./stub-data";
 
 const DOTS_PER_UNIT = 10;
 const COLS = 25;

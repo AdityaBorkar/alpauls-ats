@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, Eye, FileText, Hammer } from "lucide-react";
 import { z } from "zod";
 
-import { MOCK_REPORTS } from "@/components/reports/mock-data";
-import { ReportBuilder } from "@/components/reports/report-builder";
-import { ReportViewer } from "@/components/reports/report-viewer";
+import { MOCK_REPORTS } from "#/reports/mock-data";
+import { ReportBuilder } from "#/reports/report-builder";
+import { ReportViewer } from "#/reports/report-viewer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";

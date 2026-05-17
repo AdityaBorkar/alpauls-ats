@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { trendData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -17,6 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { trendData } from "./stub-data";
 
 const chartConfig = {
   completed: { color: "var(--chart-2)", label: "Completed" },

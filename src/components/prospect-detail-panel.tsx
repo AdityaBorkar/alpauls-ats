@@ -20,7 +20,7 @@ import { useORPCMutation } from "@/hooks/use-orpc-mutation";
 import { useORPCQuery } from "@/hooks/use-orpc-query";
 import { client } from "@/rpc/client";
 
-import type { ProspectEventItem, ProspectItem } from "./types";
+import type { ProspectEventItem, ProspectItem } from "./prospect.types";
 
 type ProspectDetailPanelProps = {
   prospect: ProspectItem | null;

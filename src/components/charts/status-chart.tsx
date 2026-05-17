@@ -1,6 +1,5 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { statusData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -14,6 +13,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { statusData } from "./stub-data";
 
 const chartConfig = {
   archived: { color: "var(--chart-5)", label: "Archived" },

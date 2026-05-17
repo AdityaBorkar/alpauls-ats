@@ -3,8 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 
-import { MOCK_REPORTS } from "@/components/reports/mock-data";
-import { ReportsTable } from "@/components/reports/reports-table";
+import { MOCK_REPORTS } from "#/reports/mock-data";
+import { ReportsTable } from "#/reports/reports-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 

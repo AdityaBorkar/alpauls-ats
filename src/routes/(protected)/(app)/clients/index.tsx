@@ -2,8 +2,8 @@ import { IconEyePlus } from "@tabler/icons-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
-import type { ClientItem } from "@/components/clients/client-list-view";
-import { ClientListView } from "@/components/clients/client-list-view";
+import type { ClientItem } from "@/components/client-list-view";
+import { ClientListView } from "@/components/client-list-view";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

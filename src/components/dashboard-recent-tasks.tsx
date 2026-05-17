@@ -5,8 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { rpc } from "@/rpc/client";
 
-import type { TaskListResponse } from "../tasks/types";
-import { STATUS_COLORS, STATUS_LABELS } from "../tasks/types";
+import type { TaskListResponse } from "./tasks.types";
+import { STATUS_COLORS, STATUS_LABELS } from "./tasks.types";
 
 export function DashboardRecentTasks() {
   const { data, isLoading } = useQuery(

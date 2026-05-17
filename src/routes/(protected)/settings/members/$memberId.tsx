@@ -5,6 +5,7 @@ import { ArrowLeft, Shield, Trash2, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { PermissionsEditor } from "@/components/permissions-editor";
+import { SupervisorCombobox } from "@/components/supervisor-combobox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,6 @@ import { Switch } from "@/components/ui/switch";
 import type { PermissionSet } from "@/lib/auth/access-control";
 import { ROLE_DISPLAY_NAMES } from "@/lib/constants";
 import { rpc } from "@/rpc/client";
-import { SupervisorCombobox } from "@/templates/inputs/supervisor-combobox";
 
 type RoleCode =
   | "admin"

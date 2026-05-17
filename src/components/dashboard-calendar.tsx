@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useORPCQuery } from "@/hooks/use-orpc-query";
 import { client } from "@/rpc/client";
 
-import type { TaskListResponse } from "../tasks/types";
+import type { TaskListResponse } from "./tasks.types";
 
 export function DashboardCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());

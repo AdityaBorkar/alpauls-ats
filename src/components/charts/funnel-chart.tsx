@@ -1,7 +1,6 @@
 import type { TrapezoidProps } from "recharts";
 import { Funnel, FunnelChart, LabelList } from "recharts";
 
-import { funnelData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -15,6 +14,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { funnelData } from "./stub-data";
 
 const chartConfig = {
   closed: { color: "var(--chart-5)", label: "Closed" },

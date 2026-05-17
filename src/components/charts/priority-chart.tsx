@@ -1,6 +1,5 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { priorityData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -16,6 +15,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { priorityData } from "./stub-data";
 
 const chartConfig = {
   count: { color: "var(--chart-3)", label: "Tasks" },

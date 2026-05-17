@@ -1,14 +1,14 @@
 import { useState } from "react";
 import type { z } from "zod";
 
-import { Field, Form } from "@/components/forms";
+import { Field, Form } from "#/forms";
 import { Button } from "@/components/ui/button";
 import {
   clientFormSchema,
   clientUpdateFormSchema,
 } from "@/lib/form-schemas/client";
 
-import { LogoUpload } from "./logo-upload";
+import { LogoUpload } from "../../components/logo-upload";
 
 type UserOption = {
   id: string;

@@ -27,8 +27,8 @@ import {
 import { useORPCQuery } from "@/hooks/use-orpc-query";
 import { client } from "@/rpc/client";
 
-import type { TaskItem, TaskListResponse } from "./types";
-import { STATUS_COLORS } from "./types";
+import type { TaskItem, TaskListResponse } from "./tasks.types";
+import { STATUS_COLORS } from "./tasks.types";
 
 type TaskCalendarViewProps = {
   onTaskClick: (task: TaskItem) => void;

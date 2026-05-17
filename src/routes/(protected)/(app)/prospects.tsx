@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { useCallback, useState } from "react";
 
-import { ProspectDetailPanel } from "@/components/prospects/prospect-detail-panel";
-import { ProspectListView } from "@/components/prospects/prospect-list-view";
-import type { ProspectItem } from "@/components/prospects/types";
+import type { ProspectItem } from "@/components/prospect.types";
+import { ProspectDetailPanel } from "@/components/prospect-detail-panel";
+import { ProspectListView } from "@/components/prospect-list-view";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/(protected)/(app)/prospects")({

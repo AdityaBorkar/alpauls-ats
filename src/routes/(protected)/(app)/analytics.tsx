@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { AnalyticsActivityChart } from "@/components/analytics/analytics-activity-chart";
-import { AnalyticsAlluvialDiagram } from "@/components/analytics/analytics-alluvial-diagram";
-import { AnalyticsDistributionChart } from "@/components/analytics/analytics-distribution-chart";
-import { AnalyticsDotMatrix } from "@/components/analytics/analytics-dot-matrix";
-import { AnalyticsFunnelChart } from "@/components/analytics/analytics-funnel-chart";
-import { AnalyticsHeatmap } from "@/components/analytics/analytics-heatmap";
-import { AnalyticsKpiCards } from "@/components/analytics/analytics-kpi-cards";
-import { AnalyticsPriorityChart } from "@/components/analytics/analytics-priority-chart";
-import { AnalyticsStatusChart } from "@/components/analytics/analytics-status-chart";
-import { AnalyticsTimeline } from "@/components/analytics/analytics-timeline";
-import { AnalyticsTrendChart } from "@/components/analytics/analytics-trend-chart";
+import { AnalyticsActivityChart } from "@/components/charts/activity-chart";
+import { AnalyticsAlluvialDiagram } from "@/components/charts/alluvial-diagram";
+import { AnalyticsDistributionChart } from "@/components/charts/distribution-chart";
+import { AnalyticsDotMatrix } from "@/components/charts/dot-matrix";
+import { AnalyticsFunnelChart } from "@/components/charts/funnel-chart";
+import { AnalyticsHeatmap } from "@/components/charts/heatmap";
+import { AnalyticsKpiCards } from "@/components/charts/kpi-cards";
+import { AnalyticsPriorityChart } from "@/components/charts/priority-chart";
+import { AnalyticsStatusChart } from "@/components/charts/status-chart";
+import { AnalyticsTimeline } from "@/components/charts/timeline";
+import { AnalyticsTrendChart } from "@/components/charts/trend-chart";
 
 export const Route = createFileRoute("/(protected)/(app)/analytics")({
   component: RouteComponent,

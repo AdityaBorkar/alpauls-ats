@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { rpc } from "@/rpc/client";
 
-import type { TaskListResponse } from "../tasks/types";
 import { DashboardRecentTasksContent } from "./dashboard-recent-tasks";
 import { DashboardRemindersContent } from "./dashboard-reminders";
+import type { TaskListResponse } from "./tasks.types";
 
 export function DashboardTasksReminders() {
   const { data: tasksData, isLoading: tasksLoading } = useQuery(

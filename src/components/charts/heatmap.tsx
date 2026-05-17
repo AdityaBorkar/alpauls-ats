@@ -1,4 +1,3 @@
-import { heatmapData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -12,6 +11,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import { heatmapData } from "./stub-data";
 
 const timeSlots = ["morning", "midday", "afternoon", "evening"] as const;
 const timeLabels = {

@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
-import type { UserOption } from "@/components/clients/client-form";
-import { ClientForm } from "@/components/clients/client-form";
+import type { UserOption } from "@/components/forms/client-form";
+import { ClientForm } from "@/components/forms/client-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,

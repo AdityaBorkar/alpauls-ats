@@ -1,6 +1,5 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { activityData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -16,6 +15,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { activityData } from "./stub-data";
 
 const chartConfig = {
   assigned: { color: "var(--chart-1)", label: "Assigned" },

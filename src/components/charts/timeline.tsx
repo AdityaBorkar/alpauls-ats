@@ -6,7 +6,6 @@ import {
   XAxis,
 } from "recharts";
 
-import { timelineData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -20,6 +19,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { timelineData } from "./stub-data";
 
 const chartConfig = {
   milestone: { color: "var(--chart-1)", label: "Milestone" },

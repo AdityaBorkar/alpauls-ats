@@ -5,8 +5,9 @@ import {
   IconClock,
 } from "@tabler/icons-react";
 
-import { kpiData } from "@/components/analytics/stub-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { kpiData } from "./stub-data";
 
 function Delta({ value }: { value: number }) {
   const isPositive = value > 0;

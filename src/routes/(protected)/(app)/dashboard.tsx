@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { DashboardCalendar } from "@/components/dashboard/dashboard-calendar";
-import { DashboardNotifications } from "@/components/dashboard/dashboard-notifications";
-import { DashboardStats } from "@/components/dashboard/dashboard-stats";
-import { DashboardTasksReminders } from "@/components/dashboard/dashboard-tasks-reminders";
+import { DashboardCalendar } from "@/components/dashboard-calendar";
+import { DashboardNotifications } from "@/components/dashboard-notifications";
+import { DashboardStats } from "@/components/dashboard-stats";
+import { DashboardTasksReminders } from "@/components/dashboard-tasks-reminders";
 
 export const Route = createFileRoute("/(protected)/(app)/dashboard")({
   component: RouteComponent,

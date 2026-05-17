@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { ArrowLeft, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { ContractForm } from "@/components/forms/contract-form";
 import type { ContractFormValues, UserOption } from "@/components/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { rpc } from "@/rpc/client";
-import { ContractForm } from "@/templates/forms/contract-form";
 
 const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   active: {

@@ -1,6 +1,5 @@
 import { Cell, Label, Pie, PieChart } from "recharts";
 
-import { teamData } from "@/components/analytics/stub-data";
 import {
   Card,
   CardContent,
@@ -14,6 +13,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
+import { teamData } from "./stub-data";
 
 const chartConfig = {
   alex: { color: "var(--chart-1)", label: "Alex M." },

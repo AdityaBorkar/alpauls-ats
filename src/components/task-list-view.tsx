@@ -25,8 +25,8 @@ import { useORPCQuery } from "@/hooks/use-orpc-query";
 import { client } from "@/rpc/client";
 import type { TaskStatus } from "@/services/task-service";
 
-import type { TaskItem, TaskListResponse } from "./types";
-import { STATUS_COLORS, STATUS_LABELS } from "./types";
+import type { TaskItem, TaskListResponse } from "./tasks.types";
+import { STATUS_COLORS, STATUS_LABELS } from "./tasks.types";
 
 type TaskListViewProps = {
   onTaskClick: (task: TaskItem) => void;
