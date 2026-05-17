@@ -1,6 +1,8 @@
 import { and, asc, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 
+import type { contractStatusEnum } from "@/db-schemas";
+import { clientContracts, clients, contractEvents, user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
 import { protectedProcedure } from "@/rpc/middleware";
 import {
@@ -11,8 +13,6 @@ import {
   listContractsSchema,
   updateContractSchema,
 } from "@/rpc/schema/client-contract";
-import type { contractStatusEnum } from "@/schema";
-import { clientContracts, clients, contractEvents, user } from "@/schema";
 
 export type ContractStatus = (typeof contractStatusEnum.enumValues)[number];
 

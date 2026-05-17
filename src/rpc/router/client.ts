@@ -1,4 +1,4 @@
-import { getPresignedUploadUrl, getR2PublicUrl } from "@/lib/r2";
+import { getPresignedUploadUrl, getR2PublicUrl } from "@/lib/storage";
 import { protectedProcedure } from "@/rpc/middleware";
 import {
   archiveClientSchema,

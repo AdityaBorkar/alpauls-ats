@@ -35,7 +35,7 @@ import {
 } from "./task";
 import { usersList } from "./users";
 
-export default {
+export const router = {
   admin,
   client: {
     archive: clientArchive,

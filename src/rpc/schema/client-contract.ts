@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export { ClientContract_FormSchema } from "@/schema/forms/client-contract";
+export { ClientContract_FormSchema } from "@/lib/form-schemas/client-contract";
 
 const contractStatusSchema = z.enum(["active", "inactive"]);
 

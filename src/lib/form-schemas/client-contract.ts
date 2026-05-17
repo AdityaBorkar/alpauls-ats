@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { StatusSchema } from "../.utils";
+import { StatusSchema } from "./~utils";
 
 export const ClientContract_FormSchema = z.object({
   assigneeId: z
