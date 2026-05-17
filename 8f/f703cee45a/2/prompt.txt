@@ -1,0 +1,339 @@
+Update the @src/components/forms/client-form.tsx and @src/components/forms/member-form.tsx to be like @src/components/forms/contract-form.tsx 
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx</path>
+<type>file</type>
+<content>
+1: import { useState } from "react";
+2: import type { z } from "zod";
+3: 
+4: import { Field, Form } from "#/forms";
+5: import { Button } from "@/components/ui/button";
+6: import {
+7:   Client_FormSchema,
+8:   Client_FormSchema,
+9: } from "@/lib/form-schemas/client";
+10: 
+11: import { LogoUpload } from "../../components/logo-upload";
+12: 
+13: type UserOption = {
+14:   id: string;
+15:   name: string;
+16:   role: string | null;
+17: };
+18: 
+19: type CreateValues = z.infer<typeof Client_FormSchema>;
+20: type UpdateValues = z.infer<typeof Client_FormSchema>;
+21: 
+22: type ClientFormProps = {
+23:   mode: "create" | "edit";
+24:   onSubmit: (values: CreateValues | UpdateValues) => void;
+25:   isPending: boolean;
+26:   users?: UserOption[];
+27:   defaultValues?: Partial<CreateValues> | Partial<UpdateValues>;
+28: };
+29: 
+30: function slugify(text: string): string {
+31:   return text
+32:     .toLowerCase()
+33:     .replace(/[^a-z0-9]+/g, "-")
+34:     .replace(/^-|-$/g, "");
+35: }
+36: 
+37: export function ClientForm({
+38:   mode,
+39:   onSubmit,
+40:   isPending,
+41:   users = [],
+42:   defaultValues,
+43: }: ClientFormProps) {
+44:   const [slugManuallyEdited] = useState(mode === "edit");
+45:   const schema = mode === "create" ? Client_FormSchema : Client_FormSchema;
+46: 
+47:   function handleSubmit(values: CreateValues | UpdateValues) {
+48:     const submitted =
+49:       slugManuallyEdited || !("name" in values && values.name)
+50:         ? values
+51:         : { ...values, slug: slugify(values.name) };
+52:     onSubmit(submitted);
+53:   }
+54: 
+55:   return (
+56:     <Form
+57:       className="space-y-6"
+58:       defaultValues={defaultValues}
+59:       onSubmit={handleSubmit}
+60:       schema={schema}
+61:     >
+62:       {({ watch, setValue }) => {
+63:         const currentName = watch("name");
+64:         if (!slugManuallyEdited && currentName !== undefined) {
+65:           setValue("slug", slugify(currentName), { shouldValidate: false });
+66:         }
+67: 
+68:         return (
+69:           <>
+70:             <Field name="name" />
+71:             <Field name="legalName" />
+72:             <Field
+73:               name="logo"
+74:               overrides={({ field }) => (
+75:                 <LogoUpload
+76:                   onChange={(url: string | null) => field.onChange(url)}
+77:                   value={field.value}
+78:                 />
+79:               )}
+80:             />
+81:             <Field name="slug" />
+82:             <Field name="locations" />
+83:             <Field name="internalNotes" />
+84:             {users.length > 0 && (
+85:               <Field
+86:                 config={{
+87:                   getOptionLabel: ({ name }) => name,
+88:                   getOptionValue: ({ id }) => id,
+89:                   options: users,
+90:                   searchPlaceholder: "Search users...",
+91:                 }}
+92:                 name="assigneeId"
+93:               />
+94:             )}
+95:             <div className="flex gap-3">
+96:               <Button disabled={isPending} type="submit">
+97:                 {mode === "create" ? "Create Client" : "Save Changes"}
+98:               </Button>
+99:             </div>
+100:           </>
+101:         );
+102:       }}
+103:     </Form>
+104:   );
+105: }
+106: 
+107: export type { ClientFormProps, UserOption };
+
+(End of file - total 107 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx</path>
+<type>file</type>
+<content>
+1: import type { z } from "zod";
+2: 
+3: import { Field, Form } from "#/forms";
+4: import { PermissionsEditor } from "@/components/permissions-editor";
+5: import { Button } from "@/components/ui/button";
+6: import {
+7:   Member_FormSchema,
+8: } from "@/lib/form-schemas/auth";
+9: 
+10: import { SupervisorCombobox } from "../../components/supervisor-combobox";
+11: 
+12: type MemberFormType = z.infer<typeof Member_FormSchema>;
+13: 
+14: export type RoleCode =
+15:   | "admin"
+16:   | "bd"
+17:   | "caller"
+18:   | "custom"
+19:   | "qc"
+20:   | "rm"
+21:   | "sc"
+22:   | "tl";
+23: 
+24: export type UserOption = {
+25:   id: string;
+26:   name: string;
+27:   email: string;
+28:   role: string | null;
+29: };
+30: 
+31: export type MemberFormProps = {
+32:   mode: "create" | "edit";
+33:   onSubmit: (values: MemberFormType) => void;
+34:   isPending: boolean;
+35:   defaultValues?: Partial<MemberFormType> ;
+36: };
+37: 
+38: export function MemberForm({
+39:   mode,
+40:   onSubmit,
+41:   isPending,
+42:   defaultValues,
+43: }: MemberFormProps) {
+44: 
+45:   return (
+46:     <Form
+47:       className="space-y-6"
+48:       defaultValues={defaultValues}
+49:       onSubmit={onSubmit}
+50:       schema={Member_FormSchema}
+51:     >
+52:       {({ watch }) => {
+53:         const currentRole = watch("role");
+54:         const showPassword = mode === "create";
+55:         const showPermissions = currentRole === "custom";
+56:         const isAdmin = currentRole === "admin";
+57: 
+58:         return (
+59:           <>
+60:             <Field name="name" />
+61:             <Field name="email" />
+62:             {showPassword && <Field name="password" />}
+63:             <Field name="role" />
+64:             <Field
+65:               config={{
+66:                 getOptionLabel: ({ name }) => name,
+67:                 getOptionValue: ({ id }) => id,
+68:                 options: users,
+69:                 searchPlaceholder: "Search users...",
+70:               }}
+71:               disabled={isAdmin}
+72:               name="supervisorId"
+73:               overrides={({ field, disabled: fieldDisabled }) => (
+74:                 <SupervisorCombobox
+75:                   disabled={fieldDisabled}
+76:                   onChange={field.onChange}
+77:                   required={!isAdmin}
+78:                   users={users}
+79:                   value={field.value}
+80:                 />
+81:               )}
+82:             />
+83:             {showPermissions && (
+84:               <Field
+85:                 name="permissions"
+86:                 overrides={({ field }) => (
+87:                   <PermissionsEditor
+88:                     onChange={field.onChange}
+89:                     value={field.value ?? {}}
+90:                   />
+91:                 )}
+92:               />
+93:             )}
+94:             <div className="flex gap-3">
+95:               <Button disabled={isPending} type="submit">
+96:                 {mode === "create" ? "Add Member" : "Save Changes"}
+97:               </Button>
+98:             </div>
+99:           </>
+100:         );
+101:       }}
+102:     </Form>
+103:   );
+104: }
+
+(End of file - total 104 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx</path>
+<type>file</type>
+<content>
+1: import { useQuery } from "@tanstack/react-query";
+2: import { useFormContext } from "react-hook-form";
+3: import type { z } from "zod";
+4: 
+5: import { Field, Form } from "#/forms";
+6: import { Button } from "@/components/ui/button";
+7: import { ClientContract_FormSchema } from "@/lib/form-schemas/client-contract";
+8: import { rpc } from "@/rpc/client";
+9: 
+10: type ClientContractType = z.infer<typeof ClientContract_FormSchema>;
+11: 
+12: export function ContractForm({
+13:   mode,
+14:   onSubmit,
+15:   isPending,
+16:   defaultValues,
+17: }: {
+18:   mode: "create" | "edit";
+19:   onSubmit: (values: ClientContractType) => void;
+20:   isPending: boolean;
+21:   defaultValues?: Partial<ClientContractType>;
+22: }) {
+23:   const { data: clients } = useQuery(
+24:     rpc.client.list.queryOptions({ input: { limit: 100 } }),
+25:   );
+26: 
+27:   const { data: bd_users } = useQuery(
+28:     rpc.users.list.queryOptions({ input: { limit: 100, role: ["bd"] } }),
+29:   );
+30: 
+31:   const { data: rm_users } = useQuery(
+32:     rpc.users.list.queryOptions({ input: { limit: 100, role: ["rm"] } }),
+33:   );
+34: 
+35:   return (
+36:     <Form
+37:       className="space-y-6"
+38:       defaultValues={defaultValues}
+39:       onSubmit={onSubmit}
+40:       schema={ClientContract_FormSchema}
+41:     >
+42:       <Field name="title" />
+43:       <Field name="referenceNumber" />
+44:       <Field name="description" />
+45:       <Field
+46:         config={{
+47:           getOptionLabel: ({ name }) => name,
+48:           getOptionValue: ({ id }) => id,
+49:           options: clients?.items || [],
+50:           // placeholder: "Search clients...",
+51:         }}
+52:         name="clientId"
+53:       />
+54:       <Field
+55:         config={{
+56:           getOptionLabel: ({ name }) => name,
+57:           getOptionValue: ({ id }) => id,
+58:           options: bd_users?.items,
+59:           // placeholder: "Search BD users...",
+60:         }}
+61:         name="assigneeId"
+62:       />
+63:       <Field
+64:         config={{
+65:           getOptionLabel: ({ name }) => name,
+66:           getOptionValue: ({ id }) => id,
+67:           options: rm_users?.items,
+68:           // placeholder: "Search RM users...",
+69:         }}
+70:         name="rmId"
+71:       />
+72:       <div className="grid grid-cols-3 gap-4">
+73:         <Field name="startDate" />
+74:         <Field name="endDate" />
+75:         <Field name="signedDate" />
+76:       </div>
+77:       <Field name="pdfLink" />
+78:       <Field name="status" />
+79:       <ContractFormActions isPending={isPending} mode={mode} />
+80:     </Form>
+81:   );
+82: }
+83: 
+84: function ContractFormActions({
+85:   mode,
+86:   isPending,
+87: }: {
+88:   mode: "create" | "edit";
+89:   isPending: boolean;
+90: }) {
+91:   const { watch } = useFormContext();
+92:   const title = watch("title");
+93:   const clientId = watch("clientId");
+94:   const assigneeId = watch("assigneeId");
+95: 
+96:   return (
+97:     <div className="flex gap-3">
+98:       <Button
+99:         disabled={isPending || !title || !clientId || !assigneeId}
+100:         type="submit"
+101:       >
+102:         {mode === "create" ? "Create Contract" : "Save Changes"}
+103:       </Button>
+104:     </div>
+105:   );
+106: }
+
+(End of file - total 106 lines)
+</content>
