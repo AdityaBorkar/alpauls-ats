@@ -4,9 +4,8 @@
     "**/.codegraphcontext",
     "**/.entire",
     "**/.git",
-    "**/.opencode",
     "**/.wrangler",
-    "**/node_modules",
+    "**/node_modules"
   ],
   "format_on_save": "on",
   "formatter": {
