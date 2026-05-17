@@ -1,0 +1,115 @@
+Update the @src/components/forms/ to reflect the usage in @src/components/templates/forms/contract-form.tsx . Ensure full typesafety. First make a list of changes and then build
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/forms/"}
+<path>/home/aditya/projects/alpauls-ats/src/components/forms/</path>
+<type>directory</type>
+<entries>
+context.ts
+field-components/
+field.tsx
+form.tsx
+index.ts
+use-form.ts
+
+(6 entries)
+</entries>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/templates/forms/contract-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/templates/forms/contract-form.tsx</path>
+<type>file</type>
+<content>
+1: import { useQuery } from "@tanstack/react-query";
+2: 
+3: import { Field, Form } from "@/components/forms";
+4: import { Button } from "@/components/ui/button";
+5: import { rpc } from "@/rpc/client";
+6: import { ClientContract_FormSchema } from "@/schema/forms/client-contract";
+7: 
+8: type ClientContractType = typeof ClientContract_FormSchema;
+9: 
+10: export function ContractForm({
+11:   mode,
+12:   onSubmit,
+13:   isPending,
+14:   defaultValues,
+15: }: {
+16:   mode: "create" | "edit";
+17:   onSubmit: (values: ClientContractType) => void;
+18:   isPending: boolean;
+19:   defaultValues?: Partial<ClientContractType>;
+20: }) {
+21:   const { data: clients } = useQuery(
+22:     rpc.client.list.queryOptions({ input: { limit: 100 } }),
+23:   );
+24: 
+25:   const { data: bd_users } = useQuery(
+26:     rpc.client.list.queryOptions({ input: { limit: 100 } }),
+27:   );
+28: 
+29:   const { data: rm_users } = useQuery(
+30:     rpc.client.list.queryOptions({ input: { limit: 100 } }),
+31:   );
+32: 
+33:   return (
+34:     <Form
+35:       className="space-y-6"
+36:       defaultValues={defaultValues}
+37:       onSubmit={onSubmit}
+38:       schema={ClientContract_FormSchema}
+39:     >
+40:       <Field name="title" />
+41:       <Field name="referenceNumber" />
+42:       <Field name="description" />
+43:       <Field
+44:         config={{
+45:           getOptionLabel: ({ name }) => name,
+46:           getOptionValue: ({ id }) => id,
+47:           options: clients,
+48:           searchPlaceholder: "Search clients...",
+49:         }}
+50:         name="clientId"
+51:       />
+52:       <Field
+53:         config={{
+54:           getOptionLabel: ({ name }) => name,
+55:           getOptionValue: ({ id }) => id,
+56:           options: bd_users,
+57:           searchPlaceholder: "Search BD users...",
+58:         }}
+59:         name="assigneeId"
+60:       />
+61:       <Field
+62:         config={{
+63:           getOptionLabel: ({ name }) => name,
+64:           getOptionValue: ({ id }) => id,
+65:           options: rm_users,
+66:           searchPlaceholder: "Search RM users...",
+67:         }}
+68:         name="rmId"
+69:       />
+70:       <div className="grid grid-cols-3 gap-4">
+71:         <Field name="startDate" />
+72:         <Field name="endDate" />
+73:         <Field name="signedDate" />
+74:       </div>
+75:       <Field name="pdfLink" />
+76:       <Field name="status" />
+77:       <div className="flex gap-3">
+78:         {({ watch }) => {
+79:           const title = watch("title");
+80:           const clientId = watch("clientId");
+81:           const assigneeId = watch("assigneeId");
+82:           return (
+83:             <Button
+84:               disabled={isPending || !title || !clientId || !assigneeId}
+85:               type="submit"
+86:             >
+87:               {mode === "create" ? "Create Contract" : "Save Changes"}
+88:             </Button>
+89:           );
+90:         }}
+91:       </div>
+92:     </Form>
+93:   );
+94: }
+
+(End of file - total 94 lines)
+</content>
