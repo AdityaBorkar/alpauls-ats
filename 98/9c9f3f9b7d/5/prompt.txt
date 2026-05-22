@@ -1,0 +1,95 @@
+@src/routes/(protected)/(app)/clients/index.tsx Manage filter views using Tanstack Start "validateSearch" feature and convert FilterViewButton to Link component
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx</path>
+<type>file</type>
+<content>
+1: import { IconEyePlus } from "@tabler/icons-react";
+2: import { useQuery } from "@tanstack/react-query";
+3: import { createFileRoute, useNavigate } from "@tanstack/react-router";
+4: import { Plus } from "lucide-react";
+5: import { useState } from "react";
+6: 
+7: import type { ClientItem } from "@/components/client-list-view";
+8: import { ClientListView } from "@/components/client-list-view";
+9: import { Button } from "@/components/ui/button";
+10: import { cn } from "@/lib/utils";
+11: import { rpc } from "@/rpc/client";
+12: 
+13: export const Route = createFileRoute("/(protected)/(app)/clients/")({
+14:   component: ClientsPage,
+15: });
+16: 
+17: function ClientsPage() {
+18:   const navigate = useNavigate();
+19:   const [activeView, setActiveView] = useState("clients-active");
+20: 
+21:   const { data: filterViews } = useQuery(
+22:     rpc.filterView.list.queryOptions({ input: { domain: "clients" } }),
+23:   );
+24: 
+25:   return (
+26:     <div className="page-wrap w-full *:px-8">
+27:       <div className="mb-6 flex h-12 items-center border-neutral-300 border-b px-4!">
+28:         <div className="flex flex-row items-center gap-1 px-4">
+29:           {filterViews?.map((view) => (
+30:             <FilterViewButton
+31:               onClick{() => {setActiveView(view.id)}}
+32:               isActive={view.id === activeView}
+33:               label={view.label}
+34:               key={view.id}
+35:             />
+36:           ))}
+37:           <div className="flex size-7 items-center rounded-full border border-neutral-400 border-dashed opacity-50 hover:opacity-100">
+38:             <IconEyePlus className="mx-auto size-4.5" />
+39:           </div>
+40:         </div>
+41:         <div className="grow" />
+42:         <Button
+43:           className="flex"
+44:           onClick={() => navigate({ to: "/clients/new" })}
+45:         >
+46:           <Plus className="mr-1.5 h-4 w-4" />
+47:           New Client
+48:         </Button>
+49:       </div>
+50: 
+51:       <ClientListView
+52:               domain="clients"
+53:         onClientClick={(client: ClientItem) =>
+54:           navigate({
+55:             params: { clientId: String(client.id) },
+56:             to: "/clients/$clientId",
+57:           })
+58:         }
+59:       />
+60:     </div>
+61:   );
+62: }
+63: 
+64: function FilterViewButton({
+65:   isActive,
+66:   label,
+67:   onClick,
+68: }: {
+69:   isActive: boolean;
+70:   label: string;
+71:   onClick: () => void;
+72: }) {
+73:   return (
+74:     <button
+75:       className={cn(
+76:         "rounded-full px-3.5 py-1.5 font-medium",
+77:         isActive
+78:           ? "bg-neutral-800 text-white"
+79:           : "text-secondary-foreground hover:bg-neutral-300/80",
+80:       )}
+81:       onClick={onClick}
+82:       type="button"
+83:     >
+84:       {label}
+85:     </button>
+86:   );
+87: }
+
+(End of file - total 87 lines)
+</content>
