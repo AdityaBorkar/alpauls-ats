@@ -1,0 +1,103 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "989c9f3f9b7d",
+  "session_id": "ses_1afcaf3b1ffeWzEP5ROV2YJpKW",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-22T16:44:29.38916399Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".gitignore",
+    "bun.lock",
+    "docker-compose.yml",
+    "package.json",
+    "scripts/seed.ts",
+    "skills-lock.json",
+    "src/components/client-list-view.tsx",
+    "src/components/command-palette.tsx",
+    "src/db-schemas/index.ts",
+    "src/lib/actions.ts",
+    "src/lib/auth/access-control.ts",
+    "src/routeTree.gen.ts",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/route.tsx",
+    "src/rpc/router/index.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "0ec17cc28f8c",
+  "token_usage": {
+    "input_tokens": 19875,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 91264,
+    "output_tokens": 2227,
+    "api_call_count": 9
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-22T16:44:29.385272595Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 14833,
+    "human_modified": 1446,
+    "human_removed": 0,
+    "total_committed": 15065,
+    "total_lines_changed": 16360,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 1659,
+      "user_lines_removed": 1273,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".gitignore": 1,
+        ".zed/tasks.json": 10,
+        "TODO.md": 6,
+        "bun.lock": 383,
+        "docker-compose.yml": 3,
+        "package.json": 25,
+        "scripts/seed-admin.ts": 94,
+        "scripts/seed-filter-views.ts": 109,
+        "skills-lock.json": 3,
+        "src/components/client-list-view.tsx": 6,
+        "src/components/command-palette.tsx": 1,
+        "src/db-schemas/filter-view.ts": 39,
+        "src/db-schemas/index.ts": 1,
+        "src/lib/app-actions.ts": 256,
+        "src/lib/auth/access-control.ts": 8,
+        "src/lib/filter-views.ts": 46,
+        "src/routeTree.gen.ts": 586,
+        "src/routes/(protected)/(app)/clients/index.tsx": 57,
+        "src/routes/(protected)/route.tsx": 1,
+        "src/rpc/router/filter-view.ts": 20,
+        "src/rpc/router/index.ts": 4
+      },
+      "user_removed_per_file": {
+        "bun.lock": 247,
+        "docker-compose.yml": 4,
+        "package.json": 25,
+        "scripts/seed.ts": 94,
+        "skills-lock.json": 3,
+        "src/components/client-list-view.tsx": 21,
+        "src/components/command-palette.tsx": 1,
+        "src/lib/actions.ts": 256,
+        "src/routeTree.gen.ts": 586,
+        "src/routes/(protected)/(app)/clients/index.tsx": 35,
+        "src/routes/(protected)/route.tsx": 1
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1659,
+      "agent_lines_removed": 1273
+    }
+  ]
+}

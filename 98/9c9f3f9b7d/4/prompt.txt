@@ -1,0 +1,10 @@
+Search the codebase at /home/aditya/projects/alpauls-ats for:
+1. Any existing context menu usage (ContextMenu from @/components/ui/context-menu or similar)
+2. Any dropdown menu usage patterns in route files
+3. Check if src/components/ui/context-menu.tsx exists
+4. Check if src/components/ui/dropdown-menu.tsx exists
+5. Check if src/components/ui/dialog.tsx exists
+6. Any existing "copy link" or "clipboard" usage patterns
+7. Any existing "ask AI" UI patterns
+
+Return the file paths and relevant code snippets found.
