@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "assets": {
+    "directory": "./.output/",
+    "not_found_handling": "404-page"
+  },
+  "compatibility_date": "2026-04-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "kv_namespaces": [],
+  "main": "./src/server.ts",
+  "name": "alpauls-recruitment-app",
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true
+    }
+  },
+  "placement": {
+    "mode": "smart"
+  },
+  "preview_urls": true,
+  "r2_buckets": [
+    {
+      "binding": "storage",
+      "bucket_name": "alpauls-recruitment-bucket"
+    }
+  ],
+  // "route": {
+  //   "custom_domain": true,
+  //   "pattern": "recruitment.alpauls.com"
+  // },
+  // "secrets": {
+  //   "required": ["RESEND_API_KEY"]
+  // },
+  // "vars": {
+  //   "SYSTEM_EMAIL": "noreply@recruitment.alpauls.com",
+  // },
+  "workers_dev": false
+}

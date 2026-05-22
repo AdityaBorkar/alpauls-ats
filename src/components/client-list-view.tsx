@@ -1,9 +1,8 @@
 import { Archive, Search } from "lucide-react";
-import { useId, useState } from "react";
+import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -40,17 +39,12 @@ type ClientListResponse = {
 
 type ClientListViewProps = {
   onClientClick: (client: ClientItem) => void;
-  refreshKey: number;
 };
 
-export function ClientListView({
-  onClientClick,
-  refreshKey,
-}: ClientListViewProps) {
+export function ClientListView({ onClientClick }: ClientListViewProps) {
   const [search, setSearch] = useState("");
-  const [showArchived, setShowArchived] = useState(false);
+  const [showArchived] = useState(false);
   const [cursor, setCursor] = useState<string | undefined>();
-  const archivedId = useId();
 
   const { data, isLoading } = useORPCQuery(
     () =>
@@ -60,7 +54,7 @@ export function ClientListView({
         limit: 20,
         search: search || undefined,
       }),
-    [refreshKey, cursor, search, showArchived],
+    [cursor, search, showArchived],
   );
 
   const clients = (data as ClientListResponse | undefined)?.items ?? [];
@@ -82,17 +76,8 @@ export function ClientListView({
           />
         </div>
         <div className="flex items-center gap-2">
-          <Checkbox
-            checked={showArchived}
-            id={archivedId}
-            onCheckedChange={(v: boolean) => {
-              setShowArchived(!!v);
-              setCursor(undefined);
-            }}
-          />
-          <label className="text-muted-foreground text-sm" htmlFor={archivedId}>
-            Show archived
-          </label>
+          <div>Filters</div>
+          <div>Display</div>
         </div>
       </div>
 

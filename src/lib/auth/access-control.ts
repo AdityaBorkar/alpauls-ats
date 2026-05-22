@@ -5,6 +5,7 @@ import { ROLE_DISPLAY_NAMES } from "../constants";
 export const ac = createAccessControl({
   client_contracts: ["create", "read", "update", "archive"],
   clients: ["create", "read", "update", "archive"],
+  filter_views: ["create", "read", "update", "delete"],
   job_mandates: [
     "create",
     "read",
@@ -25,6 +26,7 @@ export const roles = {
   admin: ac.newRole({
     client_contracts: ["create", "read", "update", "archive"],
     clients: ["create", "read", "update", "archive"],
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: [
       "create",
       "read",
@@ -43,6 +45,7 @@ export const roles = {
   bd: ac.newRole({
     client_contracts: ["create", "read", "update", "archive"],
     clients: ["create", "read", "update", "archive"],
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: ["create", "read", "update", "archive", "assign"],
     notification: ["read", "update", "archive"],
     prospects: ["create", "read"],
@@ -51,6 +54,7 @@ export const roles = {
     team_members: ["read"],
   }),
   caller: ac.newRole({
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: ["read"],
     notification: ["read", "update", "archive"],
     prospects: ["create", "read", "update"],
@@ -59,6 +63,7 @@ export const roles = {
     team_members: ["read"],
   }),
   qc: ac.newRole({
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: ["read", "verify"],
     notification: ["read", "update", "archive"],
     prospects: ["read"],
@@ -69,6 +74,7 @@ export const roles = {
   rm: ac.newRole({
     client_contracts: ["read"],
     clients: ["read"],
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: ["read", "assign"],
     notification: ["read", "update", "archive"],
     prospects: ["create", "read"],
@@ -77,6 +83,7 @@ export const roles = {
     team_members: ["read"],
   }),
   sc: ac.newRole({
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: ["read", "link_prospect"],
     notification: ["read", "update", "archive"],
     prospects: ["create", "read", "update", "archive"],
@@ -85,6 +92,7 @@ export const roles = {
     team_members: ["read"],
   }),
   tl: ac.newRole({
+    filter_views: ["create", "read", "update", "delete"],
     job_mandates: ["read", "assign", "link_prospect"],
     notification: ["read", "update", "archive"],
     prospects: ["create", "read"],

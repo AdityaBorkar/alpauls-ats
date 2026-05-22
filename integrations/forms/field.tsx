@@ -1,5 +1,5 @@
 import type { ControllerRenderProps } from "react-hook-form";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext as useRhfContext } from "react-hook-form";
 
 import { Label } from "@/components/ui/label";
 
@@ -65,6 +65,7 @@ function resolveFieldDef(fieldDef: FieldDef): {
 
 function Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {
   const { fieldMap } = useFormContext();
+  const { control } = useRhfContext();
 
   const fieldDef = fieldMap[name];
   if (!fieldDef) return null;
@@ -100,10 +101,9 @@ function Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {
               <Label>{label}</Label>
               <FieldArray
                 config={config as FieldArrayConfig | undefined}
-                control={field}
+                control={control}
                 disabled={disabled}
                 elementFields={resolved.arrayElement}
-                field={field}
                 meta={meta}
                 name={name}
               />

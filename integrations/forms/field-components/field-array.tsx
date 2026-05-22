@@ -1,5 +1,5 @@
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +23,6 @@ type FieldArrayProps = {
   config: FieldArrayConfig | undefined;
   control: any;
   name: string;
-  field: any;
 };
 
 function FieldArray({
@@ -34,10 +33,10 @@ function FieldArray({
   control,
   name,
 }: FieldArrayProps) {
-  const fieldArrayControl = control?._control ?? control;
+  const { register } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
-    control: fieldArrayControl,
+    control,
     name,
   });
 
@@ -103,7 +102,7 @@ function FieldArray({
                 disabled={disabled}
                 placeholder={def.meta?.placeholder ?? key}
                 type={def.kind === "number" ? "number" : "text"}
-                {...(control?.register?.(`${name}.${index}.${key}`) ?? {})}
+                {...register(`${name}.${index}.${key}`)}
               />
             </div>
           ))}

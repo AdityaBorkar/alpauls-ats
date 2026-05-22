@@ -8,716 +8,716 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as protectedappphase2AgentsRouteImport } from "./routes/(protected)/(app)/(phase-2)/agents";
-import { Route as protectedappphase2EmailRouteImport } from "./routes/(protected)/(app)/(phase-2)/email";
-import { Route as protectedappphase2OmnichannelRouteImport } from "./routes/(protected)/(app)/(phase-2)/omnichannel";
-import { Route as protectedappphase2VoiceRouteImport } from "./routes/(protected)/(app)/(phase-2)/voice";
-import { Route as protectedappphase2WhatsappRouteImport } from "./routes/(protected)/(app)/(phase-2)/whatsapp";
-import { Route as protectedappAnalyticsRouteImport } from "./routes/(protected)/(app)/analytics";
-import { Route as protectedappAuditLogRouteImport } from "./routes/(protected)/(app)/audit-log";
-import { Route as protectedappClientsClientIdRouteImport } from "./routes/(protected)/(app)/clients/$clientId";
-import { Route as protectedappClientsIndexRouteImport } from "./routes/(protected)/(app)/clients/index";
-import { Route as protectedappClientsNewRouteImport } from "./routes/(protected)/(app)/clients/new";
-import { Route as protectedappContractsContractIdRouteImport } from "./routes/(protected)/(app)/contracts/$contractId";
-import { Route as protectedappContractsIndexRouteImport } from "./routes/(protected)/(app)/contracts/index";
-import { Route as protectedappContractsNewRouteImport } from "./routes/(protected)/(app)/contracts/new";
-import { Route as protectedappDashboardRouteImport } from "./routes/(protected)/(app)/dashboard";
-import { Route as protectedappJobMandatesIndexRouteImport } from "./routes/(protected)/(app)/job-mandates/index";
-import { Route as protectedappProspectsRouteImport } from "./routes/(protected)/(app)/prospects";
-import { Route as protectedappReportsReportIdRouteImport } from "./routes/(protected)/(app)/reports/$reportId";
-import { Route as protectedappReportsIndexRouteImport } from "./routes/(protected)/(app)/reports/index";
-import { Route as protectedappTasksIndexRouteImport } from "./routes/(protected)/(app)/tasks/index";
-import { Route as protectedRouteRouteImport } from "./routes/(protected)/route";
-import { Route as protectedSettingsConnectionsRouteImport } from "./routes/(protected)/settings/connections";
-import { Route as protectedSettingsIndexRouteImport } from "./routes/(protected)/settings/index";
-import { Route as protectedSettingsMembersMemberIdRouteImport } from "./routes/(protected)/settings/members/$memberId";
-import { Route as protectedSettingsMembersIndexRouteImport } from "./routes/(protected)/settings/members/index";
-import { Route as protectedSettingsMembersNewRouteImport } from "./routes/(protected)/settings/members/new";
-import { Route as protectedSettingsProfileRouteImport } from "./routes/(protected)/settings/profile";
-import { Route as protectedSettingsSlaRouteImport } from "./routes/(protected)/settings/sla";
-import { Route as ApiSplatRouteImport } from "./routes/api/$";
-import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth.$";
-import { Route as ApiRpcSplatRouteImport } from "./routes/api/rpc.$";
-import { Route as IndexRouteImport } from "./routes/index";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as protectedRouteRouteImport } from './routes/(protected)/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSplatRouteImport } from './routes/api/$'
+import { Route as protectedSettingsIndexRouteImport } from './routes/(protected)/settings/index'
+import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc.$'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
+import { Route as protectedSettingsSlaRouteImport } from './routes/(protected)/settings/sla'
+import { Route as protectedSettingsProfileRouteImport } from './routes/(protected)/settings/profile'
+import { Route as protectedSettingsConnectionsRouteImport } from './routes/(protected)/settings/connections'
+import { Route as protectedappProspectsRouteImport } from './routes/(protected)/(app)/prospects'
+import { Route as protectedappDashboardRouteImport } from './routes/(protected)/(app)/dashboard'
+import { Route as protectedappAuditLogRouteImport } from './routes/(protected)/(app)/audit-log'
+import { Route as protectedappAnalyticsRouteImport } from './routes/(protected)/(app)/analytics'
+import { Route as protectedSettingsMembersIndexRouteImport } from './routes/(protected)/settings/members/index'
+import { Route as protectedappTasksIndexRouteImport } from './routes/(protected)/(app)/tasks/index'
+import { Route as protectedappReportsIndexRouteImport } from './routes/(protected)/(app)/reports/index'
+import { Route as protectedappJobMandatesIndexRouteImport } from './routes/(protected)/(app)/job-mandates/index'
+import { Route as protectedappContractsIndexRouteImport } from './routes/(protected)/(app)/contracts/index'
+import { Route as protectedappClientsIndexRouteImport } from './routes/(protected)/(app)/clients/index'
+import { Route as protectedSettingsMembersNewRouteImport } from './routes/(protected)/settings/members/new'
+import { Route as protectedSettingsMembersMemberIdRouteImport } from './routes/(protected)/settings/members/$memberId'
+import { Route as protectedappReportsReportIdRouteImport } from './routes/(protected)/(app)/reports/$reportId'
+import { Route as protectedappContractsNewRouteImport } from './routes/(protected)/(app)/contracts/new'
+import { Route as protectedappContractsContractIdRouteImport } from './routes/(protected)/(app)/contracts/$contractId'
+import { Route as protectedappClientsNewRouteImport } from './routes/(protected)/(app)/clients/new'
+import { Route as protectedappClientsClientIdRouteImport } from './routes/(protected)/(app)/clients/$clientId'
+import { Route as protectedappphase2WhatsappRouteImport } from './routes/(protected)/(app)/(phase-2)/whatsapp'
+import { Route as protectedappphase2VoiceRouteImport } from './routes/(protected)/(app)/(phase-2)/voice'
+import { Route as protectedappphase2OmnichannelRouteImport } from './routes/(protected)/(app)/(phase-2)/omnichannel'
+import { Route as protectedappphase2EmailRouteImport } from './routes/(protected)/(app)/(phase-2)/email'
+import { Route as protectedappphase2AgentsRouteImport } from './routes/(protected)/(app)/(phase-2)/agents'
 
 const protectedRouteRoute = protectedRouteRouteImport.update({
+  id: '/(protected)',
   getParentRoute: () => rootRouteImport,
-  id: "/(protected)",
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
-  id: "/",
-  path: "/",
-} as any);
+} as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
   getParentRoute: () => rootRouteImport,
-  id: "/api/$",
-  path: "/api/$",
-} as any);
+} as any)
 const protectedSettingsIndexRoute = protectedSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => protectedRouteRoute,
-  id: "/settings/",
-  path: "/settings/",
-} as any);
+} as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
+  id: '/api/rpc/$',
+  path: '/api/rpc/$',
   getParentRoute: () => rootRouteImport,
-  id: "/api/rpc/$",
-  path: "/api/rpc/$",
-} as any);
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
-  id: "/api/auth/$",
-  path: "/api/auth/$",
-} as any);
+} as any)
 const protectedSettingsSlaRoute = protectedSettingsSlaRouteImport.update({
+  id: '/settings/sla',
+  path: '/settings/sla',
   getParentRoute: () => protectedRouteRoute,
-  id: "/settings/sla",
-  path: "/settings/sla",
-} as any);
+} as any)
 const protectedSettingsProfileRoute =
   protectedSettingsProfileRouteImport.update({
+    id: '/settings/profile',
+    path: '/settings/profile',
     getParentRoute: () => protectedRouteRoute,
-    id: "/settings/profile",
-    path: "/settings/profile",
-  } as any);
+  } as any)
 const protectedSettingsConnectionsRoute =
   protectedSettingsConnectionsRouteImport.update({
+    id: '/settings/connections',
+    path: '/settings/connections',
     getParentRoute: () => protectedRouteRoute,
-    id: "/settings/connections",
-    path: "/settings/connections",
-  } as any);
+  } as any)
 const protectedappProspectsRoute = protectedappProspectsRouteImport.update({
+  id: '/(app)/prospects',
+  path: '/prospects',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/prospects",
-  path: "/prospects",
-} as any);
+} as any)
 const protectedappDashboardRoute = protectedappDashboardRouteImport.update({
+  id: '/(app)/dashboard',
+  path: '/dashboard',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/dashboard",
-  path: "/dashboard",
-} as any);
+} as any)
 const protectedappAuditLogRoute = protectedappAuditLogRouteImport.update({
+  id: '/(app)/audit-log',
+  path: '/audit-log',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/audit-log",
-  path: "/audit-log",
-} as any);
+} as any)
 const protectedappAnalyticsRoute = protectedappAnalyticsRouteImport.update({
+  id: '/(app)/analytics',
+  path: '/analytics',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/analytics",
-  path: "/analytics",
-} as any);
+} as any)
 const protectedSettingsMembersIndexRoute =
   protectedSettingsMembersIndexRouteImport.update({
+    id: '/settings/members/',
+    path: '/settings/members/',
     getParentRoute: () => protectedRouteRoute,
-    id: "/settings/members/",
-    path: "/settings/members/",
-  } as any);
+  } as any)
 const protectedappTasksIndexRoute = protectedappTasksIndexRouteImport.update({
+  id: '/(app)/tasks/',
+  path: '/tasks/',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/tasks/",
-  path: "/tasks/",
-} as any);
+} as any)
 const protectedappReportsIndexRoute =
   protectedappReportsIndexRouteImport.update({
+    id: '/(app)/reports/',
+    path: '/reports/',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/reports/",
-    path: "/reports/",
-  } as any);
+  } as any)
 const protectedappJobMandatesIndexRoute =
   protectedappJobMandatesIndexRouteImport.update({
+    id: '/(app)/job-mandates/',
+    path: '/job-mandates/',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/job-mandates/",
-    path: "/job-mandates/",
-  } as any);
+  } as any)
 const protectedappContractsIndexRoute =
   protectedappContractsIndexRouteImport.update({
+    id: '/(app)/contracts/',
+    path: '/contracts/',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/contracts/",
-    path: "/contracts/",
-  } as any);
+  } as any)
 const protectedappClientsIndexRoute =
   protectedappClientsIndexRouteImport.update({
+    id: '/(app)/clients/',
+    path: '/clients/',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/clients/",
-    path: "/clients/",
-  } as any);
+  } as any)
 const protectedSettingsMembersNewRoute =
   protectedSettingsMembersNewRouteImport.update({
+    id: '/settings/members/new',
+    path: '/settings/members/new',
     getParentRoute: () => protectedRouteRoute,
-    id: "/settings/members/new",
-    path: "/settings/members/new",
-  } as any);
+  } as any)
 const protectedSettingsMembersMemberIdRoute =
   protectedSettingsMembersMemberIdRouteImport.update({
+    id: '/settings/members/$memberId',
+    path: '/settings/members/$memberId',
     getParentRoute: () => protectedRouteRoute,
-    id: "/settings/members/$memberId",
-    path: "/settings/members/$memberId",
-  } as any);
+  } as any)
 const protectedappReportsReportIdRoute =
   protectedappReportsReportIdRouteImport.update({
+    id: '/(app)/reports/$reportId',
+    path: '/reports/$reportId',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/reports/$reportId",
-    path: "/reports/$reportId",
-  } as any);
+  } as any)
 const protectedappContractsNewRoute =
   protectedappContractsNewRouteImport.update({
+    id: '/(app)/contracts/new',
+    path: '/contracts/new',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/contracts/new",
-    path: "/contracts/new",
-  } as any);
+  } as any)
 const protectedappContractsContractIdRoute =
   protectedappContractsContractIdRouteImport.update({
+    id: '/(app)/contracts/$contractId',
+    path: '/contracts/$contractId',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/contracts/$contractId",
-    path: "/contracts/$contractId",
-  } as any);
+  } as any)
 const protectedappClientsNewRoute = protectedappClientsNewRouteImport.update({
+  id: '/(app)/clients/new',
+  path: '/clients/new',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/clients/new",
-  path: "/clients/new",
-} as any);
+} as any)
 const protectedappClientsClientIdRoute =
   protectedappClientsClientIdRouteImport.update({
+    id: '/(app)/clients/$clientId',
+    path: '/clients/$clientId',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/clients/$clientId",
-    path: "/clients/$clientId",
-  } as any);
+  } as any)
 const protectedappphase2WhatsappRoute =
   protectedappphase2WhatsappRouteImport.update({
+    id: '/(app)/(phase-2)/whatsapp',
+    path: '/whatsapp',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/(phase-2)/whatsapp",
-    path: "/whatsapp",
-  } as any);
+  } as any)
 const protectedappphase2VoiceRoute = protectedappphase2VoiceRouteImport.update({
+  id: '/(app)/(phase-2)/voice',
+  path: '/voice',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/(phase-2)/voice",
-  path: "/voice",
-} as any);
+} as any)
 const protectedappphase2OmnichannelRoute =
   protectedappphase2OmnichannelRouteImport.update({
+    id: '/(app)/(phase-2)/omnichannel',
+    path: '/omnichannel',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/(phase-2)/omnichannel",
-    path: "/omnichannel",
-  } as any);
+  } as any)
 const protectedappphase2EmailRoute = protectedappphase2EmailRouteImport.update({
+  id: '/(app)/(phase-2)/email',
+  path: '/email',
   getParentRoute: () => protectedRouteRoute,
-  id: "/(app)/(phase-2)/email",
-  path: "/email",
-} as any);
+} as any)
 const protectedappphase2AgentsRoute =
   protectedappphase2AgentsRouteImport.update({
+    id: '/(app)/(phase-2)/agents',
+    path: '/agents',
     getParentRoute: () => protectedRouteRoute,
-    id: "/(app)/(phase-2)/agents",
-    path: "/agents",
-  } as any);
+  } as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/api/$": typeof ApiSplatRoute;
-  "/analytics": typeof protectedappAnalyticsRoute;
-  "/audit-log": typeof protectedappAuditLogRoute;
-  "/dashboard": typeof protectedappDashboardRoute;
-  "/prospects": typeof protectedappProspectsRoute;
-  "/settings/connections": typeof protectedSettingsConnectionsRoute;
-  "/settings/profile": typeof protectedSettingsProfileRoute;
-  "/settings/sla": typeof protectedSettingsSlaRoute;
-  "/api/auth/$": typeof ApiAuthSplatRoute;
-  "/api/rpc/$": typeof ApiRpcSplatRoute;
-  "/settings/": typeof protectedSettingsIndexRoute;
-  "/agents": typeof protectedappphase2AgentsRoute;
-  "/email": typeof protectedappphase2EmailRoute;
-  "/omnichannel": typeof protectedappphase2OmnichannelRoute;
-  "/voice": typeof protectedappphase2VoiceRoute;
-  "/whatsapp": typeof protectedappphase2WhatsappRoute;
-  "/clients/$clientId": typeof protectedappClientsClientIdRoute;
-  "/clients/new": typeof protectedappClientsNewRoute;
-  "/contracts/$contractId": typeof protectedappContractsContractIdRoute;
-  "/contracts/new": typeof protectedappContractsNewRoute;
-  "/reports/$reportId": typeof protectedappReportsReportIdRoute;
-  "/settings/members/$memberId": typeof protectedSettingsMembersMemberIdRoute;
-  "/settings/members/new": typeof protectedSettingsMembersNewRoute;
-  "/clients/": typeof protectedappClientsIndexRoute;
-  "/contracts/": typeof protectedappContractsIndexRoute;
-  "/job-mandates/": typeof protectedappJobMandatesIndexRoute;
-  "/reports/": typeof protectedappReportsIndexRoute;
-  "/tasks/": typeof protectedappTasksIndexRoute;
-  "/settings/members/": typeof protectedSettingsMembersIndexRoute;
+  '/': typeof IndexRoute
+  '/api/$': typeof ApiSplatRoute
+  '/analytics': typeof protectedappAnalyticsRoute
+  '/audit-log': typeof protectedappAuditLogRoute
+  '/dashboard': typeof protectedappDashboardRoute
+  '/prospects': typeof protectedappProspectsRoute
+  '/settings/connections': typeof protectedSettingsConnectionsRoute
+  '/settings/profile': typeof protectedSettingsProfileRoute
+  '/settings/sla': typeof protectedSettingsSlaRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/settings/': typeof protectedSettingsIndexRoute
+  '/agents': typeof protectedappphase2AgentsRoute
+  '/email': typeof protectedappphase2EmailRoute
+  '/omnichannel': typeof protectedappphase2OmnichannelRoute
+  '/voice': typeof protectedappphase2VoiceRoute
+  '/whatsapp': typeof protectedappphase2WhatsappRoute
+  '/clients/$clientId': typeof protectedappClientsClientIdRoute
+  '/clients/new': typeof protectedappClientsNewRoute
+  '/contracts/$contractId': typeof protectedappContractsContractIdRoute
+  '/contracts/new': typeof protectedappContractsNewRoute
+  '/reports/$reportId': typeof protectedappReportsReportIdRoute
+  '/settings/members/$memberId': typeof protectedSettingsMembersMemberIdRoute
+  '/settings/members/new': typeof protectedSettingsMembersNewRoute
+  '/clients/': typeof protectedappClientsIndexRoute
+  '/contracts/': typeof protectedappContractsIndexRoute
+  '/job-mandates/': typeof protectedappJobMandatesIndexRoute
+  '/reports/': typeof protectedappReportsIndexRoute
+  '/tasks/': typeof protectedappTasksIndexRoute
+  '/settings/members/': typeof protectedSettingsMembersIndexRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/api/$": typeof ApiSplatRoute;
-  "/analytics": typeof protectedappAnalyticsRoute;
-  "/audit-log": typeof protectedappAuditLogRoute;
-  "/dashboard": typeof protectedappDashboardRoute;
-  "/prospects": typeof protectedappProspectsRoute;
-  "/settings/connections": typeof protectedSettingsConnectionsRoute;
-  "/settings/profile": typeof protectedSettingsProfileRoute;
-  "/settings/sla": typeof protectedSettingsSlaRoute;
-  "/api/auth/$": typeof ApiAuthSplatRoute;
-  "/api/rpc/$": typeof ApiRpcSplatRoute;
-  "/settings": typeof protectedSettingsIndexRoute;
-  "/agents": typeof protectedappphase2AgentsRoute;
-  "/email": typeof protectedappphase2EmailRoute;
-  "/omnichannel": typeof protectedappphase2OmnichannelRoute;
-  "/voice": typeof protectedappphase2VoiceRoute;
-  "/whatsapp": typeof protectedappphase2WhatsappRoute;
-  "/clients/$clientId": typeof protectedappClientsClientIdRoute;
-  "/clients/new": typeof protectedappClientsNewRoute;
-  "/contracts/$contractId": typeof protectedappContractsContractIdRoute;
-  "/contracts/new": typeof protectedappContractsNewRoute;
-  "/reports/$reportId": typeof protectedappReportsReportIdRoute;
-  "/settings/members/$memberId": typeof protectedSettingsMembersMemberIdRoute;
-  "/settings/members/new": typeof protectedSettingsMembersNewRoute;
-  "/clients": typeof protectedappClientsIndexRoute;
-  "/contracts": typeof protectedappContractsIndexRoute;
-  "/job-mandates": typeof protectedappJobMandatesIndexRoute;
-  "/reports": typeof protectedappReportsIndexRoute;
-  "/tasks": typeof protectedappTasksIndexRoute;
-  "/settings/members": typeof protectedSettingsMembersIndexRoute;
+  '/': typeof IndexRoute
+  '/api/$': typeof ApiSplatRoute
+  '/analytics': typeof protectedappAnalyticsRoute
+  '/audit-log': typeof protectedappAuditLogRoute
+  '/dashboard': typeof protectedappDashboardRoute
+  '/prospects': typeof protectedappProspectsRoute
+  '/settings/connections': typeof protectedSettingsConnectionsRoute
+  '/settings/profile': typeof protectedSettingsProfileRoute
+  '/settings/sla': typeof protectedSettingsSlaRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/settings': typeof protectedSettingsIndexRoute
+  '/agents': typeof protectedappphase2AgentsRoute
+  '/email': typeof protectedappphase2EmailRoute
+  '/omnichannel': typeof protectedappphase2OmnichannelRoute
+  '/voice': typeof protectedappphase2VoiceRoute
+  '/whatsapp': typeof protectedappphase2WhatsappRoute
+  '/clients/$clientId': typeof protectedappClientsClientIdRoute
+  '/clients/new': typeof protectedappClientsNewRoute
+  '/contracts/$contractId': typeof protectedappContractsContractIdRoute
+  '/contracts/new': typeof protectedappContractsNewRoute
+  '/reports/$reportId': typeof protectedappReportsReportIdRoute
+  '/settings/members/$memberId': typeof protectedSettingsMembersMemberIdRoute
+  '/settings/members/new': typeof protectedSettingsMembersNewRoute
+  '/clients': typeof protectedappClientsIndexRoute
+  '/contracts': typeof protectedappContractsIndexRoute
+  '/job-mandates': typeof protectedappJobMandatesIndexRoute
+  '/reports': typeof protectedappReportsIndexRoute
+  '/tasks': typeof protectedappTasksIndexRoute
+  '/settings/members': typeof protectedSettingsMembersIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/(protected)": typeof protectedRouteRouteWithChildren;
-  "/api/$": typeof ApiSplatRoute;
-  "/(protected)/(app)/analytics": typeof protectedappAnalyticsRoute;
-  "/(protected)/(app)/audit-log": typeof protectedappAuditLogRoute;
-  "/(protected)/(app)/dashboard": typeof protectedappDashboardRoute;
-  "/(protected)/(app)/prospects": typeof protectedappProspectsRoute;
-  "/(protected)/settings/connections": typeof protectedSettingsConnectionsRoute;
-  "/(protected)/settings/profile": typeof protectedSettingsProfileRoute;
-  "/(protected)/settings/sla": typeof protectedSettingsSlaRoute;
-  "/api/auth/$": typeof ApiAuthSplatRoute;
-  "/api/rpc/$": typeof ApiRpcSplatRoute;
-  "/(protected)/settings/": typeof protectedSettingsIndexRoute;
-  "/(protected)/(app)/(phase-2)/agents": typeof protectedappphase2AgentsRoute;
-  "/(protected)/(app)/(phase-2)/email": typeof protectedappphase2EmailRoute;
-  "/(protected)/(app)/(phase-2)/omnichannel": typeof protectedappphase2OmnichannelRoute;
-  "/(protected)/(app)/(phase-2)/voice": typeof protectedappphase2VoiceRoute;
-  "/(protected)/(app)/(phase-2)/whatsapp": typeof protectedappphase2WhatsappRoute;
-  "/(protected)/(app)/clients/$clientId": typeof protectedappClientsClientIdRoute;
-  "/(protected)/(app)/clients/new": typeof protectedappClientsNewRoute;
-  "/(protected)/(app)/contracts/$contractId": typeof protectedappContractsContractIdRoute;
-  "/(protected)/(app)/contracts/new": typeof protectedappContractsNewRoute;
-  "/(protected)/(app)/reports/$reportId": typeof protectedappReportsReportIdRoute;
-  "/(protected)/settings/members/$memberId": typeof protectedSettingsMembersMemberIdRoute;
-  "/(protected)/settings/members/new": typeof protectedSettingsMembersNewRoute;
-  "/(protected)/(app)/clients/": typeof protectedappClientsIndexRoute;
-  "/(protected)/(app)/contracts/": typeof protectedappContractsIndexRoute;
-  "/(protected)/(app)/job-mandates/": typeof protectedappJobMandatesIndexRoute;
-  "/(protected)/(app)/reports/": typeof protectedappReportsIndexRoute;
-  "/(protected)/(app)/tasks/": typeof protectedappTasksIndexRoute;
-  "/(protected)/settings/members/": typeof protectedSettingsMembersIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/(protected)': typeof protectedRouteRouteWithChildren
+  '/api/$': typeof ApiSplatRoute
+  '/(protected)/(app)/analytics': typeof protectedappAnalyticsRoute
+  '/(protected)/(app)/audit-log': typeof protectedappAuditLogRoute
+  '/(protected)/(app)/dashboard': typeof protectedappDashboardRoute
+  '/(protected)/(app)/prospects': typeof protectedappProspectsRoute
+  '/(protected)/settings/connections': typeof protectedSettingsConnectionsRoute
+  '/(protected)/settings/profile': typeof protectedSettingsProfileRoute
+  '/(protected)/settings/sla': typeof protectedSettingsSlaRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/(protected)/settings/': typeof protectedSettingsIndexRoute
+  '/(protected)/(app)/(phase-2)/agents': typeof protectedappphase2AgentsRoute
+  '/(protected)/(app)/(phase-2)/email': typeof protectedappphase2EmailRoute
+  '/(protected)/(app)/(phase-2)/omnichannel': typeof protectedappphase2OmnichannelRoute
+  '/(protected)/(app)/(phase-2)/voice': typeof protectedappphase2VoiceRoute
+  '/(protected)/(app)/(phase-2)/whatsapp': typeof protectedappphase2WhatsappRoute
+  '/(protected)/(app)/clients/$clientId': typeof protectedappClientsClientIdRoute
+  '/(protected)/(app)/clients/new': typeof protectedappClientsNewRoute
+  '/(protected)/(app)/contracts/$contractId': typeof protectedappContractsContractIdRoute
+  '/(protected)/(app)/contracts/new': typeof protectedappContractsNewRoute
+  '/(protected)/(app)/reports/$reportId': typeof protectedappReportsReportIdRoute
+  '/(protected)/settings/members/$memberId': typeof protectedSettingsMembersMemberIdRoute
+  '/(protected)/settings/members/new': typeof protectedSettingsMembersNewRoute
+  '/(protected)/(app)/clients/': typeof protectedappClientsIndexRoute
+  '/(protected)/(app)/contracts/': typeof protectedappContractsIndexRoute
+  '/(protected)/(app)/job-mandates/': typeof protectedappJobMandatesIndexRoute
+  '/(protected)/(app)/reports/': typeof protectedappReportsIndexRoute
+  '/(protected)/(app)/tasks/': typeof protectedappTasksIndexRoute
+  '/(protected)/settings/members/': typeof protectedSettingsMembersIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/api/$"
-    | "/analytics"
-    | "/audit-log"
-    | "/dashboard"
-    | "/prospects"
-    | "/settings/connections"
-    | "/settings/profile"
-    | "/settings/sla"
-    | "/api/auth/$"
-    | "/api/rpc/$"
-    | "/settings/"
-    | "/agents"
-    | "/email"
-    | "/omnichannel"
-    | "/voice"
-    | "/whatsapp"
-    | "/clients/$clientId"
-    | "/clients/new"
-    | "/contracts/$contractId"
-    | "/contracts/new"
-    | "/reports/$reportId"
-    | "/settings/members/$memberId"
-    | "/settings/members/new"
-    | "/clients/"
-    | "/contracts/"
-    | "/job-mandates/"
-    | "/reports/"
-    | "/tasks/"
-    | "/settings/members/";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/api/$'
+    | '/analytics'
+    | '/audit-log'
+    | '/dashboard'
+    | '/prospects'
+    | '/settings/connections'
+    | '/settings/profile'
+    | '/settings/sla'
+    | '/api/auth/$'
+    | '/api/rpc/$'
+    | '/settings/'
+    | '/agents'
+    | '/email'
+    | '/omnichannel'
+    | '/voice'
+    | '/whatsapp'
+    | '/clients/$clientId'
+    | '/clients/new'
+    | '/contracts/$contractId'
+    | '/contracts/new'
+    | '/reports/$reportId'
+    | '/settings/members/$memberId'
+    | '/settings/members/new'
+    | '/clients/'
+    | '/contracts/'
+    | '/job-mandates/'
+    | '/reports/'
+    | '/tasks/'
+    | '/settings/members/'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/api/$"
-    | "/analytics"
-    | "/audit-log"
-    | "/dashboard"
-    | "/prospects"
-    | "/settings/connections"
-    | "/settings/profile"
-    | "/settings/sla"
-    | "/api/auth/$"
-    | "/api/rpc/$"
-    | "/settings"
-    | "/agents"
-    | "/email"
-    | "/omnichannel"
-    | "/voice"
-    | "/whatsapp"
-    | "/clients/$clientId"
-    | "/clients/new"
-    | "/contracts/$contractId"
-    | "/contracts/new"
-    | "/reports/$reportId"
-    | "/settings/members/$memberId"
-    | "/settings/members/new"
-    | "/clients"
-    | "/contracts"
-    | "/job-mandates"
-    | "/reports"
-    | "/tasks"
-    | "/settings/members";
+    | '/'
+    | '/api/$'
+    | '/analytics'
+    | '/audit-log'
+    | '/dashboard'
+    | '/prospects'
+    | '/settings/connections'
+    | '/settings/profile'
+    | '/settings/sla'
+    | '/api/auth/$'
+    | '/api/rpc/$'
+    | '/settings'
+    | '/agents'
+    | '/email'
+    | '/omnichannel'
+    | '/voice'
+    | '/whatsapp'
+    | '/clients/$clientId'
+    | '/clients/new'
+    | '/contracts/$contractId'
+    | '/contracts/new'
+    | '/reports/$reportId'
+    | '/settings/members/$memberId'
+    | '/settings/members/new'
+    | '/clients'
+    | '/contracts'
+    | '/job-mandates'
+    | '/reports'
+    | '/tasks'
+    | '/settings/members'
   id:
-    | "__root__"
-    | "/"
-    | "/(protected)"
-    | "/api/$"
-    | "/(protected)/(app)/analytics"
-    | "/(protected)/(app)/audit-log"
-    | "/(protected)/(app)/dashboard"
-    | "/(protected)/(app)/prospects"
-    | "/(protected)/settings/connections"
-    | "/(protected)/settings/profile"
-    | "/(protected)/settings/sla"
-    | "/api/auth/$"
-    | "/api/rpc/$"
-    | "/(protected)/settings/"
-    | "/(protected)/(app)/(phase-2)/agents"
-    | "/(protected)/(app)/(phase-2)/email"
-    | "/(protected)/(app)/(phase-2)/omnichannel"
-    | "/(protected)/(app)/(phase-2)/voice"
-    | "/(protected)/(app)/(phase-2)/whatsapp"
-    | "/(protected)/(app)/clients/$clientId"
-    | "/(protected)/(app)/clients/new"
-    | "/(protected)/(app)/contracts/$contractId"
-    | "/(protected)/(app)/contracts/new"
-    | "/(protected)/(app)/reports/$reportId"
-    | "/(protected)/settings/members/$memberId"
-    | "/(protected)/settings/members/new"
-    | "/(protected)/(app)/clients/"
-    | "/(protected)/(app)/contracts/"
-    | "/(protected)/(app)/job-mandates/"
-    | "/(protected)/(app)/reports/"
-    | "/(protected)/(app)/tasks/"
-    | "/(protected)/settings/members/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/(protected)'
+    | '/api/$'
+    | '/(protected)/(app)/analytics'
+    | '/(protected)/(app)/audit-log'
+    | '/(protected)/(app)/dashboard'
+    | '/(protected)/(app)/prospects'
+    | '/(protected)/settings/connections'
+    | '/(protected)/settings/profile'
+    | '/(protected)/settings/sla'
+    | '/api/auth/$'
+    | '/api/rpc/$'
+    | '/(protected)/settings/'
+    | '/(protected)/(app)/(phase-2)/agents'
+    | '/(protected)/(app)/(phase-2)/email'
+    | '/(protected)/(app)/(phase-2)/omnichannel'
+    | '/(protected)/(app)/(phase-2)/voice'
+    | '/(protected)/(app)/(phase-2)/whatsapp'
+    | '/(protected)/(app)/clients/$clientId'
+    | '/(protected)/(app)/clients/new'
+    | '/(protected)/(app)/contracts/$contractId'
+    | '/(protected)/(app)/contracts/new'
+    | '/(protected)/(app)/reports/$reportId'
+    | '/(protected)/settings/members/$memberId'
+    | '/(protected)/settings/members/new'
+    | '/(protected)/(app)/clients/'
+    | '/(protected)/(app)/contracts/'
+    | '/(protected)/(app)/job-mandates/'
+    | '/(protected)/(app)/reports/'
+    | '/(protected)/(app)/tasks/'
+    | '/(protected)/settings/members/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  protectedRouteRoute: typeof protectedRouteRouteWithChildren;
-  ApiSplatRoute: typeof ApiSplatRoute;
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
-  ApiRpcSplatRoute: typeof ApiRpcSplatRoute;
+  IndexRoute: typeof IndexRoute
+  protectedRouteRoute: typeof protectedRouteRouteWithChildren
+  ApiSplatRoute: typeof ApiSplatRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/(protected)": {
-      id: "/(protected)";
-      path: "";
-      fullPath: "";
-      preLoaderRoute: typeof protectedRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/api/$": {
-      id: "/api/$";
-      path: "/api/$";
-      fullPath: "/api/$";
-      preLoaderRoute: typeof ApiSplatRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/(protected)/settings/": {
-      id: "/(protected)/settings/";
-      path: "/settings";
-      fullPath: "/settings/";
-      preLoaderRoute: typeof protectedSettingsIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/api/rpc/$": {
-      id: "/api/rpc/$";
-      path: "/api/rpc/$";
-      fullPath: "/api/rpc/$";
-      preLoaderRoute: typeof ApiRpcSplatRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/api/auth/$": {
-      id: "/api/auth/$";
-      path: "/api/auth/$";
-      fullPath: "/api/auth/$";
-      preLoaderRoute: typeof ApiAuthSplatRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/(protected)/settings/sla": {
-      id: "/(protected)/settings/sla";
-      path: "/settings/sla";
-      fullPath: "/settings/sla";
-      preLoaderRoute: typeof protectedSettingsSlaRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/settings/profile": {
-      id: "/(protected)/settings/profile";
-      path: "/settings/profile";
-      fullPath: "/settings/profile";
-      preLoaderRoute: typeof protectedSettingsProfileRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/settings/connections": {
-      id: "/(protected)/settings/connections";
-      path: "/settings/connections";
-      fullPath: "/settings/connections";
-      preLoaderRoute: typeof protectedSettingsConnectionsRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/prospects": {
-      id: "/(protected)/(app)/prospects";
-      path: "/prospects";
-      fullPath: "/prospects";
-      preLoaderRoute: typeof protectedappProspectsRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/dashboard": {
-      id: "/(protected)/(app)/dashboard";
-      path: "/dashboard";
-      fullPath: "/dashboard";
-      preLoaderRoute: typeof protectedappDashboardRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/audit-log": {
-      id: "/(protected)/(app)/audit-log";
-      path: "/audit-log";
-      fullPath: "/audit-log";
-      preLoaderRoute: typeof protectedappAuditLogRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/analytics": {
-      id: "/(protected)/(app)/analytics";
-      path: "/analytics";
-      fullPath: "/analytics";
-      preLoaderRoute: typeof protectedappAnalyticsRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/settings/members/": {
-      id: "/(protected)/settings/members/";
-      path: "/settings/members";
-      fullPath: "/settings/members/";
-      preLoaderRoute: typeof protectedSettingsMembersIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/tasks/": {
-      id: "/(protected)/(app)/tasks/";
-      path: "/tasks";
-      fullPath: "/tasks/";
-      preLoaderRoute: typeof protectedappTasksIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/reports/": {
-      id: "/(protected)/(app)/reports/";
-      path: "/reports";
-      fullPath: "/reports/";
-      preLoaderRoute: typeof protectedappReportsIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/job-mandates/": {
-      id: "/(protected)/(app)/job-mandates/";
-      path: "/job-mandates";
-      fullPath: "/job-mandates/";
-      preLoaderRoute: typeof protectedappJobMandatesIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/contracts/": {
-      id: "/(protected)/(app)/contracts/";
-      path: "/contracts";
-      fullPath: "/contracts/";
-      preLoaderRoute: typeof protectedappContractsIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/clients/": {
-      id: "/(protected)/(app)/clients/";
-      path: "/clients";
-      fullPath: "/clients/";
-      preLoaderRoute: typeof protectedappClientsIndexRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/settings/members/new": {
-      id: "/(protected)/settings/members/new";
-      path: "/settings/members/new";
-      fullPath: "/settings/members/new";
-      preLoaderRoute: typeof protectedSettingsMembersNewRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/settings/members/$memberId": {
-      id: "/(protected)/settings/members/$memberId";
-      path: "/settings/members/$memberId";
-      fullPath: "/settings/members/$memberId";
-      preLoaderRoute: typeof protectedSettingsMembersMemberIdRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/reports/$reportId": {
-      id: "/(protected)/(app)/reports/$reportId";
-      path: "/reports/$reportId";
-      fullPath: "/reports/$reportId";
-      preLoaderRoute: typeof protectedappReportsReportIdRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/contracts/new": {
-      id: "/(protected)/(app)/contracts/new";
-      path: "/contracts/new";
-      fullPath: "/contracts/new";
-      preLoaderRoute: typeof protectedappContractsNewRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/contracts/$contractId": {
-      id: "/(protected)/(app)/contracts/$contractId";
-      path: "/contracts/$contractId";
-      fullPath: "/contracts/$contractId";
-      preLoaderRoute: typeof protectedappContractsContractIdRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/clients/new": {
-      id: "/(protected)/(app)/clients/new";
-      path: "/clients/new";
-      fullPath: "/clients/new";
-      preLoaderRoute: typeof protectedappClientsNewRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/clients/$clientId": {
-      id: "/(protected)/(app)/clients/$clientId";
-      path: "/clients/$clientId";
-      fullPath: "/clients/$clientId";
-      preLoaderRoute: typeof protectedappClientsClientIdRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/(phase-2)/whatsapp": {
-      id: "/(protected)/(app)/(phase-2)/whatsapp";
-      path: "/whatsapp";
-      fullPath: "/whatsapp";
-      preLoaderRoute: typeof protectedappphase2WhatsappRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/(phase-2)/voice": {
-      id: "/(protected)/(app)/(phase-2)/voice";
-      path: "/voice";
-      fullPath: "/voice";
-      preLoaderRoute: typeof protectedappphase2VoiceRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/(phase-2)/omnichannel": {
-      id: "/(protected)/(app)/(phase-2)/omnichannel";
-      path: "/omnichannel";
-      fullPath: "/omnichannel";
-      preLoaderRoute: typeof protectedappphase2OmnichannelRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/(phase-2)/email": {
-      id: "/(protected)/(app)/(phase-2)/email";
-      path: "/email";
-      fullPath: "/email";
-      preLoaderRoute: typeof protectedappphase2EmailRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
-    "/(protected)/(app)/(phase-2)/agents": {
-      id: "/(protected)/(app)/(phase-2)/agents";
-      path: "/agents";
-      fullPath: "/agents";
-      preLoaderRoute: typeof protectedappphase2AgentsRouteImport;
-      parentRoute: typeof protectedRouteRoute;
-    };
+    '/(protected)': {
+      id: '/(protected)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof protectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(protected)/settings/': {
+      id: '/(protected)/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof protectedSettingsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/api/rpc/$': {
+      id: '/api/rpc/$'
+      path: '/api/rpc/$'
+      fullPath: '/api/rpc/$'
+      preLoaderRoute: typeof ApiRpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(protected)/settings/sla': {
+      id: '/(protected)/settings/sla'
+      path: '/settings/sla'
+      fullPath: '/settings/sla'
+      preLoaderRoute: typeof protectedSettingsSlaRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/settings/profile': {
+      id: '/(protected)/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof protectedSettingsProfileRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/settings/connections': {
+      id: '/(protected)/settings/connections'
+      path: '/settings/connections'
+      fullPath: '/settings/connections'
+      preLoaderRoute: typeof protectedSettingsConnectionsRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/prospects': {
+      id: '/(protected)/(app)/prospects'
+      path: '/prospects'
+      fullPath: '/prospects'
+      preLoaderRoute: typeof protectedappProspectsRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/dashboard': {
+      id: '/(protected)/(app)/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof protectedappDashboardRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/audit-log': {
+      id: '/(protected)/(app)/audit-log'
+      path: '/audit-log'
+      fullPath: '/audit-log'
+      preLoaderRoute: typeof protectedappAuditLogRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/analytics': {
+      id: '/(protected)/(app)/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof protectedappAnalyticsRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/settings/members/': {
+      id: '/(protected)/settings/members/'
+      path: '/settings/members'
+      fullPath: '/settings/members/'
+      preLoaderRoute: typeof protectedSettingsMembersIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/tasks/': {
+      id: '/(protected)/(app)/tasks/'
+      path: '/tasks'
+      fullPath: '/tasks/'
+      preLoaderRoute: typeof protectedappTasksIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/reports/': {
+      id: '/(protected)/(app)/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof protectedappReportsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/job-mandates/': {
+      id: '/(protected)/(app)/job-mandates/'
+      path: '/job-mandates'
+      fullPath: '/job-mandates/'
+      preLoaderRoute: typeof protectedappJobMandatesIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/contracts/': {
+      id: '/(protected)/(app)/contracts/'
+      path: '/contracts'
+      fullPath: '/contracts/'
+      preLoaderRoute: typeof protectedappContractsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/clients/': {
+      id: '/(protected)/(app)/clients/'
+      path: '/clients'
+      fullPath: '/clients/'
+      preLoaderRoute: typeof protectedappClientsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/settings/members/new': {
+      id: '/(protected)/settings/members/new'
+      path: '/settings/members/new'
+      fullPath: '/settings/members/new'
+      preLoaderRoute: typeof protectedSettingsMembersNewRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/settings/members/$memberId': {
+      id: '/(protected)/settings/members/$memberId'
+      path: '/settings/members/$memberId'
+      fullPath: '/settings/members/$memberId'
+      preLoaderRoute: typeof protectedSettingsMembersMemberIdRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/reports/$reportId': {
+      id: '/(protected)/(app)/reports/$reportId'
+      path: '/reports/$reportId'
+      fullPath: '/reports/$reportId'
+      preLoaderRoute: typeof protectedappReportsReportIdRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/contracts/new': {
+      id: '/(protected)/(app)/contracts/new'
+      path: '/contracts/new'
+      fullPath: '/contracts/new'
+      preLoaderRoute: typeof protectedappContractsNewRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/contracts/$contractId': {
+      id: '/(protected)/(app)/contracts/$contractId'
+      path: '/contracts/$contractId'
+      fullPath: '/contracts/$contractId'
+      preLoaderRoute: typeof protectedappContractsContractIdRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/clients/new': {
+      id: '/(protected)/(app)/clients/new'
+      path: '/clients/new'
+      fullPath: '/clients/new'
+      preLoaderRoute: typeof protectedappClientsNewRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/clients/$clientId': {
+      id: '/(protected)/(app)/clients/$clientId'
+      path: '/clients/$clientId'
+      fullPath: '/clients/$clientId'
+      preLoaderRoute: typeof protectedappClientsClientIdRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/(phase-2)/whatsapp': {
+      id: '/(protected)/(app)/(phase-2)/whatsapp'
+      path: '/whatsapp'
+      fullPath: '/whatsapp'
+      preLoaderRoute: typeof protectedappphase2WhatsappRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/(phase-2)/voice': {
+      id: '/(protected)/(app)/(phase-2)/voice'
+      path: '/voice'
+      fullPath: '/voice'
+      preLoaderRoute: typeof protectedappphase2VoiceRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/(phase-2)/omnichannel': {
+      id: '/(protected)/(app)/(phase-2)/omnichannel'
+      path: '/omnichannel'
+      fullPath: '/omnichannel'
+      preLoaderRoute: typeof protectedappphase2OmnichannelRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/(phase-2)/email': {
+      id: '/(protected)/(app)/(phase-2)/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof protectedappphase2EmailRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/(phase-2)/agents': {
+      id: '/(protected)/(app)/(phase-2)/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof protectedappphase2AgentsRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
   }
 }
 
 interface protectedRouteRouteChildren {
-  protectedappAnalyticsRoute: typeof protectedappAnalyticsRoute;
-  protectedappAuditLogRoute: typeof protectedappAuditLogRoute;
-  protectedappDashboardRoute: typeof protectedappDashboardRoute;
-  protectedappProspectsRoute: typeof protectedappProspectsRoute;
-  protectedSettingsConnectionsRoute: typeof protectedSettingsConnectionsRoute;
-  protectedSettingsProfileRoute: typeof protectedSettingsProfileRoute;
-  protectedSettingsSlaRoute: typeof protectedSettingsSlaRoute;
-  protectedSettingsIndexRoute: typeof protectedSettingsIndexRoute;
-  protectedappphase2AgentsRoute: typeof protectedappphase2AgentsRoute;
-  protectedappphase2EmailRoute: typeof protectedappphase2EmailRoute;
-  protectedappphase2OmnichannelRoute: typeof protectedappphase2OmnichannelRoute;
-  protectedappphase2VoiceRoute: typeof protectedappphase2VoiceRoute;
-  protectedappphase2WhatsappRoute: typeof protectedappphase2WhatsappRoute;
-  protectedappClientsClientIdRoute: typeof protectedappClientsClientIdRoute;
-  protectedappClientsNewRoute: typeof protectedappClientsNewRoute;
-  protectedappContractsContractIdRoute: typeof protectedappContractsContractIdRoute;
-  protectedappContractsNewRoute: typeof protectedappContractsNewRoute;
-  protectedappReportsReportIdRoute: typeof protectedappReportsReportIdRoute;
-  protectedSettingsMembersMemberIdRoute: typeof protectedSettingsMembersMemberIdRoute;
-  protectedSettingsMembersNewRoute: typeof protectedSettingsMembersNewRoute;
-  protectedappClientsIndexRoute: typeof protectedappClientsIndexRoute;
-  protectedappContractsIndexRoute: typeof protectedappContractsIndexRoute;
-  protectedappJobMandatesIndexRoute: typeof protectedappJobMandatesIndexRoute;
-  protectedappReportsIndexRoute: typeof protectedappReportsIndexRoute;
-  protectedappTasksIndexRoute: typeof protectedappTasksIndexRoute;
-  protectedSettingsMembersIndexRoute: typeof protectedSettingsMembersIndexRoute;
+  protectedappAnalyticsRoute: typeof protectedappAnalyticsRoute
+  protectedappAuditLogRoute: typeof protectedappAuditLogRoute
+  protectedappDashboardRoute: typeof protectedappDashboardRoute
+  protectedappProspectsRoute: typeof protectedappProspectsRoute
+  protectedSettingsConnectionsRoute: typeof protectedSettingsConnectionsRoute
+  protectedSettingsProfileRoute: typeof protectedSettingsProfileRoute
+  protectedSettingsSlaRoute: typeof protectedSettingsSlaRoute
+  protectedSettingsIndexRoute: typeof protectedSettingsIndexRoute
+  protectedappphase2AgentsRoute: typeof protectedappphase2AgentsRoute
+  protectedappphase2EmailRoute: typeof protectedappphase2EmailRoute
+  protectedappphase2OmnichannelRoute: typeof protectedappphase2OmnichannelRoute
+  protectedappphase2VoiceRoute: typeof protectedappphase2VoiceRoute
+  protectedappphase2WhatsappRoute: typeof protectedappphase2WhatsappRoute
+  protectedappClientsClientIdRoute: typeof protectedappClientsClientIdRoute
+  protectedappClientsNewRoute: typeof protectedappClientsNewRoute
+  protectedappContractsContractIdRoute: typeof protectedappContractsContractIdRoute
+  protectedappContractsNewRoute: typeof protectedappContractsNewRoute
+  protectedappReportsReportIdRoute: typeof protectedappReportsReportIdRoute
+  protectedSettingsMembersMemberIdRoute: typeof protectedSettingsMembersMemberIdRoute
+  protectedSettingsMembersNewRoute: typeof protectedSettingsMembersNewRoute
+  protectedappClientsIndexRoute: typeof protectedappClientsIndexRoute
+  protectedappContractsIndexRoute: typeof protectedappContractsIndexRoute
+  protectedappJobMandatesIndexRoute: typeof protectedappJobMandatesIndexRoute
+  protectedappReportsIndexRoute: typeof protectedappReportsIndexRoute
+  protectedappTasksIndexRoute: typeof protectedappTasksIndexRoute
+  protectedSettingsMembersIndexRoute: typeof protectedSettingsMembersIndexRoute
 }
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedappAnalyticsRoute: protectedappAnalyticsRoute,
   protectedappAuditLogRoute: protectedappAuditLogRoute,
-  protectedappClientsClientIdRoute: protectedappClientsClientIdRoute,
-  protectedappClientsIndexRoute: protectedappClientsIndexRoute,
-  protectedappClientsNewRoute: protectedappClientsNewRoute,
-  protectedappContractsContractIdRoute: protectedappContractsContractIdRoute,
-  protectedappContractsIndexRoute: protectedappContractsIndexRoute,
-  protectedappContractsNewRoute: protectedappContractsNewRoute,
   protectedappDashboardRoute: protectedappDashboardRoute,
-  protectedappJobMandatesIndexRoute: protectedappJobMandatesIndexRoute,
   protectedappProspectsRoute: protectedappProspectsRoute,
+  protectedSettingsConnectionsRoute: protectedSettingsConnectionsRoute,
+  protectedSettingsProfileRoute: protectedSettingsProfileRoute,
+  protectedSettingsSlaRoute: protectedSettingsSlaRoute,
+  protectedSettingsIndexRoute: protectedSettingsIndexRoute,
   protectedappphase2AgentsRoute: protectedappphase2AgentsRoute,
   protectedappphase2EmailRoute: protectedappphase2EmailRoute,
   protectedappphase2OmnichannelRoute: protectedappphase2OmnichannelRoute,
   protectedappphase2VoiceRoute: protectedappphase2VoiceRoute,
   protectedappphase2WhatsappRoute: protectedappphase2WhatsappRoute,
-  protectedappReportsIndexRoute: protectedappReportsIndexRoute,
+  protectedappClientsClientIdRoute: protectedappClientsClientIdRoute,
+  protectedappClientsNewRoute: protectedappClientsNewRoute,
+  protectedappContractsContractIdRoute: protectedappContractsContractIdRoute,
+  protectedappContractsNewRoute: protectedappContractsNewRoute,
   protectedappReportsReportIdRoute: protectedappReportsReportIdRoute,
-  protectedappTasksIndexRoute: protectedappTasksIndexRoute,
-  protectedSettingsConnectionsRoute: protectedSettingsConnectionsRoute,
-  protectedSettingsIndexRoute: protectedSettingsIndexRoute,
-  protectedSettingsMembersIndexRoute: protectedSettingsMembersIndexRoute,
   protectedSettingsMembersMemberIdRoute: protectedSettingsMembersMemberIdRoute,
   protectedSettingsMembersNewRoute: protectedSettingsMembersNewRoute,
-  protectedSettingsProfileRoute: protectedSettingsProfileRoute,
-  protectedSettingsSlaRoute: protectedSettingsSlaRoute,
-};
+  protectedappClientsIndexRoute: protectedappClientsIndexRoute,
+  protectedappContractsIndexRoute: protectedappContractsIndexRoute,
+  protectedappJobMandatesIndexRoute: protectedappJobMandatesIndexRoute,
+  protectedappReportsIndexRoute: protectedappReportsIndexRoute,
+  protectedappTasksIndexRoute: protectedappTasksIndexRoute,
+  protectedSettingsMembersIndexRoute: protectedSettingsMembersIndexRoute,
+}
 
 const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(
   protectedRouteRouteChildren,
-);
+)
 
 const rootRouteChildren: RootRouteChildren = {
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiRpcSplatRoute: ApiRpcSplatRoute,
-  ApiSplatRoute: ApiSplatRoute,
   IndexRoute: IndexRoute,
   protectedRouteRoute: protectedRouteRouteWithChildren,
-};
+  ApiSplatRoute: ApiSplatRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiRpcSplatRoute: ApiRpcSplatRoute,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx";
-
-declare module "@tanstack/react-start" {
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
   interface Register {
-    ssr: true;
-    router: Awaited<ReturnType<typeof getRouter>>;
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
   }
 }

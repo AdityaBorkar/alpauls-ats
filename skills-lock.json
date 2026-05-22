@@ -31,19 +31,19 @@
       "sourceType": "github"
     },
     "grill-with-docs": {
-      "computedHash": "31a5b1ae116558bf7d3f633f442835f54bd7645923d4f45c7823e52a97317666",
+      "computedHash": "a5c65e76275008b469962f7bee8b34866f1c9b0709f4886e71c8e731735640e4",
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
       "source": "mattpocock/skills",
       "sourceType": "github"
     },
     "improve-codebase-architecture": {
-      "computedHash": "c77b86b4332919499608f9af1880074e1fec65a59b95c70c27a9f39cd137865e",
+      "computedHash": "ef32aea0a8fab9b365ff9e08a95f8d353e20ca21ea46ec2e73587c86dd341351",
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
       "source": "mattpocock/skills",
       "sourceType": "github"
     },
     "react-doctor": {
-      "computedHash": "b8f396bd6db7404a899af03e649f2cf12f4c846ee7d85b6b9a475cb8175abb49",
+      "computedHash": "26b327a7146dfd129f51b409ed5a22f0801b735da25001b5c42b718ecc0822ac",
       "skillPath": "skills/react-doctor/SKILL.md",
       "source": "millionco/react-doctor",
       "sourceType": "github"

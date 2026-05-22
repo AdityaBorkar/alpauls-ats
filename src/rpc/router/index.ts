@@ -17,6 +17,12 @@ import {
   contractUpdate,
 } from "./client-contract";
 import {
+  filterViewCreate,
+  filterViewDelete,
+  filterViewList,
+  filterViewUpdate,
+} from "./filter-view";
+import {
   notificationList,
   notificationMarkAllRead,
   notificationMarkRead,
@@ -53,6 +59,12 @@ export const router = {
     list: contractList,
     listEvents: contractListEvents,
     update: contractUpdate,
+  },
+  filterView: {
+    create: filterViewCreate,
+    delete: filterViewDelete,
+    list: filterViewList,
+    update: filterViewUpdate,
   },
   notification: {
     list: notificationList,

@@ -4,7 +4,7 @@ import {
   Client_FormSchema as createClientSchema,
   Client_FormSchema as updateClientSchema,
 } from "@/lib/form-schemas/client";
-import { getPresignedUploadUrl, getR2PublicUrl } from "@/lib/storage";
+import { getPresignedUploadUrl, getR2PublicUrl } from "@/lib/storage/server";
 import { protectedProcedure } from "@/rpc/middleware";
 import { listClientEvents } from "@/services/client-event-service";
 import {

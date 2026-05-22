@@ -8,9 +8,9 @@ import { LoadingPage } from "@/components/pages/loading";
 import { NotFoundPage } from "@/components/pages/not-found";
 import { AppSidebar } from "@/components/sidebar";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
-import type { CommandPaletteMode } from "@/lib/actions";
+import type { CommandPaletteMode } from "@/lib/app-actions";
 
-import { getSession } from "../api/auth";
+import { getSession } from "../api/-auth";
 
 export const Route = createFileRoute("/(protected)")({
   beforeLoad: async () => {

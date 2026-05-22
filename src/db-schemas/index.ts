@@ -1,6 +1,7 @@
 export * from "./auth";
 export * from "./client";
 export * from "./client-contract";
+export * from "./filter-view";
 export * from "./job-mandate";
 export * from "./notification";
 export * from "./prospect";

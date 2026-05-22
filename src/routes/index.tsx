@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth/client";
 
-import { getSession } from "./api/auth";
+import { getSession } from "./api/-auth";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {

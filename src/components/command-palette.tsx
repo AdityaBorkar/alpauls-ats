@@ -26,7 +26,7 @@ import {
   type NewAction,
   navActions,
   newActions,
-} from "@/lib/actions";
+} from "@/lib/app-actions";
 
 type CommandPaletteProps = {
   open: boolean;
