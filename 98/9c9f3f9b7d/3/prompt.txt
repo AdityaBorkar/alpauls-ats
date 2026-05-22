@@ -1,0 +1,8 @@
+Search the codebase at /home/aditya/projects/alpauls-ats for:
+1. All filterView-related RPC procedures in src/rpc/router/ — check if create, update, delete procedures exist
+2. The full filterView router index in src/rpc/router/index.ts
+3. Any useMutation or useORPCMutation patterns used in the codebase (show 2-3 examples)
+4. The filterView DB schema in src/db-schemas/filter-view.ts (full file)
+5. Check if there's a filterView service in src/services/
+
+Return all file paths and relevant code snippets.
