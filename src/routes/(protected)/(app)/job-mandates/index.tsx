@@ -5,9 +5,5 @@ export const Route = createFileRoute("/(protected)/(app)/job-mandates/")({
 });
 
 function RouteComponent() {
-  return (
-    <div className="flex h-full w-full items-center justify-center">
-      To Be Implemented in Phase 2
-    </div>
-  );
+  return <div className="flex h-full w-full items-center justify-center"></div>;
 }

@@ -1,7 +1,7 @@
 [
   {
     "allow_concurrent_runs": false,
-    "command": "docker compose up -d && bun gen:cf-types && bun dev",
+    "command": "docker compose up -d && bun dev",
     "hide": "never",
     "label": "dev server",
     "reveal": "always",

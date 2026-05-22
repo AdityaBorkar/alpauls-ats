@@ -1,9 +1,7 @@
-"use client";
-
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
-import { CheckIcon } from "lucide-react";
+import { IconCheck } from "@tabler/icons-react";
 
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (
@@ -19,7 +17,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         className="grid place-content-center text-current transition-none [&>svg]:size-3.5"
         data-slot="checkbox-indicator"
       >
-        <CheckIcon />
+        <IconCheck />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
