@@ -1,0 +1,76 @@
+@scripts/seed-filter-views.ts Write script to sync filter views from @src/lib/filter-views.ts . Create/Update/Delete accordingly. Create a FilterViews table in @src/db-schemas/ accordingly.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/scripts/seed-filter-views.ts"}
+<path>/home/aditya/projects/alpauls-ats/scripts/seed-filter-views.ts</path>
+<type>file</type>
+<content>
+
+
+(End of file - total 0 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/lib/filter-views.ts"}
+<path>/home/aditya/projects/alpauls-ats/src/lib/filter-views.ts</path>
+<type>file</type>
+<content>
+1: const filterViews = [
+2:   {
+3:     id: "clients-active",
+4:     isSystemCreated: true,
+5:     label: "Active",
+6:     display: {
+7:       type: "list",
+8:       groupBy: null,
+9:       orderBy: "createdAt",
+10:       orderType: "desc",
+11:       fields: ["id", "status"],
+12:     },
+13:     refine: [{ op: "equal", field: "status", value: "active" }],
+14:   },
+15:   {
+16:     id: "clients-inactive",
+17:     isSystemCreated: true,
+18:     label: "Inactive",
+19:     display: {
+20:       type: "list",
+21:       groupBy: null,
+22:       orderBy: "createdAt",
+23:       orderType: "desc",
+24:       fields: ["id", "status"],
+25:     },
+26:     refine: [{ op: "equal", field: "status", value: "inactive" }],
+27:   },
+28:   {
+29:     id: "clients-archived",
+30:     isSystemCreated: true,
+31:     label: "Archived",
+32:     display: {
+33:       type: "list",
+34:       groupBy: null,
+35:       orderBy: "createdAt",
+36:       orderType: "desc",
+37:       fields: ["id", "status"],
+38:     },
+39:     refine: [{ op: "equal", field: "status", value: "archived" }],
+40:   },
+41: ];
+42: 
+43: export type FilterViewId = (typeof filterViews)[number]["id"];
+
+(End of file - total 43 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/db-schemas/"}
+<path>/home/aditya/projects/alpauls-ats/src/db-schemas/</path>
+<type>directory</type>
+<entries>
+auth.ts
+client-contract.ts
+client.ts
+index.ts
+job-mandate.ts
+notification.ts
+prospect-mandate.ts
+prospect.ts
+reminder.ts
+task.ts
+
+(10 entries)
+</entries>

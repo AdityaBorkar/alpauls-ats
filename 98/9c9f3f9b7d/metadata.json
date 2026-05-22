@@ -3,7 +3,7 @@
   "checkpoint_id": "989c9f3f9b7d",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 9,
+  "checkpoints_count": 14,
   "files_touched": [
     ".gitignore",
     "bun.lock",
@@ -11,14 +11,17 @@
     "integrations/forms/field-components/field-array.tsx",
     "integrations/forms/field.tsx",
     "package.json",
+    "scripts/seed-filter-views.ts",
     "scripts/seed.ts",
     "skills-lock.json",
     "src/components/client-list-view.tsx",
     "src/components/command-palette.tsx",
     "src/components/ui/context-menu.tsx",
+    "src/db-schemas/filter-view.ts",
     "src/db-schemas/index.ts",
     "src/lib/actions.ts",
     "src/lib/auth/access-control.ts",
+    "src/lib/filter-views.ts",
     "src/routeTree.gen.ts",
     "src/routes/(protected)/(app)/clients/index.tsx",
     "src/routes/(protected)/route.tsx",
@@ -61,13 +64,19 @@
       "transcript": "/98/9c9f3f9b7d/5/full.jsonl",
       "content_hash": "/98/9c9f3f9b7d/5/content_hash.txt",
       "prompt": "/98/9c9f3f9b7d/5/prompt.txt"
+    },
+    {
+      "metadata": "/98/9c9f3f9b7d/6/metadata.json",
+      "transcript": "/98/9c9f3f9b7d/6/full.jsonl",
+      "content_hash": "/98/9c9f3f9b7d/6/content_hash.txt",
+      "prompt": "/98/9c9f3f9b7d/6/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 289122,
+    "input_tokens": 383381,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 4931328,
-    "output_tokens": 30179,
-    "api_call_count": 115
+    "cache_read_tokens": 8588608,
+    "output_tokens": 45518,
+    "api_call_count": 185
   }
 }
