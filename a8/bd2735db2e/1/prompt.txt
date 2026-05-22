@@ -1,0 +1,47 @@
+@src/router.tsx Add component pages in router.tsx @src/components/pages/ . loading / error / not-found.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/router.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/router.tsx</path>
+<type>file</type>
+<content>
+1: import { createRouter } from "@tanstack/react-router";
+2: import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
+3: 
+4: import { getContext } from "#/tanstack-query/root-provider";
+5: 
+6: import { routeTree } from "./routeTree.gen";
+7: 
+8: export function getRouter() {
+9:   const context = getContext();
+10: 
+11:   const router = createRouter({
+12:     context,
+13:     defaultPreload: "intent",
+14:     defaultPreloadStaleTime: 0,
+15:     routeTree,
+16:     scrollRestoration: true,
+17:   });
+18: 
+19:   setupRouterSsrQueryIntegration({ queryClient: context.queryClient, router });
+20: 
+21:   return router;
+22: }
+23: 
+24: declare module "@tanstack/react-router" {
+25:   interface Register {
+26:     router: ReturnType<typeof getRouter>;
+27:   }
+28: }
+
+(End of file - total 28 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/pages/"}
+<path>/home/aditya/projects/alpauls-ats/src/components/pages/</path>
+<type>directory</type>
+<entries>
+error.tsx
+forbidden.tsx
+loading.tsx
+not-found.tsx
+
+(4 entries)
+</entries>
