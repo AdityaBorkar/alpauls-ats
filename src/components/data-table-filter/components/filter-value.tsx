@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/command";
 import {
   Popover,
-  PopoverAnchor,
+  // PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
@@ -67,7 +67,7 @@ function __FilterValue<TData, TType extends ColumnDataType>({
 }: FilterValueProps<TData, TType>) {
   return (
     <Popover>
-      <PopoverAnchor className="h-full" />
+      {/*<PopoverAnchor className="h-full" />*/}
       <PopoverTrigger asChild>
         <Button
           className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs"
