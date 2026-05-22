@@ -1,0 +1,7 @@
+In the codebase at /home/aditya/projects/alpauls-ats:
+1. How are text IDs generated for existing entities? Search for `nanoid`, `uuid`, `crypto`, `generateId`, `createId` in src/ files
+2. Read the full RPC router index at src/rpc/router/index.ts
+3. Read src/rpc/middleware.ts to understand protectedProcedure structure
+4. Check src/rpc/context.ts for the base context
+
+Return all relevant code snippets.

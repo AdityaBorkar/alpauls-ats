@@ -1,0 +1,1234 @@
+{
+  "info": {
+    "id": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+    "slug": "glowing-cactus",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "parentID": "ses_1afd4bb5affeuKeizCji2XAE9W",
+    "title": "Check DB schema for ID generation (@explore subagent)",
+    "agent": "explore",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai",
+      "variant": "default"
+    },
+    "version": "1.15.7",
+    "summary": {
+      "additions": 2,
+      "deletions": 5,
+      "files": 1
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 12980,
+      "output": 3135,
+      "reasoning": 472,
+      "cache": {
+        "read": 70592,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "todowrite",
+        "action": "deny",
+        "pattern": "*"
+      },
+      {
+        "permission": "task",
+        "action": "deny",
+        "pattern": "*"
+      }
+    ],
+    "time": {
+      "created": 1779462296375,
+      "updated": 1779462360570
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779462296406
+        },
+        "tools": {
+          "todowrite": false,
+          "task": false
+        },
+        "agent": "explore",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "src/routes/(protected)/(app)/clients/index.tsx",
+              "patch": "Index: src/routes/(protected)/(app)/clients/index.tsx\n===================================================================\n--- src/routes/(protected)/(app)/clients/index.tsx\t\n+++ src/routes/(protected)/(app)/clients/index.tsx\t\n@@ -1,93 +1,90 @@\n import { IconEyePlus } from \"@tabler/icons-react\";\n import { useQuery } from \"@tanstack/react-query\";\n import { createFileRoute, Link, useNavigate } from \"@tanstack/react-router\";\n import { Plus } from \"lucide-react\";\n import { z } from \"zod\";\n \n import type { ClientItem } from \"@/components/client-list-view\";\n import { ClientListView } from \"@/components/client-list-view\";\n import { Button } from \"@/components/ui/button\";\n import { cn } from \"@/lib/utils\";\n import { rpc } from \"@/rpc/client\";\n \n export const Route = createFileRoute(\"/(protected)/(app)/clients/\")({\n   component: ClientsPage,\n   validateSearch: z.object({\n     view: z.string().default(\"clients-active\"),\n   }),\n });\n \n function ClientsPage() {\n   const navigate = useNavigate();\n   const { view: activeView } = Route.useSearch();\n \n   const { data: filterViews } = useQuery(\n     rpc.filterView.list.queryOptions({ input: { domain: \"clients\" } }),\n   );\n \n   return (\n     <div className=\"page-wrap w-full *:px-8\">\n       <div className=\"mb-6 flex h-12 items-center border-neutral-300 border-b px-4!\">\n         <div className=\"flex flex-row items-center gap-1 px-4\">\n           {filterViews?.map((view) => (\n             <FilterViewButton\n               isActive={view.id === activeView}\n               key={view.id}\n               label={view.label}\n               viewId={view.id}\n             />\n           ))}\n           <div\n             className=\"flex size-7 items-center rounded-full border border-neutral-400 border-dashed opacity-50 hover:opacity-100\"\n             title=\"Create Filter View\"\n           >\n             <IconEyePlus className=\"mx-auto size-4.5\" />\n           </div>\n         </div>\n         <div className=\"grow\" />\n-        <Button\n-          className=\"flex\"\n-          onClick={() => navigate({ to: \"/clients/new\" })}\n-        >\n+        <Link className=\"flex\" to=\"/clients/new\">\n           <Plus className=\"mr-1.5 h-4 w-4\" />\n           New Client\n-        </Button>\n+        </Link>\n       </div>\n \n       <ClientListView\n         domain=\"clients\"\n         onClientClick={(client: ClientItem) =>\n           navigate({\n             params: { clientId: String(client.id) },\n             to: \"/clients/$clientId\",\n           })\n         }\n       />\n     </div>\n   );\n }\n \n function FilterViewButton({\n   isActive,\n   label,\n   viewId,\n }: {\n   isActive: boolean;\n   label: string;\n   viewId: string;\n }) {\n   return (\n     <Link\n       className={cn(\n         \"rounded-full px-3.5 py-1.5 font-medium\",\n         isActive\n           ? \"bg-neutral-800 text-white\"\n           : \"text-secondary-foreground hover:bg-neutral-300/80\",\n       )}\n       search={{ view: viewId }}\n       to=\"/clients\"\n     >\n       {label}\n     </Link>\n   );\n }\n",
+              "additions": 2,
+              "deletions": 5,
+              "status": "modified"
+            }
+          ]
+        },
+        "id": "msg_e5037d35300155A0gJADd7rPBC",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "In the codebase at /home/aditya/projects/alpauls-ats:\n1. How are text IDs generated for existing entities? Search for `nanoid`, `uuid`, `crypto`, `generateId`, `createId` in src/ files\n2. Read the full RPC router index at src/rpc/router/index.ts\n3. Read src/rpc/middleware.ts to understand protectedProcedure structure\n4. Check src/rpc/context.ts for the base context\n\nReturn all relevant code snippets.",
+          "id": "prt_e5037d35e001N0c22Gnymxk0Ob",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d35300155A0gJADd7rPBC"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5375,
+          "input": 150,
+          "output": 119,
+          "reasoning": 50,
+          "cache": {
+            "write": 0,
+            "read": 5056
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462296663,
+          "completed": 1779462299045
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5037d457001YNZuHVRg8aEE2b",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e5037d984001GC1Gthh0DzBajp",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to:\n1. Search for ID generation patterns in src/ files\n2. Read the RPC router index\n3. Read the RPC middleware\n4. Read the RPC context\n\nLet me do all of these in parallel.",
+          "time": {
+            "start": 1779462297992,
+            "end": 1779462298280
+          },
+          "id": "prt_e5037d988001bsCDPTlQKBAdWV",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_474763c4c5864403b4d02285",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "nanoid|uuid|crypto|generateId|createId",
+              "include": "*.ts",
+              "path": "/home/aditya/projects/alpauls-ats/src"
+            },
+            "output": "Found 4 matches\n/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts:\n  Line 117:     const key = `clients/${crypto.randomUUID()}/${input.filename}`;\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts:\n  Line 2: import { hashPassword } from \"better-auth/crypto\";\n\n  Line 81:     const id = crypto.randomUUID();\n\n  Line 114:       id: crypto.randomUUID(),\n",
+            "metadata": {
+              "matches": 4,
+              "truncated": false
+            },
+            "title": "nanoid|uuid|crypto|generateId|createId",
+            "time": {
+              "start": 1779462298533,
+              "end": 1779462298575
+            }
+          },
+          "id": "prt_e5037daab001jOxHfsd6wc64M5",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_382a9e48d6664a77aaf3f613",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts</path>\n<type>file</type>\n<content>\n1: import * as admin from \"./admin\";\n2: import {\n3:   clientArchive,\n4:   clientCreate,\n5:   clientGetById,\n6:   clientGetUploadUrl,\n7:   clientList,\n8:   clientListEvents,\n9:   clientUpdate,\n10: } from \"./client\";\n11: import {\n12:   contractArchive,\n13:   contractCreate,\n14:   contractGetById,\n15:   contractList,\n16:   contractListEvents,\n17:   contractUpdate,\n18: } from \"./client-contract\";\n19: import { filterViewList } from \"./filter-view\";\n20: import {\n21:   notificationList,\n22:   notificationMarkAllRead,\n23:   notificationMarkRead,\n24: } from \"./notification\";\n25: import { reminderArchive, reminderCreate, reminderList } from \"./reminder\";\n26: import {\n27:   taskAddLink,\n28:   taskArchive,\n29:   taskCreate,\n30:   taskGetById,\n31:   taskList,\n32:   taskListEvents,\n33:   taskRemoveLink,\n34:   taskStats,\n35:   taskUpdate,\n36: } from \"./task\";\n37: import { usersList } from \"./users\";\n38: \n39: export const router = {\n40:   admin,\n41:   client: {\n42:     archive: clientArchive,\n43:     create: clientCreate,\n44:     getById: clientGetById,\n45:     getUploadUrl: clientGetUploadUrl,\n46:     list: clientList,\n47:     listEvents: clientListEvents,\n48:     update: clientUpdate,\n49:   },\n50:   contract: {\n51:     archive: contractArchive,\n52:     create: contractCreate,\n53:     getById: contractGetById,\n54:     list: contractList,\n55:     listEvents: contractListEvents,\n56:     update: contractUpdate,\n57:   },\n58:   filterView: {\n59:     list: filterViewList,\n60:   },\n61:   notification: {\n62:     list: notificationList,\n63:     markAllRead: notificationMarkAllRead,\n64:     markRead: notificationMarkRead,\n65:   },\n66:   reminder: {\n67:     archive: reminderArchive,\n68:     create: reminderCreate,\n69:     list: reminderList,\n70:   },\n71:   task: {\n72:     addLink: taskAddLink,\n73:     archive: taskArchive,\n74:     create: taskCreate,\n75:     getById: taskGetById,\n76:     list: taskList,\n77:     listEvents: taskListEvents,\n78:     removeLink: taskRemoveLink,\n79:     stats: taskStats,\n80:     update: taskUpdate,\n81:   },\n82:   users: {\n83:     list: usersList,\n84:   },\n85: };\n\n(End of file - total 85 lines)\n</content>",
+            "metadata": {
+              "preview": "import * as admin from \"./admin\";\nimport {\n  clientArchive,\n  clientCreate,\n  clientGetById,\n  clientGetUploadUrl,\n  clientList,\n  clientListEvents,\n  clientUpdate,\n} from \"./client\";\nimport {\n  contractArchive,\n  contractCreate,\n  contractGetById,\n  contractList,\n  contractListEvents,\n  contractUpdate,\n} from \"./client-contract\";\nimport { filterViewList } from \"./filter-view\";\nimport {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/index.ts",
+            "time": {
+              "start": 1779462298658,
+              "end": 1779462298721
+            }
+          },
+          "id": "prt_e5037dbb60013eJxMECePreLPU",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_7ed84f4cbb5c4200bb321b9f",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/middleware.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/middleware.ts</path>\n<type>file</type>\n<content>\n1: import { ORPCError } from \"@orpc/server\";\n2: \n3: import type { Action, Resource } from \"@/lib/auth/access-control\";\n4: import { auth } from \"@/lib/auth/server\";\n5: import type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n6: \n7: import { type AuthContext, base } from \"./context\";\n8: \n9: type PermissionMeta = {\n10:   permission?: { resource: Resource; action: Action };\n11: };\n12: \n13: const baseWithMeta = base.$meta<PermissionMeta>({});\n14: \n15: export const authMiddleware = baseWithMeta.middleware(\n16:   async ({ context, next }) => {\n17:     const sessionData = await auth.api.getSession({\n18:       headers: context.headers || {},\n19:     });\n20: \n21:     if (!sessionData?.session || !sessionData?.user) {\n22:       throw new ORPCError(\"UNAUTHORIZED\", {\n23:         message: \"You must be signed in\",\n24:       });\n25:     }\n26: \n27:     const { session, user } = sessionData;\n28:     const subordinateCache: SubordinateCache = new Map();\n29:     return next({\n30:       context: { session, subordinateCache, user } satisfies AuthContext,\n31:     });\n32:   },\n33: );\n34: \n35: export const protectedProcedure = baseWithMeta\n36:   .use(authMiddleware)\n37:   .use(async ({ context, next, procedure }) => {\n38:     const required = procedure[\"~orpc\"].meta.permission;\n39:     if (!required) return next();\n40:     if (\n41:       context.user.permissions.includes(\n42:         `${required.resource}:${required.action}`,\n43:       )\n44:     ) {\n45:       return next();\n46:     }\n47: \n48:     throw new ORPCError(\"FORBIDDEN\", {\n49:       data: { requiredPermission: required },\n50:       message: `Missing permission: ${required.resource}:${required.action}`,\n51:     });\n52:   });\n\n(End of file - total 52 lines)\n</content>",
+            "metadata": {
+              "preview": "import { ORPCError } from \"@orpc/server\";\n\nimport type { Action, Resource } from \"@/lib/auth/access-control\";\nimport { auth } from \"@/lib/auth/server\";\nimport type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n\nimport { type AuthContext, base } from \"./context\";\n\ntype PermissionMeta = {\n  permission?: { resource: Resource; action: Action };\n};\n\nconst baseWithMeta = base.$meta<PermissionMeta>({});\n\nexport const authMiddleware = baseWithMeta.middleware(\n  async ({ context, next }) => {\n    const sessionData = await auth.api.getSession({\n      headers: context.headers || {},\n    });\n",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/middleware.ts",
+            "time": {
+              "start": 1779462298788,
+              "end": 1779462298811
+            }
+          },
+          "id": "prt_e5037dc33001wTsaMxaidiqEiV",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d0e89af37d7c44a5a0443671",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/context.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/context.ts</path>\n<type>file</type>\n<content>\n1: import { os } from \"@orpc/server\";\n2: \n3: import type { auth } from \"@/lib/auth/server\";\n4: import type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n5: \n6: export type AuthContext = {\n7:   session: typeof auth.$Infer.Session.session;\n8:   subordinateCache: SubordinateCache;\n9:   user: typeof auth.$Infer.Session.user;\n10: };\n11: \n12: export const base = os.$context<{\n13:   headers: HeadersInit | undefined;\n14: }>();\n\n(End of file - total 14 lines)\n</content>",
+            "metadata": {
+              "preview": "import { os } from \"@orpc/server\";\n\nimport type { auth } from \"@/lib/auth/server\";\nimport type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n\nexport type AuthContext = {\n  session: typeof auth.$Infer.Session.session;\n  subordinateCache: SubordinateCache;\n  user: typeof auth.$Infer.Session.user;\n};\n\nexport const base = os.$context<{\n  headers: HeadersInit | undefined;\n}>();",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/context.ts",
+            "time": {
+              "start": 1779462298926,
+              "end": 1779462298948
+            }
+          },
+          "id": "prt_e5037dcb2001ZAHwy1bk3Ke7Gf",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5375,
+            "input": 150,
+            "output": 119,
+            "reasoning": 50,
+            "cache": {
+              "write": 0,
+              "read": 5056
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5037dd83001rxk5iqflO1yzEu",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037d457001YNZuHVRg8aEE2b"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 7039,
+          "input": 1494,
+          "output": 129,
+          "reasoning": 104,
+          "cache": {
+            "write": 0,
+            "read": 5312
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462299052,
+          "completed": 1779462301824
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5037ddac001ddz8X6O6Syv2Ed",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e5037e229001dWbGNCrLzT0qGS",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me read the specific files that have the ID generation code to get more context:\n1. `/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts` - has `crypto.randomUUID()` usage\n2. `/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts` - has `crypto.randomUUID()` for file key\n\nLet me also check if there are any other ID generation patterns I might have missed, like in the database schemas or services.",
+          "time": {
+            "start": 1779462300204,
+            "end": 1779462300807
+          },
+          "id": "prt_e5037e22c001JW79RL3P8YmTW6",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        },
+        {
+          "type": "text",
+          "text": "Now let me read the specific files with ID generation code for full context:",
+          "time": {
+            "start": 1779462300810,
+            "end": 1779462301564
+          },
+          "id": "prt_e5037e48a001ivs3nux0yYrr52",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_8748cfbfde6d4f0eb289e450",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts</path>\n<type>file</type>\n<content>\n1: import { ORPCError } from \"@orpc/server\";\n2: import { hashPassword } from \"better-auth/crypto\";\n3: import { and, eq } from \"drizzle-orm\";\n4: import { alias } from \"drizzle-orm/pg-core\";\n5: import { z } from \"zod\";\n6: \n7: import { account, session, user } from \"@/db-schemas\";\n8: import { listPredefinedRoles } from \"@/lib/auth/access-control\";\n9: import { db } from \"@/lib/db/server\";\n10: import { Member_FormSchema as createUserSchema } from \"@/lib/form-schemas/auth\";\n11: import { protectedProcedure } from \"@/rpc/middleware\";\n12: import { validateNoCircularSupervisor } from \"@/services/supervisor-hierarchy-service\";\n13: \n14: const updateUserSchema = z.object({\n15:   banExpires: z\n16:     .string()\n17:     .datetime()\n18:     .optional()\n19:     .transform((v) => (v ? new Date(v) : null)),\n20:   banned: z.boolean().optional(),\n21:   banReason: z.string().optional(),\n22:   email: z.string().email().optional(),\n23:   name: z.string().optional(),\n24:   permissions: z.record(z.string(), z.array(z.string())).optional(),\n25:   role: z\n26:     .enum([\"admin\", \"bd\", \"rm\", \"sc\", \"tl\", \"caller\", \"qc\", \"custom\"])\n27:     .optional(),\n28:   supervisorId: z.string().optional(),\n29:   userId: z.string(),\n30: });\n31: \n32: const archiveUserSchema = z.object({\n33:   userId: z.string(),\n34: });\n35: \n36: const resetPasswordSchema = z.object({\n37:   newPassword: z.string().min(8),\n38:   userId: z.string(),\n39: });\n40: \n41: export const createUser = protectedProcedure\n42:   .meta({\n43:     permission: {\n44:       action: \"manage-roles\" as const,\n45:       resource: \"team_members\" as const,\n46:     },\n47:   })\n48:   .input(createUserSchema)\n49:   .handler(async ({ context, input }) => {\n50:     if (input.role === \"custom\") {\n51:       if (!input.permissions || Object.keys(input.permissions).length === 0) {\n52:         throw new ORPCError(\"BAD_REQUEST\", {\n53:           message: \"permissions must be non-empty when role is 'custom'\",\n54:         });\n55:       }\n56:     }\n57: \n58:     if (input.role !== \"admin\" && !input.supervisorId) {\n59:       throw new ORPCError(\"BAD_REQUEST\", {\n60:         message: \"Non-admin users must have a supervisor\",\n61:       });\n62:     }\n63: \n64:     if (input.role === \"admin\") {\n65:       input.supervisorId = undefined;\n66:     }\n67: \n68:     const normalizedEmail = input.email.toLowerCase();\n69: \n70:     const [existing] = await db\n71:       .select({ id: user.id })\n72:       .from(user)\n73:       .where(eq(user.email, normalizedEmail));\n74: \n75:     if (existing) {\n76:       throw new ORPCError(\"CONFLICT\", {\n77:         message: \"A user with this email already exists\",\n78:       });\n79:     }\n80: \n81:     const id = crypto.randomUUID();\n82: \n83:     if (input.supervisorId) {\n84:       const [supervisor] = await db\n85:         .select({ id: user.id })\n86:         .from(user)\n87:         .where(eq(user.id, input.supervisorId));\n88: \n89:       if (!supervisor) {\n90:         throw new ORPCError(\"BAD_REQUEST\", {\n91:           message: \"Supervisor not found\",\n92:         });\n93:       }\n94: \n95:       await validateNoCircularSupervisor(\n96:         id,\n97:         input.supervisorId,\n98:         context.subordinateCache,\n99:       );\n100:     }\n101: \n102:     await db.insert(user).values({\n103:       email: normalizedEmail,\n104:       id,\n105:       name: input.name,\n106:       permissions: input.role === \"custom\" ? input.permissions : null,\n107:       role: input.role,\n108:       supervisorId: input.supervisorId ?? null,\n109:     });\n110: \n111:     const hashedPassword = await hashPassword(input.password);\n112:     await db.insert(account).values({\n113:       accountId: id,\n114:       id: crypto.randomUUID(),\n115:       password: hashedPassword,\n116:       providerId: \"credential\",\n117:       userId: id,\n118:     });\n119: \n120:     return { id };\n121:   });\n122: \n123: export const updateUser = protectedProcedure\n124:   .meta({\n125:     permission: {\n126:       action: \"manage-roles\" as const,\n127:       resource: \"team_members\" as const,\n128:     },\n129:   })\n130:   .input(updateUserSchema)\n131:   .handler(async ({ context, input }) => {\n132:     const {\n133:       userId,\n134:       role,\n135:       permissions,\n136:       banned,\n137:       banReason,\n138:       banExpires,\n139:       name,\n140:       email,\n141:       supervisorId,\n142:     } = input;\n143: \n144:     if (role === \"custom\") {\n145:       if (!permissions || Object.keys(permissions).length === 0) {\n146:         throw new ORPCError(\"BAD_REQUEST\", {\n147:           message: \"permissions must be non-empty when role is 'custom'\",\n148:         });\n149:       }\n150:     }\n151: \n152:     const [existing] = await db\n153:       .select({ role: user.role, supervisorId: user.supervisorId })\n154:       .from(user)\n155:       .where(eq(user.id, userId));\n156: \n157:     if (!existing) {\n158:       throw new ORPCError(\"NOT_FOUND\", { message: \"User not found\" });\n159:     }\n160: \n161:     const effectiveRole = role ?? existing.role;\n162:     const effectiveSupervisorId =\n163:       supervisorId !== undefined ? supervisorId : existing.supervisorId;\n164: \n165:     if (effectiveRole !== \"admin\" && !effectiveSupervisorId) {\n166:       throw new ORPCError(\"BAD_REQUEST\", {\n167:         message: \"Non-admin users must have a supervisor\",\n168:       });\n169:     }\n170: \n171:     if (supervisorId) {\n172:       const [supervisor] = await db\n173:         .select({ id: user.id })\n174:         .from(user)\n175:         .where(eq(user.id, supervisorId));\n176: \n177:       if (!supervisor) {\n178:         throw new ORPCError(\"BAD_REQUEST\", {\n179:           message: \"Supervisor not found\",\n180:         });\n181:       }\n182: \n183:       await validateNoCircularSupervisor(\n184:         userId,\n185:         supervisorId,\n186:         context.subordinateCache,\n187:       );\n188:     }\n189: \n190:     const updateData: Partial<typeof user.$inferInsert> = {};\n191: \n192:     if (role !== undefined) {\n193:       updateData.role = role;\n194:     }\n195: \n196:     if (banned === true) {\n197:       updateData.banned = true;\n198:       updateData.banReason = banReason ?? null;\n199:       updateData.banExpires = banExpires ?? null;\n200:     } else if (banned === false) {\n201:       updateData.banned = false;\n202:       updateData.banReason = null;\n203:       updateData.banExpires = null;\n204:     }\n205: \n206:     if (permissions !== undefined) {\n207:       updateData.permissions =\n208:         role === \"custom\" || (role === undefined && permissions)\n209:           ? permissions\n210:           : null;\n211:     }\n212:     if (name !== undefined) updateData.name = name;\n213:     if (email !== undefined) updateData.email = email;\n214: \n215:     if (supervisorId !== undefined) {\n216:       updateData.supervisorId = supervisorId;\n217:     }\n218: \n219:     if (Object.keys(updateData).length > 0) {\n220:       await db.update(user).set(updateData).where(eq(user.id, userId));\n221:     }\n222: \n223:     if (banned === true) {\n224:       await db.delete(session).where(eq(session.userId, userId));\n225:     }\n226: \n227:     if (role !== undefined || permissions !== undefined) {\n228:       await db.delete(session).where(eq(session.userId, userId));\n229:     }\n230: \n231:     return { success: true };\n232:   });\n233: \n234: export const listUsers = protectedProcedure\n235:   .meta({\n236:     permission: {\n237:       action: \"manage-roles\" as const,\n238:       resource: \"team_members\" as const,\n239:     },\n240:   })\n241:   .handler(async () => {\n242:     const supervisor = alias(user, \"supervisor\");\n243: \n244:     const users = await db\n245:       .select({\n246:         banExpires: user.banExpires,\n247:         banned: user.banned,\n248:         banReason: user.banReason,\n249:         createdAt: user.createdAt,\n250:         email: user.email,\n251:         id: user.id,\n252:         image: user.image,\n253:         name: user.name,\n254:         permissions: user.permissions,\n255:         phoneNumber: user.phoneNumber,\n256:         role: user.role,\n257:         supervisorId: user.supervisorId,\n258:         supervisorName: supervisor.name,\n259:       })\n260:       .from(user)\n261:       .leftJoin(supervisor, eq(user.supervisorId, supervisor.id));\n262: \n263:     return users;\n264:   });\n265: \n266: export const archiveUser = protectedProcedure\n267:   .meta({\n268:     permission: {\n269:       action: \"archive\" as const,\n270:       resource: \"team_members\" as const,\n271:     },\n272:   })\n273:   .input(archiveUserSchema)\n274:   .handler(async ({ input }) => {\n275:     await db\n276:       .update(user)\n277:       .set({ banned: true, banReason: \"Archived by admin\" })\n278:       .where(eq(user.id, input.userId));\n279:     return { success: true };\n280:   });\n281: \n282: export const listRoles = protectedProcedure\n283:   .meta({\n284:     permission: {\n285:       action: \"manage-roles\" as const,\n286:       resource: \"team_members\" as const,\n287:     },\n288:   })\n289:   .handler(async () => {\n290:     return listPredefinedRoles();\n291:   });\n292: \n293: export const resetPassword = protectedProcedure\n294:   .meta({\n295:     permission: {\n296:       action: \"manage-roles\" as const,\n297:       resource: \"team_members\" as const,\n298:     },\n299:   })\n300:   .input(resetPasswordSchema)\n301:   .handler(async ({ input }) => {\n302:     const hashedPassword = await hashPassword(input.newPassword);\n303:     await db\n304:       .update(account)\n305:       .set({ password: hashedPassword })\n306:       .where(\n307:         and(\n308:           eq(account.userId, input.userId),\n309:           eq(account.providerId, \"credential\"),\n310:         ),\n311:       );\n312:     return { success: true };\n313:   });\n\n(End of file - total 313 lines)\n</content>",
+            "metadata": {
+              "preview": "import { ORPCError } from \"@orpc/server\";\nimport { hashPassword } from \"better-auth/crypto\";\nimport { and, eq } from \"drizzle-orm\";\nimport { alias } from \"drizzle-orm/pg-core\";\nimport { z } from \"zod\";\n\nimport { account, session, user } from \"@/db-schemas\";\nimport { listPredefinedRoles } from \"@/lib/auth/access-control\";\nimport { db } from \"@/lib/db/server\";\nimport { Member_FormSchema as createUserSchema } from \"@/lib/form-schemas/auth\";\nimport { protectedProcedure } from \"@/rpc/middleware\";\nimport { validateNoCircularSupervisor } from \"@/services/supervisor-hierarchy-service\";\n\nconst updateUserSchema = z.object({\n  banExpires: z\n    .string()\n    .datetime()\n    .optional()\n    .transform((v) => (v ? new Date(v) : null)),\n  banned: z.boolean().optional(),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/admin.ts",
+            "time": {
+              "start": 1779462301069,
+              "end": 1779462301207
+            }
+          },
+          "id": "prt_e5037e4f30017qHRyHqJchxu4P",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_401c17a22e12476abd239429",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts",
+              "offset": 110,
+              "limit": 20
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts</path>\n<type>file</type>\n<content>\n110:     return listClientEvents(input.clientId, input.cursor, input.limit ?? 50);\n111:   });\n112: \n113: export const clientGetUploadUrl = protectedProcedure\n114:   .meta({ permission: { action: \"create\", resource: \"clients\" } })\n115:   .input(getUploadUrlSchema)\n116:   .handler(async ({ input }) => {\n117:     const key = `clients/${crypto.randomUUID()}/${input.filename}`;\n118:     const url = await getPresignedUploadUrl(key, input.contentType);\n119:     return { key, publicUrl: getR2PublicUrl(key), url };\n120:   });\n\n(End of file - total 120 lines)\n</content>",
+            "metadata": {
+              "preview": "    return listClientEvents(input.clientId, input.cursor, input.limit ?? 50);\n  });\n\nexport const clientGetUploadUrl = protectedProcedure\n  .meta({ permission: { action: \"create\", resource: \"clients\" } })\n  .input(getUploadUrlSchema)\n  .handler(async ({ input }) => {\n    const key = `clients/${crypto.randomUUID()}/${input.filename}`;\n    const url = await getPresignedUploadUrl(key, input.contentType);\n    return { key, publicUrl: getR2PublicUrl(key), url };\n  });",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/client.ts",
+            "time": {
+              "start": 1779462301231,
+              "end": 1779462301369
+            }
+          },
+          "id": "prt_e5037e59b001ahGpl4MYoX3NcJ",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_88ac1ee134424947ba25fcd5",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.ts",
+              "path": "/home/aditya/projects/alpauls-ats/src/db-schemas",
+              "pattern": "nanoid|uuid|crypto|generateId|createId|\\$defaultFn"
+            },
+            "output": "No files found",
+            "metadata": {
+              "matches": 0,
+              "truncated": false
+            },
+            "title": "nanoid|uuid|crypto|generateId|createId|\\$defaultFn",
+            "time": {
+              "start": 1779462301559,
+              "end": 1779462301641
+            }
+          },
+          "id": "prt_e5037e643001PziCj6tqsl5GS9",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-finish",
+          "tokens": {
+            "total": 7039,
+            "input": 1494,
+            "output": 129,
+            "reasoning": 104,
+            "cache": {
+              "write": 0,
+              "read": 5312
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5037e82b001amgh0Z1F9KBXVv",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037ddac001ddz8X6O6Syv2Ed"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 10093,
+          "input": 3003,
+          "output": 89,
+          "reasoning": 25,
+          "cache": {
+            "write": 0,
+            "read": 6976
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462301831,
+          "completed": 1779462303668
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5037e887001GDQgeNA38D528a",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e5037ecf500126j1OlFQ0iSM34",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037e887001GDQgeNA38D528a"
+        },
+        {
+          "type": "reasoning",
+          "text": "Let me also check the database schemas for ID generation patterns - specifically looking for `$defaultFn` or default value definitions.",
+          "time": {
+            "start": 1779462302967,
+            "end": 1779462303126
+          },
+          "id": "prt_e5037ecf70011RGllZk0ehNBx0",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037e887001GDQgeNA38D528a"
+        },
+        {
+          "type": "text",
+          "text": "Let me also check the DB schemas for default ID generation patterns:",
+          "time": {
+            "start": 1779462303131,
+            "end": 1779462303554
+          },
+          "id": "prt_e5037ed9b001vHuJs5SsevIQLx",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037e887001GDQgeNA38D528a"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_176a602a934341ac9a6abb9e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/db-schemas/**/*.ts",
+              "path": "/home/aditya/projects/alpauls-ats"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/db-schemas/filter-view.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/index.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/client-contract.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/client.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/prospect-mandate.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/notification.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/reminder.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/auth.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/prospect.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/task.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/job-mandate.ts",
+            "metadata": {
+              "count": 11,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779462303325,
+              "end": 1779462303380
+            }
+          },
+          "id": "prt_e5037edfb001BTdRetcKU8wcIt",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037e887001GDQgeNA38D528a"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_f90b6bcae4b64181bcee45c1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.ts",
+              "path": "/home/aditya/projects/alpauls-ats/src",
+              "pattern": "\\$defaultFn|genRandomUUID|generateUUID|randomUUID"
+            },
+            "output": "Found 3 matches\n/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts:\n  Line 117:     const key = `clients/${crypto.randomUUID()}/${input.filename}`;\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts:\n  Line 81:     const id = crypto.randomUUID();\n\n  Line 114:       id: crypto.randomUUID(),\n",
+            "metadata": {
+              "matches": 3,
+              "truncated": false
+            },
+            "title": "\\$defaultFn|genRandomUUID|generateUUID|randomUUID",
+            "time": {
+              "start": 1779462303551,
+              "end": 1779462303585
+            }
+          },
+          "id": "prt_e5037ee6c00110QInWeceg5HTT",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037e887001GDQgeNA38D528a"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-finish",
+          "tokens": {
+            "total": 10093,
+            "input": 3003,
+            "output": 89,
+            "reasoning": 25,
+            "cache": {
+              "write": 0,
+              "read": 6976
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5037ef8e001p243Sub944Rbh7",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037e887001GDQgeNA38D528a"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 10627,
+          "input": 344,
+          "output": 205,
+          "reasoning": 30,
+          "cache": {
+            "write": 0,
+            "read": 10048
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462303675,
+          "completed": 1779462306681
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5037efbb001nuUi74ZkORN4ne",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e5037f4c3001f8N4QDZqZvz964",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "reasoning",
+          "text": "No `$defaultFn` or `genRandomUUID` in the schemas. Let me read the DB schemas to see how IDs are defined there.",
+          "time": {
+            "start": 1779462304965,
+            "end": 1779462305359
+          },
+          "id": "prt_e5037f4c5001yp8YQUoYF6WM24",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_f7bd6dc3f49a4d29aea3cae0",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/task.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/task.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   integer,\n5:   pgEnum,\n6:   pgTable,\n7:   serial,\n8:   text,\n9:   timestamp,\n10:   uniqueIndex,\n11: } from \"drizzle-orm/pg-core\";\n12: \n13: import { user } from \"./auth\";\n14: \n15: export const taskStatusEnum = pgEnum(\"task_status\", [\n16:   \"todo\",\n17:   \"in_progress\",\n18:   \"done\",\n19: ]);\n20: \n21: export const tasks = pgTable(\n22:   \"tasks\",\n23:   {\n24:     archived: boolean(\"archived\").notNull().default(false),\n25:     assigneeId: text(\"assignee_id\")\n26:       .notNull()\n27:       .references(() => user.id),\n28:     createdAt: timestamp(\"created_at\").defaultNow(),\n29:     createdBy: text(\"created_by\")\n30:       .notNull()\n31:       .references(() => user.id),\n32:     deadline: text(\"deadline\"),\n33:     description: text(),\n34:     id: serial().primaryKey(),\n35:     startDate: text(\"start_date\"),\n36:     status: taskStatusEnum(\"status\").notNull().default(\"todo\"),\n37:     title: text().notNull(),\n38:     updatedAt: timestamp(\"updated_at\").defaultNow(),\n39:   },\n40:   (table) => [\n41:     index(\"tasks_assignee_id_idx\").on(table.assigneeId),\n42:     index(\"tasks_status_idx\").on(table.status),\n43:     index(\"tasks_deadline_idx\").on(table.deadline),\n44:   ],\n45: );\n46: \n47: export const taskLinks = pgTable(\n48:   \"task_links\",\n49:   {\n50:     entityId: text(\"entity_id\").notNull(),\n51:     entityType: text(\"entity_type\").notNull(),\n52:     id: serial().primaryKey(),\n53:     taskId: integer(\"task_id\")\n54:       .notNull()\n55:       .references(() => tasks.id, { onDelete: \"cascade\" }),\n56:   },\n57:   (table) => [\n58:     uniqueIndex(\"task_links_unique_idx\").on(\n59:       table.taskId,\n60:       table.entityType,\n61:       table.entityId,\n62:     ),\n63:   ],\n64: );\n65: \n66: export const taskEvents = pgTable(\n67:   \"task_events\",\n68:   {\n69:     changedAt: timestamp(\"changed_at\").defaultNow(),\n70:     changedBy: text(\"changed_by\")\n71:       .notNull()\n72:       .references(() => user.id),\n73:     field: text(\"field\").notNull(),\n74:     id: serial().primaryKey(),\n75:     newValue: text(\"new_value\"),\n76:     oldValue: text(\"old_value\"),\n77:     taskId: integer(\"task_id\")\n78:       .notNull()\n79:       .references(() => tasks.id, { onDelete: \"cascade\" }),\n80:   },\n81:   (table) => [index(\"task_events_task_id_idx\").on(table.taskId)],\n82: );\n\n(End of file - total 82 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  integer,\n  pgEnum,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n  uniqueIndex,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\n\nexport const taskStatusEnum = pgEnum(\"task_status\", [\n  \"todo\",\n  \"in_progress\",\n  \"done\",\n]);\n",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/task.ts",
+            "time": {
+              "start": 1779462305373,
+              "end": 1779462305397
+            }
+          },
+          "id": "prt_e5037f652001NQGa8TvV9xWXlC",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_4d7f21d0005e40cca24754ed",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/client.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/client.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   integer,\n5:   jsonb,\n6:   pgTable,\n7:   serial,\n8:   text,\n9:   timestamp,\n10: } from \"drizzle-orm/pg-core\";\n11: \n12: import { user } from \"./auth\";\n13: \n14: export type ClientLocation = {\n15:   city: string;\n16:   country: string;\n17: };\n18: \n19: export const clients = pgTable(\n20:   \"clients\",\n21:   {\n22:     archived: boolean(\"archived\").notNull().default(false),\n23:     assigneeId: text(\"assignee_id\")\n24:       .notNull()\n25:       .references(() => user.id),\n26:     createdAt: timestamp(\"created_at\").defaultNow(),\n27:     description: text(),\n28:     id: serial().primaryKey(),\n29:     internalNotes: text(\"internal_notes\"),\n30:     legalName: text(\"legal_name\"),\n31:     locations: jsonb(\"locations\").$type<ClientLocation[]>().default([]),\n32:     logo: text(\"logo\"),\n33:     name: text().notNull(),\n34:     slug: text(\"slug\").notNull().unique(),\n35:     updatedAt: timestamp(\"updated_at\").defaultNow(),\n36:   },\n37:   (table) => [\n38:     index(\"clients_assignee_id_idx\").on(table.assigneeId),\n39:     index(\"clients_archived_idx\").on(table.archived),\n40:     index(\"clients_slug_idx\").on(table.slug),\n41:   ],\n42: );\n43: \n44: export const clientEvents = pgTable(\n45:   \"client_events\",\n46:   {\n47:     changedAt: timestamp(\"changed_at\").defaultNow(),\n48:     changedBy: text(\"changed_by\")\n49:       .notNull()\n50:       .references(() => user.id),\n51:     clientId: integer(\"client_id\")\n52:       .notNull()\n53:       .references(() => clients.id, { onDelete: \"cascade\" }),\n54:     field: text(\"field\").notNull(),\n55:     id: serial().primaryKey(),\n56:     newValue: text(\"new_value\"),\n57:     oldValue: text(\"old_value\"),\n58:   },\n59:   (table) => [index(\"client_events_client_id_idx\").on(table.clientId)],\n60: );\n\n(End of file - total 60 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  integer,\n  jsonb,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\n\nexport type ClientLocation = {\n  city: string;\n  country: string;\n};\n\nexport const clients = pgTable(\n  \"clients\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/client.ts",
+            "time": {
+              "start": 1779462305580,
+              "end": 1779462305663
+            }
+          },
+          "id": "prt_e5037f660001LTW4JNnYXOOOCX",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_a9f1886f008d4f4184d32b76",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/reminder.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/reminder.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   integer,\n5:   pgTable,\n6:   serial,\n7:   text,\n8:   timestamp,\n9: } from \"drizzle-orm/pg-core\";\n10: \n11: import { user } from \"./auth\";\n12: import { tasks } from \"./task\";\n13: \n14: export const reminders = pgTable(\n15:   \"reminders\",\n16:   {\n17:     archived: boolean(\"archived\").notNull().default(false),\n18:     createdAt: timestamp(\"created_at\").defaultNow(),\n19:     id: serial().primaryKey(),\n20:     offsetMinutes: integer(\"offset_minutes\"),\n21:     taskId: integer(\"task_id\").references(() => tasks.id, {\n22:       onDelete: \"cascade\",\n23:     }),\n24:     triggerAt: timestamp(\"trigger_at\", {\n25:       withTimezone: true,\n26:     }).notNull(),\n27:     userId: text(\"user_id\")\n28:       .notNull()\n29:       .references(() => user.id),\n30:   },\n31:   (table) => [\n32:     index(\"reminders_trigger_at_idx\").on(table.triggerAt),\n33:     index(\"reminders_task_id_idx\").on(table.taskId),\n34:   ],\n35: );\n\n(End of file - total 35 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  integer,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\nimport { tasks } from \"./task\";\n\nexport const reminders = pgTable(\n  \"reminders\",\n  {\n    archived: boolean(\"archived\").notNull().default(false),\n    createdAt: timestamp(\"created_at\").defaultNow(),\n    id: serial().primaryKey(),\n    offsetMinutes: integer(\"offset_minutes\"),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/reminder.ts",
+            "time": {
+              "start": 1779462305751,
+              "end": 1779462305885
+            }
+          },
+          "id": "prt_e5037f757001Tnw9i3PxXVhIOh",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_f5b92599668e47ef8b2d4fd1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/notification.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/notification.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   pgEnum,\n5:   pgTable,\n6:   serial,\n7:   text,\n8:   timestamp,\n9: } from \"drizzle-orm/pg-core\";\n10: \n11: import { user } from \"./auth\";\n12: \n13: export const notificationTypeEnum = pgEnum(\"notification_type\", [\n14:   \"task_assigned\",\n15:   \"task_status_changed\",\n16:   \"task_deadline_approaching\",\n17:   \"reminder_triggered\",\n18:   \"mandate_assigned\",\n19:   \"mandate_completed\",\n20:   \"mandate_stage_changed\",\n21:   \"prospect_stage_changed\",\n22:   \"prospect_hired\",\n23:   \"client_created\",\n24:   \"contract_created\",\n25:   \"contract_assigned\",\n26:   \"system\",\n27: ]);\n28: \n29: export const notifications = pgTable(\n30:   \"notifications\",\n31:   {\n32:     archived: boolean(\"archived\").notNull().default(false),\n33:     body: text(),\n34:     createdAt: timestamp(\"created_at\").defaultNow(),\n35:     entityId: text(\"entity_id\"),\n36:     entityType: text(\"entity_type\"),\n37:     id: serial().primaryKey(),\n38:     readAt: timestamp(\"read_at\", { withTimezone: true }),\n39:     title: text().notNull(),\n40:     type: notificationTypeEnum(\"type\").notNull(),\n41:     userId: text(\"user_id\")\n42:       .notNull()\n43:       .references(() => user.id),\n44:   },\n45:   (table) => [\n46:     index(\"notifications_user_id_idx\").on(table.userId),\n47:     index(\"notifications_read_at_idx\").on(table.readAt),\n48:     index(\"notifications_entity_idx\").on(table.entityType, table.entityId),\n49:   ],\n50: );\n\n(End of file - total 50 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  pgEnum,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\n\nexport const notificationTypeEnum = pgEnum(\"notification_type\", [\n  \"task_assigned\",\n  \"task_status_changed\",\n  \"task_deadline_approaching\",\n  \"reminder_triggered\",\n  \"mandate_assigned\",\n  \"mandate_completed\",\n  \"mandate_stage_changed\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/notification.ts",
+            "time": {
+              "start": 1779462305892,
+              "end": 1779462306067
+            }
+          },
+          "id": "prt_e5037f7df001E3nGC74HrpMRB8",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_bf8d6e6083b648ed9143de7e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/auth.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/auth.ts</path>\n<type>file</type>\n<content>\n1: import { relations } from \"drizzle-orm\";\n2: import {\n3:   boolean,\n4:   foreignKey,\n5:   index,\n6:   jsonb,\n7:   pgTable,\n8:   text,\n9:   timestamp,\n10: } from \"drizzle-orm/pg-core\";\n11: \n12: import type { PermissionSet } from \"@/lib/auth/access-control\";\n13: \n14: export const user = pgTable(\n15:   \"user\",\n16:   {\n17:     banExpires: timestamp(\"ban_expires\"),\n18:     banned: boolean(\"banned\").default(false),\n19:     banReason: text(\"ban_reason\"),\n20:     createdAt: timestamp(\"created_at\").defaultNow().notNull(),\n21:     email: text(\"email\").notNull().unique(),\n22:     emailVerified: boolean(\"email_verified\").default(false).notNull(),\n23:     id: text(\"id\").primaryKey(),\n24:     image: text(\"image\"),\n25:     name: text(\"name\").notNull(),\n26:     permissions: jsonb(\"permissions\").$type<PermissionSet>(),\n27:     phoneNumber: text(\"phone_number\").unique(),\n28:     phoneNumberVerified: boolean(\"phone_number_verified\"),\n29:     role: text(\"role\"),\n30:     supervisorId: text(\"supervisor_id\"),\n31:     updatedAt: timestamp(\"updated_at\")\n32:       .defaultNow()\n33:       .$onUpdate(() => /* @__PURE__ */ new Date())\n34:       .notNull(),\n35:   },\n36:   (table) => [\n37:     foreignKey({\n38:       columns: [table.supervisorId],\n39:       foreignColumns: [table.id],\n40:       name: \"user_supervisor_id_fkey\",\n41:     }).onDelete(\"set null\"),\n42:   ],\n43: );\n44: \n45: export const session = pgTable(\n46:   \"session\",\n47:   {\n48:     createdAt: timestamp(\"created_at\").defaultNow().notNull(),\n49:     expiresAt: timestamp(\"expires_at\").notNull(),\n50:     id: text(\"id\").primaryKey(),\n51:     impersonatedBy: text(\"impersonated_by\"),\n52:     ipAddress: text(\"ip_address\"),\n53:     token: text(\"token\").notNull().unique(),\n54:     updatedAt: timestamp(\"updated_at\")\n55:       .$onUpdate(() => /* @__PURE__ */ new Date())\n56:       .notNull(),\n57:     userAgent: text(\"user_agent\"),\n58:     userId: text(\"user_id\")\n59:       .notNull()\n60:       .references(() => user.id, { onDelete: \"cascade\" }),\n61:   },\n62:   (table) => [index(\"session_userId_idx\").on(table.userId)],\n63: );\n64: \n65: export const account = pgTable(\n66:   \"account\",\n67:   {\n68:     accessToken: text(\"access_token\"),\n69:     accessTokenExpiresAt: timestamp(\"access_token_expires_at\"),\n70:     accountId: text(\"account_id\").notNull(),\n71:     createdAt: timestamp(\"created_at\").defaultNow().notNull(),\n72:     id: text(\"id\").primaryKey(),\n73:     idToken: text(\"id_token\"),\n74:     password: text(\"password\"),\n75:     providerId: text(\"provider_id\").notNull(),\n76:     refreshToken: text(\"refresh_token\"),\n77:     refreshTokenExpiresAt: timestamp(\"refresh_token_expires_at\"),\n78:     scope: text(\"scope\"),\n79:     updatedAt: timestamp(\"updated_at\")\n80:       .$onUpdate(() => /* @__PURE__ */ new Date())\n81:       .notNull(),\n82:     userId: text(\"user_id\")\n83:       .notNull()\n84:       .references(() => user.id, { onDelete: \"cascade\" }),\n85:   },\n86:   (table) => [index(\"account_userId_idx\").on(table.userId)],\n87: );\n88: \n89: export const verification = pgTable(\n90:   \"verification\",\n91:   {\n92:     createdAt: timestamp(\"created_at\").defaultNow().notNull(),\n93:     expiresAt: timestamp(\"expires_at\").notNull(),\n94:     id: text(\"id\").primaryKey(),\n95:     identifier: text(\"identifier\").notNull(),\n96:     updatedAt: timestamp(\"updated_at\")\n97:       .defaultNow()\n98:       .$onUpdate(() => /* @__PURE__ */ new Date())\n99:       .notNull(),\n100:     value: text(\"value\").notNull(),\n101:   },\n102:   (table) => [index(\"verification_identifier_idx\").on(table.identifier)],\n103: );\n104: \n105: export const userRelations = relations(user, ({ many, one }) => ({\n106:   accounts: many(account),\n107:   sessions: many(session),\n108:   subordinates: many(user, {\n109:     relationName: \"supervisor\",\n110:   }),\n111:   supervisor: one(user, {\n112:     fields: [user.supervisorId],\n113:     references: [user.id],\n114:     relationName: \"supervisor\",\n115:   }),\n116: }));\n117: \n118: export const sessionRelations = relations(session, ({ one }) => ({\n119:   user: one(user, {\n120:     fields: [session.userId],\n121:     references: [user.id],\n122:   }),\n123: }));\n124: \n125: export const accountRelations = relations(account, ({ one }) => ({\n126:   user: one(user, {\n127:     fields: [account.userId],\n128:     references: [user.id],\n129:   }),\n130: }));\n\n(End of file - total 130 lines)\n</content>",
+            "metadata": {
+              "preview": "import { relations } from \"drizzle-orm\";\nimport {\n  boolean,\n  foreignKey,\n  index,\n  jsonb,\n  pgTable,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport type { PermissionSet } from \"@/lib/auth/access-control\";\n\nexport const user = pgTable(\n  \"user\",\n  {\n    banExpires: timestamp(\"ban_expires\"),\n    banned: boolean(\"banned\").default(false),\n    banReason: text(\"ban_reason\"),\n    createdAt: timestamp(\"created_at\").defaultNow().notNull(),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/auth.ts",
+            "time": {
+              "start": 1779462306016,
+              "end": 1779462306111
+            }
+          },
+          "id": "prt_e5037f872001I4jorEw8oMLljn",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_6536ccedb5064ed1bcbb8fc9",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/client-contract.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/client-contract.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   integer,\n5:   pgEnum,\n6:   pgTable,\n7:   serial,\n8:   text,\n9:   timestamp,\n10: } from \"drizzle-orm/pg-core\";\n11: \n12: import { user } from \"./auth\";\n13: import { clients } from \"./client\";\n14: \n15: export const contractStatusEnum = pgEnum(\"contract_status\", [\n16:   \"active\",\n17:   \"inactive\",\n18: ]);\n19: \n20: export const clientContracts = pgTable(\n21:   \"client_contracts\",\n22:   {\n23:     archived: boolean(\"archived\").notNull().default(false),\n24:     assigneeId: text(\"assignee_id\")\n25:       .notNull()\n26:       .references(() => user.id),\n27:     clientId: integer(\"client_id\")\n28:       .notNull()\n29:       .references(() => clients.id, { onDelete: \"cascade\" }),\n30:     createdAt: timestamp(\"created_at\").defaultNow(),\n31:     description: text(),\n32:     endDate: text(\"end_date\"),\n33:     id: serial().primaryKey(),\n34:     pdfLink: text(\"pdf_link\"),\n35:     referenceNumber: text(\"reference_number\"),\n36:     rmId: text(\"rm_id\").references(() => user.id),\n37:     signedDate: text(\"signed_date\"),\n38:     startDate: text(\"start_date\"),\n39:     status: contractStatusEnum(\"status\").notNull().default(\"active\"),\n40:     title: text().notNull(),\n41:     updatedAt: timestamp(\"updated_at\").defaultNow(),\n42:   },\n43:   (table) => [\n44:     index(\"client_contracts_client_id_idx\").on(table.clientId),\n45:     index(\"client_contracts_assignee_id_idx\").on(table.assigneeId),\n46:     index(\"client_contracts_rm_id_idx\").on(table.rmId),\n47:     index(\"client_contracts_archived_idx\").on(table.archived),\n48:     index(\"client_contracts_status_idx\").on(table.status),\n49:   ],\n50: );\n51: \n52: export const contractEvents = pgTable(\n53:   \"contract_events\",\n54:   {\n55:     changedAt: timestamp(\"changed_at\").defaultNow(),\n56:     changedBy: text(\"changed_by\")\n57:       .notNull()\n58:       .references(() => user.id),\n59:     contractId: integer(\"contract_id\")\n60:       .notNull()\n61:       .references(() => clientContracts.id, { onDelete: \"cascade\" }),\n62:     field: text(\"field\").notNull(),\n63:     id: serial().primaryKey(),\n64:     newValue: text(\"new_value\"),\n65:     oldValue: text(\"old_value\"),\n66:   },\n67:   (table) => [index(\"contract_events_contract_id_idx\").on(table.contractId)],\n68: );\n\n(End of file - total 68 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  integer,\n  pgEnum,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\nimport { clients } from \"./client\";\n\nexport const contractStatusEnum = pgEnum(\"contract_status\", [\n  \"active\",\n  \"inactive\",\n]);\n\nexport const clientContracts = pgTable(",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/client-contract.ts",
+            "time": {
+              "start": 1779462306150,
+              "end": 1779462306185
+            }
+          },
+          "id": "prt_e5037f8eb001mURIde69H5CXza",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_9b2a7acb8aaa4a47a46061a0",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/prospect.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/prospect.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   integer,\n5:   pgTable,\n6:   serial,\n7:   text,\n8:   timestamp,\n9: } from \"drizzle-orm/pg-core\";\n10: \n11: import { user } from \"./auth\";\n12: \n13: export const prospects = pgTable(\n14:   \"prospects\",\n15:   {\n16:     archived: boolean(\"archived\").notNull().default(false),\n17:     createdAt: timestamp(\"created_at\").defaultNow(),\n18:     description: text(),\n19:     email: text(),\n20:     id: serial().primaryKey(),\n21:     name: text().notNull(),\n22:     phone: text().notNull(),\n23:     updatedAt: timestamp(\"updated_at\").defaultNow(),\n24:   },\n25:   (table) => [\n26:     index(\"prospects_phone_idx\").on(table.phone),\n27:     index(\"prospects_archived_idx\").on(table.archived),\n28:   ],\n29: );\n30: \n31: export const prospectEvents = pgTable(\n32:   \"prospect_events\",\n33:   {\n34:     changedAt: timestamp(\"changed_at\").defaultNow(),\n35:     changedBy: text(\"changed_by\")\n36:       .notNull()\n37:       .references(() => user.id),\n38:     field: text(\"field\").notNull(),\n39:     id: serial().primaryKey(),\n40:     newValue: text(\"new_value\"),\n41:     oldValue: text(\"old_value\"),\n42:     prospectId: integer(\"prospect_id\")\n43:       .notNull()\n44:       .references(() => prospects.id, { onDelete: \"cascade\" }),\n45:   },\n46:   (table) => [index(\"prospect_events_prospect_id_idx\").on(table.prospectId)],\n47: );\n\n(End of file - total 47 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  integer,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\n\nexport const prospects = pgTable(\n  \"prospects\",\n  {\n    archived: boolean(\"archived\").notNull().default(false),\n    createdAt: timestamp(\"created_at\").defaultNow(),\n    description: text(),\n    email: text(),\n    id: serial().primaryKey(),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/prospect.ts",
+            "time": {
+              "start": 1779462306318,
+              "end": 1779462306450
+            }
+          },
+          "id": "prt_e5037f979001hoOwmAiIhF67SG",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_a3bb0208e5f94c2980e8ab9d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/index.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/index.ts</path>\n<type>file</type>\n<content>\n1: export * from \"./auth\";\n2: export * from \"./client\";\n3: export * from \"./client-contract\";\n4: export * from \"./filter-view\";\n5: export * from \"./job-mandate\";\n6: export * from \"./notification\";\n7: export * from \"./prospect\";\n8: export * from \"./prospect-mandate\";\n9: export * from \"./reminder\";\n10: export * from \"./task\";\n\n(End of file - total 10 lines)\n</content>",
+            "metadata": {
+              "preview": "export * from \"./auth\";\nexport * from \"./client\";\nexport * from \"./client-contract\";\nexport * from \"./filter-view\";\nexport * from \"./job-mandate\";\nexport * from \"./notification\";\nexport * from \"./prospect\";\nexport * from \"./prospect-mandate\";\nexport * from \"./reminder\";\nexport * from \"./task\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/index.ts",
+            "time": {
+              "start": 1779462306440,
+              "end": 1779462306494
+            }
+          },
+          "id": "prt_e5037fa13001YTVlfbtqCHAp44",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-finish",
+          "tokens": {
+            "total": 10627,
+            "input": 344,
+            "output": 205,
+            "reasoning": 30,
+            "cache": {
+              "write": 0,
+              "read": 10048
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5037fb4e0018EWil0XJStxumd",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037efbb001nuUi74ZkORN4ne"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 15395,
+          "input": 4607,
+          "output": 145,
+          "reasoning": 19,
+          "cache": {
+            "write": 0,
+            "read": 10624
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462306688,
+          "completed": 1779462313494
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5037fb80001ALiAke8mzjWipy",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e50380269001upzy7t2sPm6BNy",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also check the remaining schema files and the service layer for ID generation patterns.",
+          "time": {
+            "start": 1779462308460,
+            "end": 1779462308584
+          },
+          "id": "prt_e5038026c001jcgInIS9pS95vY",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "type": "text",
+          "text": "Let me also check the remaining schemas and service files for any ID generation patterns:",
+          "time": {
+            "start": 1779462308586,
+            "end": 1779462313407
+          },
+          "id": "prt_e503802ea001kIaMYfToIKGxTt",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_e3140ac9d05346deab8ec665",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/filter-view.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/filter-view.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   jsonb,\n5:   pgTable,\n6:   text,\n7:   timestamp,\n8: } from \"drizzle-orm/pg-core\";\n9: \n10: export type FilterViewDisplay = {\n11:   type: string;\n12:   groupBy: string | null;\n13:   orderBy: string;\n14:   orderType: string;\n15:   fields: string[];\n16: };\n17: \n18: export type FilterViewRefine = {\n19:   op: string;\n20:   field: string;\n21:   value: string;\n22: }[];\n23: \n24: export type FilterViewDomain = \"clients\" | \"prospects\";\n25: \n26: export const filterViews = pgTable(\n27:   \"filter_views\",\n28:   {\n29:     createdAt: timestamp(\"created_at\").defaultNow(),\n30:     display: jsonb(\"display\").$type<FilterViewDisplay>().notNull(),\n31:     domain: text().notNull().default(\"clients\"),\n32:     id: text().primaryKey(),\n33:     isSystemCreated: boolean(\"is_system_created\").notNull().default(true),\n34:     label: text().notNull(),\n35:     refine: jsonb(\"refine\").$type<FilterViewRefine>().notNull(),\n36:     updatedAt: timestamp(\"updated_at\").defaultNow(),\n37:   },\n38:   (table) => [index(\"filter_views_domain_idx\").on(table.domain)],\n39: );\n\n(End of file - total 39 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  jsonb,\n  pgTable,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nexport type FilterViewDisplay = {\n  type: string;\n  groupBy: string | null;\n  orderBy: string;\n  orderType: string;\n  fields: string[];\n};\n\nexport type FilterViewRefine = {\n  op: string;\n  field: string;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/filter-view.ts",
+            "time": {
+              "start": 1779462308861,
+              "end": 1779462308875
+            }
+          },
+          "id": "prt_e50380372002jvqbW6Q16BQTt4",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_64b8873cfcb54adcb3a1e1de",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/job-mandate.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/job-mandate.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   boolean,\n3:   index,\n4:   integer,\n5:   jsonb,\n6:   pgEnum,\n7:   pgTable,\n8:   serial,\n9:   text,\n10:   timestamp,\n11: } from \"drizzle-orm/pg-core\";\n12: \n13: import { user } from \"./auth\";\n14: import { clientContracts } from \"./client-contract\";\n15: \n16: export const mandateStatusEnum = pgEnum(\"mandate_status\", [\n17:   \"open\",\n18:   \"in_progress\",\n19:   \"hired\",\n20:   \"completed\",\n21:   \"cancelled\",\n22: ]);\n23: \n24: export type MandatePosition = {\n25:   location: string;\n26:   headcount: number;\n27: };\n28: \n29: export const jobMandates = pgTable(\n30:   \"job_mandates\",\n31:   {\n32:     archived: boolean(\"archived\").notNull().default(false),\n33:     assigneeId: text(\"assignee_id\")\n34:       .notNull()\n35:       .references(() => user.id),\n36:     clientContractId: integer(\"client_contract_id\")\n37:       .notNull()\n38:       .references(() => clientContracts.id, { onDelete: \"cascade\" }),\n39:     createdAt: timestamp(\"created_at\").defaultNow(),\n40:     description: text(),\n41:     id: serial().primaryKey(),\n42:     positions: jsonb(\"positions\").$type<MandatePosition[]>(),\n43:     status: mandateStatusEnum(\"status\").notNull().default(\"open\"),\n44:     title: text().notNull(),\n45:     updatedAt: timestamp(\"updated_at\").defaultNow(),\n46:   },\n47:   (table) => [\n48:     index(\"job_mandates_assignee_id_idx\").on(table.assigneeId),\n49:     index(\"job_mandates_client_contract_id_idx\").on(table.clientContractId),\n50:     index(\"job_mandates_status_idx\").on(table.status),\n51:     index(\"job_mandates_archived_idx\").on(table.archived),\n52:   ],\n53: );\n54: \n55: export const mandateEvents = pgTable(\n56:   \"mandate_events\",\n57:   {\n58:     changedAt: timestamp(\"changed_at\").defaultNow(),\n59:     changedBy: text(\"changed_by\")\n60:       .notNull()\n61:       .references(() => user.id),\n62:     field: text(\"field\").notNull(),\n63:     id: serial().primaryKey(),\n64:     mandateId: integer(\"mandate_id\")\n65:       .notNull()\n66:       .references(() => jobMandates.id, { onDelete: \"cascade\" }),\n67:     newValue: text(\"new_value\"),\n68:     oldValue: text(\"old_value\"),\n69:   },\n70:   (table) => [index(\"mandate_events_mandate_id_idx\").on(table.mandateId)],\n71: );\n\n(End of file - total 71 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  boolean,\n  index,\n  integer,\n  jsonb,\n  pgEnum,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\nimport { clientContracts } from \"./client-contract\";\n\nexport const mandateStatusEnum = pgEnum(\"mandate_status\", [\n  \"open\",\n  \"in_progress\",\n  \"hired\",\n  \"completed\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/job-mandate.ts",
+            "time": {
+              "start": 1779462312965,
+              "end": 1779462312987
+            }
+          },
+          "id": "prt_e503804010012f7ynUbCOSy2Xz",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_983dfdd1035c4e15b46da5e6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/db-schemas/prospect-mandate.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/db-schemas/prospect-mandate.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   index,\n3:   integer,\n4:   pgEnum,\n5:   pgTable,\n6:   serial,\n7:   text,\n8:   timestamp,\n9:   uniqueIndex,\n10: } from \"drizzle-orm/pg-core\";\n11: \n12: import { user } from \"./auth\";\n13: import { jobMandates } from \"./job-mandate\";\n14: import { prospects } from \"./prospect\";\n15: \n16: export const prospectStageEnum = pgEnum(\"prospect_stage\", [\n17:   \"prospect\",\n18:   \"applicant\",\n19:   \"candidate\",\n20:   \"hired\",\n21:   \"rejected\",\n22: ]);\n23: \n24: export const prospectMandates = pgTable(\n25:   \"prospect_mandates\",\n26:   {\n27:     createdAt: timestamp(\"created_at\").defaultNow(),\n28:     id: serial().primaryKey(),\n29:     mandateId: integer(\"mandate_id\")\n30:       .notNull()\n31:       .references(() => jobMandates.id, { onDelete: \"cascade\" }),\n32:     prospectId: integer(\"prospect_id\")\n33:       .notNull()\n34:       .references(() => prospects.id, { onDelete: \"cascade\" }),\n35:     reason: text(),\n36:     stage: prospectStageEnum(\"stage\").notNull().default(\"prospect\"),\n37:   },\n38:   (table) => [\n39:     uniqueIndex(\"prospect_mandates_unique_idx\").on(\n40:       table.prospectId,\n41:       table.mandateId,\n42:     ),\n43:     index(\"prospect_mandates_mandate_id_idx\").on(table.mandateId),\n44:     index(\"prospect_mandates_stage_idx\").on(table.stage),\n45:   ],\n46: );\n47: \n48: export const prospectMandateEvents = pgTable(\n49:   \"prospect_mandate_events\",\n50:   {\n51:     changedAt: timestamp(\"changed_at\").defaultNow(),\n52:     changedBy: text(\"changed_by\")\n53:       .notNull()\n54:       .references(() => user.id),\n55:     id: serial().primaryKey(),\n56:     newStage: prospectStageEnum(\"new_stage\").notNull(),\n57:     oldStage: prospectStageEnum(\"old_stage\"),\n58:     prospectMandateId: integer(\"prospect_mandate_id\")\n59:       .notNull()\n60:       .references(() => prospectMandates.id, { onDelete: \"cascade\" }),\n61:   },\n62:   (table) => [\n63:     index(\"prospect_mandate_events_pm_id_idx\").on(table.prospectMandateId),\n64:   ],\n65: );\n\n(End of file - total 65 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  index,\n  integer,\n  pgEnum,\n  pgTable,\n  serial,\n  text,\n  timestamp,\n  uniqueIndex,\n} from \"drizzle-orm/pg-core\";\n\nimport { user } from \"./auth\";\nimport { jobMandates } from \"./job-mandate\";\nimport { prospects } from \"./prospect\";\n\nexport const prospectStageEnum = pgEnum(\"prospect_stage\", [\n  \"prospect\",\n  \"applicant\",\n  \"candidate\",\n  \"hired\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/db-schemas/prospect-mandate.ts",
+            "time": {
+              "start": 1779462313173,
+              "end": 1779462313231
+            }
+          },
+          "id": "prt_e503814120011GCryNN43lhFdN",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_cfb6e3dcc1c4418e80fcf25f",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.ts",
+              "path": "/home/aditya/projects/alpauls-ats/src/services",
+              "pattern": "nanoid|uuid|crypto|generateId|createId"
+            },
+            "output": "No files found",
+            "metadata": {
+              "matches": 0,
+              "truncated": false
+            },
+            "title": "nanoid|uuid|crypto|generateId|createId",
+            "time": {
+              "start": 1779462313404,
+              "end": 1779462313427
+            }
+          },
+          "id": "prt_e503814d90016KCMtceMQrmwIN",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-finish",
+          "tokens": {
+            "total": 15395,
+            "input": 4607,
+            "output": 145,
+            "reasoning": 19,
+            "cache": {
+              "write": 0,
+              "read": 10624
+            }
+          },
+          "cost": 0,
+          "id": "prt_e503815f30012YJwocO36BzCgK",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5037fb80001ALiAke8mzjWipy"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 17228,
+          "input": 1767,
+          "output": 77,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 15360
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462313500,
+          "completed": 1779462316287
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5038161c001yVJfR6t6diWJNb",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e50381c9f001VJcQeFhZp8uu1u",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5038161c001yVJfR6t6diWJNb"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also check the auth server config to understand how better-auth generates IDs for user/session/account/verification.",
+          "time": {
+            "start": 1779462315169,
+            "end": 1779462315422
+          },
+          "id": "prt_e50381ca1001wqfSUfKfV06f46",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5038161c001yVJfR6t6diWJNb"
+        },
+        {
+          "type": "text",
+          "text": "Let me also check how better-auth generates IDs for its own entities:",
+          "time": {
+            "start": 1779462315425,
+            "end": 1779462316081
+          },
+          "id": "prt_e50381da0001WsgUpYTY6d5WOn",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5038161c001yVJfR6t6diWJNb"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_cdcd47de833345b692c9f1b3",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/auth/server.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/auth/server.ts</path>\n<type>file</type>\n<content>\n1: import { drizzleAdapter } from \"@better-auth/drizzle-adapter\";\n2: import { type BetterAuthOptions, betterAuth } from \"better-auth\";\n3: import { APIError } from \"better-auth/api\";\n4: import { admin, customSession, phoneNumber } from \"better-auth/plugins\";\n5: import { tanstackStartCookies } from \"better-auth/tanstack-start\";\n6: import { eq } from \"drizzle-orm\";\n7: \n8: import * as schema from \"@/db-schemas\";\n9: import {\n10:   ac,\n11:   type RoleCode,\n12:   resolvePermissions,\n13:   roles,\n14: } from \"@/lib/auth/access-control\";\n15: import { db } from \"@/lib/db/server\";\n16: \n17: const options = {\n18:   database: drizzleAdapter(db, {\n19:     provider: \"pg\",\n20:     schema,\n21:   }),\n22:   databaseHooks: {\n23:     user: {\n24:       create: {\n25:         before: async (_user, ctx) => {\n26:           const path = ctx?.path ?? \"\";\n27:           if (path === \"/admin/create-user\") return;\n28:           throw new APIError(\"BAD_REQUEST\", {\n29:             message: \"Signups are disabled\",\n30:           });\n31:         },\n32:       },\n33:     },\n34:   },\n35:   emailAndPassword: {\n36:     enabled: false,\n37:   },\n38:   plugins: [\n39:     phoneNumber({\n40:       sendOTP: async ({ phoneNumber: phone, code }) => {\n41:         const [existingUser] = await db\n42:           .select()\n43:           .from(schema.user)\n44:           .where(eq(schema.user.phoneNumber, phone));\n45: \n46:         if (!existingUser) {\n47:           throw new APIError(\"BAD_REQUEST\", { message: \"No account found\" });\n48:         }\n49:         if (existingUser.banned) {\n50:           throw new APIError(\"FORBIDDEN\", { message: \"Account is suspended\" });\n51:         }\n52:         console.log(`[OTP] Phone: ${phone} | Code: ${code}`);\n53:       },\n54:     }),\n55:     admin({ ac, roles }),\n56:     tanstackStartCookies(),\n57:   ],\n58:   session: {\n59:     expiresIn: 60 * 60 * 24 * 30,\n60:   },\n61:   user: {\n62:     additionalFields: {\n63:       permissions: {\n64:         defaultValue: null,\n65:         input: false,\n66:         required: false,\n67:         type: \"json\",\n68:       },\n69:       supervisorId: {\n70:         defaultValue: null,\n71:         input: false,\n72:         required: false,\n73:         type: \"string\",\n74:       },\n75:     },\n76:   },\n77: } satisfies BetterAuthOptions;\n78: \n79: export const auth = betterAuth({\n80:   ...options,\n81:   plugins: [\n82:     customSession(async ({ user, session }) => {\n83:       const role = (user.role ?? \"custom\") as RoleCode;\n84:       const permissions = resolvePermissions({\n85:         permissions: user.permissions,\n86:         role,\n87:       });\n88:       return { session, user: { ...user, permissions, role } };\n89:     }, options),\n90:     ...(options.plugins ?? []),\n91:   ],\n92: });\n\n(End of file - total 92 lines)\n</content>",
+            "metadata": {
+              "preview": "import { drizzleAdapter } from \"@better-auth/drizzle-adapter\";\nimport { type BetterAuthOptions, betterAuth } from \"better-auth\";\nimport { APIError } from \"better-auth/api\";\nimport { admin, customSession, phoneNumber } from \"better-auth/plugins\";\nimport { tanstackStartCookies } from \"better-auth/tanstack-start\";\nimport { eq } from \"drizzle-orm\";\n\nimport * as schema from \"@/db-schemas\";\nimport {\n  ac,\n  type RoleCode,\n  resolvePermissions,\n  roles,\n} from \"@/lib/auth/access-control\";\nimport { db } from \"@/lib/db/server\";\n\nconst options = {\n  database: drizzleAdapter(db, {\n    provider: \"pg\",\n    schema,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/auth/server.ts",
+            "time": {
+              "start": 1779462315779,
+              "end": 1779462315812
+            }
+          },
+          "id": "prt_e50381e7e001I1NzGO1WofLXt3",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5038161c001yVJfR6t6diWJNb"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_fae5c88f773e48ac99dbbc98",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.ts",
+              "path": "/home/aditya/projects/alpauls-ats/src/rpc/router",
+              "pattern": "\\.handler\\("
+            },
+            "output": "Found 42 matches\n/home/aditya/projects/alpauls-ats/src/rpc/router/filter-view.ts:\n  Line 15:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts:\n  Line 50:   .handler(async ({ input, context }) => {\n\n  Line 61:   .handler(async ({ input, context }) => {\n\n  Line 71:   .handler(async ({ input, context }) => {\n\n  Line 80:   .handler(async ({ input }) => {\n\n  Line 89:   .handler(async ({ input, context }) => {\n\n  Line 109:   .handler(async ({ input }) => {\n\n  Line 116:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts:\n  Line 49:   .handler(async ({ context, input }) => {\n\n  Line 131:   .handler(async ({ context, input }) => {\n\n  Line 241:   .handler(async () => {\n\n  Line 274:   .handler(async ({ input }) => {\n\n  Line 289:   .handler(async () => {\n\n  Line 301:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts:\n  Line 20:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/notification.ts:\n  Line 25:   .handler(async ({ input, context }) => {\n\n  Line 41:   .handler(async ({ input, context }) => {\n\n  Line 49:   .handler(async ({ context }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/reminder.ts:\n  Line 16:   .handler(async ({ input, context }) => {\n\n  Line 27:   .handler(async ({ input }) => {\n\n  Line 34:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/client-contract.ts:\n  Line 417:   .handler(async ({ context, input }) => {\n\n  Line 429:   .handler(async ({ input }) => {\n\n  Line 448:   .handler(async ({ input }) => {\n\n  Line 457:   .handler(async ({ context, input }) => {\n\n  Line 465:   .handler(async ({ context, input }) => {\n\n  Line 472:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/prospect.ts:\n  Line 55:   .handler(async ({ input, context }) => {\n\n  Line 66:   .handler(async ({ input, context }) => {\n\n  Line 76:   .handler(async ({ input, context }) => {\n\n  Line 85:   .handler(async ({ input }) => {\n\n  Line 94:   .handler(async ({ input }) => {\n\n  Line 111:   .handler(async ({ input }) => {\n\n\n/home/aditya/projects/alpauls-ats/src/rpc/router/task.ts:\n  Line 97:   .handler(async ({ input, context }) => {\n\n  Line 108:   .handler(async ({ input, context }) => {\n\n  Line 117:   .handler(async ({ input, context }) => {\n\n  Line 125:   .handler(async ({ input }) => {\n\n  Line 133:   .handler(async ({ input }) => {\n\n  Line 155:   .handler(async ({ input }) => {\n\n  Line 161:   .handler(async ({ input }) => {\n\n  Line 168:   .handler(async ({ input }) => {\n\n  Line 175:   .handler(async () => {\n",
+            "metadata": {
+              "matches": 42,
+              "truncated": false
+            },
+            "title": "\\.handler\\(",
+            "time": {
+              "start": 1779462316067,
+              "end": 1779462316190
+            }
+          },
+          "id": "prt_e50381f12001h1yWtN9VhLokMY",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5038161c001yVJfR6t6diWJNb"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-finish",
+          "tokens": {
+            "total": 17228,
+            "input": 1767,
+            "output": 77,
+            "reasoning": 24,
+            "cache": {
+              "write": 0,
+              "read": 15360
+            }
+          },
+          "cost": 0,
+          "id": "prt_e503820e1001FiG93jktavccz2",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e5038161c001yVJfR6t6diWJNb"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5037d35300155A0gJADd7rPBC",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 21422,
+          "input": 1615,
+          "output": 2371,
+          "reasoning": 220,
+          "cache": {
+            "write": 0,
+            "read": 17216
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779462316296,
+          "completed": 1779462356845
+        },
+        "finish": "stop",
+        "id": "msg_e50382108001UTTlUq24LRfM6D",
+        "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7"
+      },
+      "parts": [
+        {
+          "snapshot": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "type": "step-start",
+          "id": "prt_e503828c4001668RSdUl5k3SdP",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e50382108001UTTlUq24LRfM6D"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have all the information needed. Let me compile the findings.\n\nSummary of ID generation in this codebase:\n\n1. **App entities (tasks, clients, contracts, reminders, notifications, prospects, mandates, events)**: All use `serial()` as their primary key - i.e., auto-incrementing integers generated by PostgreSQL.\n\n2. **Auth entities (user, session, account, verification)**: All use `text(\"id\").primaryKey()` - meaning IDs are text strings that must be provided at insert time. For the `admin.createUser` RPC procedure, IDs are generated using `crypto.randomUUID()`.\n\n3. **better-auth**: The auth library itself generates UUIDs internally for user/session/account/verification IDs.\n\n4. **File upload keys (R2)**: Use `crypto.randomUUID()` as part of the key path.\n\n5. **filter_views**: Uses `text().primaryKey()` (no serial, no default - must be provided at insert time).\n\nNo usage of `nanoid`, `generateId`, or `createId` was found anywhere in the codebase.",
+          "time": {
+            "start": 1779462318279,
+            "end": 1779462319952
+          },
+          "id": "prt_e503828c7001JwaLpEfoeJl2mA",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e50382108001UTTlUq24LRfM6D"
+        },
+        {
+          "type": "text",
+          "text": "Here are all the findings, organized by question:\n\n---\n\n## 1. How Text IDs Are Generated for Existing Entities\n\nThere are **two distinct ID strategies** in this codebase:\n\n### A. Auto-incrementing `serial()` integers (most application tables)\n\nThese tables use `serial().primaryKey()` — PostgreSQL auto-generates the ID, no application-side ID generation needed:\n\n| Table | File | ID Column |\n|-------|------|-----------|\n| `tasks` | `/home/aditya/projects/alpauls-ats/src/db-schemas/task.ts:34` | `id: serial().primaryKey()` |\n| `taskLinks` | `...task.ts:52` | `id: serial().primaryKey()` |\n| `taskEvents` | `...task.ts:74` | `id: serial().primaryKey()` |\n| `clients` | `/home/aditya/projects/alpauls-ats/src/db-schemas/client.ts:28` | `id: serial().primaryKey()` |\n| `clientEvents` | `...client.ts:55` | `id: serial().primaryKey()` |\n| `clientContracts` | `/home/aditya/projects/alpauls-ats/src/db-schemas/client-contract.ts:33` | `id: serial().primaryKey()` |\n| `contractEvents` | `...client-contract.ts:63` | `id: serial().primaryKey()` |\n| `reminders` | `/home/aditya/projects/alpauls-ats/src/db-schemas/reminder.ts:19` | `id: serial().primaryKey()` |\n| `notifications` | `/home/aditya/projects/alpauls-ats/src/db-schemas/notification.ts:37` | `id: serial().primaryKey()` |\n| `prospects` | `/home/aditya/projects/alpauls-ats/src/db-schemas/prospect.ts:20` | `id: serial().primaryKey()` |\n| `prospectEvents` | `...prospect.ts:39` | `id: serial().primaryKey()` |\n| `jobMandates` | `/home/aditya/projects/alpauls-ats/src/db-schemas/job-mandate.ts:41` | `id: serial().primaryKey()` |\n| `mandateEvents` | `...job-mandate.ts:63` | `id: serial().primaryKey()` |\n| `prospectMandates` | `/home/aditya/projects/alpauls-ats/src/db-schemas/prospect-mandate.ts:28` | `id: serial().primaryKey()` |\n| `prospectMandateEvents` | `...prospect-mandate.ts:55` | `id: serial().primaryKey()` |\n\n### B. Text IDs via `crypto.randomUUID()` (auth tables + filter views)\n\nThese tables use `text(\"id\").primaryKey()` — the ID must be supplied at insert time. The application uses `crypto.randomUUID()`:\n\n**`user`, `session`, `account`, `verification`** — defined in `/home/aditya/projects/alpauls-ats/src/db-schemas/auth.ts`:\n```ts\n// user (line 23)\nid: text(\"id\").primaryKey(),\n\n// session (line 50)\nid: text(\"id\").primaryKey(),\n\n// account (line 72)\nid: text(\"id\").primaryKey(),\n\n// verification (line 94)\nid: text(\"id\").primaryKey(),\n```\n\n**filter_views** — `/home/aditya/projects/alpauls-ats/src/db-schemas/filter-view.ts`:\n```ts\n// line 32\nid: text().primaryKey(),\n```\n\n### C. Explicit `crypto.randomUUID()` usage in RPC handlers\n\n**`/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts`** — creating a new user + account:\n```ts\n// line 81 — user ID\nconst id = crypto.randomUUID();\n\n// lines 102-118 — inserting user and account\nawait db.insert(user).values({\n  email: normalizedEmail,\n  id,                                    // ← crypto.randomUUID()\n  name: input.name,\n  permissions: input.role === \"custom\" ? input.permissions : null,\n  role: input.role,\n  supervisorId: input.supervisorId ?? null,\n});\n\nawait db.insert(account).values({\n  accountId: id,\n  id: crypto.randomUUID(),               // ← account ID also crypto.randomUUID()\n  password: hashedPassword,\n  providerId: \"credential\",\n  userId: id,\n});\n```\n\n**`/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts`** — file upload key:\n```ts\n// line 117\nconst key = `clients/${crypto.randomUUID()}/${input.filename}`;\n```\n\n### D. better-auth internal ID generation\n\nbetter-auth itself generates UUIDs internally for its own operations (sessions, verification tokens, etc.) — the library handles this automatically. The config in `/home/aditya/projects/alpauls-ats/src/lib/auth/server.ts` does not override any ID generation; it uses the default.\n\n### E. No other ID libraries found\n\n**No** usage of `nanoid`, `uuid` (the npm package), `generateId`, or `createId` was found anywhere in `src/`.\n\n---\n\n## 2. RPC Router Index\n\n**File**: `/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts`\n\n```ts\nimport * as admin from \"./admin\";\nimport {\n  clientArchive,\n  clientCreate,\n  clientGetById,\n  clientGetUploadUrl,\n  clientList,\n  clientListEvents,\n  clientUpdate,\n} from \"./client\";\nimport {\n  contractArchive,\n  contractCreate,\n  contractGetById,\n  contractList,\n  contractListEvents,\n  contractUpdate,\n} from \"./client-contract\";\nimport { filterViewList } from \"./filter-view\";\nimport {\n  notificationList,\n  notificationMarkAllRead,\n  notificationMarkRead,\n} from \"./notification\";\nimport { reminderArchive, reminderCreate, reminderList } from \"./reminder\";\nimport {\n  taskAddLink,\n  taskArchive,\n  taskCreate,\n  taskGetById,\n  taskList,\n  taskListEvents,\n  taskRemoveLink,\n  taskStats,\n  taskUpdate,\n} from \"./task\";\nimport { usersList } from \"./users\";\n\nexport const router = {\n  admin,\n  client: {\n    archive: clientArchive,\n    create: clientCreate,\n    getById: clientGetById,\n    getUploadUrl: clientGetUploadUrl,\n    list: clientList,\n    listEvents: clientListEvents,\n    update: clientUpdate,\n  },\n  contract: {\n    archive: contractArchive,\n    create: contractCreate,\n    getById: contractGetById,\n    list: contractList,\n    listEvents: contractListEvents,\n    update: contractUpdate,\n  },\n  filterView: {\n    list: filterViewList,\n  },\n  notification: {\n    list: notificationList,\n    markAllRead: notificationMarkAllRead,\n    markRead: notificationMarkRead,\n  },\n  reminder: {\n    archive: reminderArchive,\n    create: reminderCreate,\n    list: reminderList,\n  },\n  task: {\n    addLink: taskAddLink,\n    archive: taskArchive,\n    create: taskCreate,\n    getById: taskGetById,\n    list: taskList,\n    listEvents: taskListEvents,\n    removeLink: taskRemoveLink,\n    stats: taskStats,\n    update: taskUpdate,\n  },\n  users: {\n    list: usersList,\n  },\n};\n```\n\n**Namespaces**: `admin`, `client`, `contract`, `filterView`, `notification`, `reminder`, `task`, `users`\n\n---\n\n## 3. RPC Middleware — `protectedProcedure` Structure\n\n**File**: `/home/aditya/projects/alpauls-ats/src/rpc/middleware.ts`\n\n```ts\nimport { ORPCError } from \"@orpc/server\";\n\nimport type { Action, Resource } from \"@/lib/auth/access-control\";\nimport { auth } from \"@/lib/auth/server\";\nimport type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n\nimport { type AuthContext, base } from \"./context\";\n\ntype PermissionMeta = {\n  permission?: { resource: Resource; action: Action };\n};\n\nconst baseWithMeta = base.$meta<PermissionMeta>({});\n\nexport const authMiddleware = baseWithMeta.middleware(\n  async ({ context, next }) => {\n    const sessionData = await auth.api.getSession({\n      headers: context.headers || {},\n    });\n\n    if (!sessionData?.session || !sessionData?.user) {\n      throw new ORPCError(\"UNAUTHORIZED\", {\n        message: \"You must be signed in\",\n      });\n    }\n\n    const { session, user } = sessionData;\n    const subordinateCache: SubordinateCache = new Map();\n    return next({\n      context: { session, subordinateCache, user } satisfies AuthContext,\n    });\n  },\n);\n\nexport const protectedProcedure = baseWithMeta\n  .use(authMiddleware)\n  .use(async ({ context, next, procedure }) => {\n    const required = procedure[\"~orpc\"].meta.permission;\n    if (!required) return next();\n    if (\n      context.user.permissions.includes(\n        `${required.resource}:${required.action}`,\n      )\n    ) {\n      return next();\n    }\n\n    throw new ORPCError(\"FORBIDDEN\", {\n      data: { requiredPermission: required },\n      message: `Missing permission: ${required.resource}:${required.action}`,\n    });\n  });\n```\n\n**Chain structure**:\n1. `baseWithMeta` — extends `base` context with `PermissionMeta` type\n2. `authMiddleware` — calls `auth.api.getSession()` with headers; throws `UNAUTHORIZED` if no session; enriches context with `{ session, user, subordinateCache }`\n3. `protectedProcedure` — applies `authMiddleware`, then a **permission check middleware** that reads `procedure[\"~orpc\"].meta.permission`; if no `permission` meta is set, it passes through; if set, it checks whether `context.user.permissions` includes `resource:action`; throws `FORBIDDEN` if not\n\n---\n\n## 4. RPC Base Context\n\n**File**: `/home/aditya/projects/alpauls-ats/src/rpc/context.ts`\n\n```ts\nimport { os } from \"@orpc/server\";\n\nimport type { auth } from \"@/lib/auth/server\";\nimport type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n\nexport type AuthContext = {\n  session: typeof auth.$Infer.Session.session;\n  subordinateCache: SubordinateCache;\n  user: typeof auth.$Infer.Session.user;\n};\n\nexport const base = os.$context<{\n  headers: HeadersInit | undefined;\n}>();\n```\n\n**Key points**:\n- `base` is an oRPC context initialized with just `{ headers: HeadersInit | undefined }` — the only thing available before authentication\n- `AuthContext` is the enriched context type after `authMiddleware` runs — it includes `session`, `user` (with resolved permissions and role from `customSession`), and `subordinateCache` (a `Map` for caching supervisor hierarchy lookups)\n- The `user` type in `AuthContext` is inferred from `auth.$Infer.Session.user`, which includes the `permissions` and `role` fields added by the `customSession` plugin",
+          "time": {
+            "start": 1779462319955,
+            "end": 1779462356742
+          },
+          "id": "prt_e50382f52001HzZ6lCtQVKr9WR",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e50382108001UTTlUq24LRfM6D"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "796b3eefa06ca3661d0fbb07aaf150ace97c993c",
+          "type": "step-finish",
+          "tokens": {
+            "total": 21422,
+            "input": 1615,
+            "output": 2371,
+            "reasoning": 220,
+            "cache": {
+              "write": 0,
+              "read": 17216
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5038bf40001zu2xgUwEpOVc3X",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e50382108001UTTlUq24LRfM6D"
+        },
+        {
+          "type": "patch",
+          "hash": "717a556d34275964244c5a8c93ee58432ffa8076",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx"
+          ],
+          "id": "prt_e5038bf6a001q8lntsI9Cgxfo3",
+          "sessionID": "ses_1afc82cc8ffe7BZrNUkyj81gT7",
+          "messageID": "msg_e50382108001UTTlUq24LRfM6D"
+        }
+      ]
+    }
+  ]
+}
