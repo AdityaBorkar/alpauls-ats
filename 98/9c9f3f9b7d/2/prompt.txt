@@ -1,0 +1,10 @@
+Search the codebase at /home/aditya/projects/alpauls-ats for:
+1. Read src/components/ui/context-menu.tsx if it exists
+2. Read src/components/ui/dialog.tsx if it exists  
+3. Read src/components/ui/dropdown-menu.tsx if it exists
+4. Read src/components/ui/input.tsx if it exists
+5. Any sheet/slide-over patterns used in the app
+6. How dialogs are typically used in route files (show 1-2 examples from src/routes/)
+7. Check what Tabler icons are used for delete, edit, copy, AI patterns
+
+Return the file contents and patterns found.
