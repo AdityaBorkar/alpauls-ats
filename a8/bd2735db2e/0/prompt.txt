@@ -1,0 +1,192 @@
+@src/components/client-list-view.tsx Integrate Data Tables from https://ui.bazza.dev/docs/data-table-filter
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx</path>
+<type>file</type>
+<content>
+1: import { Archive, Search } from "lucide-react";
+2: import { useState } from "react";
+3: 
+4: import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+5: import { Button } from "@/components/ui/button";
+6: import { Input } from "@/components/ui/input";
+7: import {
+8:   Table,
+9:   TableBody,
+10:   TableCell,
+11:   TableHead,
+12:   TableHeader,
+13:   TableRow,
+14: } from "@/components/ui/table";
+15: import { useORPCQuery } from "@/hooks/use-orpc-query";
+16: import { client } from "@/rpc/client";
+17: 
+18: export type ClientItem = {
+19:   id: number;
+20:   name: string;
+21:   legalName: string | null;
+22:   slug: string;
+23:   logo: string | null;
+24:   archived: boolean;
+25:   assigneeId: string;
+26:   assignee: {
+27:     id: string;
+28:     name: string | null;
+29:     image: string | null;
+30:   };
+31:   createdAt: Date | null;
+32:   updatedAt: Date | null;
+33: };
+34: 
+35: type ClientListResponse = {
+36:   items: ClientItem[];
+37:   nextCursor: string | null;
+38: };
+39: 
+40: type ClientListViewProps = {
+41:   onClientClick: (client: ClientItem) => void;
+42: };
+43: 
+44: export function ClientListView({ onClientClick }: ClientListViewProps) {
+45:   const [search, setSearch] = useState("");
+46:   const [showArchived] = useState(false);
+47:   const [cursor, setCursor] = useState<string | undefined>();
+48: 
+49:   const { data, isLoading } = useORPCQuery(
+50:     () =>
+51:       client.client.list({
+52:         archived: showArchived ? undefined : false,
+53:         cursor,
+54:         limit: 20,
+55:         search: search || undefined,
+56:       }),
+57:     [cursor, search, showArchived],
+58:   );
+59: 
+60:   const clients = (data as ClientListResponse | undefined)?.items ?? [];
+61:   const nextCursor = (data as ClientListResponse | undefined)?.nextCursor;
+62: 
+63:   return (
+64:     <div className="space-y-4">
+65:       <div className="flex items-center gap-3">
+66:         <div className="relative flex-1">
+67:           <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
+68:           <Input
+69:             className="pl-8"
+70:             onChange={(e) => {
+71:               setSearch(e.target.value);
+72:               setCursor(undefined);
+73:             }}
+74:             placeholder="Search clients..."
+75:             value={search}
+76:           />
+77:         </div>
+78:         <div className="flex items-center gap-2">
+79:           <div>Filters</div>
+80:           <div>Display</div>
+81:         </div>
+82:       </div>
+83: 
+84:       <div className="rounded-lg border bg-card">
+85:         <Table>
+86:           <TableHeader>
+87:             <TableRow>
+88:               <TableHead>Nick Name</TableHead>
+89:               <TableHead>Legal Name</TableHead>
+90:               <TableHead>Slug</TableHead>
+91:               <TableHead>Assignee</TableHead>
+92:               <TableHead>Created</TableHead>
+93:             </TableRow>
+94:           </TableHeader>
+95:           <TableBody>
+96:             {isLoading && (
+97:               <TableRow>
+98:                 <TableCell
+99:                   className="text-center text-muted-foreground"
+100:                   colSpan={5}
+101:                 >
+102:                   Loading...
+103:                 </TableCell>
+104:               </TableRow>
+105:             )}
+106:             {!isLoading && clients.length === 0 && (
+107:               <TableRow>
+108:                 <TableCell
+109:                   className="text-center text-muted-foreground"
+110:                   colSpan={5}
+111:                 >
+112:                   No clients found
+113:                 </TableCell>
+114:               </TableRow>
+115:             )}
+116:             {clients.map((c) => (
+117:               <TableRow
+118:                 className="cursor-pointer"
+119:                 key={c.id}
+120:                 onClick={() => onClientClick(c)}
+121:               >
+122:                 <TableCell className="font-medium">
+123:                   <div className="flex items-center gap-2">
+124:                     {c.logo && (
+125:                       <img
+126:                         alt=""
+127:                         className="h-5 w-5 rounded object-contain"
+128:                         src={c.logo}
+129:                       />
+130:                     )}
+131:                     {c.name}
+132:                     {c.archived && (
+133:                       <Archive className="h-3.5 w-3.5 text-muted-foreground" />
+134:                     )}
+135:                   </div>
+136:                 </TableCell>
+137:                 <TableCell>
+138:                   {c.legalName && (
+139:                     <span className="text-sm">{c.legalName}</span>
+140:                   )}
+141:                 </TableCell>
+142:                 <TableCell>
+143:                   <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+144:                     {c.slug}
+145:                   </code>
+146:                 </TableCell>
+147:                 <TableCell>
+148:                   <div className="flex items-center gap-2">
+149:                     <Avatar className="h-5 w-5">
+150:                       <AvatarImage src={c.assignee.image ?? undefined} />
+151:                       <AvatarFallback>
+152:                         {c.assignee.name?.[0] ?? "?"}
+153:                       </AvatarFallback>
+154:                     </Avatar>
+155:                     <span className="text-sm">{c.assignee.name}</span>
+156:                   </div>
+157:                 </TableCell>
+158:                 <TableCell>
+159:                   {c.createdAt && (
+160:                     <span className="text-muted-foreground text-sm">
+161:                       {new Date(c.createdAt).toLocaleDateString()}
+162:                     </span>
+163:                   )}
+164:                 </TableCell>
+165:               </TableRow>
+166:             ))}
+167:           </TableBody>
+168:         </Table>
+169:       </div>
+170: 
+171:       {nextCursor && (
+172:         <div className="flex justify-center">
+173:           <Button
+174:             onClick={() => setCursor(nextCursor)}
+175:             size="sm"
+176:             variant="outline"
+177:           >
+178:             Load more
+179:           </Button>
+180:         </div>
+181:       )}
+182:     </div>
+183:   );
+184: }
+
+(End of file - total 184 lines)
+</content>
