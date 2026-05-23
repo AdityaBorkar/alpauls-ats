@@ -1,0 +1,188 @@
+Fix the errors in the form @src/components/forms/client-form.tsx 
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx</path>
+<type>file</type>
+<content>
+1: import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+2: import { useNavigate } from "@tanstack/react-router";
+3: import { useEffect } from "react";
+4: import { useFormContext } from "react-hook-form";
+5: import type { z } from "zod";
+6: 
+7: import { Field, Form } from "#/forms";
+8: import { LogoUpload } from "@/components/logo-upload";
+9: import { Button } from "@/components/ui/button";
+10: import { Client_FormSchema } from "@/lib/form-schemas/client";
+11: import { slugify } from "@/lib/utils";
+12: import { rpc } from "@/rpc/client";
+13: 
+14: type ClientFormType = z.infer<typeof Client_FormSchema>;
+15: 
+16: export function ClientForm({
+17:   mode,
+18:   draftId,
+19: }: {
+20:   mode: "create" | "edit";
+21:   draftId?: string;
+22: }) {
+23:   const { data: bd_users } = useQuery(
+24:     rpc.users.list.queryOptions({
+25:       input: { limit: 100, role: ["admin", "bd"] },
+26:     }),
+27:   );
+28: 
+29:   // isPending={createMutation.isPending}
+30:   // isSaveDraftPending={saveDraftMutation.isPending}
+31:   // onSaveDraft={(values) => saveDraftMutation.mutate(values)}
+32:   // onSubmit={(values) => createMutation.mutate(values)}
+33: 
+34:   const navigate = useNavigate();
+35:   const queryClient = useQueryClient();
+36: 
+37:   const { data: draft } = useQuery({
+38:     ...rpc.draft.getById.queryOptions({ input: { id: draftId! } }),
+39:     enabled: !!draftId,
+40:   });
+41: 
+42:   const createMutation = useMutation({
+43:     mutationFn: (input: Record<string, any>) =>
+44:       rpc.client.create.call(input as any),
+45:     onSuccess: async (data) => {
+46:       if (!data) return;
+47:       queryClient.invalidateQueries({ queryKey: ["client"] });
+48:       if (draftId) {
+49:         await rpc.draft.delete.call({ id: draftId });
+50:         queryClient.invalidateQueries({ queryKey: ["draft"] });
+51:       }
+52:       navigate({
+53:         params: { clientId: String(data.id) },
+54:         to: "/clients/$clientId",
+55:       });
+56:     },
+57:   });
+58: 
+59:   const saveDraftMutation = useMutation({
+60:     mutationFn: (input: Record<string, any>) =>
+61:       rpc.draft.create.call({
+62:         data: input as Record<string, unknown>,
+63:         entityType: "client",
+64:         title: input.name,
+65:       }),
+66:     onSuccess: () => {
+67:       queryClient.invalidateQueries({ queryKey: ["draft"] });
+68:     },
+69:   });
+70: 
+71:   const defaultValues = draft // TODO: VALIDATE DRAFT AND REFINE IT AND PASS IT ON
+72:     ? // TODO: PRINT ERRORS ON VALIDATION FAILURE
+73:       {
+74:         assigneeId: (draft.data.assigneeId as string) ?? "",
+75:         internalNotes: (draft.data.internalNotes as string) ?? undefined,
+76:         legalName: (draft.data.legalName as string) ?? undefined,
+77:         locations: draft.data.locations as
+78:           | { city: string; country: string }[]
+79:           | undefined,
+80:         logo: (draft.data.logo as string) ?? undefined,
+81:         name: (draft.data.name as string) ?? "",
+82:         slug: (draft.data.slug as string) ?? undefined,
+83:       }
+84:     : undefined;
+85: 
+86:   return (
+87:     <Form
+88:       className="space-y-6"
+89:       defaultValues={defaultValues}
+90:       onSubmit={onSubmit}
+91:       schema={Client_FormSchema}
+92:     >
+93:       <Field name="name" />
+94:       <Field name="legalName" />
+95:       <Field
+96:         name="logo"
+97:         overrides={({ field }) => (
+98:           <LogoUpload
+99:             onChange={(url: string | null) => field.onChange(url)}
+100:             value={field.value}
+101:           />
+102:         )}
+103:       />
+104:       <SlugSync mode={mode} />
+105:       <Field name="slug" />
+106:       <Field name="locations" />
+107:       <Field name="internalNotes" />
+108:       <Field
+109:         config={{
+110:           getOptionLabel: ({ name }) => name,
+111:           getOptionValue: ({ id }) => id,
+112:           options: bd_users?.items ?? [],
+113:         }}
+114:         name="assigneeId"
+115:       />
+116:       <ClientFormActions
+117:         isPending={isPending}
+118:         isSaveDraftPending={isSaveDraftPending}
+119:         mode={mode}
+120:         onSaveDraft={onSaveDraft}
+121:       />
+122:     </Form>
+123:   );
+124: }
+125: 
+126: function SlugSync({ mode }: { mode: "create" | "edit" }) {
+127:   const { watch, setValue } = useFormContext();
+128: 
+129:   useEffect(() => {
+130:     if (mode === "edit") return;
+131:     const { unsubscribe } = watch((values, { name }) => {
+132:       if (name === "name" && typeof values.name === "string") {
+133:         setValue("slug", slugify(values.name), { shouldValidate: true });
+134:       }
+135:     });
+136:     return unsubscribe;
+137:   }, [mode, watch, setValue]);
+138: 
+139:   return null;
+140: }
+141: 
+142: function ClientFormActions({
+143:   mode,
+144:   isPending,
+145:   onSaveDraft,
+146:   isSaveDraftPending,
+147: }: {
+148:   mode: "create" | "edit";
+149:   isPending: boolean;
+150:   onSaveDraft?: (values: ClientFormType) => void;
+151:   isSaveDraftPending?: boolean;
+152: }) {
+153:   const { watch, getValues } = useFormContext<ClientFormType>();
+154:   const name = watch("name");
+155:   const assigneeId = watch("assigneeId");
+156: 
+157:   function handleSaveDraft() {
+158:     if (onSaveDraft) {
+159:       onSaveDraft(getValues());
+160:     }
+161:   }
+162: 
+163:   return (
+164:     <div className="flex gap-3">
+165:       <Button disabled={isPending || !name || !assigneeId} type="submit">
+166:         {mode === "create" ? "Create Client" : "Save Changes"}
+167:       </Button>
+168:       {mode === "create" && onSaveDraft && (
+169:         <Button
+170:           disabled={isSaveDraftPending || !name}
+171:           onClick={handleSaveDraft}
+172:           type="button"
+173:           variant="outline"
+174:         >
+175:           {isSaveDraftPending ? "Saving..." : "Save to Drafts"}
+176:         </Button>
+177:       )}
+178:     </div>
+179:   );
+180: }
+
+(End of file - total 180 lines)
+</content>
