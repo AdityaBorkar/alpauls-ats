@@ -1,0 +1,16 @@
+Search the codebase thoroughly for anything related to "filter view", "filter_view", "filterView", or "saved filter" patterns. Look in:
+1. Database schemas (src/db-schemas/)
+2. RPC/API routes (src/rpc/)
+3. Services (src/services/)
+4. Components (src/components/)
+5. Any existing filter view UI
+
+Also search for "context menu" patterns - how right-click/context menus are implemented in this codebase. Look for components like ContextMenu, DropdownMenu, or similar patterns in src/components/ui/ and src/components/.
+
+Also check the NavLayout component to understand how leftItems and rightItems work, and what the filter items area looks like.
+
+Return:
+- All filter view related files and their contents
+- Context menu component locations and patterns
+- NavLayout component code
+- Any existing filter view schema in the database
