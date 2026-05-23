@@ -3,7 +3,7 @@
   "checkpoint_id": "c7099fef0057",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 5,
+  "checkpoints_count": 7,
   "files_touched": [
     ".zed/settings.json",
     "TODO.md",
@@ -52,13 +52,19 @@
       "transcript": "/c7/099fef0057/3/full.jsonl",
       "content_hash": "/c7/099fef0057/3/content_hash.txt",
       "prompt": "/c7/099fef0057/3/prompt.txt"
+    },
+    {
+      "metadata": "/c7/099fef0057/4/metadata.json",
+      "transcript": "/c7/099fef0057/4/full.jsonl",
+      "content_hash": "/c7/099fef0057/4/content_hash.txt",
+      "prompt": "/c7/099fef0057/4/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 143202,
+    "input_tokens": 277574,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 2169984,
-    "output_tokens": 14677,
-    "api_call_count": 53
+    "cache_read_tokens": 5294272,
+    "output_tokens": 33981,
+    "api_call_count": 98
   }
 }

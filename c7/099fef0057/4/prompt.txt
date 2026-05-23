@@ -1,0 +1,131 @@
+@src/components/forms/client-form.tsx Update the form to "save to drafts" All drafts are visible in @src/routes/(protected)/(app)/drafts.tsx . All drafts are stored in a single "drafts" table.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx</path>
+<type>file</type>
+<content>
+1: import { useQuery } from "@tanstack/react-query";
+2: import { useEffect } from "react";
+3: import { useFormContext } from "react-hook-form";
+4: import type { z } from "zod";
+5: 
+6: import { Field, Form } from "#/forms";
+7: import { LogoUpload } from "@/components/logo-upload";
+8: import { Button } from "@/components/ui/button";
+9: import { Client_FormSchema } from "@/lib/form-schemas/client";
+10: import { rpc } from "@/rpc/client";
+11: 
+12: type ClientFormType = z.infer<typeof Client_FormSchema>;
+13: 
+14: function slugify(text: string): string {
+15:   return text
+16:     .toLowerCase()
+17:     .replace(/[^a-z0-9]+/g, "-")
+18:     .replace(/^-|-$/g, "");
+19: }
+20: 
+21: export function ClientForm({
+22:   mode,
+23:   onSubmit,
+24:   isPending,
+25:   defaultValues,
+26: }: {
+27:   mode: "create" | "edit";
+28:   onSubmit: (values: ClientFormType) => void;
+29:   isPending: boolean;
+30:   defaultValues?: Partial<ClientFormType>;
+31: }) {
+32:   const { data: bd_users } = useQuery(
+33:     rpc.users.list.queryOptions({
+34:       input: { limit: 100, role: ["admin", "bd"] },
+35:     }),
+36:   );
+37: 
+38:   return (
+39:     <Form
+40:       className="space-y-6"
+41:       defaultValues={defaultValues}
+42:       onSubmit={onSubmit}
+43:       schema={Client_FormSchema}
+44:     >
+45:       <Field name="name" />
+46:       <Field name="legalName" />
+47:       <Field
+48:         name="logo"
+49:         overrides={({ field }) => (
+50:           <LogoUpload
+51:             onChange={(url: string | null) => field.onChange(url)}
+52:             value={field.value}
+53:           />
+54:         )}
+55:       />
+56:       <SlugSync mode={mode} />
+57:       <Field name="slug" />
+58:       <Field name="locations" />
+59:       <Field name="internalNotes" />
+60:       <Field
+61:         config={{
+62:           getOptionLabel: ({ name }) => name,
+63:           getOptionValue: ({ id }) => id,
+64:           options: bd_users?.items ?? [],
+65:         }}
+66:         name="assigneeId"
+67:       />
+68:       <ClientFormActions isPending={isPending} mode={mode} />
+69:     </Form>
+70:   );
+71: }
+72: 
+73: function SlugSync({ mode }: { mode: "create" | "edit" }) {
+74:   const { watch, setValue } = useFormContext();
+75: 
+76:   useEffect(() => {
+77:     if (mode === "edit") return;
+78:     const { unsubscribe } = watch((values, { name }) => {
+79:       if (name === "name" && typeof values.name === "string") {
+80:         setValue("slug", slugify(values.name), { shouldValidate: false });
+81:       }
+82:     });
+83:     return unsubscribe;
+84:   }, [mode, watch, setValue]);
+85: 
+86:   return null;
+87: }
+88: 
+89: function ClientFormActions({
+90:   mode,
+91:   isPending,
+92: }: {
+93:   mode: "create" | "edit";
+94:   isPending: boolean;
+95: }) {
+96:   const { watch } = useFormContext();
+97:   const name = watch("name");
+98:   const assigneeId = watch("assigneeId");
+99: 
+100:   return (
+101:     <div className="flex gap-3">
+102:       <Button disabled={isPending || !name || !assigneeId} type="submit">
+103:         {mode === "create" ? "Create Client" : "Save Changes"}
+104:       </Button>
+105:     </div>
+106:   );
+107: }
+
+(End of file - total 107 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx</path>
+<type>file</type>
+<content>
+1: import { createFileRoute } from "@tanstack/react-router";
+2: 
+3: export const Route = createFileRoute("/(protected)/(app)/drafts")({
+4:   component: RouteComponent,
+5: });
+6: 
+7: function RouteComponent() {
+8:   return <div>Hello "/(protected)/(app)/drafts"!</div>;
+9: }
+
+(End of file - total 9 lines)
+</content>
