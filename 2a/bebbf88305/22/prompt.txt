@@ -1,0 +1,7 @@
+Search the codebase for other list view components that follow a similar pattern to client-list-view.tsx. Look for:
+1. Other *-list-view.tsx files in src/components/
+2. Any shared data-table component or pattern that wraps tanstack table
+3. How other components handle the `as any` cast pattern with oRPC queryOptions
+4. Whether there's a shared table rendering component (header/body/empty/loading rows)
+
+Return the file paths found and any relevant code patterns.

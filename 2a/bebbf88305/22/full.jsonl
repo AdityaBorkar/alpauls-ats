@@ -1,0 +1,1580 @@
+{
+  "info": {
+    "id": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+    "slug": "crisp-harbor",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "parentID": "ses_1ab2ebf99ffeJ1kfPsPR2ADei9",
+    "title": "Find similar list views (@explore subagent)",
+    "agent": "explore",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai",
+      "variant": "default"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 33453,
+      "output": 4290,
+      "reasoning": 536,
+      "cache": {
+        "read": 143616,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "todowrite",
+        "action": "deny",
+        "pattern": "*"
+      },
+      {
+        "permission": "task",
+        "action": "deny",
+        "pattern": "*"
+      }
+    ],
+    "time": {
+      "created": 1779539470225,
+      "updated": 1779539548136
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779539470268
+        },
+        "tools": {
+          "todowrite": false,
+          "task": false
+        },
+        "agent": "explore",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "Search the codebase for other list view components that follow a similar pattern to client-list-view.tsx. Look for:\n1. Other *-list-view.tsx files in src/components/\n2. Any shared data-table component or pattern that wraps tanstack table\n3. How other components handle the `as any` cast pattern with oRPC queryOptions\n4. Whether there's a shared table rendering component (header/body/empty/loading rows)\n\nReturn the file paths found and any relevant code patterns.",
+          "id": "prt_e54d16860001oEmu9lzZckpxP0",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d167b8001JvJlm5zM8W6sNM"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5420,
+          "input": 5139,
+          "output": 117,
+          "reasoning": 100,
+          "cache": {
+            "write": 0,
+            "read": 64
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539470678,
+          "completed": 1779539476971
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d169560011LTcbdkVgiTd5W",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d17407001JaVO1Qf2XrfsI0",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to search for several things related to list view components in the codebase. Let me break this down into multiple searches:\n\n1. Find other *-list-view.tsx files in src/components/\n2. Find shared data-table components or patterns wrapping tanstack table\n3. Find how other components handle `as any` cast pattern with oRPC queryOptions\n4. Find shared table rendering components (header/body/empty/loading rows)\n\nLet me start with multiple parallel searches.",
+          "time": {
+            "start": 1779539473421,
+            "end": 1779539475864
+          },
+          "id": "prt_e54d1740d001QRbji6t2CQfdXG",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_b610c65796024bdcba557674",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/**/*-list-view.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx\n/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx\n/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx",
+            "metadata": {
+              "count": 3,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779539476008,
+              "end": 1779539476131
+            }
+          },
+          "id": "prt_e54d17d9c001AV2t34eY7A7sfx",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_8088121688924ee487b4bdeb",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/**/*data-table*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx",
+            "metadata": {
+              "count": 2,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779539476153,
+              "end": 1779539476184
+            }
+          },
+          "id": "prt_e54d17e3f001SKgmhb8km6Z2M2",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_c51b20c89ea842aab096e517",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/**/*table*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx\n/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx\n/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx",
+            "metadata": {
+              "count": 5,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779539476246,
+              "end": 1779539476267
+            }
+          },
+          "id": "prt_e54d17ec5001yxOv7nKsF57LCn",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_fefa3ce6ac394ec99609fa14",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "as any",
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src/components"
+            },
+            "output": "Found 8 matches\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 121:     }) as any,\n\n  Line 125:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,\n\n  Line 132:   const assigneeOptions = ((usersData as any)?.items ?? []).map((u: any) => ({\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-value.tsx:\n  Line 743:     setFilterValueDebounced(column as any, value);\n\n  Line 749:     setFilterValueDebounced(column as any, newValues);\n\n  Line 755:     setFilterValueDebounced(column as any, newValues);\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx:\n  Line 342:             values: newValues as any,\n\n\n/home/aditya/projects/alpauls-ats/src/components/charts/alluvial-diagram.tsx:\n  Line 84: }) as any;\n",
+            "metadata": {
+              "matches": 8,
+              "truncated": false
+            },
+            "title": "as any",
+            "time": {
+              "start": 1779539476515,
+              "end": 1779539476762
+            }
+          },
+          "id": "prt_e54d17f2e001FcitH45SY1NC7K",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_0c3850c675f74268961e6e95",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "queryOptions",
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src/components"
+            },
+            "output": "Found 14 matches\n/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx:\n  Line 31:     rpc.users.list.queryOptions({\n\n\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 113:     rpc.client.list.queryOptions({\n\n  Line 125:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,\n\n\n/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx:\n  Line 36:     rpc.users.list.queryOptions({ input: { limit: 100 } }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx:\n  Line 24:     rpc.client.list.queryOptions({ input: { limit: 100 } }),\n\n  Line 28:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"bd\"] } }),\n\n  Line 32:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"rm\"] } }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-tasks-reminders.tsx:\n  Line 13:     rpc.task.list.queryOptions({\n\n  Line 24:     rpc.reminder.list.queryOptions({ input: {} }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-recent-tasks.tsx:\n  Line 13:     rpc.task.list.queryOptions({\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-stats.tsx:\n  Line 14:     rpc.task.stats.queryOptions({ input: {} }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-notifications.tsx:\n  Line 44:     rpc.notification.list.queryOptions({ input: { limit: 5 } }),\n\n  Line 56:           queryKey: rpc.notification.list.queryOptions({ input: {} }).queryKey,\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-reminders.tsx:\n  Line 21:     rpc.reminder.list.queryOptions({ input: {} }),\n",
+            "metadata": {
+              "matches": 14,
+              "truncated": false
+            },
+            "title": "queryOptions",
+            "time": {
+              "start": 1779539476735,
+              "end": 1779539476785
+            }
+          },
+          "id": "prt_e54d18031001UWzGySgrwlO82K",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5420,
+            "input": 5139,
+            "output": 117,
+            "reasoning": 100,
+            "cache": {
+              "write": 0,
+              "read": 64
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d18153001Ob9K3DavKBKu79",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d169560011LTcbdkVgiTd5W"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 6592,
+          "input": 955,
+          "output": 161,
+          "reasoning": 100,
+          "cache": {
+            "write": 0,
+            "read": 5376
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539476977,
+          "completed": 1779539483259
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d181f1001PVUj1l5bB5eyiv",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d18fee00160OcuawFoB44Ek",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "reasoning",
+          "text": "Good, I found several relevant files. Let me now read the key files to understand the patterns:\n\n1. `task-list-view.tsx` - another list view component\n2. `prospect-list-view.tsx` - another list view component\n3. `client-list-view.tsx` - the reference component\n4. The data-table related files\n5. The tables directory files\n6. The ui/table.tsx shared table component\n\nLet me read them all in parallel.",
+          "time": {
+            "start": 1779539480562,
+            "end": 1779539481586
+          },
+          "id": "prt_e54d18ff2001Ann0Rkqw34QQ2U",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_7ab067fe62314f7f93afc826",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx</path>\n<type>file</type>\n<content>\n1: import { Archive, Search } from \"lucide-react\";\n2: import { useState } from \"react\";\n3: \n4: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Button } from \"@/components/ui/button\";\n7: import { Checkbox } from \"@/components/ui/checkbox\";\n8: import { Input } from \"@/components/ui/input\";\n9: import {\n10:   Select,\n11:   SelectContent,\n12:   SelectItem,\n13:   SelectTrigger,\n14:   SelectValue,\n15: } from \"@/components/ui/select\";\n16: import {\n17:   Table,\n18:   TableBody,\n19:   TableCell,\n20:   TableHead,\n21:   TableHeader,\n22:   TableRow,\n23: } from \"@/components/ui/table\";\n24: import { useORPCQuery } from \"@/hooks/use-orpc-query\";\n25: import { client } from \"@/rpc/client\";\n26: import type { TaskStatus } from \"@/services/task-service\";\n27: \n28: import type { TaskItem, TaskListResponse } from \"./tasks.types\";\n29: import { STATUS_COLORS, STATUS_LABELS } from \"./tasks.types\";\n30: \n31: type TaskListViewProps = {\n32:   onTaskClick: (task: TaskItem) => void;\n33:   refreshKey: number;\n34: };\n35: \n36: export function TaskListView({ onTaskClick, refreshKey }: TaskListViewProps) {\n37:   const [search, setSearch] = useState(\"\");\n38:   const [statusFilter, setStatusFilter] = useState<string>(\"all\");\n39:   const [showArchived, setShowArchived] = useState(false);\n40:   const [cursor, setCursor] = useState<string | undefined>();\n41: \n42:   const { data, isLoading } = useORPCQuery(\n43:     () =>\n44:       client.task.list({\n45:         archived: showArchived ? undefined : false,\n46:         cursor,\n47:         limit: 20,\n48:         search: search || undefined,\n49:         status:\n50:           statusFilter !== \"all\" ? [statusFilter as TaskStatus] : undefined,\n51:       }),\n52:     [refreshKey, cursor, search, statusFilter, showArchived],\n53:   );\n54: \n55:   const tasks = (data as TaskListResponse | undefined)?.items ?? [];\n56:   const nextCursor = (data as TaskListResponse | undefined)?.nextCursor;\n57: \n58:   return (\n59:     <div className=\"space-y-4\">\n60:       <div className=\"flex items-center gap-3\">\n61:         <div className=\"relative flex-1\">\n62:           <Search className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n63:           <Input\n64:             className=\"pl-8\"\n65:             onChange={(e) => {\n66:               setSearch(e.target.value);\n67:               setCursor(undefined);\n68:             }}\n69:             placeholder=\"Search tasks...\"\n70:             value={search}\n71:           />\n72:         </div>\n73:         <Select\n74:           onValueChange={(v: string | null) => {\n75:             setStatusFilter(v ?? \"\");\n76:             setCursor(undefined);\n77:           }}\n78:           value={statusFilter}\n79:         >\n80:           <SelectTrigger className=\"w-[140px]\">\n81:             <SelectValue placeholder=\"Status\" />\n82:           </SelectTrigger>\n83:           <SelectContent>\n84:             <SelectItem value=\"all\">All Statuses</SelectItem>\n85:             <SelectItem value=\"todo\">To Do</SelectItem>\n86:             <SelectItem value=\"in_progress\">In Progress</SelectItem>\n87:             <SelectItem value=\"done\">Done</SelectItem>\n88:           </SelectContent>\n89:         </Select>\n90:         <div className=\"flex items-center gap-2\">\n91:           <Checkbox\n92:             checked={showArchived}\n93:             id=\"archived\"\n94:             onCheckedChange={(v: boolean) => {\n95:               setShowArchived(!!v);\n96:               setCursor(undefined);\n97:             }}\n98:           />\n99:           <label className=\"text-muted-foreground text-sm\" htmlFor=\"archived\">\n100:             Show archived\n101:           </label>\n102:         </div>\n103:       </div>\n104: \n105:       <div className=\"rounded-lg border bg-card\">\n106:         <Table>\n107:           <TableHeader>\n108:             <TableRow>\n109:               <TableHead>Title</TableHead>\n110:               <TableHead>Status</TableHead>\n111:               <TableHead>Assignee</TableHead>\n112:               <TableHead>Deadline</TableHead>\n113:               <TableHead>Start</TableHead>\n114:             </TableRow>\n115:           </TableHeader>\n116:           <TableBody>\n117:             {isLoading && (\n118:               <TableRow>\n119:                 <TableCell\n120:                   className=\"text-center text-muted-foreground\"\n121:                   colSpan={5}\n122:                 >\n123:                   Loading...\n124:                 </TableCell>\n125:               </TableRow>\n126:             )}\n127:             {!isLoading && tasks.length === 0 && (\n128:               <TableRow>\n129:                 <TableCell\n130:                   className=\"text-center text-muted-foreground\"\n131:                   colSpan={5}\n132:                 >\n133:                   No tasks found\n134:                 </TableCell>\n135:               </TableRow>\n136:             )}\n137:             {tasks.map((task) => (\n138:               <TableRow\n139:                 className=\"cursor-pointer\"\n140:                 key={task.id}\n141:                 onClick={() => onTaskClick(task)}\n142:               >\n143:                 <TableCell className=\"font-medium\">\n144:                   <div className=\"flex items-center gap-2\">\n145:                     {task.title}\n146:                     {task.archived && (\n147:                       <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n148:                     )}\n149:                   </div>\n150:                 </TableCell>\n151:                 <TableCell>\n152:                   <Badge\n153:                     className={STATUS_COLORS[task.status]}\n154:                     variant=\"outline\"\n155:                   >\n156:                     {STATUS_LABELS[task.status]}\n157:                   </Badge>\n158:                 </TableCell>\n159:                 <TableCell>\n160:                   <div className=\"flex items-center gap-2\">\n161:                     <Avatar className=\"h-5 w-5\">\n162:                       <AvatarImage src={task.assignee.image ?? undefined} />\n163:                       <AvatarFallback>\n164:                         {task.assignee.name?.[0] ?? \"?\"}\n165:                       </AvatarFallback>\n166:                     </Avatar>\n167:                     <span className=\"text-sm\">{task.assignee.name}</span>\n168:                   </div>\n169:                 </TableCell>\n170:                 <TableCell>\n171:                   {task.deadline && (\n172:                     <span className=\"text-sm\">{task.deadline}</span>\n173:                   )}\n174:                 </TableCell>\n175:                 <TableCell>\n176:                   {task.startDate && (\n177:                     <span className=\"text-sm\">{task.startDate}</span>\n178:                   )}\n179:                 </TableCell>\n180:               </TableRow>\n181:             ))}\n182:           </TableBody>\n183:         </Table>\n184:       </div>\n185: \n186:       {nextCursor && (\n187:         <div className=\"flex justify-center\">\n188:           <Button\n189:             onClick={() => setCursor(nextCursor)}\n190:             size=\"sm\"\n191:             variant=\"outline\"\n192:           >\n193:             Load more\n194:           </Button>\n195:         </div>\n196:       )}\n197:     </div>\n198:   );\n199: }\n\n(End of file - total 199 lines)\n</content>",
+            "metadata": {
+              "preview": "import { Archive, Search } from \"lucide-react\";\nimport { useState } from \"react\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Select,\n  SelectContent,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/task-list-view.tsx",
+            "time": {
+              "start": 1779539481771,
+              "end": 1779539482043
+            }
+          },
+          "id": "prt_e54d193fe001nBz7uWI8JmhpE7",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d68e8b58d91548dd9dc56473",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx</path>\n<type>file</type>\n<content>\n1: import { Archive, Search } from \"lucide-react\";\n2: import { useId, useState } from \"react\";\n3: \n4: import { Button } from \"@/components/ui/button\";\n5: import { Checkbox } from \"@/components/ui/checkbox\";\n6: import { Input } from \"@/components/ui/input\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: import { useORPCQuery } from \"@/hooks/use-orpc-query\";\n16: import { client } from \"@/rpc/client\";\n17: \n18: import type { ProspectItem, ProspectListResponse } from \"./prospect.types\";\n19: \n20: type ProspectListViewProps = {\n21:   onProspectClick: (prospect: ProspectItem) => void;\n22:   refreshKey: number;\n23: };\n24: \n25: export function ProspectListView({\n26:   onProspectClick,\n27:   refreshKey,\n28: }: ProspectListViewProps) {\n29:   const [search, setSearch] = useState(\"\");\n30:   const [showArchived, setShowArchived] = useState(false);\n31:   const [cursor, setCursor] = useState<string | undefined>();\n32:   const archivedId = useId();\n33: \n34:   const { data, isLoading } = useORPCQuery(\n35:     () =>\n36:       client.prospect.list({\n37:         archived: showArchived ? undefined : false,\n38:         cursor,\n39:         limit: 20,\n40:         search: search || undefined,\n41:       }),\n42:     [refreshKey, cursor, search, showArchived],\n43:   );\n44: \n45:   const prospects = (data as ProspectListResponse | undefined)?.items ?? [];\n46:   const nextCursor = (data as ProspectListResponse | undefined)?.nextCursor;\n47: \n48:   function formatDate(date: Date | null): string {\n49:     if (!date) return \"—\";\n50:     return new Date(date).toLocaleDateString();\n51:   }\n52: \n53:   return (\n54:     <div className=\"space-y-4\">\n55:       <div className=\"flex items-center gap-3\">\n56:         <div className=\"relative flex-1\">\n57:           <Search className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n58:           <Input\n59:             className=\"pl-8\"\n60:             onChange={(e) => {\n61:               setSearch(e.target.value);\n62:               setCursor(undefined);\n63:             }}\n64:             placeholder=\"Search prospects...\"\n65:             value={search}\n66:           />\n67:         </div>\n68:         <div className=\"flex items-center gap-2\">\n69:           <Checkbox\n70:             checked={showArchived}\n71:             id={archivedId}\n72:             onCheckedChange={(v: boolean) => {\n73:               setShowArchived(!!v);\n74:               setCursor(undefined);\n75:             }}\n76:           />\n77:           <label className=\"text-muted-foreground text-sm\" htmlFor={archivedId}>\n78:             Show archived\n79:           </label>\n80:         </div>\n81:       </div>\n82: \n83:       <div className=\"rounded-lg border bg-card\">\n84:         <Table>\n85:           <TableHeader>\n86:             <TableRow>\n87:               <TableHead>Name</TableHead>\n88:               <TableHead>Phone</TableHead>\n89:               <TableHead>Email</TableHead>\n90:               <TableHead>Description</TableHead>\n91:               <TableHead>Created</TableHead>\n92:             </TableRow>\n93:           </TableHeader>\n94:           <TableBody>\n95:             {isLoading && (\n96:               <TableRow>\n97:                 <TableCell\n98:                   className=\"text-center text-muted-foreground\"\n99:                   colSpan={5}\n100:                 >\n101:                   Loading...\n102:                 </TableCell>\n103:               </TableRow>\n104:             )}\n105:             {!isLoading && prospects.length === 0 && (\n106:               <TableRow>\n107:                 <TableCell\n108:                   className=\"text-center text-muted-foreground\"\n109:                   colSpan={5}\n110:                 >\n111:                   No prospects found\n112:                 </TableCell>\n113:               </TableRow>\n114:             )}\n115:             {prospects.map((prospect) => (\n116:               <TableRow\n117:                 className=\"cursor-pointer\"\n118:                 key={prospect.id}\n119:                 onClick={() => onProspectClick(prospect)}\n120:               >\n121:                 <TableCell className=\"font-medium\">\n122:                   <div className=\"flex items-center gap-2\">\n123:                     {prospect.name}\n124:                     {prospect.archived && (\n125:                       <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n126:                     )}\n127:                   </div>\n128:                 </TableCell>\n129:                 <TableCell>\n130:                   <span className=\"text-sm\">{prospect.phone}</span>\n131:                 </TableCell>\n132:                 <TableCell>\n133:                   <span className=\"text-sm\">{prospect.email ?? \"—\"}</span>\n134:                 </TableCell>\n135:                 <TableCell>\n136:                   {prospect.description ? (\n137:                     <span className=\"line-clamp-1 max-w-[200px] text-sm\">\n138:                       {prospect.description}\n139:                     </span>\n140:                   ) : (\n141:                     <span className=\"text-muted-foreground text-sm\">—</span>\n142:                   )}\n143:                 </TableCell>\n144:                 <TableCell>\n145:                   <span className=\"text-sm\">\n146:                     {formatDate(prospect.createdAt)}\n147:                   </span>\n148:                 </TableCell>\n149:               </TableRow>\n150:             ))}\n151:           </TableBody>\n152:         </Table>\n153:       </div>\n154: \n155:       {nextCursor && (\n156:         <div className=\"flex justify-center\">\n157:           <Button\n158:             onClick={() => setCursor(nextCursor)}\n159:             size=\"sm\"\n160:             variant=\"outline\"\n161:           >\n162:             Load more\n163:           </Button>\n164:         </div>\n165:       )}\n166:     </div>\n167:   );\n168: }\n\n(End of file - total 168 lines)\n</content>",
+            "metadata": {
+              "preview": "import { Archive, Search } from \"lucide-react\";\nimport { useId, useState } from \"react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\nimport { useORPCQuery } from \"@/hooks/use-orpc-query\";\nimport { client } from \"@/rpc/client\";\n\nimport type { ProspectItem, ProspectListResponse } from \"./prospect.types\";\n\ntype ProspectListViewProps = {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/prospect-list-view.tsx",
+            "time": {
+              "start": 1779539482009,
+              "end": 1779539482069
+            }
+          },
+          "id": "prt_e54d194b3001Q7zDrpJkVNw5aV",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_5a03132362114fc38ce85ad2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx</path>\n<type>file</type>\n<content>\n1: import { useQuery } from \"@tanstack/react-query\";\n2: import {\n3:   flexRender,\n4:   getCoreRowModel,\n5:   useReactTable,\n6: } from \"@tanstack/react-table\";\n7: import { Archive, Search } from \"lucide-react\";\n8: import { parseAsJson, useQueryState } from \"nuqs\";\n9: import { useState } from \"react\";\n10: import { z } from \"zod\";\n11: \n12: import { DataTableFilter } from \"@/components/data-table-filter\";\n13: import type { FiltersState } from \"@/components/data-table-filter/core/types\";\n14: import { useDataTableFilters } from \"@/components/data-table-filter/hooks/use-data-table-filters\";\n15: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n16: import { Button } from \"@/components/ui/button\";\n17: import { Input } from \"@/components/ui/input\";\n18: import {\n19:   Table,\n20:   TableBody,\n21:   TableCell,\n22:   TableHead,\n23:   TableHeader,\n24:   TableRow,\n25: } from \"@/components/ui/table\";\n26: import { rpc } from \"@/rpc/client\";\n27: \n28: import { clientColumnDefs } from \"./client-list-view/columns\";\n29: import { clientColumnsConfig } from \"./client-list-view/filters\";\n30: \n31: export type ClientItem = {\n32:   id: string;\n33:   name: string;\n34:   legalName: string | null;\n35:   slug: string;\n36:   logo: string | null;\n37:   archived: boolean;\n38:   assigneeId: string;\n39:   assignee: {\n40:     id: string;\n41:     name: string | null;\n42:     image: string | null;\n43:   };\n44:   createdAt: Date | null;\n45:   updatedAt: Date | null;\n46: };\n47: \n48: type ClientListResponse = {\n49:   items: ClientItem[];\n50:   nextCursor: string | null;\n51: };\n52: \n53: type ClientListViewProps = {\n54:   onItemClick: (client: ClientItem) => void;\n55: };\n56: \n57: const filtersSchema = z.custom<FiltersState>();\n58: \n59: function filtersToRpcParams(filters: FiltersState) {\n60:   let search: string | undefined;\n61:   let archived: boolean | undefined;\n62:   let assigneeId: string[] | undefined;\n63: \n64:   for (const f of filters) {\n65:     if (f.columnId === \"name\" && f.type === \"text\") {\n66:       search = f.values[0];\n67:     }\n68:     if (f.columnId === \"archived\" && f.type === \"option\") {\n69:       archived = f.values[0] === \"true\";\n70:     }\n71:     if (f.columnId === \"assigneeId\" && f.type === \"option\") {\n72:       assigneeId = [...f.values];\n73:     }\n74:   }\n75: \n76:   return { archived, assigneeId, search };\n77: }\n78: \n79: function getSearchValue(filters: FiltersState): string {\n80:   for (const f of filters) {\n81:     if (f.columnId === \"name\" && f.type === \"text\") return f.values[0] ?? \"\";\n82:   }\n83:   return \"\";\n84: }\n85: \n86: function setSearchFilter(filters: FiltersState, value: string): FiltersState {\n87:   const rest = filters.filter((f) => f.columnId !== \"name\");\n88:   if (!value) return rest;\n89:   return [\n90:     ...rest,\n91:     {\n92:       columnId: \"name\",\n93:       operator: \"contains\",\n94:       type: \"text\" as const,\n95:       values: [value],\n96:     },\n97:   ];\n98: }\n99: \n100: export function ClientListView({\n101:   onItemClick: onClientClick,\n102: }: ClientListViewProps) {\n103:   const [filters, setFilters] = useQueryState<FiltersState>(\n104:     \"filters\",\n105:     parseAsJson(filtersSchema.parse).withDefault([]),\n106:   );\n107: \n108:   const [cursor, setCursor] = useState<string | undefined>();\n109: \n110:   const rpcParams = filtersToRpcParams(filters);\n111: \n112:   const { data: clientsData, isLoading } = useQuery(\n113:     rpc.client.list.queryOptions({\n114:       input: {\n115:         archived: rpcParams.archived,\n116:         assigneeId: rpcParams.assigneeId,\n117:         cursor,\n118:         limit: 20,\n119:         search: rpcParams.search,\n120:       },\n121:     }) as any,\n122:   );\n123: \n124:   const { data: usersData } = useQuery(\n125:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,\n126:   );\n127: \n128:   const clients = (clientsData as ClientListResponse | undefined)?.items ?? [];\n129:   const nextCursor = (clientsData as ClientListResponse | undefined)\n130:     ?.nextCursor;\n131: \n132:   const assigneeOptions = ((usersData as any)?.items ?? []).map((u: any) => ({\n133:     icon: (\n134:       <Avatar className=\"size-4\">\n135:         <AvatarImage src={u.image ?? undefined} />\n136:         <AvatarFallback>{u.name?.[0] ?? \"?\"}</AvatarFallback>\n137:       </Avatar>\n138:     ),\n139:     label: u.name ?? \"Unknown\",\n140:     value: u.id,\n141:   }));\n142: \n143:   const archivedOptions = [\n144:     { icon: <Archive className=\"size-4\" />, label: \"Archived\", value: \"true\" },\n145:     { label: \"Active\", value: \"false\" },\n146:   ];\n147: \n148:   const {\n149:     columns,\n150:     filters: filterState,\n151:     actions,\n152:     strategy,\n153:   } = useDataTableFilters({\n154:     columnsConfig: clientColumnsConfig,\n155:     data: clients,\n156:     filters,\n157:     onFiltersChange: (next) => {\n158:       setFilters(next);\n159:       setCursor(undefined);\n160:     },\n161:     options: {\n162:       archived: archivedOptions,\n163:       assigneeId: assigneeOptions,\n164:     },\n165:     strategy: \"server\",\n166:   });\n167: \n168:   const table = useReactTable({\n169:     columns: clientColumnDefs,\n170:     data: clients,\n171:     getCoreRowModel: getCoreRowModel(),\n172:     getRowId: (row) => String(row.id),\n173:   });\n174: \n175:   return (\n176:     <div className=\"space-y-4\">\n177:       <div className=\"flex items-start gap-2\">\n178:         <div className=\"relative flex-1\">\n179:           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n180:           <Input\n181:             className=\"pl-8\"\n182:             onChange={(e) => {\n183:               setFilters(setSearchFilter(filters, e.target.value));\n184:               setCursor(undefined);\n185:             }}\n186:             placeholder=\"Search clients...\"\n187:             value={getSearchValue(filters)}\n188:           />\n189:         </div>\n190:         <DataTableFilter\n191:           actions={actions}\n192:           columns={columns}\n193:           filters={filterState}\n194:           locale=\"en\"\n195:           strategy={strategy}\n196:         />\n197:       </div>\n198: \n199:       <div className=\"rounded-lg border bg-card\">\n200:         <Table>\n201:           <TableHeader>\n202:             {table.getHeaderGroups().map((headerGroup) => (\n203:               <TableRow key={headerGroup.id}>\n204:                 {headerGroup.headers.map((header) => (\n205:                   <TableHead key={header.id}>\n206:                     {header.isPlaceholder\n207:                       ? null\n208:                       : flexRender(\n209:                           header.column.columnDef.header,\n210:                           header.getContext(),\n211:                         )}\n212:                   </TableHead>\n213:                 ))}\n214:               </TableRow>\n215:             ))}\n216:           </TableHeader>\n217:           <TableBody>\n218:             {isLoading ? (\n219:               <TableRow>\n220:                 <TableCell\n221:                   className=\"text-center text-muted-foreground\"\n222:                   colSpan={clientColumnDefs.length}\n223:                 >\n224:                   Loading...\n225:                 </TableCell>\n226:               </TableRow>\n227:             ) : clients.length === 0 ? (\n228:               <TableRow>\n229:                 <TableCell\n230:                   className=\"text-center text-muted-foreground\"\n231:                   colSpan={clientColumnDefs.length}\n232:                 >\n233:                   No clients found\n234:                 </TableCell>\n235:               </TableRow>\n236:             ) : (\n237:               table.getRowModel().rows.map((row) => (\n238:                 <TableRow\n239:                   className=\"cursor-pointer\"\n240:                   key={row.id}\n241:                   onClick={() => onClientClick(row.original)}\n242:                 >\n243:                   {row.getVisibleCells().map((cell) => (\n244:                     <TableCell key={cell.id}>\n245:                       {flexRender(\n246:                         cell.column.columnDef.cell,\n247:                         cell.getContext(),\n248:                       )}\n249:                     </TableCell>\n250:                   ))}\n251:                 </TableRow>\n252:               ))\n253:             )}\n254:           </TableBody>\n255:         </Table>\n256:       </div>\n257: \n258:       {nextCursor && (\n259:         <div className=\"flex justify-center\">\n260:           <Button\n261:             onClick={() => setCursor(nextCursor)}\n262:             size=\"sm\"\n263:             variant=\"outline\"\n264:           >\n265:             Load more\n266:           </Button>\n267:         </div>\n268:       )}\n269:     </div>\n270:   );\n271: }\n\n(End of file - total 271 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useQuery } from \"@tanstack/react-query\";\nimport {\n  flexRender,\n  getCoreRowModel,\n  useReactTable,\n} from \"@tanstack/react-table\";\nimport { Archive, Search } from \"lucide-react\";\nimport { parseAsJson, useQueryState } from \"nuqs\";\nimport { useState } from \"react\";\nimport { z } from \"zod\";\n\nimport { DataTableFilter } from \"@/components/data-table-filter\";\nimport type { FiltersState } from \"@/components/data-table-filter/core/types\";\nimport { useDataTableFilters } from \"@/components/data-table-filter/hooks/use-data-table-filters\";\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Table,\n  TableBody,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/client-list-view.tsx",
+            "time": {
+              "start": 1779539482083,
+              "end": 1779539482330
+            }
+          },
+          "id": "prt_e54d1959d001SiTd1dXF0uW9B7",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d8f1c9db2b734abc90639510",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx</path>\n<type>file</type>\n<content>\n1: \"use client\";\n2: \n3: import * as React from \"react\";\n4: \n5: import { cn } from \"@/lib/utils\";\n6: \n7: function Table({ className, ...props }: React.ComponentProps<\"table\">) {\n8:   return (\n9:     <div\n10:       className=\"relative w-full overflow-x-auto\"\n11:       data-slot=\"table-container\"\n12:     >\n13:       <table\n14:         className={cn(\"w-full caption-bottom text-sm\", className)}\n15:         data-slot=\"table\"\n16:         {...props}\n17:       />\n18:     </div>\n19:   );\n20: }\n21: \n22: function TableHeader({ className, ...props }: React.ComponentProps<\"thead\">) {\n23:   return (\n24:     <thead\n25:       className={cn(\"[&_tr]:border-b\", className)}\n26:       data-slot=\"table-header\"\n27:       {...props}\n28:     />\n29:   );\n30: }\n31: \n32: function TableBody({ className, ...props }: React.ComponentProps<\"tbody\">) {\n33:   return (\n34:     <tbody\n35:       className={cn(\"[&_tr:last-child]:border-0\", className)}\n36:       data-slot=\"table-body\"\n37:       {...props}\n38:     />\n39:   );\n40: }\n41: \n42: function TableFooter({ className, ...props }: React.ComponentProps<\"tfoot\">) {\n43:   return (\n44:     <tfoot\n45:       className={cn(\n46:         \"border-t bg-muted/50 font-medium [&>tr]:last:border-b-0\",\n47:         className,\n48:       )}\n49:       data-slot=\"table-footer\"\n50:       {...props}\n51:     />\n52:   );\n53: }\n54: \n55: function TableRow({ className, ...props }: React.ComponentProps<\"tr\">) {\n56:   return (\n57:     <tr\n58:       className={cn(\n59:         \"border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted\",\n60:         className,\n61:       )}\n62:       data-slot=\"table-row\"\n63:       {...props}\n64:     />\n65:   );\n66: }\n67: \n68: function TableHead({ className, ...props }: React.ComponentProps<\"th\">) {\n69:   return (\n70:     <th\n71:       className={cn(\n72:         \"h-10 whitespace-nowrap px-2 text-left align-middle font-medium text-foreground [&:has([role=checkbox])]:pr-0\",\n73:         className,\n74:       )}\n75:       data-slot=\"table-head\"\n76:       {...props}\n77:     />\n78:   );\n79: }\n80: \n81: function TableCell({ className, ...props }: React.ComponentProps<\"td\">) {\n82:   return (\n83:     <td\n84:       className={cn(\n85:         \"whitespace-nowrap p-2 align-middle [&:has([role=checkbox])]:pr-0\",\n86:         className,\n87:       )}\n88:       data-slot=\"table-cell\"\n89:       {...props}\n90:     />\n91:   );\n92: }\n93: \n94: function TableCaption({\n95:   className,\n96:   ...props\n97: }: React.ComponentProps<\"caption\">) {\n98:   return (\n99:     <caption\n100:       className={cn(\"mt-4 text-muted-foreground text-sm\", className)}\n101:       data-slot=\"table-caption\"\n102:       {...props}\n103:     />\n104:   );\n105: }\n106: \n107: export {\n108:   Table,\n109:   TableBody,\n110:   TableCaption,\n111:   TableCell,\n112:   TableFooter,\n113:   TableHead,\n114:   TableHeader,\n115:   TableRow,\n116: };\n\n(End of file - total 116 lines)\n</content>",
+            "metadata": {
+              "preview": "\"use client\";\n\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nfunction Table({ className, ...props }: React.ComponentProps<\"table\">) {\n  return (\n    <div\n      className=\"relative w-full overflow-x-auto\"\n      data-slot=\"table-container\"\n    >\n      <table\n        className={cn(\"w-full caption-bottom text-sm\", className)}\n        data-slot=\"table\"\n        {...props}\n      />\n    </div>\n  );\n}",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/ui/table.tsx",
+            "time": {
+              "start": 1779539482268,
+              "end": 1779539482488
+            }
+          },
+          "id": "prt_e54d1960b00101FzzrAFfJJID0",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_9e1e1fb4bfca40189b813ca6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx</path>\n<type>file</type>\n<content>\n1: import { useNavigate } from \"@tanstack/react-router\";\n2: import { format } from \"date-fns\";\n3: \n4: import type { ContractItem } from \"@/components/types\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Skeleton } from \"@/components/ui/skeleton\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: \n16: type ContractsTableProps = {\n17:   contracts: ContractItem[];\n18:   isLoading: boolean;\n19:   search: string;\n20: };\n21: \n22: const STATUS_STYLES: Record<string, { label: string; className: string }> = {\n23:   active: {\n24:     className: \"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400\",\n25:     label: \"Active\",\n26:   },\n27:   inactive: {\n28:     className: \"bg-slate-500/10 text-slate-600 dark:text-slate-400\",\n29:     label: \"Inactive\",\n30:   },\n31: };\n32: \n33: function formatDate(date: string | null) {\n34:   if (!date) return \"—\";\n35:   try {\n36:     return format(new Date(date), \"MMM d, yyyy\");\n37:   } catch {\n38:     return date;\n39:   }\n40: }\n41: \n42: export function ContractsTable({\n43:   contracts,\n44:   isLoading,\n45:   search,\n46: }: ContractsTableProps) {\n47:   const navigate = useNavigate();\n48: \n49:   const filtered = search\n50:     ? contracts.filter(\n51:         (c) =>\n52:           c.title.toLowerCase().includes(search.toLowerCase()) ||\n53:           (c.referenceNumber ?? \"\")\n54:             .toLowerCase()\n55:             .includes(search.toLowerCase()) ||\n56:           (c.client?.name ?? \"\").toLowerCase().includes(search.toLowerCase()),\n57:       )\n58:     : contracts;\n59: \n60:   return (\n61:     <div className=\"rounded-lg border bg-card\">\n62:       <Table>\n63:         <TableHeader>\n64:           <TableRow>\n65:             <TableHead>Reference #</TableHead>\n66:             <TableHead>Client</TableHead>\n67:             <TableHead>BD Responsible</TableHead>\n68:             <TableHead>RM Responsible</TableHead>\n69:             <TableHead>Status</TableHead>\n70:             <TableHead>Start Date</TableHead>\n71:             <TableHead>End Date</TableHead>\n72:           </TableRow>\n73:         </TableHeader>\n74:         <TableBody>\n75:           {isLoading &&\n76:             Array.from({ length: 5 }).map((_, i) => (\n77:               // biome-ignore lint/suspicious/noArrayIndexKey: skeleton rows are static\n78:               <TableRow key={`skeleton-${i}`}>\n79:                 <TableCell>\n80:                   <Skeleton className=\"h-4 w-24\" />\n81:                 </TableCell>\n82:                 <TableCell>\n83:                   <Skeleton className=\"h-4 w-32\" />\n84:                 </TableCell>\n85:                 <TableCell>\n86:                   <Skeleton className=\"h-5 w-28\" />\n87:                 </TableCell>\n88:                 <TableCell>\n89:                   <Skeleton className=\"h-5 w-28\" />\n90:                 </TableCell>\n91:                 <TableCell>\n92:                   <Skeleton className=\"h-5 w-16\" />\n93:                 </TableCell>\n94:                 <TableCell>\n95:                   <Skeleton className=\"h-4 w-24\" />\n96:                 </TableCell>\n97:                 <TableCell>\n98:                   <Skeleton className=\"h-4 w-24\" />\n99:                 </TableCell>\n100:               </TableRow>\n101:             ))}\n102:           {!isLoading && filtered.length === 0 && (\n103:             <TableRow>\n104:               <TableCell\n105:                 className=\"text-center text-muted-foreground\"\n106:                 colSpan={7}\n107:               >\n108:                 {search ? \"No contracts match your search\" : \"No contracts yet\"}\n109:               </TableCell>\n110:             </TableRow>\n111:           )}\n112:           {!isLoading &&\n113:             filtered.map((contract) => {\n114:               const status = STATUS_STYLES[contract.status ?? \"active\"] ?? {\n115:                 className: \"\",\n116:                 label: contract.status ?? \"—\",\n117:               };\n118:               return (\n119:                 <TableRow\n120:                   className=\"cursor-pointer\"\n121:                   key={contract.id}\n122:                   onClick={() =>\n123:                     navigate({\n124:                       params: { contractId: String(contract.id) },\n125:                       to: \"/contracts/$contractId\",\n126:                     })\n127:                   }\n128:                 >\n129:                   <TableCell className=\"font-mono text-sm\">\n130:                     {contract.referenceNumber ?? \"—\"}\n131:                   </TableCell>\n132:                   <TableCell>\n133:                     <div>\n134:                       <div className=\"font-medium\">{contract.title}</div>\n135:                       {contract.client?.name && (\n136:                         <div className=\"text-muted-foreground text-sm\">\n137:                           {contract.client.name}\n138:                         </div>\n139:                       )}\n140:                     </div>\n141:                   </TableCell>\n142:                   <TableCell className=\"text-sm\">\n143:                     {contract.bd?.name ?? \"—\"}\n144:                   </TableCell>\n145:                   <TableCell className=\"text-sm\">\n146:                     {contract.rm?.name ?? \"—\"}\n147:                   </TableCell>\n148:                   <TableCell>\n149:                     <Badge className={status.className} variant=\"outline\">\n150:                       {status.label}\n151:                     </Badge>\n152:                   </TableCell>\n153:                   <TableCell className=\"text-muted-foreground text-sm\">\n154:                     {formatDate(contract.startDate)}\n155:                   </TableCell>\n156:                   <TableCell className=\"text-muted-foreground text-sm\">\n157:                     {formatDate(contract.endDate)}\n158:                   </TableCell>\n159:                 </TableRow>\n160:               );\n161:             })}\n162:         </TableBody>\n163:       </Table>\n164:     </div>\n165:   );\n166: }\n\n(End of file - total 166 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useNavigate } from \"@tanstack/react-router\";\nimport { format } from \"date-fns\";\n\nimport type { ContractItem } from \"@/components/types\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\n\ntype ContractsTableProps = {\n  contracts: ContractItem[];\n  isLoading: boolean;\n  search: string;\n};",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/tables/contracts-table.tsx",
+            "time": {
+              "start": 1779539482450,
+              "end": 1779539482813
+            }
+          },
+          "id": "prt_e54d196aa00146F7pc2YM4Tc97",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_b96daaaa20ca49d587279562",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx</path>\n<type>file</type>\n<content>\n1: import { useNavigate } from \"@tanstack/react-router\";\n2: import { format } from \"date-fns\";\n3: \n4: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Skeleton } from \"@/components/ui/skeleton\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: import type { PermissionSet } from \"@/lib/auth/access-control\";\n16: import { ROLE_DISPLAY_NAMES } from \"@/lib/constants\";\n17: \n18: type MemberItem = {\n19:   banExpires: Date | null;\n20:   banned: boolean | null;\n21:   banReason: string | null;\n22:   createdAt: Date | null;\n23:   permissions: PermissionSet | null;\n24:   email: string;\n25:   id: string;\n26:   image: string | null;\n27:   name: string;\n28:   role: string | null;\n29:   supervisorId: string | null;\n30:   supervisorName: string | null;\n31: };\n32: \n33: type MembersTableProps = {\n34:   members: MemberItem[];\n35:   isLoading: boolean;\n36:   search: string;\n37: };\n38: \n39: function getInitials(name: string) {\n40:   return name\n41:     .split(\" \")\n42:     .map((n) => n[0])\n43:     .join(\"\")\n44:     .toUpperCase()\n45:     .slice(0, 2);\n46: }\n47: \n48: export function MembersTable({\n49:   members,\n50:   isLoading,\n51:   search,\n52: }: MembersTableProps) {\n53:   const navigate = useNavigate();\n54: \n55:   const filtered = search\n56:     ? members.filter(\n57:         (m) =>\n58:           m.name.toLowerCase().includes(search.toLowerCase()) ||\n59:           m.email.toLowerCase().includes(search.toLowerCase()),\n60:       )\n61:     : members;\n62: \n63:   return (\n64:     <div className=\"rounded-lg border bg-card\">\n65:       <Table>\n66:         <TableHeader>\n67:           <TableRow>\n68:             <TableHead>Name</TableHead>\n69:             <TableHead>Role</TableHead>\n70:             <TableHead>Supervisor</TableHead>\n71:             <TableHead>Status</TableHead>\n72:             <TableHead>Added</TableHead>\n73:           </TableRow>\n74:         </TableHeader>\n75:         <TableBody>\n76:           {isLoading &&\n77:             Array.from({ length: 5 }).map((_, i) => (\n78:               <TableRow key={`skeleton-${i}`}>\n79:                 <TableCell>\n80:                   <div className=\"flex items-center gap-3\">\n81:                     <Skeleton className=\"h-8 w-8 rounded-full\" />\n82:                     <div className=\"space-y-1\">\n83:                       <Skeleton className=\"h-4 w-32\" />\n84:                       <Skeleton className=\"h-3 w-40\" />\n85:                     </div>\n86:                   </div>\n87:                 </TableCell>\n88:                 <TableCell>\n89:                   <Skeleton className=\"h-5 w-24\" />\n90:                 </TableCell>\n91:                 <TableCell>\n92:                   <Skeleton className=\"h-5 w-24\" />\n93:                 </TableCell>\n94:                 <TableCell>\n95:                   <Skeleton className=\"h-5 w-16\" />\n96:                 </TableCell>\n97:                 <TableCell>\n98:                   <Skeleton className=\"h-4 w-20\" />\n99:                 </TableCell>\n100:               </TableRow>\n101:             ))}\n102:           {!isLoading && filtered.length === 0 && (\n103:             <TableRow>\n104:               <TableCell\n105:                 className=\"text-center text-muted-foreground\"\n106:                 colSpan={5}\n107:               >\n108:                 {search ? \"No members match your search\" : \"No members yet\"}\n109:               </TableCell>\n110:             </TableRow>\n111:           )}\n112:           {!isLoading &&\n113:             filtered.map((member) => (\n114:               <TableRow\n115:                 className=\"cursor-pointer\"\n116:                 key={member.id}\n117:                 onClick={() =>\n118:                   navigate({\n119:                     params: { memberId: member.id },\n120:                     to: \"/settings/members/$memberId\",\n121:                   })\n122:                 }\n123:               >\n124:                 <TableCell>\n125:                   <div className=\"flex items-center gap-3\">\n126:                     <Avatar className=\"h-8 w-8\">\n127:                       {member.image && (\n128:                         <AvatarImage alt={member.name} src={member.image} />\n129:                       )}\n130:                       <AvatarFallback>\n131:                         {getInitials(member.name)}\n132:                       </AvatarFallback>\n133:                     </Avatar>\n134:                     <div>\n135:                       <div className=\"font-medium\">{member.name}</div>\n136:                       <div className=\"text-muted-foreground text-sm\">\n137:                         {member.email}\n138:                       </div>\n139:                     </div>\n140:                   </div>\n141:                 </TableCell>\n142:                 <TableCell>\n143:                   <Badge variant=\"outline\">\n144:                     {ROLE_DISPLAY_NAMES[\n145:                       member.role as keyof typeof ROLE_DISPLAY_NAMES\n146:                     ] ??\n147:                       member.role ??\n148:                       \"—\"}\n149:                   </Badge>\n150:                 </TableCell>\n151:                 <TableCell className=\"text-sm\">\n152:                   {member.supervisorName ?? \"—\"}\n153:                 </TableCell>\n154:                 <TableCell>\n155:                   {member.banned ? (\n156:                     <Badge variant=\"destructive\">Banned</Badge>\n157:                   ) : (\n158:                     <Badge\n159:                       className=\"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400\"\n160:                       variant=\"outline\"\n161:                     >\n162:                       Active\n163:                     </Badge>\n164:                   )}\n165:                 </TableCell>\n166:                 <TableCell className=\"text-muted-foreground text-sm\">\n167:                   {member.createdAt\n168:                     ? format(new Date(member.createdAt), \"MMM d, yyyy\")\n169:                     : \"—\"}\n170:                 </TableCell>\n171:               </TableRow>\n172:             ))}\n173:         </TableBody>\n174:       </Table>\n175:     </div>\n176:   );\n177: }\n178: \n179: export type { MemberItem };\n\n(End of file - total 179 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useNavigate } from \"@tanstack/react-router\";\nimport { format } from \"date-fns\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\nimport type { PermissionSet } from \"@/lib/auth/access-control\";\nimport { ROLE_DISPLAY_NAMES } from \"@/lib/constants\";\n\ntype MemberItem = {\n  banExpires: Date | null;\n  banned: boolean | null;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/tables/members-table.tsx",
+            "time": {
+              "start": 1779539482761,
+              "end": 1779539482857
+            }
+          },
+          "id": "prt_e54d197840012wflttwy7nrvFP",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 6592,
+            "input": 955,
+            "output": 161,
+            "reasoning": 100,
+            "cache": {
+              "write": 0,
+              "read": 5376
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1995f001e6cqqLxi0fx7KU",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d181f1001PVUj1l5bB5eyiv"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 16191,
+          "input": 15988,
+          "output": 170,
+          "reasoning": 33,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539483266,
+          "completed": 1779539486802
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d19a82001GvEcuAtioHjsIs",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1a15b001fje9pdqkbfquPd",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also look at the data-table-filter components, the client-list-view subdirectory, and the useORPCQuery hook to understand the patterns better.",
+          "time": {
+            "start": 1779539485022,
+            "end": 1779539485322
+          },
+          "id": "prt_e54d1a15e001DNRKgr94aESZ5k",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "text",
+          "text": "Now let me look at the supporting files — the client-list-view subdirectory columns/filters, the data-table-filter system, and the `useORPCQuery` hook used by task and prospect list views.",
+          "time": {
+            "start": 1779539485325,
+            "end": 1779539486345
+          },
+          "id": "prt_e54d1a28d001QT6hOKXZ6qSfi6",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_26a9059c3f9340d2a7ac440c",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/client-list-view/**/*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/client-list-view/filters.ts\n/home/aditya/projects/alpauls-ats/src/components/client-list-view/columns.tsx",
+            "metadata": {
+              "count": 2,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779539485660,
+              "end": 1779539485754
+            }
+          },
+          "id": "prt_e54d1a3a2001fvGxc2TwSL57HB",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d4086937589d45ea94afe3a2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter</path>\n<type>directory</type>\n<entries>\ncomponents/\ncore/\nhooks/\nindex.tsx\nlib/\nlocales/\nui/\n\n(7 entries)\n</entries>",
+            "metadata": {
+              "preview": "components/\ncore/\nhooks/\nindex.tsx\nlib/\nlocales/\nui/",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter",
+            "time": {
+              "start": 1779539485918,
+              "end": 1779539485954
+            }
+          },
+          "id": "prt_e54d1a3f1001kFJyJQV41j57at",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_0481fbb64a5048adb7d4ca12",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/hooks/use-orpc-query.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/hooks/use-orpc-query.ts</path>\n<type>file</type>\n<content>\n1: import { useCallback, useEffect, useRef, useState } from \"react\";\n2: \n3: type UseORPCQueryResult<T> = {\n4:   data: T | undefined;\n5:   error: Error | undefined;\n6:   isLoading: boolean;\n7: };\n8: \n9: export function useORPCQuery<T>(\n10:   queryFn: () => Promise<T>,\n11:   deps: unknown[],\n12: ): UseORPCQueryResult<T> {\n13:   const [data, setData] = useState<T | undefined>(undefined);\n14:   const [error, setError] = useState<Error | undefined>(undefined);\n15:   const [isLoading, setIsLoading] = useState(true);\n16:   const seqRef = useRef(0);\n17: \n18:   // eslint-disable-next-line react-hooks/exhaustive-deps\n19:   const stableFn = useCallback(queryFn, deps);\n20: \n21:   useEffect(() => {\n22:     const seq = ++seqRef.current;\n23:     setIsLoading(true);\n24:     setError(undefined);\n25: \n26:     stableFn()\n27:       .then((result) => {\n28:         if (seq === seqRef.current) {\n29:           setData(result);\n30:           setIsLoading(false);\n31:         }\n32:       })\n33:       .catch((err) => {\n34:         if (seq === seqRef.current) {\n35:           setError(err instanceof Error ? err : new Error(String(err)));\n36:           setIsLoading(false);\n37:         }\n38:       });\n39: \n40:     return () => {\n41:       seqRef.current++;\n42:     };\n43:   }, [stableFn]);\n44: \n45:   return { data, error, isLoading };\n46: }\n\n(End of file - total 46 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useCallback, useEffect, useRef, useState } from \"react\";\n\ntype UseORPCQueryResult<T> = {\n  data: T | undefined;\n  error: Error | undefined;\n  isLoading: boolean;\n};\n\nexport function useORPCQuery<T>(\n  queryFn: () => Promise<T>,\n  deps: unknown[],\n): UseORPCQueryResult<T> {\n  const [data, setData] = useState<T | undefined>(undefined);\n  const [error, setError] = useState<Error | undefined>(undefined);\n  const [isLoading, setIsLoading] = useState(true);\n  const seqRef = useRef(0);\n\n  // eslint-disable-next-line react-hooks/exhaustive-deps\n  const stableFn = useCallback(queryFn, deps);\n",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/hooks/use-orpc-query.ts",
+            "time": {
+              "start": 1779539485932,
+              "end": 1779539485969
+            }
+          },
+          "id": "prt_e54d1a4e20012LUJtj6yEDcbgo",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_b300bb8a818042cf96befc21",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx</path>\n<type>file</type>\n<content>\n1: \"use client\";\n2: \n3: import { useIsMobile } from \"@/hooks/use-mobile\";\n4: \n5: import type {\n6:   Column,\n7:   DataTableFilterActions,\n8:   FilterStrategy,\n9:   FiltersState,\n10: } from \"../core/types\";\n11: import type { Locale } from \"../lib/i18n\";\n12: import { ActiveFilters, ActiveFiltersMobileContainer } from \"./active-filters\";\n13: import { FilterActions } from \"./filter-actions\";\n14: import { FilterSelector } from \"./filter-selector\";\n15: \n16: interface DataTableFilterProps<TData> {\n17:   columns: Column<TData>[];\n18:   filters: FiltersState;\n19:   actions: DataTableFilterActions;\n20:   strategy: FilterStrategy;\n21:   locale?: Locale;\n22: }\n23: \n24: export function DataTableFilter<TData>({\n25:   columns,\n26:   filters,\n27:   actions,\n28:   strategy,\n29:   locale = \"en\",\n30: }: DataTableFilterProps<TData>) {\n31:   const isMobile = useIsMobile();\n32:   if (isMobile) {\n33:     return (\n34:       <div className=\"flex w-full items-start justify-between gap-2\">\n35:         <div className=\"flex gap-1\">\n36:           <FilterSelector\n37:             actions={actions}\n38:             columns={columns}\n39:             filters={filters}\n40:             locale={locale}\n41:             strategy={strategy}\n42:           />\n43:           <FilterActions\n44:             actions={actions}\n45:             hasFilters={filters.length > 0}\n46:             locale={locale}\n47:           />\n48:         </div>\n49:         <ActiveFiltersMobileContainer>\n50:           <ActiveFilters\n51:             actions={actions}\n52:             columns={columns}\n53:             filters={filters}\n54:             locale={locale}\n55:             strategy={strategy}\n56:           />\n57:         </ActiveFiltersMobileContainer>\n58:       </div>\n59:     );\n60:   }\n61: \n62:   return (\n63:     <div className=\"flex w-full items-start justify-between gap-2\">\n64:       <div className=\"flex w-full flex-1 gap-2 md:flex-wrap\">\n65:         <FilterSelector\n66:           actions={actions}\n67:           columns={columns}\n68:           filters={filters}\n69:           locale={locale}\n70:           strategy={strategy}\n71:         />\n72:         <ActiveFilters\n73:           actions={actions}\n74:           columns={columns}\n75:           filters={filters}\n76:           locale={locale}\n77:           strategy={strategy}\n78:         />\n79:       </div>\n80:       <FilterActions\n81:         actions={actions}\n82:         hasFilters={filters.length > 0}\n83:         locale={locale}\n84:       />\n85:     </div>\n86:   );\n87: }\n\n(End of file - total 87 lines)\n</content>",
+            "metadata": {
+              "preview": "\"use client\";\n\nimport { useIsMobile } from \"@/hooks/use-mobile\";\n\nimport type {\n  Column,\n  DataTableFilterActions,\n  FilterStrategy,\n  FiltersState,\n} from \"../core/types\";\nimport type { Locale } from \"../lib/i18n\";\nimport { ActiveFilters, ActiveFiltersMobileContainer } from \"./active-filters\";\nimport { FilterActions } from \"./filter-actions\";\nimport { FilterSelector } from \"./filter-selector\";\n\ninterface DataTableFilterProps<TData> {\n  columns: Column<TData>[];\n  filters: FiltersState;\n  actions: DataTableFilterActions;\n  strategy: FilterStrategy;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/components/data-table-filter.tsx",
+            "time": {
+              "start": 1779539486142,
+              "end": 1779539486176
+            }
+          },
+          "id": "prt_e54d1a4f1001mojczzaXTQE34D",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_6ecc626f9edf4bfdba0bb987",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx</path>\n<type>file</type>\n<content>\n1: \"use client\";\n2: \n3: import type React from \"react\";\n4: import { useMemo, useState } from \"react\";\n5: \n6: import { createColumns } from \"../core/filters\";\n7: import { DEFAULT_OPERATORS, determineNewOperator } from \"../core/operators\";\n8: import type {\n9:   ColumnConfig,\n10:   ColumnDataType,\n11:   ColumnOption,\n12:   DataTableFilterActions,\n13:   FilterModel,\n14:   FilterStrategy,\n15:   FiltersState,\n16:   NumberColumnIds,\n17:   OptionBasedColumnDataType,\n18:   OptionColumnIds,\n19: } from \"../core/types\";\n20: import { addUniq, removeUniq, uniq } from \"../lib/array\";\n21: import {\n22:   createDateFilterValue,\n23:   createNumberFilterValue,\n24:   isColumnOptionArray,\n25:   isColumnOptionMap,\n26:   isMinMaxTuple,\n27: } from \"../lib/helpers\";\n28: \n29: export interface DataTableFiltersOptions<\n30:   TData,\n31:   TColumns extends ReadonlyArray<ColumnConfig<TData, any, any, any>>,\n32:   TStrategy extends FilterStrategy,\n33: > {\n34:   strategy: TStrategy;\n35:   data: TData[];\n36:   columnsConfig: TColumns;\n37:   defaultFilters?: FiltersState;\n38:   filters?: FiltersState;\n39:   onFiltersChange?: React.Dispatch<React.SetStateAction<FiltersState>>;\n40:   options?: Partial<\n41:     Record<OptionColumnIds<TColumns>, ColumnOption[] | undefined>\n42:   >;\n43:   faceted?: Partial<\n44:     | Record<OptionColumnIds<TColumns>, Map<string, number> | undefined>\n45:     | Record<NumberColumnIds<TColumns>, [number, number] | undefined>\n46:   >;\n47: }\n48: \n49: export function useDataTableFilters<\n50:   TData,\n51:   TColumns extends ReadonlyArray<ColumnConfig<TData, any, any, any>>,\n52:   TStrategy extends FilterStrategy,\n53: >({\n54:   strategy,\n55:   data,\n56:   columnsConfig,\n57:   defaultFilters,\n58:   filters: externalFilters,\n59:   onFiltersChange,\n60:   options,\n61:   faceted,\n62: }: DataTableFiltersOptions<TData, TColumns, TStrategy>) {\n63:   const [internalFilters, setInternalFilters] = useState<FiltersState>(\n64:     defaultFilters ?? [],\n65:   );\n66: \n67:   if (\n68:     (externalFilters && !onFiltersChange) ||\n69:     (!externalFilters && onFiltersChange)\n70:   ) {\n71:     throw new Error(\n72:       \"If using controlled state, you must specify both filters and onFiltersChange.\",\n73:     );\n74:   }\n75: \n76:   const filters = externalFilters ?? internalFilters;\n77:   const setFilters = onFiltersChange ?? setInternalFilters;\n78: \n79:   // Convert ColumnConfig to Column, applying options and faceted options if provided\n80:   const columns = useMemo(() => {\n81:     const enhancedConfigs = columnsConfig.map((config) => {\n82:       let final = config;\n83: \n84:       // Set options, if exists\n85:       if (\n86:         options &&\n87:         (config.type === \"option\" || config.type === \"multiOption\")\n88:       ) {\n89:         const optionsInput = options[config.id as OptionColumnIds<TColumns>];\n90:         if (!optionsInput || !isColumnOptionArray(optionsInput)) return config;\n91: \n92:         final = { ...final, options: optionsInput };\n93:       }\n94: \n95:       // Set faceted options, if exists\n96:       if (\n97:         faceted &&\n98:         (config.type === \"option\" || config.type === \"multiOption\")\n99:       ) {\n100:         const facetedOptionsInput =\n101:           faceted[config.id as OptionColumnIds<TColumns>];\n102:         if (!facetedOptionsInput || !isColumnOptionMap(facetedOptionsInput))\n103:           return config;\n104: \n105:         final = { ...final, facetedOptions: facetedOptionsInput };\n106:       }\n107: \n108:       // Set faceted min/max values, if exists\n109:       if (config.type === \"number\" && faceted) {\n110:         const minMaxTuple = faceted[config.id as NumberColumnIds<TColumns>];\n111:         if (!minMaxTuple || !isMinMaxTuple(minMaxTuple)) return config;\n112: \n113:         final = {\n114:           ...final,\n115:           max: minMaxTuple[1],\n116:           min: minMaxTuple[0],\n117:         };\n118:       }\n119: \n120:       return final;\n121:     });\n122: \n123:     return createColumns(data, enhancedConfigs, strategy);\n124:   }, [data, columnsConfig, options, faceted, strategy]);\n125: \n126:   const actions: DataTableFilterActions = useMemo(\n127:     () => ({\n128:       addFilterValue<TData, TType extends OptionBasedColumnDataType>(\n129:         column: ColumnConfig<TData, TType>,\n130:         values: FilterModel<TType>[\"values\"],\n131:       ) {\n132:         if (column.type === \"option\") {\n133:           setFilters((prev) => {\n134:             const filter = prev.find((f) => f.columnId === column.id);\n135:             const isColumnFiltered = filter && filter.values.length > 0;\n136:             if (!isColumnFiltered) {\n137:               return [\n138:                 ...prev,\n139:                 {\n140:                   columnId: column.id,\n141:                   operator:\n142:                     values.length > 1\n143:                       ? DEFAULT_OPERATORS[column.type].multiple\n144:                       : DEFAULT_OPERATORS[column.type].single,\n145:                   type: column.type,\n146:                   values,\n147:                 },\n148:               ];\n149:             }\n150:             const oldValues = filter.values;\n151:             const newValues = addUniq(filter.values, values);\n152:             const newOperator = determineNewOperator(\n153:               \"option\",\n154:               oldValues,\n155:               newValues,\n156:               filter.operator,\n157:             );\n158:             return prev.map((f) =>\n159:               f.columnId === column.id\n160:                 ? {\n161:                     columnId: column.id,\n162:                     operator: newOperator,\n163:                     type: column.type,\n164:                     values: newValues,\n165:                   }\n166:                 : f,\n167:             );\n168:           });\n169:           return;\n170:         }\n171:         if (column.type === \"multiOption\") {\n172:           setFilters((prev) => {\n173:             const filter = prev.find((f) => f.columnId === column.id);\n174:             const isColumnFiltered = filter && filter.values.length > 0;\n175:             if (!isColumnFiltered) {\n176:               return [\n177:                 ...prev,\n178:                 {\n179:                   columnId: column.id,\n180:                   operator:\n181:                     values.length > 1\n182:                       ? DEFAULT_OPERATORS[column.type].multiple\n183:                       : DEFAULT_OPERATORS[column.type].single,\n184:                   type: column.type,\n185:                   values,\n186:                 },\n187:               ];\n188:             }\n189:             const oldValues = filter.values;\n190:             const newValues = addUniq(filter.values, values);\n191:             const newOperator = determineNewOperator(\n192:               \"multiOption\",\n193:               oldValues,\n194:               newValues,\n195:               filter.operator,\n196:             );\n197:             if (newValues.length === 0) {\n198:               return prev.filter((f) => f.columnId !== column.id);\n199:             }\n200:             return prev.map((f) =>\n201:               f.columnId === column.id\n202:                 ? {\n203:                     columnId: column.id,\n204:                     operator: newOperator,\n205:                     type: column.type,\n206:                     values: newValues,\n207:                   }\n208:                 : f,\n209:             );\n210:           });\n211:           return;\n212:         }\n213:         throw new Error(\n214:           \"[data-table-filter] addFilterValue() is only supported for option columns\",\n215:         );\n216:       },\n217:       removeAllFilters() {\n218:         setFilters([]);\n219:       },\n220:       removeFilter(columnId: string) {\n221:         setFilters((prev) => prev.filter((f) => f.columnId !== columnId));\n222:       },\n223:       removeFilterValue<TData, TType extends OptionBasedColumnDataType>(\n224:         column: ColumnConfig<TData, TType>,\n225:         value: FilterModel<TType>[\"values\"],\n226:       ) {\n227:         if (column.type === \"option\") {\n228:           setFilters((prev) => {\n229:             const filter = prev.find((f) => f.columnId === column.id);\n230:             const isColumnFiltered = filter && filter.values.length > 0;\n231:             if (!isColumnFiltered) {\n232:               return [...prev];\n233:             }\n234:             const newValues = removeUniq(filter.values, value);\n235:             const oldValues = filter.values;\n236:             const newOperator = determineNewOperator(\n237:               \"option\",\n238:               oldValues,\n239:               newValues,\n240:               filter.operator,\n241:             );\n242:             if (newValues.length === 0) {\n243:               return prev.filter((f) => f.columnId !== column.id);\n244:             }\n245:             return prev.map((f) =>\n246:               f.columnId === column.id\n247:                 ? {\n248:                     columnId: column.id,\n249:                     operator: newOperator,\n250:                     type: column.type,\n251:                     values: newValues,\n252:                   }\n253:                 : f,\n254:             );\n255:           });\n256:           return;\n257:         }\n258:         if (column.type === \"multiOption\") {\n259:           setFilters((prev) => {\n260:             const filter = prev.find((f) => f.columnId === column.id);\n261:             const isColumnFiltered = filter && filter.values.length > 0;\n262:             if (!isColumnFiltered) {\n263:               return [...prev];\n264:             }\n265:             const newValues = removeUniq(filter.values, value);\n266:             const oldValues = filter.values;\n267:             const newOperator = determineNewOperator(\n268:               \"multiOption\",\n269:               oldValues,\n270:               newValues,\n271:               filter.operator,\n272:             );\n273:             if (newValues.length === 0) {\n274:               return prev.filter((f) => f.columnId !== column.id);\n275:             }\n276:             return prev.map((f) =>\n277:               f.columnId === column.id\n278:                 ? {\n279:                     columnId: column.id,\n280:                     operator: newOperator,\n281:                     type: column.type,\n282:                     values: newValues,\n283:                   }\n284:                 : f,\n285:             );\n286:           });\n287:           return;\n288:         }\n289:         throw new Error(\n290:           \"[data-table-filter] removeFilterValue() is only supported for option columns\",\n291:         );\n292:       },\n293:       setFilterOperator<TType extends ColumnDataType>(\n294:         columnId: string,\n295:         operator: FilterModel<TType>[\"operator\"],\n296:       ) {\n297:         setFilters((prev) =>\n298:           prev.map((f) => (f.columnId === columnId ? { ...f, operator } : f)),\n299:         );\n300:       },\n301:       setFilterValue<TData, TType extends ColumnDataType>(\n302:         column: ColumnConfig<TData, TType>,\n303:         values: FilterModel<TType>[\"values\"],\n304:       ) {\n305:         setFilters((prev) => {\n306:           const filter = prev.find((f) => f.columnId === column.id);\n307:           const isColumnFiltered = filter && filter.values.length > 0;\n308:           const newValues =\n309:             column.type === \"number\"\n310:               ? createNumberFilterValue(values as number[])\n311:               : column.type === \"date\"\n312:                 ? createDateFilterValue(\n313:                     values as [Date, Date] | [Date] | [] | undefined,\n314:                   )\n315:                 : uniq(values);\n316:           if (newValues.length === 0) return prev;\n317:           if (!isColumnFiltered) {\n318:             return [\n319:               ...prev,\n320:               {\n321:                 columnId: column.id,\n322:                 operator:\n323:                   values.length > 1\n324:                     ? DEFAULT_OPERATORS[column.type].multiple\n325:                     : DEFAULT_OPERATORS[column.type].single,\n326:                 type: column.type,\n327:                 values: newValues,\n328:               },\n329:             ];\n330:           }\n331:           const oldValues = filter.values;\n332:           const newOperator = determineNewOperator(\n333:             column.type,\n334:             oldValues,\n335:             newValues,\n336:             filter.operator,\n337:           );\n338:           const newFilter = {\n339:             columnId: column.id,\n340:             operator: newOperator,\n341:             type: column.type,\n342:             values: newValues as any,\n343:           } satisfies FilterModel<TType>;\n344:           return prev.map((f) => (f.columnId === column.id ? newFilter : f));\n345:         });\n346:       },\n347:     }),\n348:     [setFilters],\n349:   );\n350: \n351:   return { actions, columns, filters, strategy }; // columns is Column<TData>[]\n352: }\n\n(End of file - total 352 lines)\n</content>",
+            "metadata": {
+              "preview": "\"use client\";\n\nimport type React from \"react\";\nimport { useMemo, useState } from \"react\";\n\nimport { createColumns } from \"../core/filters\";\nimport { DEFAULT_OPERATORS, determineNewOperator } from \"../core/operators\";\nimport type {\n  ColumnConfig,\n  ColumnDataType,\n  ColumnOption,\n  DataTableFilterActions,\n  FilterModel,\n  FilterStrategy,\n  FiltersState,\n  NumberColumnIds,\n  OptionBasedColumnDataType,\n  OptionColumnIds,\n} from \"../core/types\";\nimport { addUniq, removeUniq, uniq } from \"../lib/array\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/hooks/use-data-table-filters.tsx",
+            "time": {
+              "start": 1779539486327,
+              "end": 1779539486528
+            }
+          },
+          "id": "prt_e54d1a5cd001rOMrTRSGYeAj7O",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 16191,
+            "input": 15988,
+            "output": 170,
+            "reasoning": 33,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1a784001NXGAzpiHj3kSox",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d19a82001GvEcuAtioHjsIs"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 20743,
+          "input": 4491,
+          "output": 98,
+          "reasoning": 26,
+          "cache": {
+            "write": 0,
+            "read": 16128
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539486808,
+          "completed": 1779539489654
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d1a858001knCUJUYzienZiZ",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1ae69001v7Kaq5npiA3qay",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me read the client-list-view subdirectory files (columns.tsx and filters.ts) to understand the full pattern.",
+          "time": {
+            "start": 1779539488365,
+            "end": 1779539488917
+          },
+          "id": "prt_e54d1ae6d001sirwPYGsERKNKz",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_fc6e30a776d9489ab74248e7",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/client-list-view/columns.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/client-list-view/columns.tsx</path>\n<type>file</type>\n<content>\n1: import type { ColumnDef } from \"@tanstack/react-table\";\n2: import { Archive } from \"lucide-react\";\n3: \n4: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n5: \n6: import type { ClientItem } from \"../client-list-view\";\n7: \n8: export const clientColumnDefs: ColumnDef<ClientItem>[] = [\n9:   {\n10:     accessorKey: \"name\",\n11:     cell: ({ row }) => (\n12:       <div className=\"flex items-center gap-2\">\n13:         {row.original.logo && (\n14:           <img\n15:             alt=\"\"\n16:             className=\"h-5 w-5 rounded object-contain\"\n17:             src={row.original.logo}\n18:           />\n19:         )}\n20:         <span className=\"font-medium\">{row.original.name}</span>\n21:         {row.original.archived && (\n22:           <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n23:         )}\n24:       </div>\n25:     ),\n26:     header: \"Nick Name\",\n27:     id: \"name\",\n28:   },\n29:   {\n30:     accessorKey: \"legalName\",\n31:     cell: ({ row }) =>\n32:       row.original.legalName ? (\n33:         <span className=\"text-sm\">{row.original.legalName}</span>\n34:       ) : null,\n35:     header: \"Legal Name\",\n36:     id: \"legalName\",\n37:   },\n38:   {\n39:     accessorKey: \"slug\",\n40:     cell: ({ row }) => (\n41:       <code className=\"rounded bg-muted px-1.5 py-0.5 text-xs\">\n42:         {row.original.slug}\n43:       </code>\n44:     ),\n45:     header: \"Slug\",\n46:     id: \"slug\",\n47:   },\n48:   {\n49:     accessorKey: \"assigneeId\",\n50:     cell: ({ row }) => (\n51:       <div className=\"flex items-center gap-2\">\n52:         <Avatar className=\"h-5 w-5\">\n53:           <AvatarImage src={row.original.assignee.image ?? undefined} />\n54:           <AvatarFallback>\n55:             {row.original.assignee.name?.[0] ?? \"?\"}\n56:           </AvatarFallback>\n57:         </Avatar>\n58:         <span className=\"text-sm\">{row.original.assignee.name}</span>\n59:       </div>\n60:     ),\n61:     enableColumnFilter: true,\n62:     header: \"Assignee\",\n63:     id: \"assigneeId\",\n64:   },\n65:   {\n66:     accessorKey: \"createdAt\",\n67:     cell: ({ row }) =>\n68:       row.original.createdAt ? (\n69:         <span className=\"text-muted-foreground text-sm\">\n70:           {new Date(row.original.createdAt).toLocaleDateString()}\n71:         </span>\n72:       ) : null,\n73:     header: \"Created\",\n74:     id: \"createdAt\",\n75:   },\n76: ];\n\n(End of file - total 76 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ColumnDef } from \"@tanstack/react-table\";\nimport { Archive } from \"lucide-react\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n\nimport type { ClientItem } from \"../client-list-view\";\n\nexport const clientColumnDefs: ColumnDef<ClientItem>[] = [\n  {\n    accessorKey: \"name\",\n    cell: ({ row }) => (\n      <div className=\"flex items-center gap-2\">\n        {row.original.logo && (\n          <img\n            alt=\"\"\n            className=\"h-5 w-5 rounded object-contain\"\n            src={row.original.logo}\n          />\n        )}\n        <span className=\"font-medium\">{row.original.name}</span>",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/client-list-view/columns.tsx",
+            "time": {
+              "start": 1779539489072,
+              "end": 1779539489090
+            }
+          },
+          "id": "prt_e54d1b098001iQfq6W9Oo17T8L",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_ff70127294824b1bade44d89",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/client-list-view/filters.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/client-list-view/filters.ts</path>\n<type>file</type>\n<content>\n1: import {\n2:   Archive,\n3:   Building2,\n4:   Calendar,\n5:   Fingerprint,\n6:   UserCheck,\n7: } from \"lucide-react\";\n8: \n9: import { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\n10: \n11: import type { ClientItem } from \"../client-list-view\";\n12: \n13: const dtf = createColumnConfigHelper<ClientItem>();\n14: \n15: export const clientColumnsConfig = [\n16:   dtf\n17:     .text()\n18:     .id(\"name\")\n19:     .accessor((row) => row.name)\n20:     .displayName(\"Name\")\n21:     .icon(Building2)\n22:     .build(),\n23:   dtf\n24:     .text()\n25:     .id(\"legalName\")\n26:     .accessor((row) => row.legalName ?? \"\")\n27:     .displayName(\"Legal Name\")\n28:     .icon(Building2)\n29:     .build(),\n30:   dtf\n31:     .text()\n32:     .id(\"slug\")\n33:     .accessor((row) => row.slug)\n34:     .displayName(\"Slug\")\n35:     .icon(Fingerprint)\n36:     .build(),\n37:   dtf\n38:     .option()\n39:     .id(\"assigneeId\")\n40:     .accessor((row) => row.assigneeId)\n41:     .displayName(\"Assignee\")\n42:     .icon(UserCheck)\n43:     .build(),\n44:   dtf\n45:     .option()\n46:     .id(\"archived\")\n47:     .accessor((row) => String(row.archived))\n48:     .displayName(\"Archived\")\n49:     .icon(Archive)\n50:     .build(),\n51:   dtf\n52:     .date()\n53:     .id(\"createdAt\")\n54:     .accessor((row) => (row.createdAt ? new Date(row.createdAt) : new Date()))\n55:     .displayName(\"Created\")\n56:     .icon(Calendar)\n57:     .build(),\n58: ] as const;\n\n(End of file - total 58 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  Archive,\n  Building2,\n  Calendar,\n  Fingerprint,\n  UserCheck,\n} from \"lucide-react\";\n\nimport { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\n\nimport type { ClientItem } from \"../client-list-view\";\n\nconst dtf = createColumnConfigHelper<ClientItem>();\n\nexport const clientColumnsConfig = [\n  dtf\n    .text()\n    .id(\"name\")\n    .accessor((row) => row.name)\n    .displayName(\"Name\")",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/client-list-view/filters.ts",
+            "time": {
+              "start": 1779539489249,
+              "end": 1779539489285
+            }
+          },
+          "id": "prt_e54d1b14500190xpT7VlLkcuqA",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_6dad4fdc78e64c2c953f0cda",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx</path>\n<type>file</type>\n<content>\n1: export { DataTableFilter } from \"./components/data-table-filter\";\n2: export { useDataTableFilters } from \"./hooks/use-data-table-filters\";\n\n(End of file - total 2 lines)\n</content>",
+            "metadata": {
+              "preview": "export { DataTableFilter } from \"./components/data-table-filter\";\nexport { useDataTableFilters } from \"./hooks/use-data-table-filters\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/index.tsx",
+            "time": {
+              "start": 1779539489418,
+              "end": 1779539489444
+            }
+          },
+          "id": "prt_e54d1b1f3001lSv6rJNhswps9D",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_1f377973624946148df64f8f",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/data-table-filter/**/*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-value.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/ui/debounced-input.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/locales/en.json\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/memo.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/filter-fns.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/helpers.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/i18n.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/debounce.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/array.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-debounce-callback.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-unmount.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/operators.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/types.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-selector.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-operator.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/active-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-subject.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-actions.tsx",
+            "metadata": {
+              "count": 22,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779539489508,
+              "end": 1779539489589
+            }
+          },
+          "id": "prt_e54d1b29c0012Bug6wcelqPwmF",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 20743,
+            "input": 4491,
+            "output": 98,
+            "reasoning": 26,
+            "cache": {
+              "write": 0,
+              "read": 16128
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1b353001zXJ8WZNCRfU8Nd",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1a858001knCUJUYzienZiZ"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 22787,
+          "input": 1823,
+          "output": 186,
+          "reasoning": 42,
+          "cache": {
+            "write": 0,
+            "read": 20736
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539489659,
+          "completed": 1779539493076
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d1b37b001DYlglydsqeQqRT",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1ba72001iE4et2YyNpX92G",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also check for any shared patterns or helper components related to table rendering like skeleton rows, empty states, etc. Let me also check the rpc/client.ts to understand the queryOptions typing issue.",
+          "time": {
+            "start": 1779539491447,
+            "end": 1779539491846
+          },
+          "id": "prt_e54d1ba77001VRdLmKXIkKV472",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "type": "text",
+          "text": "Let me also check the RPC client to understand the `as any` pattern, and search for any shared table utility components.",
+          "time": {
+            "start": 1779539491849,
+            "end": 1779539492982
+          },
+          "id": "prt_e54d1bc09001s6OxUW4zAtUNos",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_85c6a6f8090e4c04842adce1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/client.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/client.ts</path>\n<type>file</type>\n<content>\n1: import { createORPCClient } from \"@orpc/client\";\n2: import { RPCLink } from \"@orpc/client/fetch\";\n3: import type { RouterClient } from \"@orpc/server\";\n4: import { createRouterClient } from \"@orpc/server\";\n5: import { createTanstackQueryUtils } from \"@orpc/tanstack-query\";\n6: import { createIsomorphicFn } from \"@tanstack/react-start\";\n7: import { getRequestHeaders } from \"@tanstack/react-start/server\";\n8: \n9: import { router } from \"@/rpc/router\";\n10: \n11: const getORPCClient = createIsomorphicFn()\n12:   .server(() =>\n13:     createRouterClient(router, {\n14:       context: () => ({\n15:         headers: getRequestHeaders(),\n16:       }),\n17:     }),\n18:   )\n19:   .client((): RouterClient<typeof router> => {\n20:     const link = new RPCLink({\n21:       url: `${window.location.origin}/api/rpc`,\n22:     });\n23:     return createORPCClient(link);\n24:   });\n25: \n26: export const client: RouterClient<typeof router> = getORPCClient();\n27: \n28: export const rpc = createTanstackQueryUtils(client);\n\n(End of file - total 28 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createORPCClient } from \"@orpc/client\";\nimport { RPCLink } from \"@orpc/client/fetch\";\nimport type { RouterClient } from \"@orpc/server\";\nimport { createRouterClient } from \"@orpc/server\";\nimport { createTanstackQueryUtils } from \"@orpc/tanstack-query\";\nimport { createIsomorphicFn } from \"@tanstack/react-start\";\nimport { getRequestHeaders } from \"@tanstack/react-start/server\";\n\nimport { router } from \"@/rpc/router\";\n\nconst getORPCClient = createIsomorphicFn()\n  .server(() =>\n    createRouterClient(router, {\n      context: () => ({\n        headers: getRequestHeaders(),\n      }),\n    }),\n  )\n  .client((): RouterClient<typeof router> => {\n    const link = new RPCLink({",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/client.ts",
+            "time": {
+              "start": 1779539492179,
+              "end": 1779539492197
+            }
+          },
+          "id": "prt_e54d1bcd5001p573cgjEynAYmQ",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_d32e69fd33d040d8b223d50d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "TableSkeleton|TableEmpty|TableLoading|EmptyState|empty-row|loading-row|skeleton-row",
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src/components"
+            },
+            "output": "No files found",
+            "metadata": {
+              "matches": 0,
+              "truncated": false
+            },
+            "title": "TableSkeleton|TableEmpty|TableLoading|EmptyState|empty-row|loading-row|skeleton-row",
+            "time": {
+              "start": 1779539492543,
+              "end": 1779539492569
+            }
+          },
+          "id": "prt_e54d1bd77001VN3A7iF5WU4vv1",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_3430c8b005034b4c9f678a06",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "useReactTable|useTanStackTable",
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src"
+            },
+            "output": "Found 2 matches\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 5:   useReactTable,\n\n  Line 168:   const table = useReactTable({\n",
+            "metadata": {
+              "matches": 2,
+              "truncated": false
+            },
+            "title": "useReactTable|useTanStackTable",
+            "time": {
+              "start": 1779539492764,
+              "end": 1779539492866
+            }
+          },
+          "id": "prt_e54d1bece001VARU5FQvsJgZ8H",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_1c5e2651660749f8a9036066",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "rpc\\.\\w+\\.list\\.queryOptions",
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src"
+            },
+            "output": "Found 15 matches\n/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx:\n  Line 31:     rpc.users.list.queryOptions({\n\n\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 113:     rpc.client.list.queryOptions({\n\n  Line 125:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx:\n  Line 64:     rpc.draft.list.queryOptions({ input: { limit: 50, sortOrder: \"desc\" } }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx:\n  Line 36:     rpc.users.list.queryOptions({ input: { limit: 100 } }),\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx:\n  Line 20:     rpc.contract.list.queryOptions({ input: {} }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx:\n  Line 24:     rpc.client.list.queryOptions({ input: { limit: 100 } }),\n\n  Line 28:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"bd\"] } }),\n\n  Line 32:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"rm\"] } }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-tasks-reminders.tsx:\n  Line 13:     rpc.task.list.queryOptions({\n\n  Line 24:     rpc.reminder.list.queryOptions({ input: {} }),\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-recent-tasks.tsx:\n  Line 13:     rpc.task.list.queryOptions({\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-notifications.tsx:\n  Line 44:     rpc.notification.list.queryOptions({ input: { limit: 5 } }),\n\n  Line 56:           queryKey: rpc.notification.list.queryOptions({ input: {} }).queryKey,\n\n\n/home/aditya/projects/alpauls-ats/src/components/dashboard-reminders.tsx:\n  Line 21:     rpc.reminder.list.queryOptions({ input: {} }),\n",
+            "metadata": {
+              "matches": 15,
+              "truncated": false
+            },
+            "title": "rpc\\.\\w+\\.list\\.queryOptions",
+            "time": {
+              "start": 1779539492978,
+              "end": 1779539493014
+            }
+          },
+          "id": "prt_e54d1bfaa0015T2YGrmVX6BB8a",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 22787,
+            "input": 1823,
+            "output": 186,
+            "reasoning": 42,
+            "cache": {
+              "write": 0,
+              "read": 20736
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1c0b7001ApwA1pI09VD02J",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1b37b001DYlglydsqeQqRT"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 23869,
+          "input": 889,
+          "output": 143,
+          "reasoning": 53,
+          "cache": {
+            "write": 0,
+            "read": 22784
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539493083,
+          "completed": 1779539496724
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d1c0db001Pn6VqWUY8n82zw",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1c7e700198tYVTi9EGZTo2",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also check the routes that use the list views, and see if there are any additional table-related patterns I missed. Let me check the contracts and drafts routes that use `rpc.contract.list.queryOptions` and `rpc.draft.list.queryOptions`.",
+          "time": {
+            "start": 1779539494890,
+            "end": 1779539495425
+          },
+          "id": "prt_e54d1c7ea001Dyrg2pVnfzhrn3",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "type": "text",
+          "text": "Let me check the routes that consume these list views and also look at any additional table patterns in the routes.",
+          "time": {
+            "start": 1779539495427,
+            "end": 1779539496313
+          },
+          "id": "prt_e54d1ca03001DH1b3OXt8CvATq",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_c6b2d746ebdd4f38be424a47",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx</path>\n<type>file</type>\n<content>\n1: import { IconPlus, IconSearch } from \"@tabler/icons-react\";\n2: import { useQuery } from \"@tanstack/react-query\";\n3: import { createFileRoute } from \"@tanstack/react-router\";\n4: import { useState } from \"react\";\n5: \n6: import { ContractsTable } from \"@/components/tables/contracts-table\";\n7: import { Button } from \"@/components/ui/button\";\n8: import { Input } from \"@/components/ui/input\";\n9: import { rpc } from \"@/rpc/client\";\n10: \n11: export const Route = createFileRoute(\"/(protected)/(app)/contracts/\")({\n12:   component: ContractsPage,\n13: });\n14: \n15: function ContractsPage() {\n16:   const navigate = Route.useNavigate();\n17:   const [search, setSearch] = useState(\"\");\n18: \n19:   const { data, isLoading } = useQuery(\n20:     rpc.contract.list.queryOptions({ input: {} }),\n21:   );\n22: \n23:   return (\n24:     <div className=\"space-y-6 p-6\">\n25:       <div className=\"flex items-center justify-between\">\n26:         <div>\n27:           <h2 className=\"font-semibold text-lg\">Contracts</h2>\n28:           <p className=\"text-muted-foreground text-sm\">\n29:             Manage client contracts and agreements\n30:           </p>\n31:         </div>\n32:         <Button onClick={() => navigate({ to: \"/contracts/new\" })} size=\"sm\">\n33:           <IconPlus className=\"mr-1 h-4 w-4\" />\n34:           New Contract\n35:         </Button>\n36:       </div>\n37: \n38:       <div className=\"relative max-w-sm\">\n39:         <IconSearch className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n40:         <Input\n41:           className=\"pl-8\"\n42:           onChange={(e) => setSearch(e.target.value)}\n43:           placeholder=\"Search by title, reference, or client...\"\n44:           value={search}\n45:         />\n46:       </div>\n47: \n48:       <ContractsTable\n49:         contracts={data?.items ?? []}\n50:         isLoading={isLoading}\n51:         search={search}\n52:       />\n53:     </div>\n54:   );\n55: }\n\n(End of file - total 55 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconPlus, IconSearch } from \"@tabler/icons-react\";\nimport { useQuery } from \"@tanstack/react-query\";\nimport { createFileRoute } from \"@tanstack/react-router\";\nimport { useState } from \"react\";\n\nimport { ContractsTable } from \"@/components/tables/contracts-table\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { rpc } from \"@/rpc/client\";\n\nexport const Route = createFileRoute(\"/(protected)/(app)/contracts/\")({\n  component: ContractsPage,\n});\n\nfunction ContractsPage() {\n  const navigate = Route.useNavigate();\n  const [search, setSearch] = useState(\"\");\n\n  const { data, isLoading } = useQuery(\n    rpc.contract.list.queryOptions({ input: {} }),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/contracts/index.tsx",
+            "time": {
+              "start": 1779539495818,
+              "end": 1779539495904
+            }
+          },
+          "id": "prt_e54d1cae8001EAtFDRarrtZ5mQ",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_14fb039b9cba410893894198",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx</path>\n<type>file</type>\n<content>\n1: import { IconFilePencil, IconTrash } from \"@tabler/icons-react\";\n2: import { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\n3: import {\n4:   createFileRoute,\n5:   useNavigate,\n6:   useRouteContext,\n7: } from \"@tanstack/react-router\";\n8: \n9: import { Badge } from \"@/components/ui/badge\";\n10: import { Button } from \"@/components/ui/button\";\n11: import { Skeleton } from \"@/components/ui/skeleton\";\n12: import {\n13:   Table,\n14:   TableBody,\n15:   TableCell,\n16:   TableHead,\n17:   TableHeader,\n18:   TableRow,\n19: } from \"@/components/ui/table\";\n20: import { rpc } from \"@/rpc/client\";\n21: \n22: type DraftItem = {\n23:   createdAt: Date | null;\n24:   createdBy: string;\n25:   creator: { id: string; image: string | null; name: string | null };\n26:   data: Record<string, unknown>;\n27:   entityType: string;\n28:   id: number;\n29:   title: string;\n30:   updatedAt: Date | null;\n31: };\n32: \n33: const ENTITY_TYPE_STYLES: Record<string, { className: string; label: string }> =\n34:   {\n35:     client: {\n36:       className: \"bg-blue-500/10 text-blue-600 dark:text-blue-400\",\n37:       label: \"Client\",\n38:     },\n39:   };\n40: \n41: const DEFAULT_ENTITY_STYLE = {\n42:   className: \"bg-slate-500/10 text-slate-600 dark:text-slate-400\",\n43:   label: \"Unknown\",\n44: };\n45: \n46: function entityTypeStyle(type: string) {\n47:   return ENTITY_TYPE_STYLES[type] ?? DEFAULT_ENTITY_STYLE;\n48: }\n49: \n50: const RESUME_PATHS: Record<string, string> = {\n51:   client: \"/clients/new\",\n52: };\n53: \n54: export const Route = createFileRoute(\"/(protected)/(app)/drafts\")({\n55:   component: DraftsPage,\n56: });\n57: \n58: function DraftsPage() {\n59:   const queryClient = useQueryClient();\n60:   const { user } = useRouteContext({ from: \"/(protected)\" });\n61:   const navigate = useNavigate();\n62: \n63:   const { data, isLoading } = useQuery(\n64:     rpc.draft.list.queryOptions({ input: { limit: 50, sortOrder: \"desc\" } }),\n65:   );\n66: \n67:   const deleteMutation = useMutation({\n68:     mutationFn: (id: number) => rpc.draft.delete.call({ id }),\n69:     onSuccess: () => {\n70:       queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n71:     },\n72:   });\n73: \n74:   const drafts = (data?.items ?? []) as DraftItem[];\n75: \n76:   function handleResume(draft: DraftItem) {\n77:     const basePath = RESUME_PATHS[draft.entityType] ?? \"/\";\n78:     navigate({ to: `${basePath}?draftId=${draft.id}` });\n79:   }\n80: \n81:   function handleDelete(id: number) {\n82:     deleteMutation.mutate(id);\n83:   }\n84: \n85:   return (\n86:     <div className=\"space-y-6 p-6\">\n87:       <div className=\"flex items-center justify-between\">\n88:         <div>\n89:           <h2 className=\"font-semibold text-lg\">Drafts</h2>\n90:           <p className=\"text-muted-foreground text-sm\">\n91:             Resume unfinished work or clean up old drafts\n92:           </p>\n93:         </div>\n94:       </div>\n95: \n96:       {isLoading ? (\n97:         <ExportedDraftsSkeleton />\n98:       ) : drafts.length === 0 ? (\n99:         <div className=\"flex flex-col items-center justify-center py-16 text-center\">\n100:           <IconFilePencil className=\"mb-3 size-10 text-muted-foreground/40\" />\n101:           <p className=\"text-muted-foreground text-sm\">No drafts yet</p>\n102:           <p className=\"text-muted-foreground/70 text-xs\">\n103:             Save a form as draft to continue later\n104:           </p>\n105:         </div>\n106:       ) : (\n107:         <div className=\"rounded-lg border bg-card\">\n108:           <Table>\n109:             <TableHeader>\n110:               <TableRow>\n111:                 <TableHead>Title</TableHead>\n112:                 <TableHead>Type</TableHead>\n113:                 <TableHead>Created By</TableHead>\n114:                 <TableHead>Last Updated</TableHead>\n115:                 <TableHead className=\"text-right\">Actions</TableHead>\n116:               </TableRow>\n117:             </TableHeader>\n118:             <TableBody>\n119:               {drafts.map((draft) => {\n120:                 const style = entityTypeStyle(draft.entityType);\n121:                 const canDelete =\n122:                   draft.createdBy === user.id || user.role === \"admin\";\n123: \n124:                 return (\n125:                   <TableRow key={draft.id}>\n126:                     <TableCell className=\"font-medium\">{draft.title}</TableCell>\n127:                     <TableCell>\n128:                       <Badge className={style.className} variant=\"outline\">\n129:                         {style.label}\n130:                       </Badge>\n131:                     </TableCell>\n132:                     <TableCell>\n133:                       <div className=\"flex items-center gap-2\">\n134:                         {draft.creator?.image && (\n135:                           <img\n136:                             alt={draft.creator.name ?? \"\"}\n137:                             className=\"size-5 rounded-full object-cover\"\n138:                             src={draft.creator.image}\n139:                           />\n140:                         )}\n141:                         <span className=\"text-sm\">\n142:                           {draft.creator?.name ?? \"Unknown\"}\n143:                         </span>\n144:                       </div>\n145:                     </TableCell>\n146:                     <TableCell className=\"text-muted-foreground text-sm\">\n147:                       {formatRelativeTime(draft.updatedAt ?? draft.createdAt)}\n148:                     </TableCell>\n149:                     <TableCell className=\"text-right\">\n150:                       <div className=\"flex justify-end gap-2\">\n151:                         <Button\n152:                           onClick={() => handleResume(draft)}\n153:                           size=\"sm\"\n154:                           variant=\"outline\"\n155:                         >\n156:                           Resume\n157:                         </Button>\n158:                         {canDelete && (\n159:                           <Button\n160:                             disabled={deleteMutation.isPending}\n161:                             onClick={() => handleDelete(draft.id)}\n162:                             size=\"icon\"\n163:                             variant=\"ghost\"\n164:                           >\n165:                             <IconTrash className=\"size-4\" />\n166:                           </Button>\n167:                         )}\n168:                       </div>\n169:                     </TableCell>\n170:                   </TableRow>\n171:                 );\n172:               })}\n173:             </TableBody>\n174:           </Table>\n175:         </div>\n176:       )}\n177:     </div>\n178:   );\n179: }\n180: \n181: export function ExportedDraftsSkeleton() {\n182:   const rows = [\n183:     { classes: \"h-4 w-32\" },\n184:     { classes: \"h-5 w-16\" },\n185:     { classes: \"h-4 w-24\" },\n186:     { classes: \"h-4 w-20\" },\n187:     { classes: \"ml-auto h-8 w-20\" },\n188:   ];\n189: \n190:   return (\n191:     <div className=\"rounded-lg border bg-card\">\n192:       <Table>\n193:         <TableHeader>\n194:           <TableRow>\n195:             <TableHead>Title</TableHead>\n196:             <TableHead>Type</TableHead>\n197:             <TableHead>Created By</TableHead>\n198:             <TableHead>Last Updated</TableHead>\n199:             <TableHead className=\"text-right\">Actions</TableHead>\n200:           </TableRow>\n201:         </TableHeader>\n202:         <TableBody>\n203:           {rows.map((r) => (\n204:             <TableRow key={`skel-${r.classes}`}>\n205:               <TableCell>\n206:                 <Skeleton className={r.classes} />\n207:               </TableCell>\n208:             </TableRow>\n209:           ))}\n210:         </TableBody>\n211:       </Table>\n212:     </div>\n213:   );\n214: }\n215: \n216: function formatRelativeTime(date: Date | null | undefined): string {\n217:   if (!date) return \"\";\n218:   const now = new Date();\n219:   const d = date instanceof Date ? date : new Date(date);\n220:   const diffMs = now.getTime() - d.getTime();\n221:   const diffSec = Math.floor(diffMs / 1000);\n222:   const diffMin = Math.floor(diffSec / 60);\n223:   const diffHr = Math.floor(diffMin / 60);\n224:   const diffDay = Math.floor(diffHr / 24);\n225: \n226:   if (diffSec < 60) return \"just now\";\n227:   if (diffMin < 60) return `${diffMin}m ago`;\n228:   if (diffHr < 24) return `${diffHr}h ago`;\n229:   if (diffDay < 7) return `${diffDay}d ago`;\n230:   return d.toLocaleDateString();\n231: }\n\n(End of file - total 231 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconFilePencil, IconTrash } from \"@tabler/icons-react\";\nimport { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport {\n  createFileRoute,\n  useNavigate,\n  useRouteContext,\n} from \"@tanstack/react-router\";\n\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\nimport { rpc } from \"@/rpc/client\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/drafts.tsx",
+            "time": {
+              "start": 1779539495965,
+              "end": 1779539496091
+            }
+          },
+          "id": "prt_e54d1cbb3001QJS8k6dWCERt2O",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_e19417a219a44420ae124c29",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/tables/**/*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx\n/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx",
+            "metadata": {
+              "count": 2,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779539496041,
+              "end": 1779539496065
+            }
+          },
+          "id": "prt_e54d1cc44001Xaod7jh8l76LwD",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_a1cff509232c45019aa9eb2c",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src",
+              "pattern": "TableRow.*colSpan.*Loading|TableRow.*colSpan.*No "
+            },
+            "output": "No files found",
+            "metadata": {
+              "matches": 0,
+              "truncated": false
+            },
+            "title": "TableRow.*colSpan.*Loading|TableRow.*colSpan.*No ",
+            "time": {
+              "start": 1779539496309,
+              "end": 1779539496354
+            }
+          },
+          "id": "prt_e54d1cc8b001JZV9kpjxtPKQrf",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 23869,
+            "input": 889,
+            "output": 143,
+            "reasoning": 53,
+            "cache": {
+              "write": 0,
+              "read": 22784
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1ce8c001aKi77EIk51X2en",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1c0db001Pn6VqWUY8n82zw"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 26825,
+          "input": 2852,
+          "output": 121,
+          "reasoning": 44,
+          "cache": {
+            "write": 0,
+            "read": 23808
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539496730,
+          "completed": 1779539499790
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d1cf1a001vUPbSbjRdS8e0k",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1d724001CpLaClypMOudHX",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1cf1a001vUPbSbjRdS8e0k"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also search for any additional list view patterns and also look at the `useORPCQuery` usage vs the `rpc.*.queryOptions` pattern to understand the `as any` pattern better.",
+          "time": {
+            "start": 1779539498790,
+            "end": 1779539498923
+          },
+          "id": "prt_e54d1d726001NNl80fw131DQwm",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1cf1a001vUPbSbjRdS8e0k"
+        },
+        {
+          "type": "text",
+          "text": "Let me also check the RPC router to understand the type structure that causes the `as any` cast, and look for the `as any` pattern specifically with queryOptions across the entire codebase.",
+          "time": {
+            "start": 1779539498925,
+            "end": 1779539499577
+          },
+          "id": "prt_e54d1d7ad001c7uNGrnBAlvxWX",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1cf1a001vUPbSbjRdS8e0k"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_5a19c3aae67346348578cc9b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.{ts,tsx}",
+              "path": "/home/aditya/projects/alpauls-ats/src",
+              "pattern": "queryOptions.*\\) as any"
+            },
+            "output": "Found 1 matches\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 125:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,\n",
+            "metadata": {
+              "matches": 1,
+              "truncated": false
+            },
+            "title": "queryOptions.*\\) as any",
+            "time": {
+              "start": 1779539499463,
+              "end": 1779539499490
+            }
+          },
+          "id": "prt_e54d1d8c0001P5wUTe4aDQaftw",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1cf1a001vUPbSbjRdS8e0k"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_7eddc77e47de4e13b0f3f9d9",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.{ts,tsx}",
+              "path": "/home/aditya/projects/alpauls-ats/src",
+              "pattern": "as any"
+            },
+            "output": "Found 51 matches\n/home/aditya/projects/alpauls-ats/src/routeTree.gen.ts:\n  Line 48: } as any)\n\n  Line 53: } as any)\n\n  Line 58: } as any)\n\n  Line 63: } as any)\n\n  Line 68: } as any)\n\n  Line 73: } as any)\n\n  Line 78: } as any)\n\n  Line 84:   } as any)\n\n  Line 90:   } as any)\n\n  Line 95: } as any)\n\n  Line 100: } as any)\n\n  Line 105: } as any)\n\n  Line 110: } as any)\n\n  Line 115: } as any)\n\n  Line 121:   } as any)\n\n  Line 126: } as any)\n\n  Line 132:   } as any)\n\n  Line 138:   } as any)\n\n  Line 144:   } as any)\n\n  Line 150:   } as any)\n\n  Line 156:   } as any)\n\n  Line 162:   } as any)\n\n  Line 168:   } as any)\n\n  Line 174:   } as any)\n\n  Line 180:   } as any)\n\n  Line 185: } as any)\n\n  Line 191:   } as any)\n\n  Line 197:   } as any)\n\n  Line 202: } as any)\n\n  Line 208:   } as any)\n\n  Line 213: } as any)\n\n  Line 219:   } as any)\n\n\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 121:     }) as any,\n\n  Line 125:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,\n\n  Line 132:   const assigneeOptions = ((usersData as any)?.items ?? []).map((u: any) => ({\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-value.tsx:\n  Line 743:     setFilterValueDebounced(column as any, value);\n\n  Line 749:     setFilterValueDebounced(column as any, newValues);\n\n  Line 755:     setFilterValueDebounced(column as any, newValues);\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx:\n  Line 342:             values: newValues as any,\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts:\n  Line 40:     const newInstance = this.clone() as any; // We'll refine this\n\n  Line 48:     const newInstance = this.clone() as any;\n\n  Line 76:     const newInstance = this.clone() as any;\n\n  Line 92:     const newInstance = this.clone() as any;\n\n  Line 110:     const newInstance = this.clone() as any;\n\n  Line 128:     const newInstance = this.clone() as any;\n\n  Line 146:     const newInstance = this.clone() as any;\n\n  Line 366:         getColumnOptions(columnConfig, data as any, strategy as any),\n\n  Line 379:         getFacetedUniqueValues(columnConfig, values as any, strategy as any),\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/new.tsx:\n  Line 26:       rpc.admin.createUser.call(input as any),\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/new.tsx:\n  Line 26:       rpc.contract.create.call(input as any),\n\n\n/home/aditya/projects/alpauls-ats/src/components/charts/alluvial-diagram.tsx:\n  Line 84: }) as any;\n",
+            "metadata": {
+              "matches": 51,
+              "truncated": false
+            },
+            "title": "as any",
+            "time": {
+              "start": 1779539499559,
+              "end": 1779539499585
+            }
+          },
+          "id": "prt_e54d1d9c9001AO6yYi53I8YrbX",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1cf1a001vUPbSbjRdS8e0k"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 26825,
+            "input": 2852,
+            "output": 121,
+            "reasoning": 44,
+            "cache": {
+              "write": 0,
+              "read": 23808
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1da70001uZI2I1424PD6WF",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1cf1a001vUPbSbjRdS8e0k"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 27925,
+          "input": 879,
+          "output": 93,
+          "reasoning": 137,
+          "cache": {
+            "write": 0,
+            "read": 26816
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539499796,
+          "completed": 1779539506683
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54d1db14001wYe4iFAT76h112",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1e22d001iXPGMaGpKtIh3p",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1db14001wYe4iFAT76h112"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have a comprehensive picture. Let me also check the `rpc.client.list.queryOptions` line in client-list-view.tsx more carefully - the `as any` at line 121 is slightly different from line 125. Let me also check if there's a difference between how `client-list-view.tsx` (which uses `rpc` + `useQuery` + `as any`) and `task-list-view.tsx`/`prospect-list-view.tsx` (which use the custom `useORPCQuery` hook with `client` directly) handle the data fetching.\n\nLet me also check if there are any other components that consume these list views.",
+          "time": {
+            "start": 1779539501616,
+            "end": 1779539505860
+          },
+          "id": "prt_e54d1e230001TPzvCu59lp8pl8",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1db14001wYe4iFAT76h112"
+        },
+        {
+          "type": "text",
+          "text": "Let me check where these list views are consumed in routes:",
+          "time": {
+            "start": 1779539505862,
+            "end": 1779539506416
+          },
+          "id": "prt_e54d1f2c6001oI5YiOc1Ex5Rm7",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1db14001wYe4iFAT76h112"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_9c2b58a554d248c08b6db562",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src/routes",
+              "pattern": "TaskListView|ProspectListView|ClientListView"
+            },
+            "output": "Found 6 matches\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx:\n  Line 6: import { ClientListView } from \"@/components/client-list-view\";\n\n  Line 31:       <ClientListView\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx:\n  Line 7: import { ProspectListView } from \"@/components/prospect-list-view\";\n\n  Line 45:       <ProspectListView\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx:\n  Line 9: import { TaskListView } from \"@/components/task-list-view\";\n\n  Line 77:         <TaskListView onTaskClick={handleTaskClick} refreshKey={refreshKey} />\n",
+            "metadata": {
+              "matches": 6,
+              "truncated": false
+            },
+            "title": "TaskListView|ProspectListView|ClientListView",
+            "time": {
+              "start": 1779539506218,
+              "end": 1779539506259
+            }
+          },
+          "id": "prt_e54d1f33e001SbBOMA5Rwr4pyA",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1db14001wYe4iFAT76h112"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_150c29fd205c457eb782cbe0",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.tsx",
+              "path": "/home/aditya/projects/alpauls-ats/src",
+              "pattern": "import.*from.*list-view"
+            },
+            "output": "Found 7 matches\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx:\n  Line 5: import type { ClientItem } from \"@/components/client-list-view\";\n\n  Line 6: import { ClientListView } from \"@/components/client-list-view\";\n\n\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 28: import { clientColumnDefs } from \"./client-list-view/columns\";\n\n  Line 29: import { clientColumnsConfig } from \"./client-list-view/filters\";\n\n\n/home/aditya/projects/alpauls-ats/src/components/client-list-view/columns.tsx:\n  Line 6: import type { ClientItem } from \"../client-list-view\";\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx:\n  Line 7: import { ProspectListView } from \"@/components/prospect-list-view\";\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx:\n  Line 9: import { TaskListView } from \"@/components/task-list-view\";\n",
+            "metadata": {
+              "matches": 7,
+              "truncated": false
+            },
+            "title": "import.*from.*list-view",
+            "time": {
+              "start": 1779539506412,
+              "end": 1779539506448
+            }
+          },
+          "id": "prt_e54d1f43b0010M5D5QkaTFeJ4j",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1db14001wYe4iFAT76h112"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 27925,
+            "input": 879,
+            "output": 93,
+            "reasoning": 137,
+            "cache": {
+              "write": 0,
+              "read": 26816
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d1f5350017p3YE9qPfd2kE7",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1db14001wYe4iFAT76h112"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54d167b8001JvJlm5zM8W6sNM",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31543,
+          "input": 437,
+          "output": 3201,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 27904
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779539506691,
+          "completed": 1779539539095
+        },
+        "finish": "stop",
+        "id": "msg_e54d1f603001ijwcHLtnLX4XOU",
+        "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ"
+      },
+      "parts": [
+        {
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-start",
+          "id": "prt_e54d1fe320014KCTVwHvSam75p",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1f603001ijwcHLtnLX4XOU"
+        },
+        {
+          "type": "text",
+          "text": "Now I have a complete picture. Here is my comprehensive report.\n\n---\n\n## Search Results\n\n### 1. Other `*-list-view.tsx` files in `src/components/`\n\nThree list-view components exist:\n\n| File | Data Fetching | Table Rendering | Filter System | Cursor Pagination |\n|---|---|---|---|---|\n| `/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx` | `useQuery` + `rpc.*.queryOptions` + **`as any`** | TanStack `useReactTable` + `flexRender` | `DataTableFilter` + `useDataTableFilters` + `nuqs` URL state | Yes |\n| `/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx` | Custom `useORPCQuery` hook + `client.*` direct calls | Manual `<TableHeader>/<TableBody>` JSX | Inline `useState` filters (Select, Checkbox, Input) | Yes |\n| `/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx` | Custom `useORPCQuery` hook + `client.*` direct calls | Manual `<TableHeader>/<TableBody>` JSX | Inline `useState` filters (Checkbox, Input only) | Yes |\n\n**Key pattern divergence:** `client-list-view.tsx` is the most evolved, using TanStack Table + the `data-table-filter` system + `@tanstack/react-query`'s `useQuery` with oRPC's `queryOptions`. The other two use a simpler custom `useORPCQuery` wrapper with manual JSX table rendering and inline filter state.\n\n---\n\n### 2. Shared data-table component / pattern that wraps TanStack Table\n\n**There is no shared data-table wrapper component.** Each list view and table builds its table rendering inline. However, two supporting systems exist:\n\n#### a) `data-table-filter` system (filter-only, not a table renderer)\n\nLocated at `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/`:\n\n```\nsrc/components/data-table-filter/\n  index.tsx                          # Re-exports DataTableFilter + useDataTableFilters\n  core/\n    filters.ts                       # createColumnConfigHelper, createColumns\n    operators.ts                     # DEFAULT_OPERATORS, determineNewOperator\n    types.ts                         # ColumnConfig, FilterModel, FiltersState, etc.\n  hooks/\n    use-data-table-filters.tsx       # useDataTableFilters() hook\n  components/\n    data-table-filter.tsx            # <DataTableFilter> UI component\n    active-filters.tsx\n    filter-actions.tsx\n    filter-operator.tsx\n    filter-selector.tsx\n    filter-subject.tsx\n    filter-value.tsx\n  lib/\n    array.ts, debounce.ts, filter-fns.ts, helpers.ts, i18n.ts, memo.ts\n  locales/\n    en.json\n  ui/\n    debounced-input.tsx\n```\n\nThis system is only used by `client-list-view.tsx`. It provides **column filter configuration** and **filter UI** but does NOT render table headers, rows, or handle loading/empty states.\n\n#### b) Standalone tables in `src/components/tables/`\n\nTwo \"dumb\" table components (data passed in as props, no internal data fetching):\n\n- `/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx` -- receives `contracts`, `isLoading`, `search` as props\n- `/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx` -- receives `members`, `isLoading`, `search` as props\n\nThese use **Skeleton rows** for loading state (5 rows of `<Skeleton>` elements), unlike the list-views which show a single \"Loading...\" text row.\n\n#### c) Inline table in `drafts.tsx`\n\n`/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx` renders its table directly in the route with a dedicated `ExportedDraftsSkeleton` component (lines 181-214).\n\n#### d) `ui/table.tsx` -- shared primitives only\n\n`/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx` provides shadcn primitives (`Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableFooter`, `TableCaption`). Every table component in the codebase uses these primitives, but there is **no higher-order wrapper** that combines them with loading/empty/header patterns.\n\n---\n\n### 3. How the `as any` cast pattern works with oRPC `queryOptions`\n\nThe `as any` casts appear **only** in `client-list-view.tsx`:\n\n```tsx\n// Line 112-122: Main client list query\nconst { data: clientsData, isLoading } = useQuery(\n  rpc.client.list.queryOptions({\n    input: {\n      archived: rpcParams.archived,\n      assigneeId: rpcParams.assigneeId,\n      cursor,\n      limit: 20,\n      search: rpcParams.search,\n    },\n  }) as any,   // <--- cast #1\n);\n\n// Line 124-126: Users list query (for assignee filter options)\nconst { data: usersData } = useQuery(\n  rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,  // <--- cast #2\n);\n\n// Line 132: Consuming the untyped data\nconst assigneeOptions = ((usersData as any)?.items ?? []).map((u: any) => ({  // <--- cast #3\n  ...\n}));\n```\n\n**Why the cast is needed:** The `rpc` object is created via `createTanstackQueryUtils(client)` (in `/home/aditya/projects/alpauls-ats/src/rpc/client.ts`), which returns typed `queryOptions`. However, the return type from `queryOptions()` doesn't align perfectly with `useQuery`'s expected parameter type (likely due to oRPC/TanStack Query version mismatch or the `input` wrapper pattern), so `as any` bridges the gap. The data then needs `as ClientListResponse` to recover type safety downstream.\n\n**Other components do NOT use `as any` with `queryOptions`:**\n\n- `contracts/index.tsx` line 20: `useQuery(rpc.contract.list.queryOptions({ input: {} }))` -- no cast\n- `drafts.tsx` line 64: `useQuery(rpc.draft.list.queryOptions({ input: { limit: 50, sortOrder: \"desc\" } }))` -- no cast\n- `dashboard-*.tsx`: Various `rpc.task.list.queryOptions(...)`, `rpc.reminder.list.queryOptions(...)` -- no cast\n- Form components: `rpc.users.list.queryOptions(...)`, `rpc.client.list.queryOptions(...)` -- no cast\n\nThis suggests the `as any` in `client-list-view.tsx` is either (a) working around a specific typing issue with `rpc.client.list` or `rpc.users.list` input parameters (e.g., the `assigneeId` and `archived` optional fields), or (b) a leftover from earlier development that other consumers don't need.\n\n**The alternative pattern** (used by task and prospect list views) avoids this entirely by using the custom `useORPCQuery` hook:\n\n```tsx\n// From /home/aditya/projects/alpauls-ats/src/hooks/use-orpc-query.ts\nconst { data, isLoading } = useORPCQuery(\n  () => client.task.list({ ...params }),\n  [refreshKey, cursor, search, ...],\n);\n```\n\nThis directly calls `client.*` procedures (not `rpc.*.queryOptions`) and manually manages `useState`/`useEffect`/`useCallback` -- no TanStack Query involved, so no type mismatch.\n\n---\n\n### 4. Shared table rendering component (header/body/empty/loading rows)\n\n**There is NO shared table rendering component.** Every table instance handles its own loading/empty/row rendering inline. Three distinct patterns exist:\n\n#### Pattern A: \"Loading...\" / \"No X found\" single-row text (list views)\n\nUsed by `task-list-view.tsx` and `prospect-list-view.tsx`:\n\n```tsx\n<TableBody>\n  {isLoading && (\n    <TableRow>\n      <TableCell className=\"text-center text-muted-foreground\" colSpan={5}>\n        Loading...\n      </TableCell>\n    </TableRow>\n  )}\n  {!isLoading && items.length === 0 && (\n    <TableRow>\n      <TableCell className=\"text-center text-muted-foreground\" colSpan={5}>\n        No X found\n      </TableCell>\n    </TableRow>\n  )}\n  {items.map((item) => (<TableRow key={item.id}>...</TableRow>))}\n</TableBody>\n```\n\n#### Pattern B: TanStack `flexRender` with conditional rendering (client-list-view)\n\nUsed by `client-list-view.tsx`:\n\n```tsx\n<TableBody>\n  {isLoading ? (\n    <TableRow><TableCell colSpan={clientColumnDefs.length}>Loading...</TableCell></TableRow>\n  ) : clients.length === 0 ? (\n    <TableRow><TableCell colSpan={clientColumnDefs.length}>No clients found</TableCell></TableRow>\n  ) : (\n    table.getRowModel().rows.map((row) => (\n      <TableRow key={row.id} onClick={() => onClientClick(row.original)}>\n        {row.getVisibleCells().map((cell) => (\n          <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>\n        ))}\n      </TableRow>\n    ))\n  )}\n</TableBody>\n```\n\n#### Pattern C: Skeleton rows + \"No X yet/match\" (tables/ directory + drafts)\n\nUsed by `contracts-table.tsx`, `members-table.tsx`, and `drafts.tsx`:\n\n```tsx\n<TableBody>\n  {isLoading && Array.from({ length: 5 }).map((_, i) => (\n    <TableRow key={`skeleton-${i}`}>\n      <TableCell><Skeleton className=\"h-4 w-24\" /></TableCell>\n      ...\n    </TableRow>\n  ))}\n  {!isLoading && filtered.length === 0 && (\n    <TableRow>\n      <TableCell className=\"text-center text-muted-foreground\" colSpan={7}>\n        {search ? \"No contracts match your search\" : \"No contracts yet\"}\n      </TableCell>\n    </TableRow>\n  )}\n  {!isLoading && filtered.map((item) => (<TableRow key={item.id}>...</TableRow>))}\n</TableBody>\n```\n\n---\n\n### Summary of all relevant file paths\n\n**List view components:**\n- `/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx`\n\n**Client list view subdirectory (TanStack columns + filter config):**\n- `/home/aditya/projects/alpauls-ats/src/components/client-list-view/columns.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/client-list-view/filters.ts`\n\n**Shared table primitives (shadcn):**\n- `/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx`\n\n**Data-table filter system (filter UI only, not table renderer):**\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/types.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/operators.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/active-filters.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-actions.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-selector.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-value.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-operator.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-subject.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/array.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/debounce.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/filter-fns.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/helpers.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/i18n.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/memo.ts`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/locales/en.json`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/ui/debounced-input.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-debounce-callback.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-unmount.tsx`\n\n**Standalone \"dumb\" table components:**\n- `/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx`\n- `/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx`\n\n**Custom ORPC query hook (used by task + prospect list views):**\n- `/home/aditya/projects/alpauls-ats/src/hooks/use-orpc-query.ts`\n\n**RPC client (source of `as any` type mismatch):**\n- `/home/aditya/projects/alpauls-ats/src/rpc/client.ts`\n\n**Route consumers:**\n- `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx`\n- `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx`\n- `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx`\n- `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx`\n- `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx`",
+          "time": {
+            "start": 1779539508791,
+            "end": 1779539538785
+          },
+          "id": "prt_e54d1fe37001dpnB57dOa4LwB1",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1f603001ijwcHLtnLX4XOU"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "9edee558f06a7c4c67fac22a59ac78b3d8d90bdb",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31543,
+            "input": 437,
+            "output": 3201,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 27904
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54d273d4001nnXPLC9fUwZafr",
+          "sessionID": "ses_1ab2e986effe4i78KQFD2PjUYZ",
+          "messageID": "msg_e54d1f603001ijwcHLtnLX4XOU"
+        }
+      ]
+    }
+  ]
+}
