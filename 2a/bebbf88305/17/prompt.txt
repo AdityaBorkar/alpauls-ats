@@ -1,0 +1,10 @@
+Search the database schemas directory (src/db-schemas/) for any filter-view related tables. Also look at the RPC router (src/rpc/router/index.ts) to understand how procedures are organized, and check if there's already a namespace for filter views.
+
+Also check:
+1. src/db-schemas/ - list all schema files and look for anything filter-related
+2. src/rpc/router/ - list all router files 
+3. How other RPC namespaces are structured (e.g., task, client) - read one example
+4. The middleware file (src/rpc/middleware.ts) for procedure patterns
+5. How the client RPC namespace is organized
+
+Return the database schema files list, router structure, and an example of how a typical RPC namespace is set up.
