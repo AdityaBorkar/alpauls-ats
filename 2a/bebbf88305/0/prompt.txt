@@ -1,0 +1,1 @@
+Search for other route index pages similar to clients/index.tsx that might also use DataViewLayout, filter views, or useDataTableFilters. Check src/routes/(protected)/(app)/ for other entity list pages (like tasks, drafts, etc). Return the file paths and summarize how each uses filters and DataViewLayout.

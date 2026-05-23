@@ -1,0 +1,63 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "2abebbf88305",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".gitignore",
+    ".zed/settings.json",
+    "AGENTS.md",
+    "TODO.md",
+    "biome.json",
+    "bun.lock",
+    "bunfig.toml",
+    "integrations/forms/field.tsx",
+    "integrations/tanstack-query/devtools.tsx",
+    "integrations/tanstack-query/root-provider.tsx",
+    "package.json",
+    "src/components/client-list-view.tsx",
+    "src/components/client-list-view/columns.tsx",
+    "src/components/client-list-view/filters.ts",
+    "src/components/data-table-filter/components/filter-operator.tsx",
+    "src/components/data-table-filter/components/filter-selector.tsx",
+    "src/components/data-table-filter/components/filter-value.tsx",
+    "src/components/filter-view-tabs.tsx",
+    "src/components/forms/client-form.tsx",
+    "src/db-schemas/filter-view.ts",
+    "src/lib/filter-views.ts",
+    "src/lib/form-schemas/client.ts",
+    "src/lib/utils.ts",
+    "src/routeTree.gen.ts",
+    "src/router.tsx",
+    "src/routes/(protected)/(app)/clients/$clientId.tsx",
+    "src/routes/(protected)/(app)/clients/-form.tsx",
+    "src/routes/(protected)/(app)/clients/-view-config.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/clients/new.tsx",
+    "src/routes/(protected)/(app)/job-mandates/-form.tsx",
+    "src/routes/(protected)/(app)/job-mandates/-view-config.tsx",
+    "src/rpc/router/client-contract.ts",
+    "src/rpc/router/client.ts",
+    "src/rpc/router/filter-view.ts",
+    "src/services/client-event-service.ts",
+    "src/services/prospect-event-service.ts",
+    "src/services/task-event-service.ts",
+    "vite.config.ts"
+  ],
+  "sessions": [
+    {
+      "metadata": "/2a/bebbf88305/0/metadata.json",
+      "transcript": "/2a/bebbf88305/0/full.jsonl",
+      "content_hash": "/2a/bebbf88305/0/content_hash.txt",
+      "prompt": "/2a/bebbf88305/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 16931,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 79040,
+    "output_tokens": 2444,
+    "api_call_count": 8
+  }
+}
