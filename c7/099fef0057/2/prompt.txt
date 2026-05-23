@@ -1,0 +1,6 @@
+Look at /home/aditya/projects/alpauls-ats and find how existing list pages render. Check these files for patterns:
+1. src/routes/(protected)/(app)/contracts/index.tsx - how does a list page render items? What components does it use?
+2. src/routes/(protected)/(app)/clients/ - check the index.tsx if it exists for client list page
+3. Look at any Badge component in src/components/ui/ for entity type badges
+
+Return the full source of the contracts/index.tsx and any client list page.
