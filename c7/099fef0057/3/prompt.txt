@@ -1,0 +1,11 @@
+Research the codebase at /home/aditya/projects/alpauls-ats for planning a "drafts" feature. I need to understand:
+
+1. The DB schema patterns - look at src/db-schemas/ for how tables are defined (Drizzle ORM patterns, naming conventions, etc.)
+2. The oRPC router and service patterns - look at src/rpc/router/index.ts, src/rpc/middleware.ts, src/services/ (pick one service to see the full pattern)
+3. Any existing draft-related code - search for "draft" in the codebase
+4. The client form schema at src/lib/form-schemas/client
+5. The Form and Field components at integrations/forms/ to understand how forms work
+6. The client creation route - look at src/routes/(protected)/(app)/clients/ for how client create works (the page that uses ClientForm)
+7. The Drizzle config and db connection files
+
+Return all the relevant code and patterns you find. Be thorough - I need to understand the full stack from DB schema → service → oRPC → form → page.

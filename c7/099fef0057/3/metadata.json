@@ -1,0 +1,84 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "c7099fef0057",
+  "session_id": "ses_1acb8e450ffeMMJtvK9CTc18Kh",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-23T12:05:25.739346667Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "bun.lock",
+    "package.json",
+    "src/components/client-list-view.tsx",
+    "src/components/sidebar.tsx",
+    "src/components/ui/popover.tsx",
+    "src/routeTree.gen.ts",
+    "src/router.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/clients/new.tsx"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "22dfab8fd070",
+  "token_usage": {
+    "input_tokens": 46163,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 200960,
+    "output_tokens": 6694,
+    "api_call_count": 9
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-23T12:05:25.698020859Z",
+    "agent_lines": 0,
+    "agent_removed": 20,
+    "human_added": 474,
+    "human_modified": 145,
+    "human_removed": 0,
+    "total_committed": 480,
+    "total_lines_changed": 659,
+    "agent_percentage": 3.0349013657056148,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 195,
+      "user_lines_removed": 145,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "bun.lock": 26,
+        "package.json": 12,
+        "src/components/client-list-view.tsx": 44,
+        "src/components/layouts/nav-layout.tsx": 29,
+        "src/components/sidebar.tsx": 6,
+        "src/components/ui/popover.tsx": 17,
+        "src/routeTree.gen.ts": 21,
+        "src/router.tsx": 5,
+        "src/routes/(protected)/(app)/clients/index.tsx": 11,
+        "src/routes/(protected)/(app)/clients/new.tsx": 15,
+        "src/routes/(protected)/(app)/drafts.tsx": 9
+      },
+      "user_removed_per_file": {
+        "bun.lock": 66,
+        "package.json": 9,
+        "src/components/client-list-view.tsx": 8,
+        "src/components/sidebar.tsx": 4,
+        "src/components/ui/popover.tsx": 17,
+        "src/router.tsx": 1,
+        "src/routes/(protected)/(app)/clients/index.tsx": 14,
+        "src/routes/(protected)/(app)/clients/new.tsx": 26
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 195,
+      "agent_lines_removed": 145
+    }
+  ]
+}
