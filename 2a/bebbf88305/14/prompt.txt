@@ -1,0 +1,228 @@
+@src/routes/(protected)/(app)/clients/new.tsx integrate the functionality in @src/routes/(protected)/(app)/clients/-form.tsx . Integrate all the logic into the forms. Do not allow drafts for already existing clients data.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/new.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/new.tsx</path>
+<type>file</type>
+<content>
+1: import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+2: import {
+3:   createFileRoute,
+4:   useNavigate,
+5:   useSearch,
+6: } from "@tanstack/react-router";
+7: import { z } from "zod";
+8: 
+9: import NavLayout from "@/components/layouts/nav-layout";
+10: import { Client_FormSchema } from "@/lib/form-schemas/client";
+11: import { rpc } from "@/rpc/client";
+12: 
+13: import { ClientForm } from "./-form";
+14: 
+15: export const Route = createFileRoute("/(protected)/(app)/clients/new")({
+16:   component: NewClientPage,
+17:   validateSearch: z.object({
+18:     draftId: z.string().optional(),
+19:   }),
+20: });
+21: 
+22: function NewClientPage() {
+23:   const { draftId } = useSearch({ from: Route.id });
+24:   const navigate = useNavigate();
+25:   const queryClient = useQueryClient();
+26: 
+27:   const { data: draft } = useQuery({
+28:     ...rpc.draft.getById.queryOptions({
+29:       input: { id: Number(draftId) },
+30:     }),
+31:     enabled: !!draftId,
+32:   }) as { data?: { data: Record<string, unknown> } };
+33: 
+34:   const parsed = Client_FormSchema.safeParse(draft?.data || {});
+35:   const defaultValues = parsed?.success ? parsed.data : undefined;
+36: 
+37:   const createMutation = useMutation({
+38:     mutationFn: (input: z.infer<typeof Client_FormSchema>) =>
+39:       rpc.client.create.call(input),
+40:     onSuccess: async (data) => {
+41:       if (!data) return;
+42:       queryClient.invalidateQueries({ queryKey: ["client"] });
+43:       if (draftId) {
+44:         await rpc.draft.delete.call({ id: Number(draftId) });
+45:         queryClient.invalidateQueries({ queryKey: ["draft"] });
+46:       }
+47:       navigate({
+48:         params: { clientId: String(data.id) },
+49:         to: "/clients/$clientId",
+50:       });
+51:     },
+52:   });
+53: 
+54:   const saveDraftMutation = useMutation({
+55:     mutationFn: (input: z.infer<typeof Client_FormSchema>) =>
+56:       rpc.draft.create.call({
+57:         data: input as Record<string, unknown>,
+58:         entityType: "client",
+59:         title: input.name,
+60:       }),
+61:     onSuccess: () => {
+62:       queryClient.invalidateQueries({ queryKey: ["draft"] });
+63:     },
+64:   });
+65: 
+66:   return (
+67:     <NavLayout
+68:       baseUrl="/clients"
+69:       label="Clients"
+70:       leftItems={<div>Create New</div>}
+71:       rightItems={
+72:         <p className="text-muted-foreground text-sm">
+73:           Add a new client to the system
+74:         </p>
+75:       }
+76:     >
+77:       <div className="mx-auto my-16 max-w-xl">
+78:         <ClientForm
+79:           defaultValues={defaultValues}
+80:           isPending={createMutation.isPending}
+81:           isSaveDraftPending={saveDraftMutation.isPending}
+82:           mode="create"
+83:           onSaveDraft={(values) => saveDraftMutation.mutate(values)}
+84:           onSubmit={(values) => createMutation.mutate(values)}
+85:         />
+86:       </div>
+87:     </NavLayout>
+88:   );
+89: }
+
+(End of file - total 89 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-form.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-form.tsx</path>
+<type>file</type>
+<content>
+1: import { useQuery } from "@tanstack/react-query";
+2: import { useEffect } from "react";
+3: import { useFormContext } from "react-hook-form";
+4: import type { z } from "zod";
+5: 
+6: import { Field, Form } from "#/forms";
+7: import { LogoUpload } from "@/components/logo-upload";
+8: import { Button } from "@/components/ui/button";
+9: import { Client_FormSchema } from "@/lib/form-schemas/client";
+10: import { slugify } from "@/lib/utils";
+11: import { rpc } from "@/rpc/client";
+12: 
+13: type ClientFormType = z.infer<typeof Client_FormSchema>;
+14: 
+15: export function ClientForm({
+16:   mode,
+17:   onSubmit,
+18:   isPending,
+19:   defaultValues,
+20:   onSaveDraft,
+21:   isSaveDraftPending,
+22: }: {
+23:   mode: "create" | "edit";
+24:   onSubmit: (values: ClientFormType) => void;
+25:   isPending: boolean;
+26:   defaultValues?: Partial<ClientFormType>;
+27:   onSaveDraft?: (values: ClientFormType) => void;
+28:   isSaveDraftPending?: boolean;
+29: }) {
+30:   const { data: bd_users } = useQuery(
+31:     rpc.users.list.queryOptions({
+32:       input: { limit: 100, role: ["admin", "bd"] },
+33:     }),
+34:   );
+35: 
+36:   return (
+37:     <Form
+38:       className="space-y-6"
+39:       defaultValues={defaultValues}
+40:       onSubmit={onSubmit}
+41:       schema={Client_FormSchema}
+42:     >
+43:       <Field name="name" />
+44:       <Field name="legalName" />
+45:       <Field
+46:         name="logo"
+47:         overrides={({ field }) => (
+48:           <LogoUpload
+49:             onChange={(url: string | null) => field.onChange(url)}
+50:             value={field.value}
+51:           />
+52:         )}
+53:       />
+54:       <SlugSync mode={mode} />
+55:       <Field name="slug" />
+56:       <Field name="locations" />
+57:       <Field name="internalNotes" />
+58:       <Field
+59:         config={{
+60:           getOptionLabel: ({ name }) => name,
+61:           getOptionValue: ({ id }) => id,
+62:           options: bd_users?.items ?? [],
+63:         }}
+64:         name="assigneeId"
+65:       />
+66:       <ClientFormActions
+67:         isPending={isPending}
+68:         isSaveDraftPending={isSaveDraftPending}
+69:         mode={mode}
+70:         onSaveDraft={onSaveDraft}
+71:       />
+72:     </Form>
+73:   );
+74: }
+75: 
+76: function SlugSync({ mode }: { mode: "create" | "edit" }) {
+77:   const { watch, setValue } = useFormContext();
+78: 
+79:   useEffect(() => {
+80:     if (mode === "edit") return;
+81:     const { unsubscribe } = watch((values, { name }) => {
+82:       if (name === "name" && typeof values.name === "string") {
+83:         setValue("slug", slugify(values.name), { shouldValidate: true });
+84:       }
+85:     });
+86:     return unsubscribe;
+87:   }, [mode, watch, setValue]);
+88: 
+89:   return null;
+90: }
+91: 
+92: function ClientFormActions({
+93:   mode,
+94:   isPending,
+95:   onSaveDraft,
+96:   isSaveDraftPending,
+97: }: {
+98:   mode: "create" | "edit";
+99:   isPending: boolean;
+100:   onSaveDraft?: (values: ClientFormType) => void;
+101:   isSaveDraftPending?: boolean;
+102: }) {
+103:   const { watch, getValues } = useFormContext<ClientFormType>();
+104:   const name = watch("name");
+105:   const assigneeId = watch("assigneeId");
+106: 
+107:   return (
+108:     <div className="flex gap-3">
+109:       <Button disabled={isPending || !name || !assigneeId} type="submit">
+110:         {mode === "create" ? "Create Client" : "Save Changes"}
+111:       </Button>
+112:       {mode === "create" && onSaveDraft && (
+113:         <Button
+114:           disabled={isSaveDraftPending || !name}
+115:           onClick={() => onSaveDraft(getValues())}
+116:           type="button"
+117:           variant="outline"
+118:         >
+119:           {isSaveDraftPending ? "Saving..." : "Save to Drafts"}
+120:         </Button>
+121:       )}
+122:     </div>
+123:   );
+124: }
+
+(End of file - total 124 lines)
+</content>
