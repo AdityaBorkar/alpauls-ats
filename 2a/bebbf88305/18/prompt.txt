@@ -1,0 +1,9 @@
+Search for the NavLayout component and understand how it renders leftItems and rightItems. Also look for any existing "filter" UI patterns in the codebase - tabs, pills, buttons used for filtering.
+
+Specifically:
+1. Read the full NavLayout component (likely in src/components/layouts/nav-layout.tsx or similar)
+2. Search for any filter-related components or patterns
+3. Look at how other pages (like tasks page) use NavLayout - especially the leftItems prop
+4. Check src/routes/(protected)/(app)/ for other pages that might already have filter views implemented
+
+Return the full NavLayout code and any examples of leftItems usage across the app.
