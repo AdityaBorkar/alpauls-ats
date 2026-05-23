@@ -15,6 +15,7 @@ import Phone from "@iconify-react/lets-icons/phone";
 import Sertificate from "@iconify-react/lets-icons/sertificate";
 import UserBox from "@iconify-react/lets-icons/user-box";
 import {
+  IconFilePencil,
   IconLayoutSidebar,
   IconMessageChatbot,
   IconPlus,
@@ -31,19 +32,20 @@ import {
 import { SITE_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-type NavItemConfig = {
+type SidebarItem = {
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   label: string;
 };
 
-const navGroups: { items: NavItemConfig[]; label: string }[] = [
+const SidebarItems: { items: SidebarItem[]; label: string }[] = [
   {
     items: [
       { href: "/dashboard", icon: Home, label: "Dashboard" },
       { href: "/agents", icon: Cpu, label: "Agents" },
       { href: "/tasks", icon: CheckRing, label: "Tasks" },
       { href: "/omnichannel", icon: Layers, label: "Omnichannel" },
+      { href: "/drafts", icon: IconFilePencil, label: "Drafts" },
     ],
     label: "Management",
   },
@@ -120,7 +122,7 @@ function NavItem({
   icon: Icon,
   label,
   isActive,
-}: NavItemConfig & { isActive: boolean }) {
+}: SidebarItem & { isActive: boolean }) {
   return (
     <li className="group/menu-item relative">
       <SidebarTooltip label={label}>
@@ -332,7 +334,7 @@ function SidebarInner({
         className="no-scrollbar flex min-h-0 flex-1 flex-col gap-0 overflow-auto group-data-[collapsible=icon]:overflow-hidden"
         data-slot="sidebar-content"
       >
-        {navGroups.map((group) => (
+        {SidebarItems.map((group) => (
           <div
             className="relative flex w-full min-w-0 flex-col p-2"
             data-slot="sidebar-group"

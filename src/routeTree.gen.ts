@@ -19,6 +19,7 @@ import { Route as protectedSettingsSlaRouteImport } from './routes/(protected)/s
 import { Route as protectedSettingsProfileRouteImport } from './routes/(protected)/settings/profile'
 import { Route as protectedSettingsConnectionsRouteImport } from './routes/(protected)/settings/connections'
 import { Route as protectedappProspectsRouteImport } from './routes/(protected)/(app)/prospects'
+import { Route as protectedappDraftsRouteImport } from './routes/(protected)/(app)/drafts'
 import { Route as protectedappDashboardRouteImport } from './routes/(protected)/(app)/dashboard'
 import { Route as protectedappAuditLogRouteImport } from './routes/(protected)/(app)/audit-log'
 import { Route as protectedappAnalyticsRouteImport } from './routes/(protected)/(app)/analytics'
@@ -90,6 +91,11 @@ const protectedSettingsConnectionsRoute =
 const protectedappProspectsRoute = protectedappProspectsRouteImport.update({
   id: '/(app)/prospects',
   path: '/prospects',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
+const protectedappDraftsRoute = protectedappDraftsRouteImport.update({
+  id: '/(app)/drafts',
+  path: '/drafts',
   getParentRoute: () => protectedRouteRoute,
 } as any)
 const protectedappDashboardRoute = protectedappDashboardRouteImport.update({
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof protectedappAnalyticsRoute
   '/audit-log': typeof protectedappAuditLogRoute
   '/dashboard': typeof protectedappDashboardRoute
+  '/drafts': typeof protectedappDraftsRoute
   '/prospects': typeof protectedappProspectsRoute
   '/settings/connections': typeof protectedSettingsConnectionsRoute
   '/settings/profile': typeof protectedSettingsProfileRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof protectedappAnalyticsRoute
   '/audit-log': typeof protectedappAuditLogRoute
   '/dashboard': typeof protectedappDashboardRoute
+  '/drafts': typeof protectedappDraftsRoute
   '/prospects': typeof protectedappProspectsRoute
   '/settings/connections': typeof protectedSettingsConnectionsRoute
   '/settings/profile': typeof protectedSettingsProfileRoute
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/(protected)/(app)/analytics': typeof protectedappAnalyticsRoute
   '/(protected)/(app)/audit-log': typeof protectedappAuditLogRoute
   '/(protected)/(app)/dashboard': typeof protectedappDashboardRoute
+  '/(protected)/(app)/drafts': typeof protectedappDraftsRoute
   '/(protected)/(app)/prospects': typeof protectedappProspectsRoute
   '/(protected)/settings/connections': typeof protectedSettingsConnectionsRoute
   '/(protected)/settings/profile': typeof protectedSettingsProfileRoute
@@ -318,6 +327,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/audit-log'
     | '/dashboard'
+    | '/drafts'
     | '/prospects'
     | '/settings/connections'
     | '/settings/profile'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/audit-log'
     | '/dashboard'
+    | '/drafts'
     | '/prospects'
     | '/settings/connections'
     | '/settings/profile'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/(protected)/(app)/analytics'
     | '/(protected)/(app)/audit-log'
     | '/(protected)/(app)/dashboard'
+    | '/(protected)/(app)/drafts'
     | '/(protected)/(app)/prospects'
     | '/(protected)/settings/connections'
     | '/(protected)/settings/profile'
@@ -488,6 +500,13 @@ declare module '@tanstack/react-router' {
       path: '/prospects'
       fullPath: '/prospects'
       preLoaderRoute: typeof protectedappProspectsRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/drafts': {
+      id: '/(protected)/(app)/drafts'
+      path: '/drafts'
+      fullPath: '/drafts'
+      preLoaderRoute: typeof protectedappDraftsRouteImport
       parentRoute: typeof protectedRouteRoute
     }
     '/(protected)/(app)/dashboard': {
@@ -644,6 +663,7 @@ interface protectedRouteRouteChildren {
   protectedappAnalyticsRoute: typeof protectedappAnalyticsRoute
   protectedappAuditLogRoute: typeof protectedappAuditLogRoute
   protectedappDashboardRoute: typeof protectedappDashboardRoute
+  protectedappDraftsRoute: typeof protectedappDraftsRoute
   protectedappProspectsRoute: typeof protectedappProspectsRoute
   protectedSettingsConnectionsRoute: typeof protectedSettingsConnectionsRoute
   protectedSettingsProfileRoute: typeof protectedSettingsProfileRoute
@@ -673,6 +693,7 @@ const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedappAnalyticsRoute: protectedappAnalyticsRoute,
   protectedappAuditLogRoute: protectedappAuditLogRoute,
   protectedappDashboardRoute: protectedappDashboardRoute,
+  protectedappDraftsRoute: protectedappDraftsRoute,
   protectedappProspectsRoute: protectedappProspectsRoute,
   protectedSettingsConnectionsRoute: protectedSettingsConnectionsRoute,
   protectedSettingsProfileRoute: protectedSettingsProfileRoute,

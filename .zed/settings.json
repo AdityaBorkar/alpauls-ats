@@ -1,6 +1,6 @@
 {
   "file_scan_exclusions": [
-    "**/.agents",
+    // "**/.agents",
     "**/.codegraphcontext",
     "**/.entire",
     "**/.git",

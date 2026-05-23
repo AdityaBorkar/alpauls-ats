@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Archive } from "lucide-react";
+import { Archive, Search } from "lucide-react";
 import { parseAsJson, useQueryState } from "nuqs";
 import { useState } from "react";
 import { z } from "zod";
@@ -14,6 +14,7 @@ import type { FiltersState } from "@/components/data-table-filter/core/types";
 import { useDataTableFilters } from "@/components/data-table-filter/hooks/use-data-table-filters";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -28,7 +29,7 @@ import { clientColumnDefs } from "./client-list-view/columns";
 import { clientColumnsConfig } from "./client-list-view/filters";
 
 export type ClientItem = {
-  id: number;
+  id: string;
   name: string;
   legalName: string | null;
   slug: string;
@@ -50,7 +51,7 @@ type ClientListResponse = {
 };
 
 type ClientListViewProps = {
-  onClientClick: (client: ClientItem) => void;
+  onItemClick: (client: ClientItem) => void;
 };
 
 const filtersSchema = z.custom<FiltersState>();
@@ -75,7 +76,30 @@ function filtersToRpcParams(filters: FiltersState) {
   return { archived, assigneeId, search };
 }
 
-export function ClientListView({ onClientClick }: ClientListViewProps) {
+function getSearchValue(filters: FiltersState): string {
+  for (const f of filters) {
+    if (f.columnId === "name" && f.type === "text") return f.values[0] ?? "";
+  }
+  return "";
+}
+
+function setSearchFilter(filters: FiltersState, value: string): FiltersState {
+  const rest = filters.filter((f) => f.columnId !== "name");
+  if (!value) return rest;
+  return [
+    ...rest,
+    {
+      columnId: "name",
+      operator: "contains",
+      type: "text" as const,
+      values: [value],
+    },
+  ];
+}
+
+export function ClientListView({
+  onItemClick: onClientClick,
+}: ClientListViewProps) {
   const [filters, setFilters] = useQueryState<FiltersState>(
     "filters",
     parseAsJson(filtersSchema.parse).withDefault([]),
@@ -150,13 +174,27 @@ export function ClientListView({ onClientClick }: ClientListViewProps) {
 
   return (
     <div className="space-y-4">
-      <DataTableFilter
-        actions={actions}
-        columns={columns}
-        filters={filterState}
-        locale="en"
-        strategy={strategy}
-      />
+      <div className="flex items-start gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute top-2.5 left-2.5 size-4 text-muted-foreground" />
+          <Input
+            className="pl-8"
+            onChange={(e) => {
+              setFilters(setSearchFilter(filters, e.target.value));
+              setCursor(undefined);
+            }}
+            placeholder="Search clients..."
+            value={getSearchValue(filters)}
+          />
+        </div>
+        <DataTableFilter
+          actions={actions}
+          columns={columns}
+          filters={filterState}
+          locale="en"
+          strategy={strategy}
+        />
+      </div>
 
       <div className="rounded-lg border bg-card">
         <Table>

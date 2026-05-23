@@ -24,7 +24,10 @@ export function getRouter() {
     scrollRestoration: true,
   });
 
-  setupRouterSsrQueryIntegration({ queryClient: context.queryClient, router });
+  setupRouterSsrQueryIntegration({
+    queryClient: context.queryClient,
+    router,
+  });
 
   return router;
 }

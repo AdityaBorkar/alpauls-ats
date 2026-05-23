@@ -17,6 +17,13 @@ import {
   contractUpdate,
 } from "./client-contract";
 import {
+  draftCreate,
+  draftDelete,
+  draftGetById,
+  draftList,
+  draftUpdate,
+} from "./draft";
+import {
   filterViewCreate,
   filterViewDelete,
   filterViewList,
@@ -59,6 +66,13 @@ export const router = {
     list: contractList,
     listEvents: contractListEvents,
     update: contractUpdate,
+  },
+  draft: {
+    create: draftCreate,
+    delete: draftDelete,
+    getById: draftGetById,
+    list: draftList,
+    update: draftUpdate,
   },
   filterView: {
     create: filterViewCreate,

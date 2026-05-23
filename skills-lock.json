@@ -48,6 +48,12 @@
       "source": "millionco/react-doctor",
       "sourceType": "github"
     },
+    "thermo-nuclear-code-quality-review": {
+      "computedHash": "9052b01b46b1d8dbf94c45f9313ec1983443f9a460e83d49cdc7fe0f640ca476",
+      "skillPath": "cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
+      "source": "cursor/plugins",
+      "sourceType": "github"
+    },
     "to-issues": {
       "computedHash": "47f648f3414848ccfc62cb41d2828b7e575fb5e7cbd6c4bdf630c063b5dc5e82",
       "skillPath": "skills/engineering/to-issues/SKILL.md",
