@@ -1,0 +1,9 @@
+Explore the codebase to understand design patterns used in detail/show pages. I need to understand:
+
+1. Look at other detail pages in src/routes/(protected)/(app)/ - especially any that show entity details (like tasks, contracts, etc.) - what design patterns do they use? Do they use Cards or flat layouts?
+2. Read the NavLayout component at src/components/layouts/nav-layout.tsx
+3. Read the AuditLogs component at src/components/audit-logs.tsx
+4. Check src/components/ui/ for available UI components (list the directory)
+5. Look at any existing "show" or "detail" pages to see if they follow a pattern of header + sections
+
+Return all the file contents and patterns you find.
