@@ -1,0 +1,70 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "2abebbf88305",
+  "session_id": "ses_1ab2ebf99ffeJ1kfPsPR2ADei9",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-23T17:01:59.964231929Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".zed/settings.json",
+    "bun.lock",
+    "integrations/tanstack-query/root-provider.tsx",
+    "package.json",
+    "src/components/client-list-view.tsx",
+    "src/components/forms/client-form.tsx",
+    "src/lib/form-schemas/client.ts",
+    "src/router.tsx",
+    "src/routes/(protected)/(app)/clients/$clientId.tsx",
+    "src/routes/(protected)/(app)/clients/-form.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/clients/new.tsx",
+    "src/rpc/router/client.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "902d0b6587bd",
+  "token_usage": {
+    "input_tokens": 111750,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3297600,
+    "output_tokens": 5744,
+    "api_call_count": 42
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-23T17:01:59.889115126Z",
+    "agent_lines": 400,
+    "agent_removed": 1111,
+    "human_added": 1171,
+    "human_modified": 75,
+    "human_removed": 0,
+    "total_committed": 1646,
+    "total_lines_changed": 3002,
+    "agent_percentage": 50.33311125916056,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 79,
+      "user_lines_removed": 75,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "src/components/forms/client-form.tsx": 18,
+        "src/lib/form-schemas/client.ts": 1,
+        "src/routes/(protected)/(app)/clients/new.tsx": 59,
+        "src/rpc/router/client.ts": 1
+      },
+      "user_removed_per_file": {
+        ".zed/settings.json": 1,
+        "src/components/forms/client-form.tsx": 71,
+        "src/lib/form-schemas/client.ts": 1,
+        "src/routes/(protected)/(app)/clients/new.tsx": 2
+      }
+    }
+  ]
+}
