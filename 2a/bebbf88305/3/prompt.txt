@@ -1,0 +1,299 @@
+@src/routes/(protected)/(app)/clients/$clientId/index.tsx Move the edit logic to @src/routes/(protected)/(app)/clients/$clientId/edit.tsx . Edit must be a separate page.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId/index.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId/index.tsx</path>
+<type>file</type>
+<content>
+1: import PackageBoxAlt from "@iconify-react/lets-icons/package-box-alt";
+2: import Sertificate from "@iconify-react/lets-icons/sertificate";
+3: import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+4: import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
+5: import { format } from "date-fns";
+6: import {
+7:   Archive,
+8:   Edit,
+9:   FileText,
+10:   Hash,
+11:   MapPin,
+12:   StickyNote,
+13: } from "lucide-react";
+14: import { useState } from "react";
+15: 
+16: import AuditLogs, { type AuditLogEntry } from "@/components/audit-logs";
+17: import NavLayout from "@/components/layouts/nav-layout";
+18: import { LoadingPage } from "@/components/pages/loading";
+19: import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+20: import { Badge } from "@/components/ui/badge";
+21: import { Button } from "@/components/ui/button";
+22: import { Separator } from "@/components/ui/separator";
+23: import { rpc } from "@/rpc/client";
+24: 
+25: import { ClientForm } from "../-form";
+26: 
+27: export const Route = createFileRoute("/(protected)/(app)/clients/$clientId/")({
+28:   component: ClientDetailPage,
+29: });
+30: 
+31: function ClientDetailPage() {
+32:   const { clientId } = Route.useParams();
+33:   const navigate = useNavigate();
+34:   const queryClient = useQueryClient();
+35:   const numericId = Number.parseInt(clientId, 10);
+36: 
+37:   const { data: client, isLoading } = useQuery(
+38:     rpc.client.getById.queryOptions({ input: { id: numericId } }),
+39:   );
+40: 
+41:   const { data: eventsData } = useQuery(
+42:     rpc.client.listEvents.queryOptions({
+43:       input: { clientId: numericId },
+44:     }),
+45:   );
+46: 
+47:   const events =
+48:     (eventsData as { items: AuditLogEntry[] } | undefined)?.items ?? [];
+49: 
+50:   const [isEditing, setIsEditing] = useState(false);
+51: 
+52:   const archiveMutation = useMutation({
+53:     mutationFn: () => rpc.client.archive.call({ id: numericId }),
+54:     onSuccess: () => {
+55:       queryClient.invalidateQueries({ queryKey: ["client"] });
+56:       navigate({ to: "/clients" });
+57:     },
+58:   });
+59: 
+60:   if (isLoading) {
+61:     return <LoadingPage />;
+62:   }
+63:   if (!client) {
+64:     throw notFound();
+65:   }
+66:   return (
+67:     <NavLayout
+68:       baseUrl="/clients"
+69:       label="Clients"
+70:       leftItems={<span className="font-medium">{client.name}</span>}
+71:       rightItems={
+72:         !isEditing ? (
+73:           <div className="flex items-center gap-1.5">
+74:             <Button
+75:               onClick={() => setIsEditing(true)}
+76:               size="sm"
+77:               variant="outline"
+78:             >
+79:               <Edit className="h-3.5 w-3.5" />
+80:               Edit
+81:             </Button>
+82:             {!client.archived && (
+83:               <Button
+84:                 disabled={archiveMutation.isPending}
+85:                 onClick={() => archiveMutation.mutate()}
+86:                 size="sm"
+87:                 variant="outline"
+88:               >
+89:                 <Archive className="h-3.5 w-3.5" />
+90:                 Archive
+91:               </Button>
+92:             )}
+93:           </div>
+94:         ) : null
+95:       }
+96:     >
+97:       <div className="space-y-8">
+98:         {isEditing ? (
+99:           <ClientForm
+100:             clientId={numericId}
+101:             defaultValues={{
+102:               assigneeId: client.assigneeId,
+103:               internalNotes: client.internalNotes ?? "",
+104:               legalName: client.legalName ?? "",
+105:               locations: client.locations ?? [],
+106:               logo: client.logo ?? undefined,
+107:               name: client.name,
+108:               slug: client.slug,
+109:             }}
+110:             mode="edit"
+111:             onCancel={() => setIsEditing(false)}
+112:             onSuccess={() => setIsEditing(false)}
+113:           />
+114:         ) : (
+115:           <>
+116:             <div className="space-y-2">
+117:               <div className="flex items-center gap-2">
+118:                 <h1 className="font-semibold text-xl">{client.name}</h1>
+119:                 {client.archived && (
+120:                   <Badge variant="destructive">Archived</Badge>
+121:                 )}
+122:               </div>
+123:               {client.legalName && (
+124:                 <p className="text-muted-foreground text-sm">
+125:                   {client.legalName}
+126:                 </p>
+127:               )}
+128:               <div className="flex items-center gap-2">
+129:                 <Avatar className="h-5 w-5">
+130:                   <AvatarImage src={client.assignee.image ?? undefined} />
+131:                   <AvatarFallback>
+132:                     {client.assignee.name?.[0] ?? "?"}
+133:                   </AvatarFallback>
+134:                 </Avatar>
+135:                 <span className="text-sm">{client.assignee.name}</span>
+136:               </div>
+137:               <div className="text-muted-foreground text-xs">
+138:                 Created{" "}
+139:                 {client.createdAt
+140:                   ? format(new Date(client.createdAt), "MMM d, yyyy")
+141:                   : "—"}
+142:                 {client.updatedAt && (
+143:                   <>
+144:                     {" · "}Updated{" "}
+145:                     {format(new Date(client.updatedAt), "MMM d, yyyy")}
+146:                   </>
+147:                 )}
+148:               </div>
+149:             </div>
+150: 
+151:             <Separator />
+152: 
+153:             <dl className="grid grid-cols-[auto_1fr] gap-x-12 gap-y-3">
+154:               <dt className="flex items-center gap-1.5 text-muted-foreground text-sm">
+155:                 <Hash className="h-3.5 w-3.5" />
+156:                 ID
+157:               </dt>
+158:               <dd>
+159:                 <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+160:                   {client.id}
+161:                 </code>
+162:               </dd>
+163: 
+164:               <dt className="text-muted-foreground text-sm">Nickname</dt>
+165:               <dd className="font-medium text-sm">{client.name}</dd>
+166: 
+167:               {client.legalName && (
+168:                 <>
+169:                   <dt className="text-muted-foreground text-sm">Legal Name</dt>
+170:                   <dd className="font-medium text-sm">{client.legalName}</dd>
+171:                 </>
+172:               )}
+173: 
+174:               <dt className="text-muted-foreground text-sm">Slug</dt>
+175:               <dd>
+176:                 <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+177:                   {client.slug}
+178:                 </code>
+179:               </dd>
+180: 
+181:               <dt className="text-muted-foreground text-sm">Assignee</dt>
+182:               <dd className="flex items-center gap-2 font-medium text-sm">
+183:                 <Avatar className="h-5 w-5">
+184:                   <AvatarImage src={client.assignee.image ?? undefined} />
+185:                   <AvatarFallback>
+186:                     {client.assignee.name?.[0] ?? "?"}
+187:                   </AvatarFallback>
+188:                 </Avatar>
+189:                 {client.assignee.name}
+190:               </dd>
+191:             </dl>
+192: 
+193:             <Separator />
+194: 
+195:             {client.description && (
+196:               <div className="space-y-2">
+197:                 <div className="flex items-center gap-2 font-medium text-sm">
+198:                   <FileText className="h-4 w-4" />
+199:                   Description
+200:                 </div>
+201:                 <p className="text-sm leading-relaxed">{client.description}</p>
+202:               </div>
+203:             )}
+204: 
+205:             {client.locations && client.locations.length > 0 && (
+206:               <div className="space-y-2">
+207:                 <div className="flex items-center gap-2 font-medium text-sm">
+208:                   <MapPin className="h-4 w-4" />
+209:                   Locations
+210:                 </div>
+211:                 <div className="flex flex-wrap gap-1.5">
+212:                   {client.locations.map((loc) => (
+213:                     <Badge
+214:                       key={`${loc.city}-${loc.country}`}
+215:                       variant="secondary"
+216:                     >
+217:                       {loc.city}, {loc.country}
+218:                     </Badge>
+219:                   ))}
+220:                 </div>
+221:               </div>
+222:             )}
+223: 
+224:             {client.internalNotes && (
+225:               <div className="space-y-2">
+226:                 <div className="flex items-center gap-2 font-medium text-sm">
+227:                   <StickyNote className="h-4 w-4" />
+228:                   Internal Notes
+229:                 </div>
+230:                 <p className="text-sm leading-relaxed">
+231:                   {client.internalNotes}
+232:                 </p>
+233:               </div>
+234:             )}
+235: 
+236:             <Separator />
+237: 
+238:             <Button
+239:               onClick={() =>
+240:                 navigate({
+241:                   search: { clientId: client.id, clientName: client.name },
+242:                   to: "/job-mandates",
+243:                 })
+244:               }
+245:               size="sm"
+246:               variant="outline"
+247:             >
+248:               <PackageBoxAlt className="h-3.5 w-3.5" />
+249:               Job Mandates
+250:             </Button>
+251:             <Button
+252:               onClick={() =>
+253:                 navigate({
+254:                   search: { clientId: client.id, clientName: client.name },
+255:                   to: "/contracts",
+256:                 })
+257:               }
+258:               size="sm"
+259:               variant="outline"
+260:             >
+261:               <Sertificate className="h-3.5 w-3.5" />
+262:               Contracts
+263:             </Button>
+264: 
+265:             <Separator />
+266: 
+267:             <AuditLogs domainName="client" entries={events} />
+268:           </>
+269:         )}
+270:       </div>
+271:     </NavLayout>
+272:   );
+273: }
+
+(End of file - total 273 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId/edit.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId/edit.tsx</path>
+<type>file</type>
+<content>
+1: import { createFileRoute } from "@tanstack/react-router";
+2: 
+3: export const Route = createFileRoute(
+4:   "/(protected)/(app)/clients/$clientId/edit",
+5: )({
+6:   component: RouteComponent,
+7: });
+8: 
+9: function RouteComponent() {
+10:   return <div>Hello "/(protected)/(app)/clients/$clientId/edit"!</div>;
+11: }
+
+(End of file - total 11 lines)
+</content>
