@@ -1,0 +1,204 @@
+{
+  "info": {
+    "id": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+    "slug": "kind-wizard",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "title": "Fix getRowModel undefined in ListPageLayout",
+    "agent": "plan",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "time": {
+      "created": 1779544670164,
+      "updated": 1779544674745
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779544670184
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e5520bfd9001NNi7MXkdQmv5B5",
+        "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "@src/components/layouts/list-page-layout.tsx Fix the error: \n\nTypeError: can't access property \"rows\", table.getRowModel() is undefined\n    ListPageLayout list-page-layout.tsx:142\n    React 13\n \n\n\nThe above error occurred in the <ListPageLayout> component.\n\nReact will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundaryImpl.",
+          "id": "prt_e5520bfd9002M5ayywmX8qyP3e",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520bfd9001NNi7MXkdQmv5B5"
+        },
+        {
+          "type": "file",
+          "mime": "text/plain",
+          "filename": "src/components/layouts/list-page-layout.tsx",
+          "url": "file:///home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx",
+          "source": {
+            "text": {
+              "value": "@src/components/layouts/list-page-layout.tsx",
+              "start": 0,
+              "end": 44
+            },
+            "type": "file",
+            "path": "src/components/layouts/list-page-layout.tsx"
+          },
+          "id": "prt_e5520bfda001KUSkWxI1uKmKaX",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520bfd9001NNi7MXkdQmv5B5"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "Called the Read tool with the following input: {\"filePath\":\"/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\"}",
+          "id": "prt_e5520c002001ePCyxAn55NpHRB",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520bfd9001NNi7MXkdQmv5B5"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "<path>/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx</path>\n<type>file</type>\n<content>\n1: import type { UseQueryOptions } from \"@tanstack/react-query\";\n2: import { useQuery } from \"@tanstack/react-query\";\n3: import type { ColumnDef } from \"@tanstack/react-table\";\n4: import {\n5:   flexRender,\n6:   getCoreRowModel,\n7:   useReactTable,\n8: } from \"@tanstack/react-table\";\n9: import { Search } from \"lucide-react\";\n10: import { useRef, useState } from \"react\";\n11: \n12: import { Button } from \"@/components/ui/button\";\n13: import { Input } from \"@/components/ui/input\";\n14: import {\n15:   Table,\n16:   TableBody,\n17:   TableCell,\n18:   TableHead,\n19:   TableHeader,\n20:   TableRow,\n21: } from \"@/components/ui/table\";\n22: \n23: export type ListResult<TItem> = {\n24:   items: TItem[];\n25:   nextCursor?: string;\n26: };\n27: \n28: type ListProcedure<TInput> = {\n29:   queryOptions: (opts: { input: TInput }) => UseQueryOptions;\n30: };\n31: \n32: type ListPageLayoutProps<TItem, TInput> = {\n33:   baseInput: Omit<TInput, \"cursor\" | \"limit\" | \"search\">;\n34:   columnDefs: ColumnDef<TItem>[];\n35:   emptyMessage?: string;\n36:   filterSlot?: React.ReactNode;\n37:   getRowId: (row: TItem) => string;\n38:   listProcedure: ListProcedure<TInput>;\n39:   onRowClick?: (row: TItem) => void;\n40:   searchPlaceholder?: string;\n41: };\n42: \n43: export function ListPageLayout<TItem, TInput extends Record<string, unknown>>({\n44:   baseInput,\n45:   columnDefs,\n46:   emptyMessage = \"No items found\",\n47:   filterSlot,\n48:   getRowId,\n49:   listProcedure,\n50:   onRowClick,\n51:   searchPlaceholder = \"Search...\",\n52: }: ListPageLayoutProps<TItem, TInput>) {\n53:   const [search, setSearch] = useState(\"\");\n54:   const [cursor, setCursor] = useState<string | undefined>();\n55: \n56:   const prevBaseInput = useRef(baseInput);\n57:   if (prevBaseInput.current !== baseInput) {\n58:     setCursor(undefined);\n59:     prevBaseInput.current = baseInput;\n60:   }\n61: \n62:   const queryResult = useQuery(\n63:     listProcedure.queryOptions({\n64:       input: {\n65:         ...baseInput,\n66:         cursor,\n67:         limit: 20,\n68:         search: search || undefined,\n69:       } as unknown as TInput,\n70:     }) as UseQueryOptions<ListResult<TItem>>,\n71:   );\n72: \n73:   const data = queryResult.data;\n74:   const isLoading = queryResult.isLoading;\n75: \n76:   const items = data?.items ?? [];\n77:   const nextCursor = data?.nextCursor;\n78: \n79:   const table = useReactTable({\n80:     columns: columnDefs,\n81:     data: items,\n82:     getCoreRowModel: getCoreRowModel(),\n83:     getRowId: (row) => getRowId((row as { original: TItem }).original),\n84:   });\n85: \n86:   return (\n87:     <div className=\"space-y-4\">\n88:       <div className=\"flex items-start gap-2\">\n89:         <div className=\"relative flex-1\">\n90:           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n91:           <Input\n92:             className=\"pl-8\"\n93:             onChange={(e) => {\n94:               setSearch(e.target.value);\n95:               setCursor(undefined);\n96:             }}\n97:             placeholder={searchPlaceholder}\n98:             value={search}\n99:           />\n100:         </div>\n101:         {filterSlot}\n102:       </div>\n103: \n104:       <div className=\"rounded-lg border bg-card\">\n105:         <Table>\n106:           <TableHeader>\n107:             {table.getHeaderGroups().map((headerGroup) => (\n108:               <TableRow key={headerGroup.id}>\n109:                 {headerGroup.headers.map((header) => (\n110:                   <TableHead key={header.id}>\n111:                     {header.isPlaceholder\n112:                       ? null\n113:                       : flexRender(\n114:                           header.column.columnDef.header,\n115:                           header.getContext(),\n116:                         )}\n117:                   </TableHead>\n118:                 ))}\n119:               </TableRow>\n120:             ))}\n121:           </TableHeader>\n122:           <TableBody>\n123:             {isLoading ? (\n124:               <TableRow>\n125:                 <TableCell\n126:                   className=\"text-center text-muted-foreground\"\n127:                   colSpan={columnDefs.length}\n128:                 >\n129:                   Loading...\n130:                 </TableCell>\n131:               </TableRow>\n132:             ) : items.length === 0 ? (\n133:               <TableRow>\n134:                 <TableCell\n135:                   className=\"text-center text-muted-foreground\"\n136:                   colSpan={columnDefs.length}\n137:                 >\n138:                   {emptyMessage}\n139:                 </TableCell>\n140:               </TableRow>\n141:             ) : (\n142:               table.getRowModel().rows.map((row) => (\n143:                 <TableRow\n144:                   className=\"cursor-pointer\"\n145:                   key={row.id}\n146:                   onClick={() => onRowClick?.(row.original as TItem)}\n147:                 >\n148:                   {row.getVisibleCells().map((cell) => (\n149:                     <TableCell key={cell.id}>\n150:                       {flexRender(\n151:                         cell.column.columnDef.cell,\n152:                         cell.getContext(),\n153:                       )}\n154:                     </TableCell>\n155:                   ))}\n156:                 </TableRow>\n157:               ))\n158:             )}\n159:           </TableBody>\n160:         </Table>\n161:       </div>\n162: \n163:       {nextCursor && (\n164:         <div className=\"flex justify-center\">\n165:           <Button\n166:             onClick={() => setCursor(nextCursor)}\n167:             size=\"sm\"\n168:             variant=\"outline\"\n169:           >\n170:             Load more\n171:           </Button>\n172:         </div>\n173:       )}\n174:     </div>\n175:   );\n176: }\n\n(End of file - total 176 lines)\n</content>",
+          "id": "prt_e5520c002002GBTZaAkAUrbGaK",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520bfd9001NNi7MXkdQmv5B5"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5520bfd9001NNi7MXkdQmv5B5",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "input": 0,
+          "output": 0,
+          "reasoning": 0,
+          "cache": {
+            "read": 0,
+            "write": 0
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544670424
+        },
+        "id": "msg_e5520c0d8001pHsJ2eIpIHezVv",
+        "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e5520cf55001NXXMUJpJIVkxPo",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520c0d8001pHsJ2eIpIHezVv"
+        },
+        {
+          "type": "reasoning",
+          "text": "",
+          "time": {
+            "start": 1779544674135
+          },
+          "id": "prt_e5520cf57001osjXtI0Qb47DN7",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520c0d8001pHsJ2eIpIHezVv"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779544674551
+        },
+        "agent": "plan",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "id": "msg_e5520d0ea001SybTxdAod71E3a",
+        "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "@src/components/layouts/list-page-layout.tsx Fix the error: \n\nTypeError: can't access property \"rows\", table.getRowModel() is undefined\n    ListPageLayout list-page-layout.tsx:142\n    React 13\n \n\n\nThe above error occurred in the <ListPageLayout> component.\n\nReact will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundaryImpl.",
+          "id": "prt_e5520d0eb001Djd50EZ8B1OaH7",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520d0ea001SybTxdAod71E3a"
+        },
+        {
+          "type": "file",
+          "mime": "text/plain",
+          "filename": "src/components/layouts/list-page-layout.tsx",
+          "url": "file:///home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx",
+          "source": {
+            "text": {
+              "value": "@src/components/layouts/list-page-layout.tsx",
+              "start": 0,
+              "end": 44
+            },
+            "type": "file",
+            "path": "src/components/layouts/list-page-layout.tsx"
+          },
+          "id": "prt_e5520d0eb002N1EzgvMVi3q0Ak",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520d0ea001SybTxdAod71E3a"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "Called the Read tool with the following input: {\"filePath\":\"/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\"}",
+          "id": "prt_e5520d107001tacuRobYRxS40P",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520d0ea001SybTxdAod71E3a"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "<path>/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx</path>\n<type>file</type>\n<content>\n1: import type { UseQueryOptions } from \"@tanstack/react-query\";\n2: import { useQuery } from \"@tanstack/react-query\";\n3: import type { ColumnDef } from \"@tanstack/react-table\";\n4: import {\n5:   flexRender,\n6:   getCoreRowModel,\n7:   useReactTable,\n8: } from \"@tanstack/react-table\";\n9: import { Search } from \"lucide-react\";\n10: import { useRef, useState } from \"react\";\n11: \n12: import { Button } from \"@/components/ui/button\";\n13: import { Input } from \"@/components/ui/input\";\n14: import {\n15:   Table,\n16:   TableBody,\n17:   TableCell,\n18:   TableHead,\n19:   TableHeader,\n20:   TableRow,\n21: } from \"@/components/ui/table\";\n22: \n23: export type ListResult<TItem> = {\n24:   items: TItem[];\n25:   nextCursor?: string;\n26: };\n27: \n28: type ListProcedure<TInput> = {\n29:   queryOptions: (opts: { input: TInput }) => UseQueryOptions;\n30: };\n31: \n32: type ListPageLayoutProps<TItem, TInput> = {\n33:   baseInput: Omit<TInput, \"cursor\" | \"limit\" | \"search\">;\n34:   columnDefs: ColumnDef<TItem>[];\n35:   emptyMessage?: string;\n36:   filterSlot?: React.ReactNode;\n37:   getRowId: (row: TItem) => string;\n38:   listProcedure: ListProcedure<TInput>;\n39:   onRowClick?: (row: TItem) => void;\n40:   searchPlaceholder?: string;\n41: };\n42: \n43: export function ListPageLayout<TItem, TInput extends Record<string, unknown>>({\n44:   baseInput,\n45:   columnDefs,\n46:   emptyMessage = \"No items found\",\n47:   filterSlot,\n48:   getRowId,\n49:   listProcedure,\n50:   onRowClick,\n51:   searchPlaceholder = \"Search...\",\n52: }: ListPageLayoutProps<TItem, TInput>) {\n53:   const [search, setSearch] = useState(\"\");\n54:   const [cursor, setCursor] = useState<string | undefined>();\n55: \n56:   const prevBaseInput = useRef(baseInput);\n57:   if (prevBaseInput.current !== baseInput) {\n58:     setCursor(undefined);\n59:     prevBaseInput.current = baseInput;\n60:   }\n61: \n62:   const queryResult = useQuery(\n63:     listProcedure.queryOptions({\n64:       input: {\n65:         ...baseInput,\n66:         cursor,\n67:         limit: 20,\n68:         search: search || undefined,\n69:       } as unknown as TInput,\n70:     }) as UseQueryOptions<ListResult<TItem>>,\n71:   );\n72: \n73:   const data = queryResult.data;\n74:   const isLoading = queryResult.isLoading;\n75: \n76:   const items = data?.items ?? [];\n77:   const nextCursor = data?.nextCursor;\n78: \n79:   const table = useReactTable({\n80:     columns: columnDefs,\n81:     data: items,\n82:     getCoreRowModel: getCoreRowModel(),\n83:     getRowId: (row) => getRowId((row as { original: TItem }).original),\n84:   });\n85: \n86:   return (\n87:     <div className=\"space-y-4\">\n88:       <div className=\"flex items-start gap-2\">\n89:         <div className=\"relative flex-1\">\n90:           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n91:           <Input\n92:             className=\"pl-8\"\n93:             onChange={(e) => {\n94:               setSearch(e.target.value);\n95:               setCursor(undefined);\n96:             }}\n97:             placeholder={searchPlaceholder}\n98:             value={search}\n99:           />\n100:         </div>\n101:         {filterSlot}\n102:       </div>\n103: \n104:       <div className=\"rounded-lg border bg-card\">\n105:         <Table>\n106:           <TableHeader>\n107:             {table.getHeaderGroups().map((headerGroup) => (\n108:               <TableRow key={headerGroup.id}>\n109:                 {headerGroup.headers.map((header) => (\n110:                   <TableHead key={header.id}>\n111:                     {header.isPlaceholder\n112:                       ? null\n113:                       : flexRender(\n114:                           header.column.columnDef.header,\n115:                           header.getContext(),\n116:                         )}\n117:                   </TableHead>\n118:                 ))}\n119:               </TableRow>\n120:             ))}\n121:           </TableHeader>\n122:           <TableBody>\n123:             {isLoading ? (\n124:               <TableRow>\n125:                 <TableCell\n126:                   className=\"text-center text-muted-foreground\"\n127:                   colSpan={columnDefs.length}\n128:                 >\n129:                   Loading...\n130:                 </TableCell>\n131:               </TableRow>\n132:             ) : items.length === 0 ? (\n133:               <TableRow>\n134:                 <TableCell\n135:                   className=\"text-center text-muted-foreground\"\n136:                   colSpan={columnDefs.length}\n137:                 >\n138:                   {emptyMessage}\n139:                 </TableCell>\n140:               </TableRow>\n141:             ) : (\n142:               table.getRowModel().rows.map((row) => (\n143:                 <TableRow\n144:                   className=\"cursor-pointer\"\n145:                   key={row.id}\n146:                   onClick={() => onRowClick?.(row.original as TItem)}\n147:                 >\n148:                   {row.getVisibleCells().map((cell) => (\n149:                     <TableCell key={cell.id}>\n150:                       {flexRender(\n151:                         cell.column.columnDef.cell,\n152:                         cell.getContext(),\n153:                       )}\n154:                     </TableCell>\n155:                   ))}\n156:                 </TableRow>\n157:               ))\n158:             )}\n159:           </TableBody>\n160:         </Table>\n161:       </div>\n162: \n163:       {nextCursor && (\n164:         <div className=\"flex justify-center\">\n165:           <Button\n166:             onClick={() => setCursor(nextCursor)}\n167:             size=\"sm\"\n168:             variant=\"outline\"\n169:           >\n170:             Load more\n171:           </Button>\n172:         </div>\n173:       )}\n174:     </div>\n175:   );\n176: }\n\n(End of file - total 176 lines)\n</content>",
+          "id": "prt_e5520d107002bgn0PwqXItH4gz",
+          "sessionID": "ses_1aadf402bffe7m3QBfPwOzDfVO",
+          "messageID": "msg_e5520d0ea001SybTxdAod71E3a"
+        }
+      ]
+    }
+  ]
+}
