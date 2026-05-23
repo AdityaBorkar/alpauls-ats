@@ -1,0 +1,194 @@
+@src/components/layouts/list-page-layout.tsx Fix the error: 
+
+TypeError: can't access property "rows", table.getRowModel() is undefined
+    ListPageLayout list-page-layout.tsx:142
+    React 13
+ 
+
+
+The above error occurred in the <ListPageLayout> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundaryImpl.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx</path>
+<type>file</type>
+<content>
+1: import type { UseQueryOptions } from "@tanstack/react-query";
+2: import { useQuery } from "@tanstack/react-query";
+3: import type { ColumnDef } from "@tanstack/react-table";
+4: import {
+5:   flexRender,
+6:   getCoreRowModel,
+7:   useReactTable,
+8: } from "@tanstack/react-table";
+9: import { Search } from "lucide-react";
+10: import { useRef, useState } from "react";
+11: 
+12: import { Button } from "@/components/ui/button";
+13: import { Input } from "@/components/ui/input";
+14: import {
+15:   Table,
+16:   TableBody,
+17:   TableCell,
+18:   TableHead,
+19:   TableHeader,
+20:   TableRow,
+21: } from "@/components/ui/table";
+22: 
+23: export type ListResult<TItem> = {
+24:   items: TItem[];
+25:   nextCursor?: string;
+26: };
+27: 
+28: type ListProcedure<TInput> = {
+29:   queryOptions: (opts: { input: TInput }) => UseQueryOptions;
+30: };
+31: 
+32: type ListPageLayoutProps<TItem, TInput> = {
+33:   baseInput: Omit<TInput, "cursor" | "limit" | "search">;
+34:   columnDefs: ColumnDef<TItem>[];
+35:   emptyMessage?: string;
+36:   filterSlot?: React.ReactNode;
+37:   getRowId: (row: TItem) => string;
+38:   listProcedure: ListProcedure<TInput>;
+39:   onRowClick?: (row: TItem) => void;
+40:   searchPlaceholder?: string;
+41: };
+42: 
+43: export function ListPageLayout<TItem, TInput extends Record<string, unknown>>({
+44:   baseInput,
+45:   columnDefs,
+46:   emptyMessage = "No items found",
+47:   filterSlot,
+48:   getRowId,
+49:   listProcedure,
+50:   onRowClick,
+51:   searchPlaceholder = "Search...",
+52: }: ListPageLayoutProps<TItem, TInput>) {
+53:   const [search, setSearch] = useState("");
+54:   const [cursor, setCursor] = useState<string | undefined>();
+55: 
+56:   const prevBaseInput = useRef(baseInput);
+57:   if (prevBaseInput.current !== baseInput) {
+58:     setCursor(undefined);
+59:     prevBaseInput.current = baseInput;
+60:   }
+61: 
+62:   const queryResult = useQuery(
+63:     listProcedure.queryOptions({
+64:       input: {
+65:         ...baseInput,
+66:         cursor,
+67:         limit: 20,
+68:         search: search || undefined,
+69:       } as unknown as TInput,
+70:     }) as UseQueryOptions<ListResult<TItem>>,
+71:   );
+72: 
+73:   const data = queryResult.data;
+74:   const isLoading = queryResult.isLoading;
+75: 
+76:   const items = data?.items ?? [];
+77:   const nextCursor = data?.nextCursor;
+78: 
+79:   const table = useReactTable({
+80:     columns: columnDefs,
+81:     data: items,
+82:     getCoreRowModel: getCoreRowModel(),
+83:     getRowId: (row) => getRowId((row as { original: TItem }).original),
+84:   });
+85: 
+86:   return (
+87:     <div className="space-y-4">
+88:       <div className="flex items-start gap-2">
+89:         <div className="relative flex-1">
+90:           <Search className="absolute top-2.5 left-2.5 size-4 text-muted-foreground" />
+91:           <Input
+92:             className="pl-8"
+93:             onChange={(e) => {
+94:               setSearch(e.target.value);
+95:               setCursor(undefined);
+96:             }}
+97:             placeholder={searchPlaceholder}
+98:             value={search}
+99:           />
+100:         </div>
+101:         {filterSlot}
+102:       </div>
+103: 
+104:       <div className="rounded-lg border bg-card">
+105:         <Table>
+106:           <TableHeader>
+107:             {table.getHeaderGroups().map((headerGroup) => (
+108:               <TableRow key={headerGroup.id}>
+109:                 {headerGroup.headers.map((header) => (
+110:                   <TableHead key={header.id}>
+111:                     {header.isPlaceholder
+112:                       ? null
+113:                       : flexRender(
+114:                           header.column.columnDef.header,
+115:                           header.getContext(),
+116:                         )}
+117:                   </TableHead>
+118:                 ))}
+119:               </TableRow>
+120:             ))}
+121:           </TableHeader>
+122:           <TableBody>
+123:             {isLoading ? (
+124:               <TableRow>
+125:                 <TableCell
+126:                   className="text-center text-muted-foreground"
+127:                   colSpan={columnDefs.length}
+128:                 >
+129:                   Loading...
+130:                 </TableCell>
+131:               </TableRow>
+132:             ) : items.length === 0 ? (
+133:               <TableRow>
+134:                 <TableCell
+135:                   className="text-center text-muted-foreground"
+136:                   colSpan={columnDefs.length}
+137:                 >
+138:                   {emptyMessage}
+139:                 </TableCell>
+140:               </TableRow>
+141:             ) : (
+142:               table.getRowModel().rows.map((row) => (
+143:                 <TableRow
+144:                   className="cursor-pointer"
+145:                   key={row.id}
+146:                   onClick={() => onRowClick?.(row.original as TItem)}
+147:                 >
+148:                   {row.getVisibleCells().map((cell) => (
+149:                     <TableCell key={cell.id}>
+150:                       {flexRender(
+151:                         cell.column.columnDef.cell,
+152:                         cell.getContext(),
+153:                       )}
+154:                     </TableCell>
+155:                   ))}
+156:                 </TableRow>
+157:               ))
+158:             )}
+159:           </TableBody>
+160:         </Table>
+161:       </div>
+162: 
+163:       {nextCursor && (
+164:         <div className="flex justify-center">
+165:           <Button
+166:             onClick={() => setCursor(nextCursor)}
+167:             size="sm"
+168:             variant="outline"
+169:           >
+170:             Load more
+171:           </Button>
+172:         </div>
+173:       )}
+174:     </div>
+175:   );
+176: }
+
+(End of file - total 176 lines)
+</content>

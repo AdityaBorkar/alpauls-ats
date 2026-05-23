@@ -1,0 +1,897 @@
+{
+  "info": {
+    "id": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+    "slug": "neon-mountain",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "title": "Fix getRowModel undefined error in ListPageLayout",
+    "agent": "build",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 1,
+      "deletions": 1,
+      "files": 1
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 18057,
+      "output": 573,
+      "reasoning": 805,
+      "cache": {
+        "read": 271744,
+        "write": 0
+      }
+    },
+    "time": {
+      "created": 1779544701001,
+      "updated": 1779544828977
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779544701071
+        },
+        "agent": "plan",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e55213877001nWnuHlYgEOkePy",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "@src/components/layouts/list-page-layout.tsx Fix the error: \n\nTypeError: can't access property \"rows\", table.getRowModel() is undefined\n    ListPageLayout list-page-layout.tsx:142\n    React 13\n \n\n\nThe above error occurred in the <ListPageLayout> component.\n\nReact will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundaryImpl.",
+          "id": "prt_e55213877002TDr0pyyjeIDkJh",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55213877001nWnuHlYgEOkePy"
+        },
+        {
+          "type": "file",
+          "mime": "text/plain",
+          "filename": "src/components/layouts/list-page-layout.tsx",
+          "url": "file:///home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx",
+          "source": {
+            "text": {
+              "value": "@src/components/layouts/list-page-layout.tsx",
+              "start": 0,
+              "end": 44
+            },
+            "type": "file",
+            "path": "src/components/layouts/list-page-layout.tsx"
+          },
+          "id": "prt_e552138780012xS1564177B83s",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55213877001nWnuHlYgEOkePy"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "Called the Read tool with the following input: {\"filePath\":\"/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\"}",
+          "id": "prt_e552138b6001HFaDXrw3PxDzOK",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55213877001nWnuHlYgEOkePy"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "<path>/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx</path>\n<type>file</type>\n<content>\n1: import type { UseQueryOptions } from \"@tanstack/react-query\";\n2: import { useQuery } from \"@tanstack/react-query\";\n3: import type { ColumnDef } from \"@tanstack/react-table\";\n4: import {\n5:   flexRender,\n6:   getCoreRowModel,\n7:   useReactTable,\n8: } from \"@tanstack/react-table\";\n9: import { Search } from \"lucide-react\";\n10: import { useRef, useState } from \"react\";\n11: \n12: import { Button } from \"@/components/ui/button\";\n13: import { Input } from \"@/components/ui/input\";\n14: import {\n15:   Table,\n16:   TableBody,\n17:   TableCell,\n18:   TableHead,\n19:   TableHeader,\n20:   TableRow,\n21: } from \"@/components/ui/table\";\n22: \n23: export type ListResult<TItem> = {\n24:   items: TItem[];\n25:   nextCursor?: string;\n26: };\n27: \n28: type ListProcedure<TInput> = {\n29:   queryOptions: (opts: { input: TInput }) => UseQueryOptions;\n30: };\n31: \n32: type ListPageLayoutProps<TItem, TInput> = {\n33:   baseInput: Omit<TInput, \"cursor\" | \"limit\" | \"search\">;\n34:   columnDefs: ColumnDef<TItem>[];\n35:   emptyMessage?: string;\n36:   filterSlot?: React.ReactNode;\n37:   getRowId: (row: TItem) => string;\n38:   listProcedure: ListProcedure<TInput>;\n39:   onRowClick?: (row: TItem) => void;\n40:   searchPlaceholder?: string;\n41: };\n42: \n43: export function ListPageLayout<TItem, TInput extends Record<string, unknown>>({\n44:   baseInput,\n45:   columnDefs,\n46:   emptyMessage = \"No items found\",\n47:   filterSlot,\n48:   getRowId,\n49:   listProcedure,\n50:   onRowClick,\n51:   searchPlaceholder = \"Search...\",\n52: }: ListPageLayoutProps<TItem, TInput>) {\n53:   const [search, setSearch] = useState(\"\");\n54:   const [cursor, setCursor] = useState<string | undefined>();\n55: \n56:   const prevBaseInput = useRef(baseInput);\n57:   if (prevBaseInput.current !== baseInput) {\n58:     setCursor(undefined);\n59:     prevBaseInput.current = baseInput;\n60:   }\n61: \n62:   const queryResult = useQuery(\n63:     listProcedure.queryOptions({\n64:       input: {\n65:         ...baseInput,\n66:         cursor,\n67:         limit: 20,\n68:         search: search || undefined,\n69:       } as unknown as TInput,\n70:     }) as UseQueryOptions<ListResult<TItem>>,\n71:   );\n72: \n73:   const data = queryResult.data;\n74:   const isLoading = queryResult.isLoading;\n75: \n76:   const items = data?.items ?? [];\n77:   const nextCursor = data?.nextCursor;\n78: \n79:   const table = useReactTable({\n80:     columns: columnDefs,\n81:     data: items,\n82:     getCoreRowModel: getCoreRowModel(),\n83:     getRowId: (row) => getRowId((row as { original: TItem }).original),\n84:   });\n85: \n86:   return (\n87:     <div className=\"space-y-4\">\n88:       <div className=\"flex items-start gap-2\">\n89:         <div className=\"relative flex-1\">\n90:           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n91:           <Input\n92:             className=\"pl-8\"\n93:             onChange={(e) => {\n94:               setSearch(e.target.value);\n95:               setCursor(undefined);\n96:             }}\n97:             placeholder={searchPlaceholder}\n98:             value={search}\n99:           />\n100:         </div>\n101:         {filterSlot}\n102:       </div>\n103: \n104:       <div className=\"rounded-lg border bg-card\">\n105:         <Table>\n106:           <TableHeader>\n107:             {table.getHeaderGroups().map((headerGroup) => (\n108:               <TableRow key={headerGroup.id}>\n109:                 {headerGroup.headers.map((header) => (\n110:                   <TableHead key={header.id}>\n111:                     {header.isPlaceholder\n112:                       ? null\n113:                       : flexRender(\n114:                           header.column.columnDef.header,\n115:                           header.getContext(),\n116:                         )}\n117:                   </TableHead>\n118:                 ))}\n119:               </TableRow>\n120:             ))}\n121:           </TableHeader>\n122:           <TableBody>\n123:             {isLoading ? (\n124:               <TableRow>\n125:                 <TableCell\n126:                   className=\"text-center text-muted-foreground\"\n127:                   colSpan={columnDefs.length}\n128:                 >\n129:                   Loading...\n130:                 </TableCell>\n131:               </TableRow>\n132:             ) : items.length === 0 ? (\n133:               <TableRow>\n134:                 <TableCell\n135:                   className=\"text-center text-muted-foreground\"\n136:                   colSpan={columnDefs.length}\n137:                 >\n138:                   {emptyMessage}\n139:                 </TableCell>\n140:               </TableRow>\n141:             ) : (\n142:               table.getRowModel().rows.map((row) => (\n143:                 <TableRow\n144:                   className=\"cursor-pointer\"\n145:                   key={row.id}\n146:                   onClick={() => onRowClick?.(row.original as TItem)}\n147:                 >\n148:                   {row.getVisibleCells().map((cell) => (\n149:                     <TableCell key={cell.id}>\n150:                       {flexRender(\n151:                         cell.column.columnDef.cell,\n152:                         cell.getContext(),\n153:                       )}\n154:                     </TableCell>\n155:                   ))}\n156:                 </TableRow>\n157:               ))\n158:             )}\n159:           </TableBody>\n160:         </Table>\n161:       </div>\n162: \n163:       {nextCursor && (\n164:         <div className=\"flex justify-center\">\n165:           <Button\n166:             onClick={() => setCursor(nextCursor)}\n167:             size=\"sm\"\n168:             variant=\"outline\"\n169:           >\n170:             Load more\n171:           </Button>\n172:         </div>\n173:       )}\n174:     </div>\n175:   );\n176: }\n\n(End of file - total 176 lines)\n</content>",
+          "id": "prt_e552138b600269z0MClGSWTfw3",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55213877001nWnuHlYgEOkePy"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55213877001nWnuHlYgEOkePy",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31253,
+          "input": 320,
+          "output": 64,
+          "reasoning": 789,
+          "cache": {
+            "write": 0,
+            "read": 30080
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544701375,
+          "completed": 1779544710771
+        },
+        "finish": "tool-calls",
+        "id": "msg_e552139bf002Qp4jANxdSg7KdF",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e552143f8001N9uUmaYXpNyOA8",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552139bf002Qp4jANxdSg7KdF"
+        },
+        {
+          "type": "reasoning",
+          "text": "The error is at line 142: `table.getRowModel().rows` - `table.getRowModel()` is undefined.\n\nLooking at line 79-84, the `useReactTable` is configured with `getCoreRowModel: getCoreRowModel()`. The issue is that `getCoreRowModel()` is being called immediately (invoked) instead of being passed as a function reference.\n\nIn TanStack Table v8+, `getCoreRowModel` should be a function that returns a row model creator, not the result of calling it. Wait, actually looking at the TanStack Table docs, `getCoreRowModel: getCoreRowModel()` is correct - you call `getCoreRowModel()` to get the function.\n\nBut wait, the issue is that `table.getRowModel()` returns undefined. This typically happens when the table instance wasn't properly initialized. Let me think about what could cause this...\n\nActually, looking more carefully at the TanStack Table API - in newer versions of @tanstack/react-table, the `getCoreRowModel` option might have changed. But the more likely issue is that `useReactTable` might be returning a table that doesn't have `getRowModel` as a method, or it's returning undefined.\n\nWait, in TanStack Table v9, the API changed significantly. In v8, `table.getRowModel()` works. In v9, the API is different - you might need `table.getRowModel()` still but the initialization might differ.\n\nLet me check what version of TanStack Table they're using.\n\nActually, the most common cause of this error is a version mismatch. In `@tanstack/react-table` v9, `useReactTable` was removed and replaced with a different API. But since they're using `useReactTable`, they're likely on v8.\n\nAnother possibility: the `getRowId` function is malformed. On line 83:\n```\ngetRowId: (row) => getRowId((row as { original: TItem }).original),\n```\n\nIn TanStack Table, the `getRowId` callback receives `(row, index)` where `row` is the raw data item (not a Row object with `.original`). The `.original` property exists on Row objects returned by the table, not on the raw data passed to `getRowId`.\n\nSo `getRowId` is receiving the raw `TItem` directly, but the code is trying to access `row.original` on it, which doesn't exist. This would cause `getRowId` to be called with `undefined`, which might break the table initialization.\n\nWait, but would that cause `getRowModel()` to be undefined? Let me think again...\n\nActually, in TanStack Table v8, `getRowId` receives the raw row data directly (the item from the `data` array), not a Row model object. So the cast `(row as { original: TItem }).original` is wrong - `row` IS the TItem already.\n\nBut would that cause `getRowModel()` to return undefined? Probably not directly - it would just cause `getRowId` to return something wrong.\n\nHmm, let me reconsider. The error says `table.getRowModel()` is undefined - meaning the method itself is undefined, not that it returns undefined. This suggests `useReactTable` returned something that doesn't have a `getRowModel` method.\n\nThis could happen if:\n1. The TanStack Table version changed and `useReactTable` API is different\n2. There's some import issue\n\nLet me check what version they're using and also look at how `useReactTable` is used elsewhere.\n\nActually, I should check the package.json and other usages. Let me plan what to investigate.\n\nLet me look at the package.json for the @tanstack/react-table version, and check other files that use useReactTable successfully.",
+          "time": {
+            "start": 1779544703995,
+            "end": 1779544710010
+          },
+          "id": "prt_e552143fb0014X8OQ9SIX2BaDq",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552139bf002Qp4jANxdSg7KdF"
+        },
+        {
+          "type": "text",
+          "text": "Let me investigate the TanStack Table version and how it's used elsewhere.",
+          "time": {
+            "start": 1779544710015,
+            "end": 1779544710549
+          },
+          "id": "prt_e55215b7f001ytJemgn4C3UXri",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552139bf002Qp4jANxdSg7KdF"
+        },
+        {
+          "type": "tool",
+          "tool": "bash",
+          "callID": "call_6cc794040d3546368bcc3656",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "rtk grep \"@tanstack/react-table\" package.json",
+              "description": "Check TanStack Table version"
+            },
+            "output": "1 matches in 1 files:\n\n25:0:\"^8.21.3\",\n",
+            "metadata": {
+              "output": "1 matches in 1 files:\n\n25:0:\"^8.21.3\",\n",
+              "exit": 0,
+              "description": "Check TanStack Table version",
+              "truncated": false
+            },
+            "title": "Check TanStack Table version",
+            "time": {
+              "start": 1779544710496,
+              "end": 1779544710702
+            }
+          },
+          "id": "prt_e55215cb0001DZM9mwpLmLbiG5",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552139bf002Qp4jANxdSg7KdF"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_b1bffe84aaca4d5ba1ea2859",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "useReactTable|getRowModel",
+              "include": "*.tsx"
+            },
+            "output": "Found 3 matches\n/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx:\n  Line 7:   useReactTable,\n\n  Line 79:   const table = useReactTable({\n\n  Line 142:               table.getRowModel().rows.map((row) => (\n",
+            "metadata": {
+              "matches": 3,
+              "truncated": false
+            },
+            "title": "useReactTable|getRowModel",
+            "time": {
+              "start": 1779544710530,
+              "end": 1779544710578
+            }
+          },
+          "id": "prt_e55215cc7001gRtgDOegmMZ57x",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552139bf002Qp4jANxdSg7KdF"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31253,
+            "input": 320,
+            "output": 64,
+            "reasoning": 789,
+            "cache": {
+              "write": 0,
+              "read": 30080
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55215e460017RYnFVUSfpsnAB",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552139bf002Qp4jANxdSg7KdF"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55213877001nWnuHlYgEOkePy",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31372,
+          "input": 176,
+          "output": 27,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 31168
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544710779,
+          "completed": 1779544713152
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55215e7b002m31EsrDfqZbQUW",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e5521662d001g48egir48y59oC",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55215e7b002m31EsrDfqZbQUW"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_b025cb316ee240a2947ef058",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.{ts,tsx}",
+              "pattern": "from \"@tanstack/react-table\""
+            },
+            "output": "Found 3 matches\n/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx:\n  Line 3: import type { ColumnDef } from \"@tanstack/react-table\";\n\n  Line 8: } from \"@tanstack/react-table\";\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx:\n  Line 1: import type { ColumnDef } from \"@tanstack/react-table\";\n",
+            "metadata": {
+              "matches": 3,
+              "truncated": false
+            },
+            "title": "from \"@tanstack/react-table\"",
+            "time": {
+              "start": 1779544713044,
+              "end": 1779544713067
+            }
+          },
+          "id": "prt_e5521663c001I4Yvg96Wn6f0dE",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55215e7b002m31EsrDfqZbQUW"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31372,
+            "input": 176,
+            "output": 27,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 31168
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55216796001FDAGTx2A2dFC1P",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55215e7b002m31EsrDfqZbQUW"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55213877001nWnuHlYgEOkePy",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31547,
+          "input": 115,
+          "output": 71,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 31360
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544713159,
+          "completed": 1779544794813
+        },
+        "finish": "tool-calls",
+        "id": "msg_e552167c7002L6ZD9M1VbYpYom",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e55217065001YPucjroal14D57",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552167c7002L6ZD9M1VbYpYom"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_b1eb64c3b01e47299e157906",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx</path>\n<type>file</type>\n<content>\n1: import type { ColumnDef } from \"@tanstack/react-table\";\n2: import {\n3:   Archive,\n4:   Building2,\n5:   Calendar,\n6:   Fingerprint,\n7:   UserCheck,\n8: } from \"lucide-react\";\n9: \n10: import { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\n11: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n12: import type { client } from \"@/rpc/client\";\n13: \n14: type ClientListOutput = Awaited<ReturnType<typeof client.client.list>>;\n15: export type ClientItem = ClientListOutput[\"items\"][number];\n16: \n17: const dtf = createColumnConfigHelper<ClientItem>();\n18: \n19: export const clientColumnsConfig = [\n20:   dtf\n21:     .text()\n22:     .id(\"name\")\n23:     .accessor((row) => row.name)\n24:     .displayName(\"Name\")\n25:     .icon(Building2)\n26:     .build(),\n27:   dtf\n28:     .text()\n29:     .id(\"legalName\")\n30:     .accessor((row) => row.legalName ?? \"\")\n31:     .displayName(\"Legal Name\")\n32:     .icon(Building2)\n33:     .build(),\n34:   dtf\n35:     .text()\n36:     .id(\"slug\")\n37:     .accessor((row) => row.slug)\n38:     .displayName(\"Slug\")\n39:     .icon(Fingerprint)\n40:     .build(),\n41:   dtf\n42:     .option()\n43:     .id(\"assigneeId\")\n44:     .accessor((row) => row.assigneeId)\n45:     .displayName(\"Assignee\")\n46:     .icon(UserCheck)\n47:     .build(),\n48:   dtf\n49:     .option()\n50:     .id(\"archived\")\n51:     .accessor((row) => String(row.archived))\n52:     .displayName(\"Archived\")\n53:     .icon(Archive)\n54:     .build(),\n55:   dtf\n56:     .date()\n57:     .id(\"createdAt\")\n58:     .accessor((row) => (row.createdAt ? new Date(row.createdAt) : new Date()))\n59:     .displayName(\"Created\")\n60:     .icon(Calendar)\n61:     .build(),\n62: ] as const;\n63: \n64: export const clientColumnDefs: ColumnDef<ClientItem>[] = [\n65:   {\n66:     accessorKey: \"name\",\n67:     cell: ({ row }) => (\n68:       <div className=\"flex items-center gap-2\">\n69:         {row.original.logo && (\n70:           <img\n71:             alt=\"\"\n72:             className=\"h-5 w-5 rounded object-contain\"\n73:             src={row.original.logo}\n74:           />\n75:         )}\n76:         <span className=\"font-medium\">{row.original.name}</span>\n77:         {row.original.archived && (\n78:           <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n79:         )}\n80:       </div>\n81:     ),\n82:     header: \"Nick Name\",\n83:     id: \"name\",\n84:   },\n85:   {\n86:     accessorKey: \"legalName\",\n87:     cell: ({ row }) =>\n88:       row.original.legalName ? (\n89:         <span className=\"text-sm\">{row.original.legalName}</span>\n90:       ) : null,\n91:     header: \"Legal Name\",\n92:     id: \"legalName\",\n93:   },\n94:   {\n95:     accessorKey: \"slug\",\n96:     cell: ({ row }) => (\n97:       <code className=\"rounded bg-muted px-1.5 py-0.5 text-xs\">\n98:         {row.original.slug}\n99:       </code>\n100:     ),\n101:     header: \"Slug\",\n102:     id: \"slug\",\n103:   },\n104:   {\n105:     accessorKey: \"assigneeId\",\n106:     cell: ({ row }) => (\n107:       <div className=\"flex items-center gap-2\">\n108:         <Avatar className=\"h-5 w-5\">\n109:           <AvatarImage src={row.original.assignee.image ?? undefined} />\n110:           <AvatarFallback>\n111:             {row.original.assignee.name?.[0] ?? \"?\"}\n112:           </AvatarFallback>\n113:         </Avatar>\n114:         <span className=\"text-sm\">{row.original.assignee.name}</span>\n115:       </div>\n116:     ),\n117:     enableColumnFilter: true,\n118:     header: \"Assignee\",\n119:     id: \"assigneeId\",\n120:   },\n121:   {\n122:     accessorKey: \"createdAt\",\n123:     cell: ({ row }) =>\n124:       row.original.createdAt ? (\n125:         <span className=\"text-muted-foreground text-sm\">\n126:           {new Date(row.original.createdAt).toLocaleDateString()}\n127:         </span>\n128:       ) : null,\n129:     header: \"Created\",\n130:     id: \"createdAt\",\n131:   },\n132: ];\n\n(End of file - total 132 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ColumnDef } from \"@tanstack/react-table\";\nimport {\n  Archive,\n  Building2,\n  Calendar,\n  Fingerprint,\n  UserCheck,\n} from \"lucide-react\";\n\nimport { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport type { client } from \"@/rpc/client\";\n\ntype ClientListOutput = Awaited<ReturnType<typeof client.client.list>>;\nexport type ClientItem = ClientListOutput[\"items\"][number];\n\nconst dtf = createColumnConfigHelper<ClientItem>();\n\nexport const clientColumnsConfig = [\n  dtf",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/clients/-view-config.tsx",
+            "time": {
+              "start": 1779544715621,
+              "end": 1779544715638
+            }
+          },
+          "id": "prt_e55217090001uMCJAmtJ1WQ993",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552167c7002L6ZD9M1VbYpYom"
+        },
+        {
+          "type": "tool",
+          "tool": "bash",
+          "callID": "call_898d8c696e1043e293f8c4a1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "rtk cat node_modules/@tanstack/react-table/package.json | rtk grep '\"version\"'",
+              "description": "Check installed TanStack Table version"
+            },
+            "output": "26531 matches in 20182 files:\n\n./.../ses_1aadf402bffe7m3QBfPwOzDfVO/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1aaebc949ffeyODFCAb1P54C4a/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1aafae88dffeomDuDyjo2J2JdV/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0790c6ffelH2zn6lmB9HWHz/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab0f37faffeIERx4F8wyQb2S2/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0f4064ffeJ07jtsUtUO7sE8/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0f47ebffertN2dlDEgowyB7/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0f689dffeiHEywzJAknA69a/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab2e91f8ffeMdw05UYPhZpFNR/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab2e986effe4i78KQFD2PjUYZ/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab2ebf99ffeJ1kfPsPR2ADei9/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab463f0fffelWPjOGeQ6J33dp/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab466779ffetj861Qp8qXadGi/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab5f6e1bffeXVW3lo6KKjzv5y/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab5f8cc7ffePHqXMA3F4rFTol/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1acb2b90bffe0kR6hPhgn7g3I9/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1acb8e450ffeMMJtvK9CTc18Kh/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1acb90fdfffeskI0mcp1fy7Prj/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1acde6953fferTOL6MTXPwyVmf/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1af693943ffemEjefqJ6ybm6tJ/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1af6e26d9ffe429nDljB2LHpJ0/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1afc6ff22ffeWGcjIiBZm4pfvi/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1afc82cc8ffe7BZrNUkyj81gT7/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afca040effeKZvo91SjN7jSX6/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afca0ad9ffelaZQK2gIQPKnXX/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afcaf3b1ffeWzEP5ROV2YJpKW/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afd4bb5affeuKeizCji2XAE9W/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1b0a7e665ffe8YKNEC2qpLTOpc/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1c9b043ffffe457oQhly1zL6B8/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1c9b06ceeffesG6EgrOwZEoDKy/full.jsonl:16:\"version\": \"1.14.50\",\n./.../ses_1c9b0907effe28jwHhXsyhX64T/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1ca216e82ffeYmbI74CjPQ6ELY/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1ca814417ffel0nYX29fbuVul7/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1ca8bc5ceffeIA4LSKQc7HR4Nh/full.jsonl:16:\"version\": \"1.14.50\",\n./.../ses_1ca8be994ffe9CK7pZ3EdRLAUt/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1caa090bdffek5ZI3U5a4LN4Ik/full.jsonl:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1aadf402bffe7m3QBfPwOzDfVO.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1aaebc949ffeyODFCAb1P54C4a.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1aafae88dffeomDuDyjo2J2JdV.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0790c6ffelH2zn6lmB9HWHz.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f37faffeIERx4F8wyQb2S2.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f4064ffeJ07jtsUtUO7sE8.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f47ebffertN2dlDEgowyB7.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f689dffeiHEywzJAknA69a.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab2e91f8ffeMdw05UYPhZpFNR.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab2e986effe4i78KQFD2PjUYZ.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab2ebf99ffeJ1kfPsPR2ADei9.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab463f0fffelWPjOGeQ6J33dp.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab466779ffetj861Qp8qXadGi.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab5f6e1bffeXVW3lo6KKjzv5y.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab5f8cc7ffePHqXMA3F4rFTol.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1acb2b90bffe0kR6hPhgn7g3I9.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1acb8e450ffeMMJtvK9CTc18Kh.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1acb90fdfffeskI0mcp1fy7Prj.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1acde6953fferTOL6MTXPwyVmf.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1af693943ffemEjefqJ6ybm6tJ.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1af6e26d9ffe429nDljB2LHpJ0.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afc6ff22ffeWGcjIiBZm4pfvi.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afc82cc8ffe7BZrNUkyj81gT7.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afca040effeKZvo91SjN7jSX6.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afca0ad9ffelaZQK2gIQPKnXX.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afcaf3b1ffeWzEP5ROV2YJpKW.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afd4bb5affeuKeizCji2XAE9W.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1b0a7e665ffe8YKNEC2qpLTOpc.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1c9b043ffffe457oQhly1zL6B8.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1c9b06ceeffesG6EgrOwZEoDKy.json:16:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1c9b0907effe28jwHhXsyhX64T.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca216e82ffeYmbI74CjPQ6ELY.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca814417ffel0nYX29fbuVul7.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca8bc5ceffeIA4LSKQc7HR4Nh.json:16:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca8be994ffe9CK7pZ3EdRLAUt.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1caa090bdffek5ZI3U5a4LN4Ik.json:14:\"version\": \"1.14.50\",\n./.opencode/node_modules/.package-lock.json:7:\"version\": \"3.0.3\",\n./.opencode/node_modules/.package-lock.json:20:\"version\": \"1.15.7\",\n./.opencode/node_modules/.package-lock.json:47:\"version\": \"1.15.7\",\n./.opencode/node_modules/.package-lock.json:56:\"version\": \"1.1.0\",\n./.opencode/node_modules/.package-lock.json:62:\"version\": \"7.0.6\",\n./.opencode/node_modules/.package-lock.json:76:\"version\": \"2.1.2\",\n./.opencode/node_modules/.package-lock.json:86:\"version\": \"4.0.0-beta.66\",\n./.opencode/node_modules/.package-lock.json:104:\"version\": \"4.8.0\",\n./.opencode/node_modules/.package-lock.json:126:\"version\": \"0.1.6\",\n./.opencode/node_modules/.package-lock.json:132:\"version\": \"6.0.0\",\n./.opencode/node_modules/.package-lock.json:141:\"version\": \"2.0.0\",\n./.opencode/node_modules/.package-lock.json:147:\"version\": \"1.30.0\",\n./.opencode/node_modules/.package-lock.json:153:\"version\": \"1.11.12\",\n./.opencode/node_modules/.package-lock.json:162:\"version\": \"3.0.3\",\n./.opencode/node_modules/.package-lock.json:184:\"version\": \"0.2.7\",\n./.opencode/node_modules/.package-lock.json:190:\"version\": \"5.2.2\",\n./.opencode/node_modules/.package-lock.json:205:\"version\": \"3.1.1\",\n./.opencode/node_modules/.package-lock.json:214:\"version\": \"8.4.0\",\n./.opencode/node_modules/.package-lock.json:230:\"version\": \"2.0.0\",\n./.opencode/node_modules/.package-lock.json:242:\"version\": \"3.0.0\",\n./.opencode/node_modules/.package-lock.json:251:\"version\": \"4.1.1\",\n./.opencode/node_modules/.package-lock.json:260:\"version\": \"13.0.2\",\n./.opencode/node_modules/.package-lock.json:273:\"version\": \"2.0.2\",\n./.opencode/node_modules/.package-lock.json:288:\"version\": \"2.9.0\",\n./.opencode/node_modules/.package-lock.json:303:\"version\": \"4.1.8\",\n./.../msgpackr-extract-linux-x64/package.json:3:\"version\": \"3.0.3\",\n./.../plugin/package.json:4:\"version\": \"1.15.7\",\n./.../sdk/package.json:4:\"version\": \"1.15.7\",\n./.../spec/package.json:4:\"version\": \"1.1.0\",\n./.opencode/node_modules/cross-spawn/package.json:3:\"version\": \"7.0.6\",\n./.opencode/node_modules/detect-libc/package.json:3:\"version\": \"2.1.2\",\n./.../dist/Array.d.ts.map:1:{\"version\":3,\"file\":\"Array.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Array.ts\"],\"...\n./.opencode/node_modules/effect/dist/Array.js.map:1:{\"version\":3,\"file\":\"Array.js\",\"names\":[\"Equal\",\"Equivalence\",\"dual\",\"identity\",...\n./.../dist/BigDecimal.d.ts.map:1:{\"version\":3,\"file\":\"BigDecimal.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/BigDeci...\n./.../dist/BigDecimal.js.map:1:{\"version\":3,\"file\":\"BigDecimal.js\",\"names\":[\"Equal\",\"Equ\",\"dual\",\"Hash\",\"NodeIn...\n./.../dist/BigInt.d.ts.map:1:{\"version\":3,\"file\":\"BigInt.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/BigInt.ts\"]...\n./.opencode/node_modules/effect/dist/BigInt.js.map:1:{\"version\":3,\"file\":\"BigInt.js\",\"names\":[\"Combiner\",\"Equ\",\"dual\",\"Option\",\"order...\n./.../dist/Boolean.d.ts.map:1:{\"version\":3,\"file\":\"Boolean.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Boolean.ts...\n./.../dist/Boolean.js.map:1:{\"version\":3,\"file\":\"Boolean.js\",\"names\":[\"Equ\",\"dual\",\"order\",\"predicate\",\"Redu...\n./.../dist/Brand.d.ts.map:1:{\"version\":3,\"file\":\"Brand.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Brand.ts\"],\"...\n./.opencode/node_modules/effect/dist/Brand.js.map:1:{\"version\":3,\"file\":\"Brand.js\",\"names\":[\"Arr\",\"Option\",\"Result\",\"AST\",\"TypeId\",\"...\n./.../dist/Cache.d.ts.map:1:{\"version\":3,\"file\":\"Cache.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Cache.ts\"],\"...\n./.opencode/node_modules/effect/dist/Cache.js.map:1:{\"version\":3,\"file\":\"Cache.js\",\"names\":[\"Context\",\"Deferred\",\"Duration\",\"dual\",\"...\n./.../dist/Cause.d.ts.map:1:{\"version\":3,\"file\":\"Cause.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Cause.ts\"],\"...\n./.opencode/node_modules/effect/dist/Cause.js.map:1:{\"version\":3,\"file\":\"Cause.js\",\"names\":[\"Context\",\"core\",\"effect\",\"TypeId\",\"Caus...\n./.../dist/Channel.d.ts.map:1:{\"version\":3,\"file\":\"Channel.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Channel.ts...\n./.../dist/Channel.js.map:1:{\"version\":3,\"file\":\"Channel.js\",\"names\":[\"Arr\",\"Cause\",\"Chunk\",\"Context\",\"Effec...\n./.../dist/ChannelSchema.d.ts.map:1:{\"version\":3,\"file\":\"ChannelSchema.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Chan...\n./.../dist/ChannelSchema.js.map:1:{\"version\":3,\"file\":\"ChannelSchema.js\",\"names\":[\"Channel\",\"Effect\",\"dual\",\"Schem...\n./.../dist/Chunk.d.ts.map:1:{\"version\":3,\"file\":\"Chunk.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Chunk.ts\"],\"...\n./.opencode/node_modules/effect/dist/Chunk.js.map:1:{\"version\":3,\"file\":\"Chunk.js\",\"names\":[\"RA\",\"Equal\",\"Equivalence\",\"format\",\"dua...\n./.../dist/Clock.d.ts.map:1:{\"version\":3,\"file\":\"Clock.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Clock.ts\"],\"...\n./.opencode/node_modules/effect/dist/Clock.js.map:1:{\"version\":3,\"file\":\"Clock.js\",\"names\":[\"effect\",\"Clock\",\"ClockRef\",\"clockWith\",...\n./.../dist/Combiner.d.ts.map:1:{\"version\":3,\"file\":\"Combiner.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Combiner....\n./.../dist/Combiner.js.map:1:{\"version\":3,\"file\":\"Combiner.js\",\"names\":[\"make\",\"combine\",\"flip\",\"combiner\",\"s...\n./.../dist/Config.d.ts.map:1:{\"version\":3,\"file\":\"Config.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Config.ts\"]...\n./.opencode/node_modules/effect/dist/Config.js.map:1:{\"version\":3,\"file\":\"Config.js\",\"names\":[\"ConfigProvider\",\"Effect\",\"Effectable\",...\n./.../dist/ConfigProvider.d.ts.map:1:{\"version\":3,\"file\":\"ConfigProvider.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Con...\n./.../dist/ConfigProvider.js.map:1:{\"version\":3,\"file\":\"ConfigProvider.js\",\"names\":[\"Context\",\"Data\",\"Effect\",\"File...\n./.../dist/Console.d.ts.map:1:{\"version\":3,\"file\":\"Console.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Console.ts...\n./.../dist/Console.js.map:1:{\"version\":3,\"file\":\"Console.js\",\"names\":[\"dual\",\"core\",\"effect\",\"Console\",\"Cons...\n./.../dist/Context.d.ts.map:1:{\"version\":3,\"file\":\"Context.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Context.ts...\n./.../dist/Context.js.map:1:{\"version\":3,\"file\":\"Context.js\",\"names\":[\"Effectable\",\"Equal\",\"dual\",\"Hash\",\"ex...\n./.opencode/node_modules/effect/dist/Cron.d.ts.map:1:{\"version\":3,\"file\":\"Cron.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Cron.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Cron.js.map:1:{\"version\":3,\"file\":\"Cron.js\",\"names\":[\"Arr\",\"Data\",\"Equal\",\"Equ\",\"format\",\"cons...\n./.opencode/node_modules/effect/dist/Data.d.ts.map:1:{\"version\":3,\"file\":\"Data.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Data.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Data.js.map:1:{\"version\":3,\"file\":\"Data.js\",\"names\":[\"core\",\"Pipeable\",\"Predicate\",\"Class\",\"co...\n./.../dist/DateTime.d.ts.map:1:{\"version\":3,\"file\":\"DateTime.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/DateTime....\n./.../dist/DateTime.js.map:1:{\"version\":3,\"file\":\"DateTime.js\",\"names\":[\"Context\",\"Effect\",\"dual\",\"flow\",\"Int...\n./.../dist/Deferred.d.ts.map:1:{\"version\":3,\"file\":\"Deferred.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Deferred....\n./.../dist/Deferred.js.map:1:{\"version\":3,\"file\":\"Deferred.js\",\"names\":[\"dual\",\"identity\",\"core\",\"internalEff...\n./.../dist/Differ.d.ts.map:1:{\"version\":3,\"file\":\"Differ.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Differ.ts\"]...\n./.opencode/node_modules/effect/dist/Differ.js.map:1:{\"version\":3,\"file\":\"Differ.js\",\"names\":[],\"sources\":[\"../src/Differ.ts\"],\"sourc...\n./.../dist/Duration.d.ts.map:1:{\"version\":3,\"file\":\"Duration.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Duration....\n./.../dist/Duration.js.map:1:{\"version\":3,\"file\":\"Duration.js\",\"names\":[\"Combiner\",\"Equal\",\"dual\",\"identity\",...\n./.../dist/Effect.d.ts.map:1:{\"version\":3,\"file\":\"Effect.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Effect.ts\"]...\n./.opencode/node_modules/effect/dist/Effect.js.map:1:{\"version\":3,\"file\":\"Effect.js\",\"names\":[\"Context\",\"Duration\",\"Exit\",\"constant\",...\n./.../dist/Effectable.d.ts.map:1:{\"version\":3,\"file\":\"Effectable.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Effecta...\n./.../dist/Effectable.js.map:1:{\"version\":3,\"file\":\"Effectable.js\",\"names\":[\"evaluate\",\"makePrimitiveProto\",\"Pr...\n./.../dist/Encoding.d.ts.map:1:{\"version\":3,\"file\":\"Encoding.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Encoding....\n./.../dist/Encoding.js.map:1:{\"version\":3,\"file\":\"Encoding.js\",\"names\":[\"Data\",\"hasProperty\",\"Result\",\"Encodi...\n./.../dist/Equal.d.ts.map:1:{\"version\":3,\"file\":\"Equal.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Equal.ts\"],\"...\n./.opencode/node_modules/effect/dist/Equal.js.map:1:{\"version\":3,\"file\":\"Equal.js\",\"names\":[\"Hash\",\"byReferenceInstances\",\"getAllObj...\n./.../dist/Equivalence.d.ts.map:1:{\"version\":3,\"file\":\"Equivalence.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Equiva...\n./.../dist/Equivalence.js.map:1:{\"version\":3,\"file\":\"Equivalence.js\",\"names\":[\"dual\",\"Reducer\",\"make\",\"isEquival...\n./.../dist/ErrorReporter.d.ts.map:1:{\"version\":3,\"file\":\"ErrorReporter.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Erro...\n./.../dist/ErrorReporter.js.map:1:{\"version\":3,\"file\":\"ErrorReporter.js\",\"names\":[\"Effect\",\"effect\",\"references\",\"...\n./.../dist/ExecutionPlan.d.ts.map:1:{\"version\":3,\"file\":\"ExecutionPlan.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Exec...\n./.../dist/ExecutionPlan.js.map:1:{\"version\":3,\"file\":\"ExecutionPlan.js\",\"names\":[\"Context\",\"constant\",\"effect\",\"L...\n./.opencode/node_modules/effect/dist/Exit.d.ts.map:1:{\"version\":3,\"file\":\"Exit.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Exit.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Exit.js.map:1:{\"version\":3,\"file\":\"Exit.js\",\"names\":[\"core\",\"effect\",\"TypeId\",\"ExitTypeId\",\"is...\n./.../dist/Fiber.d.ts.map:1:{\"version\":3,\"file\":\"Fiber.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Fiber.ts\"],\"...\n./.opencode/node_modules/effect/dist/Fiber.js.map:1:{\"version\":3,\"file\":\"Fiber.js\",\"names\":[\"effect\",\"version\",\"hasProperty\",\"TypeId...\n./.../dist/FiberHandle.d.ts.map:1:{\"version\":3,\"file\":\"FiberHandle.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FiberH...\n./.../dist/FiberHandle.js.map:1:{\"version\":3,\"file\":\"FiberHandle.js\",\"names\":[\"Cause\",\"Deferred\",\"Effect\",\"Exit\"...\n./.../dist/FiberMap.d.ts.map:1:{\"version\":3,\"file\":\"FiberMap.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FiberMap....\n./.../dist/FiberMap.js.map:1:{\"version\":3,\"file\":\"FiberMap.js\",\"names\":[\"Cause\",\"Deferred\",\"Effect\",\"Exit\",\"F...\n./.../dist/FiberSet.d.ts.map:1:{\"version\":3,\"file\":\"FiberSet.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FiberSet....\n./.../dist/FiberSet.js.map:1:{\"version\":3,\"file\":\"FiberSet.js\",\"names\":[\"Cause\",\"Deferred\",\"Effect\",\"Exit\",\"F...\n./.../dist/FileSystem.d.ts.map:1:{\"version\":3,\"file\":\"FileSystem.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FileSys...\n./.../dist/FileSystem.js.map:1:{\"version\":3,\"file\":\"FileSystem.js\",\"names\":[\"Arr\",\"Brand\",\"Cause\",\"Context\",\"Ef...\n./.../dist/Filter.d.ts.map:1:{\"version\":3,\"file\":\"Filter.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Filter.ts\"]...\n./.opencode/node_modules/effect/dist/Filter.js.map:1:{\"version\":3,\"file\":\"Filter.js\",\"names\":[\"Equal\",\"dual\",\"Option\",\"Predicate\",\"Re...\n./.../dist/Formatter.d.ts.map:1:{\"version\":3,\"file\":\"Formatter.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Formatte...\n./.../dist/Formatter.js.map:1:{\"version\":3,\"file\":\"Formatter.js\",\"names\":[\"Predicate\",\"getRedacted\",\"redact\",\"...\n./.../dist/Function.d.ts.map:1:{\"version\":3,\"file\":\"Function.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Function....\n./.../dist/Function.js.map:1:{\"version\":3,\"file\":\"Function.js\",\"names\":[\"pipeArguments\",\"dual\",\"arity\",\"body\"...\n./.../dist/Graph.d.ts.map:1:{\"version\":3,\"file\":\"Graph.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Graph.ts\"],\"...\n./.opencode/node_modules/effect/dist/Graph.js.map:1:{\"version\":3,\"file\":\"Graph.js\",\"names\":[\"Data\",\"Equal\",\"dual\",\"Hash\",\"NodeInspec...\n./.opencode/node_modules/effect/dist/HKT.d.ts.map:1:{\"version\":3,\"file\":\"HKT.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HKT.ts\"],\"name...\n./.opencode/node_modules/effect/dist/HKT.js.map:1:{\"version\":3,\"file\":\"HKT.js\",\"names\":[],\"sources\":[\"../src/HKT.ts\"],\"sourcesCont...\n./.opencode/node_modules/effect/dist/Hash.d.ts.map:1:{\"version\":3,\"file\":\"Hash.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Hash.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Hash.js.map:1:{\"version\":3,\"file\":\"Hash.js\",\"names\":[\"dual\",\"byReferenceInstances\",\"getAllObje...\n./.../dist/HashMap.d.ts.map:1:{\"version\":3,\"file\":\"HashMap.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HashMap.ts...\n./.../dist/HashMap.js.map:1:{\"version\":3,\"file\":\"HashMap.js\",\"names\":[\"internal\",\"TypeId\",\"HashMapTypeId\",\"i...\n./.../dist/HashRing.d.ts.map:1:{\"version\":3,\"file\":\"HashRing.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HashRing....\n./.../dist/HashRing.js.map:1:{\"version\":3,\"file\":\"HashRing.js\",\"names\":[\"dual\",\"Hash\",\"PipeInspectableProto\",...\n./.../dist/HashSet.d.ts.map:1:{\"version\":3,\"file\":\"HashSet.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HashSet.ts...\n./.../dist/HashSet.js.map:1:{\"version\":3,\"file\":\"HashSet.js\",\"names\":[\"Dual\",\"internal\",\"TypeId\",\"HashSetTyp...\n./.../dist/Inspectable.d.ts.map:1:{\"version\":3,\"file\":\"Inspectable.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Inspec...\n./.../dist/Inspectable.js.map:1:{\"version\":3,\"file\":\"Inspectable.js\",\"names\":[\"format\",\"formatJson\",\"Predicate\",...\n./.../dist/Iterable.d.ts.map:1:{\"version\":3,\"file\":\"Iterable.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Iterable....\n./.../dist/Iterable.js.map:1:{\"version\":3,\"file\":\"Iterable.js\",\"names\":[\"Equal\",\"dual\",\"O\",\"isBoolean\",\"R\",\"T...\n./.../dist/JsonPatch.d.ts.map:1:{\"version\":3,\"file\":\"JsonPatch.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/JsonPatc...\n./.../dist/JsonPatch.js.map:1:{\"version\":3,\"file\":\"JsonPatch.js\",\"names\":[\"format\",\"escapeToken\",\"unescapeToke...\n./.../dist/JsonPointer.d.ts.map:1:{\"version\":3,\"file\":\"JsonPointer.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/JsonPo...\n./.../dist/JsonPointer.js.map:1:{\"version\":3,\"file\":\"JsonPointer.js\",\"names\":[\"escapeToken\",\"token\",\"replace\",\"u...\n./.../dist/JsonSchema.d.ts.map:1:{\"version\":3,\"file\":\"JsonSchema.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/JsonSch...\n[+26331 more]\n",
+            "metadata": {
+              "output": "26531 matches in 20182 files:\n\n./.../ses_1aadf402bffe7m3QBfPwOzDfVO/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1aaebc949ffeyODFCAb1P54C4a/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1aafae88dffeomDuDyjo2J2JdV/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0790c6ffelH2zn6lmB9HWHz/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab0f37faffeIERx4F8wyQb2S2/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0f4064ffeJ07jtsUtUO7sE8/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0f47ebffertN2dlDEgowyB7/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab0f689dffeiHEywzJAknA69a/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab2e91f8ffeMdw05UYPhZpFNR/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab2e986effe4i78KQFD2PjUYZ/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab2ebf99ffeJ1kfPsPR2ADei9/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab463f0fffelWPjOGeQ6J33dp/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab466779ffetj861Qp8qXadGi/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1ab5f6e1bffeXVW3lo6KKjzv5y/full.jsonl:16:\"version\": \"1.15.10\",\n./.../ses_1ab5f8cc7ffePHqXMA3F4rFTol/full.jsonl:14:\"version\": \"1.15.10\",\n./.../ses_1acb2b90bffe0kR6hPhgn7g3I9/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1acb8e450ffeMMJtvK9CTc18Kh/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1acb90fdfffeskI0mcp1fy7Prj/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1acde6953fferTOL6MTXPwyVmf/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1af693943ffemEjefqJ6ybm6tJ/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1af6e26d9ffe429nDljB2LHpJ0/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1afc6ff22ffeWGcjIiBZm4pfvi/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1afc82cc8ffe7BZrNUkyj81gT7/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afca040effeKZvo91SjN7jSX6/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afca0ad9ffelaZQK2gIQPKnXX/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afcaf3b1ffeWzEP5ROV2YJpKW/full.jsonl:16:\"version\": \"1.15.7\",\n./.../ses_1afd4bb5affeuKeizCji2XAE9W/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1b0a7e665ffe8YKNEC2qpLTOpc/full.jsonl:14:\"version\": \"1.15.7\",\n./.../ses_1c9b043ffffe457oQhly1zL6B8/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1c9b06ceeffesG6EgrOwZEoDKy/full.jsonl:16:\"version\": \"1.14.50\",\n./.../ses_1c9b0907effe28jwHhXsyhX64T/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1ca216e82ffeYmbI74CjPQ6ELY/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1ca814417ffel0nYX29fbuVul7/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1ca8bc5ceffeIA4LSKQc7HR4Nh/full.jsonl:16:\"version\": \"1.14.50\",\n./.../ses_1ca8be994ffe9CK7pZ3EdRLAUt/full.jsonl:14:\"version\": \"1.14.50\",\n./.../ses_1caa090bdffek5ZI3U5a4LN4Ik/full.jsonl:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1aadf402bffe7m3QBfPwOzDfVO.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1aaebc949ffeyODFCAb1P54C4a.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1aafae88dffeomDuDyjo2J2JdV.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0790c6ffelH2zn6lmB9HWHz.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f37faffeIERx4F8wyQb2S2.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f4064ffeJ07jtsUtUO7sE8.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f47ebffertN2dlDEgowyB7.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab0f689dffeiHEywzJAknA69a.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab2e91f8ffeMdw05UYPhZpFNR.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab2e986effe4i78KQFD2PjUYZ.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab2ebf99ffeJ1kfPsPR2ADei9.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab463f0fffelWPjOGeQ6J33dp.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab466779ffetj861Qp8qXadGi.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab5f6e1bffeXVW3lo6KKjzv5y.json:16:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1ab5f8cc7ffePHqXMA3F4rFTol.json:14:\"version\": \"1.15.10\",\n./.entire/tmp/ses_1acb2b90bffe0kR6hPhgn7g3I9.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1acb8e450ffeMMJtvK9CTc18Kh.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1acb90fdfffeskI0mcp1fy7Prj.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1acde6953fferTOL6MTXPwyVmf.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1af693943ffemEjefqJ6ybm6tJ.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1af6e26d9ffe429nDljB2LHpJ0.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afc6ff22ffeWGcjIiBZm4pfvi.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afc82cc8ffe7BZrNUkyj81gT7.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afca040effeKZvo91SjN7jSX6.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afca0ad9ffelaZQK2gIQPKnXX.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afcaf3b1ffeWzEP5ROV2YJpKW.json:16:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1afd4bb5affeuKeizCji2XAE9W.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1b0a7e665ffe8YKNEC2qpLTOpc.json:14:\"version\": \"1.15.7\",\n./.entire/tmp/ses_1c9b043ffffe457oQhly1zL6B8.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1c9b06ceeffesG6EgrOwZEoDKy.json:16:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1c9b0907effe28jwHhXsyhX64T.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca216e82ffeYmbI74CjPQ6ELY.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca814417ffel0nYX29fbuVul7.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca8bc5ceffeIA4LSKQc7HR4Nh.json:16:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1ca8be994ffe9CK7pZ3EdRLAUt.json:14:\"version\": \"1.14.50\",\n./.entire/tmp/ses_1caa090bdffek5ZI3U5a4LN4Ik.json:14:\"version\": \"1.14.50\",\n./.opencode/node_modules/.package-lock.json:7:\"version\": \"3.0.3\",\n./.opencode/node_modules/.package-lock.json:20:\"version\": \"1.15.7\",\n./.opencode/node_modules/.package-lock.json:47:\"version\": \"1.15.7\",\n./.opencode/node_modules/.package-lock.json:56:\"version\": \"1.1.0\",\n./.opencode/node_modules/.package-lock.json:62:\"version\": \"7.0.6\",\n./.opencode/node_modules/.package-lock.json:76:\"version\": \"2.1.2\",\n./.opencode/node_modules/.package-lock.json:86:\"version\": \"4.0.0-beta.66\",\n./.opencode/node_modules/.package-lock.json:104:\"version\": \"4.8.0\",\n./.opencode/node_modules/.package-lock.json:126:\"version\": \"0.1.6\",\n./.opencode/node_modules/.package-lock.json:132:\"version\": \"6.0.0\",\n./.opencode/node_modules/.package-lock.json:141:\"version\": \"2.0.0\",\n./.opencode/node_modules/.package-lock.json:147:\"version\": \"1.30.0\",\n./.opencode/node_modules/.package-lock.json:153:\"version\": \"1.11.12\",\n./.opencode/node_modules/.package-lock.json:162:\"version\": \"3.0.3\",\n./.opencode/node_modules/.package-lock.json:184:\"version\": \"0.2.7\",\n./.opencode/node_modules/.package-lock.json:190:\"version\": \"5.2.2\",\n./.opencode/node_modules/.package-lock.json:205:\"version\": \"3.1.1\",\n./.opencode/node_modules/.package-lock.json:214:\"version\": \"8.4.0\",\n./.opencode/node_modules/.package-lock.json:230:\"version\": \"2.0.0\",\n./.opencode/node_modules/.package-lock.json:242:\"version\": \"3.0.0\",\n./.opencode/node_modules/.package-lock.json:251:\"version\": \"4.1.1\",\n./.opencode/node_modules/.package-lock.json:260:\"version\": \"13.0.2\",\n./.opencode/node_modules/.package-lock.json:273:\"version\": \"2.0.2\",\n./.opencode/node_modules/.package-lock.json:288:\"version\": \"2.9.0\",\n./.opencode/node_modules/.package-lock.json:303:\"version\": \"4.1.8\",\n./.../msgpackr-extract-linux-x64/package.json:3:\"version\": \"3.0.3\",\n./.../plugin/package.json:4:\"version\": \"1.15.7\",\n./.../sdk/package.json:4:\"version\": \"1.15.7\",\n./.../spec/package.json:4:\"version\": \"1.1.0\",\n./.opencode/node_modules/cross-spawn/package.json:3:\"version\": \"7.0.6\",\n./.opencode/node_modules/detect-libc/package.json:3:\"version\": \"2.1.2\",\n./.../dist/Array.d.ts.map:1:{\"version\":3,\"file\":\"Array.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Array.ts\"],\"...\n./.opencode/node_modules/effect/dist/Array.js.map:1:{\"version\":3,\"file\":\"Array.js\",\"names\":[\"Equal\",\"Equivalence\",\"dual\",\"identity\",...\n./.../dist/BigDecimal.d.ts.map:1:{\"version\":3,\"file\":\"BigDecimal.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/BigDeci...\n./.../dist/BigDecimal.js.map:1:{\"version\":3,\"file\":\"BigDecimal.js\",\"names\":[\"Equal\",\"Equ\",\"dual\",\"Hash\",\"NodeIn...\n./.../dist/BigInt.d.ts.map:1:{\"version\":3,\"file\":\"BigInt.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/BigInt.ts\"]...\n./.opencode/node_modules/effect/dist/BigInt.js.map:1:{\"version\":3,\"file\":\"BigInt.js\",\"names\":[\"Combiner\",\"Equ\",\"dual\",\"Option\",\"order...\n./.../dist/Boolean.d.ts.map:1:{\"version\":3,\"file\":\"Boolean.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Boolean.ts...\n./.../dist/Boolean.js.map:1:{\"version\":3,\"file\":\"Boolean.js\",\"names\":[\"Equ\",\"dual\",\"order\",\"predicate\",\"Redu...\n./.../dist/Brand.d.ts.map:1:{\"version\":3,\"file\":\"Brand.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Brand.ts\"],\"...\n./.opencode/node_modules/effect/dist/Brand.js.map:1:{\"version\":3,\"file\":\"Brand.js\",\"names\":[\"Arr\",\"Option\",\"Result\",\"AST\",\"TypeId\",\"...\n./.../dist/Cache.d.ts.map:1:{\"version\":3,\"file\":\"Cache.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Cache.ts\"],\"...\n./.opencode/node_modules/effect/dist/Cache.js.map:1:{\"version\":3,\"file\":\"Cache.js\",\"names\":[\"Context\",\"Deferred\",\"Duration\",\"dual\",\"...\n./.../dist/Cause.d.ts.map:1:{\"version\":3,\"file\":\"Cause.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Cause.ts\"],\"...\n./.opencode/node_modules/effect/dist/Cause.js.map:1:{\"version\":3,\"file\":\"Cause.js\",\"names\":[\"Context\",\"core\",\"effect\",\"TypeId\",\"Caus...\n./.../dist/Channel.d.ts.map:1:{\"version\":3,\"file\":\"Channel.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Channel.ts...\n./.../dist/Channel.js.map:1:{\"version\":3,\"file\":\"Channel.js\",\"names\":[\"Arr\",\"Cause\",\"Chunk\",\"Context\",\"Effec...\n./.../dist/ChannelSchema.d.ts.map:1:{\"version\":3,\"file\":\"ChannelSchema.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Chan...\n./.../dist/ChannelSchema.js.map:1:{\"version\":3,\"file\":\"ChannelSchema.js\",\"names\":[\"Channel\",\"Effect\",\"dual\",\"Schem...\n./.../dist/Chunk.d.ts.map:1:{\"version\":3,\"file\":\"Chunk.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Chunk.ts\"],\"...\n./.opencode/node_modules/effect/dist/Chunk.js.map:1:{\"version\":3,\"file\":\"Chunk.js\",\"names\":[\"RA\",\"Equal\",\"Equivalence\",\"format\",\"dua...\n./.../dist/Clock.d.ts.map:1:{\"version\":3,\"file\":\"Clock.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Clock.ts\"],\"...\n./.opencode/node_modules/effect/dist/Clock.js.map:1:{\"version\":3,\"file\":\"Clock.js\",\"names\":[\"effect\",\"Clock\",\"ClockRef\",\"clockWith\",...\n./.../dist/Combiner.d.ts.map:1:{\"version\":3,\"file\":\"Combiner.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Combiner....\n./.../dist/Combiner.js.map:1:{\"version\":3,\"file\":\"Combiner.js\",\"names\":[\"make\",\"combine\",\"flip\",\"combiner\",\"s...\n./.../dist/Config.d.ts.map:1:{\"version\":3,\"file\":\"Config.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Config.ts\"]...\n./.opencode/node_modules/effect/dist/Config.js.map:1:{\"version\":3,\"file\":\"Config.js\",\"names\":[\"ConfigProvider\",\"Effect\",\"Effectable\",...\n./.../dist/ConfigProvider.d.ts.map:1:{\"version\":3,\"file\":\"ConfigProvider.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Con...\n./.../dist/ConfigProvider.js.map:1:{\"version\":3,\"file\":\"ConfigProvider.js\",\"names\":[\"Context\",\"Data\",\"Effect\",\"File...\n./.../dist/Console.d.ts.map:1:{\"version\":3,\"file\":\"Console.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Console.ts...\n./.../dist/Console.js.map:1:{\"version\":3,\"file\":\"Console.js\",\"names\":[\"dual\",\"core\",\"effect\",\"Console\",\"Cons...\n./.../dist/Context.d.ts.map:1:{\"version\":3,\"file\":\"Context.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Context.ts...\n./.../dist/Context.js.map:1:{\"version\":3,\"file\":\"Context.js\",\"names\":[\"Effectable\",\"Equal\",\"dual\",\"Hash\",\"ex...\n./.opencode/node_modules/effect/dist/Cron.d.ts.map:1:{\"version\":3,\"file\":\"Cron.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Cron.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Cron.js.map:1:{\"version\":3,\"file\":\"Cron.js\",\"names\":[\"Arr\",\"Data\",\"Equal\",\"Equ\",\"format\",\"cons...\n./.opencode/node_modules/effect/dist/Data.d.ts.map:1:{\"version\":3,\"file\":\"Data.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Data.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Data.js.map:1:{\"version\":3,\"file\":\"Data.js\",\"names\":[\"core\",\"Pipeable\",\"Predicate\",\"Class\",\"co...\n./.../dist/DateTime.d.ts.map:1:{\"version\":3,\"file\":\"DateTime.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/DateTime....\n./.../dist/DateTime.js.map:1:{\"version\":3,\"file\":\"DateTime.js\",\"names\":[\"Context\",\"Effect\",\"dual\",\"flow\",\"Int...\n./.../dist/Deferred.d.ts.map:1:{\"version\":3,\"file\":\"Deferred.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Deferred....\n./.../dist/Deferred.js.map:1:{\"version\":3,\"file\":\"Deferred.js\",\"names\":[\"dual\",\"identity\",\"core\",\"internalEff...\n./.../dist/Differ.d.ts.map:1:{\"version\":3,\"file\":\"Differ.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Differ.ts\"]...\n./.opencode/node_modules/effect/dist/Differ.js.map:1:{\"version\":3,\"file\":\"Differ.js\",\"names\":[],\"sources\":[\"../src/Differ.ts\"],\"sourc...\n./.../dist/Duration.d.ts.map:1:{\"version\":3,\"file\":\"Duration.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Duration....\n./.../dist/Duration.js.map:1:{\"version\":3,\"file\":\"Duration.js\",\"names\":[\"Combiner\",\"Equal\",\"dual\",\"identity\",...\n./.../dist/Effect.d.ts.map:1:{\"version\":3,\"file\":\"Effect.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Effect.ts\"]...\n./.opencode/node_modules/effect/dist/Effect.js.map:1:{\"version\":3,\"file\":\"Effect.js\",\"names\":[\"Context\",\"Duration\",\"Exit\",\"constant\",...\n./.../dist/Effectable.d.ts.map:1:{\"version\":3,\"file\":\"Effectable.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Effecta...\n./.../dist/Effectable.js.map:1:{\"version\":3,\"file\":\"Effectable.js\",\"names\":[\"evaluate\",\"makePrimitiveProto\",\"Pr...\n./.../dist/Encoding.d.ts.map:1:{\"version\":3,\"file\":\"Encoding.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Encoding....\n./.../dist/Encoding.js.map:1:{\"version\":3,\"file\":\"Encoding.js\",\"names\":[\"Data\",\"hasProperty\",\"Result\",\"Encodi...\n./.../dist/Equal.d.ts.map:1:{\"version\":3,\"file\":\"Equal.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Equal.ts\"],\"...\n./.opencode/node_modules/effect/dist/Equal.js.map:1:{\"version\":3,\"file\":\"Equal.js\",\"names\":[\"Hash\",\"byReferenceInstances\",\"getAllObj...\n./.../dist/Equivalence.d.ts.map:1:{\"version\":3,\"file\":\"Equivalence.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Equiva...\n./.../dist/Equivalence.js.map:1:{\"version\":3,\"file\":\"Equivalence.js\",\"names\":[\"dual\",\"Reducer\",\"make\",\"isEquival...\n./.../dist/ErrorReporter.d.ts.map:1:{\"version\":3,\"file\":\"ErrorReporter.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Erro...\n./.../dist/ErrorReporter.js.map:1:{\"version\":3,\"file\":\"ErrorReporter.js\",\"names\":[\"Effect\",\"effect\",\"references\",\"...\n./.../dist/ExecutionPlan.d.ts.map:1:{\"version\":3,\"file\":\"ExecutionPlan.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Exec...\n./.../dist/ExecutionPlan.js.map:1:{\"version\":3,\"file\":\"ExecutionPlan.js\",\"names\":[\"Context\",\"constant\",\"effect\",\"L...\n./.opencode/node_modules/effect/dist/Exit.d.ts.map:1:{\"version\":3,\"file\":\"Exit.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Exit.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Exit.js.map:1:{\"version\":3,\"file\":\"Exit.js\",\"names\":[\"core\",\"effect\",\"TypeId\",\"ExitTypeId\",\"is...\n./.../dist/Fiber.d.ts.map:1:{\"version\":3,\"file\":\"Fiber.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Fiber.ts\"],\"...\n./.opencode/node_modules/effect/dist/Fiber.js.map:1:{\"version\":3,\"file\":\"Fiber.js\",\"names\":[\"effect\",\"version\",\"hasProperty\",\"TypeId...\n./.../dist/FiberHandle.d.ts.map:1:{\"version\":3,\"file\":\"FiberHandle.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FiberH...\n./.../dist/FiberHandle.js.map:1:{\"version\":3,\"file\":\"FiberHandle.js\",\"names\":[\"Cause\",\"Deferred\",\"Effect\",\"Exit\"...\n./.../dist/FiberMap.d.ts.map:1:{\"version\":3,\"file\":\"FiberMap.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FiberMap....\n./.../dist/FiberMap.js.map:1:{\"version\":3,\"file\":\"FiberMap.js\",\"names\":[\"Cause\",\"Deferred\",\"Effect\",\"Exit\",\"F...\n./.../dist/FiberSet.d.ts.map:1:{\"version\":3,\"file\":\"FiberSet.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FiberSet....\n./.../dist/FiberSet.js.map:1:{\"version\":3,\"file\":\"FiberSet.js\",\"names\":[\"Cause\",\"Deferred\",\"Effect\",\"Exit\",\"F...\n./.../dist/FileSystem.d.ts.map:1:{\"version\":3,\"file\":\"FileSystem.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/FileSys...\n./.../dist/FileSystem.js.map:1:{\"version\":3,\"file\":\"FileSystem.js\",\"names\":[\"Arr\",\"Brand\",\"Cause\",\"Context\",\"Ef...\n./.../dist/Filter.d.ts.map:1:{\"version\":3,\"file\":\"Filter.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Filter.ts\"]...\n./.opencode/node_modules/effect/dist/Filter.js.map:1:{\"version\":3,\"file\":\"Filter.js\",\"names\":[\"Equal\",\"dual\",\"Option\",\"Predicate\",\"Re...\n./.../dist/Formatter.d.ts.map:1:{\"version\":3,\"file\":\"Formatter.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Formatte...\n./.../dist/Formatter.js.map:1:{\"version\":3,\"file\":\"Formatter.js\",\"names\":[\"Predicate\",\"getRedacted\",\"redact\",\"...\n./.../dist/Function.d.ts.map:1:{\"version\":3,\"file\":\"Function.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Function....\n./.../dist/Function.js.map:1:{\"version\":3,\"file\":\"Function.js\",\"names\":[\"pipeArguments\",\"dual\",\"arity\",\"body\"...\n./.../dist/Graph.d.ts.map:1:{\"version\":3,\"file\":\"Graph.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Graph.ts\"],\"...\n./.opencode/node_modules/effect/dist/Graph.js.map:1:{\"version\":3,\"file\":\"Graph.js\",\"names\":[\"Data\",\"Equal\",\"dual\",\"Hash\",\"NodeInspec...\n./.opencode/node_modules/effect/dist/HKT.d.ts.map:1:{\"version\":3,\"file\":\"HKT.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HKT.ts\"],\"name...\n./.opencode/node_modules/effect/dist/HKT.js.map:1:{\"version\":3,\"file\":\"HKT.js\",\"names\":[],\"sources\":[\"../src/HKT.ts\"],\"sourcesCont...\n./.opencode/node_modules/effect/dist/Hash.d.ts.map:1:{\"version\":3,\"file\":\"Hash.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Hash.ts\"],\"na...\n./.opencode/node_modules/effect/dist/Hash.js.map:1:{\"version\":3,\"file\":\"Hash.js\",\"names\":[\"dual\",\"byReferenceInstances\",\"getAllObje...\n./.../dist/HashMap.d.ts.map:1:{\"version\":3,\"file\":\"HashMap.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HashMap.ts...\n./.../dist/HashMap.js.map:1:{\"version\":3,\"file\":\"HashMap.js\",\"names\":[\"internal\",\"TypeId\",\"HashMapTypeId\",\"i...\n./.../dist/HashRing.d.ts.map:1:{\"version\":3,\"file\":\"HashRing.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HashRing....\n./.../dist/HashRing.js.map:1:{\"version\":3,\"file\":\"HashRing.js\",\"names\":[\"dual\",\"Hash\",\"PipeInspectableProto\",...\n./.../dist/HashSet.d.ts.map:1:{\"version\":3,\"file\":\"HashSet.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/HashSet.ts...\n./.../dist/HashSet.js.map:1:{\"version\":3,\"file\":\"HashSet.js\",\"names\":[\"Dual\",\"internal\",\"TypeId\",\"HashSetTyp...\n./.../dist/Inspectable.d.ts.map:1:{\"version\":3,\"file\":\"Inspectable.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Inspec...\n./.../dist/Inspectable.js.map:1:{\"version\":3,\"file\":\"Inspectable.js\",\"names\":[\"format\",\"formatJson\",\"Predicate\",...\n./.../dist/Iterable.d.ts.map:1:{\"version\":3,\"file\":\"Iterable.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/Iterable....\n./.../dist/Iterable.js.map:1:{\"version\":3,\"file\":\"Iterable.js\",\"names\":[\"Equal\",\"dual\",\"O\",\"isBoolean\",\"R\",\"T...\n./.../dist/JsonPatch.d.ts.map:1:{\"version\":3,\"file\":\"JsonPatch.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/JsonPatc...\n./.../dist/JsonPatch.js.map:1:{\"version\":3,\"file\":\"JsonPatch.js\",\"names\":[\"format\",\"escapeToken\",\"unescapeToke...\n./.../dist/JsonPointer.d.ts.map:1:{\"version\":3,\"file\":\"JsonPointer.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/JsonPo...\n./.../dist/JsonPointer.js.map:1:{\"version\":3,\"file\":\"JsonPointer.js\",\"names\":[\"escapeToken\",\"token\",\"replace\",\"u...\n./.../dist/JsonSchema.d.ts.map:1:{\"version\":3,\"file\":\"JsonSchema.d.ts\",\"sourceRoot\":\"\",\"sources\":[\"../src/JsonSch...\n[+26331 more]\n",
+              "exit": 0,
+              "description": "Check installed TanStack Table version",
+              "truncated": false
+            },
+            "title": "Check installed TanStack Table version",
+            "time": {
+              "start": 1779544794519,
+              "end": 1779544794761
+            }
+          },
+          "id": "prt_e5521717f001VeXpjNo00HCMMv",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552167c7002L6ZD9M1VbYpYom"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31547,
+            "input": 115,
+            "output": 71,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 31360
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5522a69c001YVrOZkhphu0Fsu",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e552167c7002L6ZD9M1VbYpYom"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55213877001nWnuHlYgEOkePy",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39696,
+          "input": 8163,
+          "output": 44,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 31488
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544794820,
+          "completed": 1779544797781
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5522a6c4002m4K8mK5gEfiNAo",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e5522b080001yE1rekPcy14lV0",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522a6c4002m4K8mK5gEfiNAo"
+        },
+        {
+          "type": "tool",
+          "tool": "bash",
+          "callID": "call_437e43e5d6394572841397b5",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "node -e \"const pkg = require('./node_modules/@tanstack/react-table/package.json'); console.log(pkg.version)\"",
+              "description": "Get installed TanStack Table version"
+            },
+            "output": "8.21.3\n",
+            "metadata": {
+              "output": "8.21.3\n",
+              "exit": 0,
+              "description": "Get installed TanStack Table version",
+              "truncated": false
+            },
+            "title": "Get installed TanStack Table version",
+            "time": {
+              "start": 1779544797677,
+              "end": 1779544797685
+            }
+          },
+          "id": "prt_e5522b084001fGrfZ7elV4t4fw",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522a6c4002m4K8mK5gEfiNAo"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39696,
+            "input": 8163,
+            "output": 44,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 31488
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5522b234001THivTCtOmxe2nP",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522a6c4002m4K8mK5gEfiNAo"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55213877001nWnuHlYgEOkePy",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39915,
+          "input": 26,
+          "output": 208,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 39680
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544797787,
+          "completed": 1779544801815
+        },
+        "finish": "stop",
+        "id": "msg_e5522b25b002Caha0AetmjgAyG",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e5522bac5001PTc5RkDt5Vv6GS",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522b25b002Caha0AetmjgAyG"
+        },
+        {
+          "type": "text",
+          "text": "Version 8.21.3, so `useReactTable` is the correct API. The problem is the `getRowId` implementation on line 83.\n\nIn TanStack Table v8, `getRowId` receives `(row, index)` where `row` is the **raw data item** from the `data` array — not a Row model with an `.original` property. The code incorrectly wraps it:\n\n```ts\ngetRowId: (row) => getRowId((row as { original: TItem }).original),\n```\n\nThis calls `getRowId(undefined)` because `row` is already `TItem` and has no `.original`. When `getRowId` returns `undefined` or throws, it corrupts the table's internal state, which can cause `getRowModel()` to fail.\n\n**Fix:** Change line 83 to pass the row directly:\n\n```ts\ngetRowId: (row) => getRowId(row as TItem),\n```\n\nThat's the plan — single line change.",
+          "time": {
+            "start": 1779544799960,
+            "end": 1779544801747
+          },
+          "id": "prt_e5522bad8001p9V3EoCHWttNVO",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522b25b002Caha0AetmjgAyG"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39915,
+            "input": 26,
+            "output": 208,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 39680
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5522c1f70014gj75ePCgVhJ43",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522b25b002Caha0AetmjgAyG"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779544811663
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "src/components/layouts/list-page-layout.tsx",
+              "patch": "Index: src/components/layouts/list-page-layout.tsx\n===================================================================\n--- src/components/layouts/list-page-layout.tsx\t\n+++ src/components/layouts/list-page-layout.tsx\t\n@@ -1,176 +1,176 @@\n import type { UseQueryOptions } from \"@tanstack/react-query\";\n import { useQuery } from \"@tanstack/react-query\";\n import type { ColumnDef } from \"@tanstack/react-table\";\n import {\n   flexRender,\n   getCoreRowModel,\n   useReactTable,\n } from \"@tanstack/react-table\";\n import { Search } from \"lucide-react\";\n import { useRef, useState } from \"react\";\n \n import { Button } from \"@/components/ui/button\";\n import { Input } from \"@/components/ui/input\";\n import {\n   Table,\n   TableBody,\n   TableCell,\n   TableHead,\n   TableHeader,\n   TableRow,\n } from \"@/components/ui/table\";\n \n export type ListResult<TItem> = {\n   items: TItem[];\n   nextCursor?: string;\n };\n \n type ListProcedure<TInput> = {\n   queryOptions: (opts: { input: TInput }) => UseQueryOptions;\n };\n \n type ListPageLayoutProps<TItem, TInput> = {\n   baseInput: Omit<TInput, \"cursor\" | \"limit\" | \"search\">;\n   columnDefs: ColumnDef<TItem>[];\n   emptyMessage?: string;\n   filterSlot?: React.ReactNode;\n   getRowId: (row: TItem) => string;\n   listProcedure: ListProcedure<TInput>;\n   onRowClick?: (row: TItem) => void;\n   searchPlaceholder?: string;\n };\n \n export function ListPageLayout<TItem, TInput extends Record<string, unknown>>({\n   baseInput,\n   columnDefs,\n   emptyMessage = \"No items found\",\n   filterSlot,\n   getRowId,\n   listProcedure,\n   onRowClick,\n   searchPlaceholder = \"Search...\",\n }: ListPageLayoutProps<TItem, TInput>) {\n   const [search, setSearch] = useState(\"\");\n   const [cursor, setCursor] = useState<string | undefined>();\n \n   const prevBaseInput = useRef(baseInput);\n   if (prevBaseInput.current !== baseInput) {\n     setCursor(undefined);\n     prevBaseInput.current = baseInput;\n   }\n \n   const queryResult = useQuery(\n     listProcedure.queryOptions({\n       input: {\n         ...baseInput,\n         cursor,\n         limit: 20,\n         search: search || undefined,\n       } as unknown as TInput,\n     }) as UseQueryOptions<ListResult<TItem>>,\n   );\n \n   const data = queryResult.data;\n   const isLoading = queryResult.isLoading;\n \n   const items = data?.items ?? [];\n   const nextCursor = data?.nextCursor;\n \n   const table = useReactTable({\n     columns: columnDefs,\n     data: items,\n     getCoreRowModel: getCoreRowModel(),\n-    getRowId: (row) => getRowId((row as { original: TItem }).original),\n+    getRowId: (row) => getRowId(row as TItem),\n   });\n \n   return (\n     <div className=\"space-y-4\">\n       <div className=\"flex items-start gap-2\">\n         <div className=\"relative flex-1\">\n           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n           <Input\n             className=\"pl-8\"\n             onChange={(e) => {\n               setSearch(e.target.value);\n               setCursor(undefined);\n             }}\n             placeholder={searchPlaceholder}\n             value={search}\n           />\n         </div>\n         {filterSlot}\n       </div>\n \n       <div className=\"rounded-lg border bg-card\">\n         <Table>\n           <TableHeader>\n             {table.getHeaderGroups().map((headerGroup) => (\n               <TableRow key={headerGroup.id}>\n                 {headerGroup.headers.map((header) => (\n                   <TableHead key={header.id}>\n                     {header.isPlaceholder\n                       ? null\n                       : flexRender(\n                           header.column.columnDef.header,\n                           header.getContext(),\n                         )}\n                   </TableHead>\n                 ))}\n               </TableRow>\n             ))}\n           </TableHeader>\n           <TableBody>\n             {isLoading ? (\n               <TableRow>\n                 <TableCell\n                   className=\"text-center text-muted-foreground\"\n                   colSpan={columnDefs.length}\n                 >\n                   Loading...\n                 </TableCell>\n               </TableRow>\n             ) : items.length === 0 ? (\n               <TableRow>\n                 <TableCell\n                   className=\"text-center text-muted-foreground\"\n                   colSpan={columnDefs.length}\n                 >\n                   {emptyMessage}\n                 </TableCell>\n               </TableRow>\n             ) : (\n               table.getRowModel().rows.map((row) => (\n                 <TableRow\n                   className=\"cursor-pointer\"\n                   key={row.id}\n                   onClick={() => onRowClick?.(row.original as TItem)}\n                 >\n                   {row.getVisibleCells().map((cell) => (\n                     <TableCell key={cell.id}>\n                       {flexRender(\n                         cell.column.columnDef.cell,\n                         cell.getContext(),\n                       )}\n                     </TableCell>\n                   ))}\n                 </TableRow>\n               ))\n             )}\n           </TableBody>\n         </Table>\n       </div>\n \n       {nextCursor && (\n         <div className=\"flex justify-center\">\n           <Button\n             onClick={() => setCursor(nextCursor)}\n             size=\"sm\"\n             variant=\"outline\"\n           >\n             Load more\n           </Button>\n         </div>\n       )}\n     </div>\n   );\n }\n",
+              "additions": 1,
+              "deletions": 1,
+              "status": "modified"
+            }
+          ]
+        },
+        "id": "msg_e5522e87c001ZW7fo3RzEoJ4sB",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "proceed",
+          "id": "prt_e5522e87d001Rc2RntFa5uZyD9",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522e87c001ZW7fo3RzEoJ4sB"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5522e87c001ZW7fo3RzEoJ4sB",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 38971,
+          "input": 8801,
+          "output": 80,
+          "reasoning": 10,
+          "cache": {
+            "write": 0,
+            "read": 30080
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544811850,
+          "completed": 1779544823645
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5522e94a002pMjStVRGoxwHw7",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "3899f7d1bb3001009591341ab047004cedb11400",
+          "type": "step-start",
+          "id": "prt_e5522f309001dGVCBepHtEwNK0",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522e94a002pMjStVRGoxwHw7"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to make the fix.",
+          "time": {
+            "start": 1779544814348,
+            "end": 1779544814453
+          },
+          "id": "prt_e5522f30c001JFvLXwy8XQEnEm",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522e94a002pMjStVRGoxwHw7"
+        },
+        {
+          "type": "tool",
+          "tool": "edit",
+          "callID": "call_1bebfa9d63d14e409bf1e64d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx",
+              "oldString": "    getRowId: (row) => getRowId((row as { original: TItem }).original),",
+              "newString": "    getRowId: (row) => getRowId(row as TItem),"
+            },
+            "output": "Edit applied successfully.",
+            "metadata": {
+              "diagnostics": {
+                "/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx": [],
+                "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx": []
+              },
+              "diff": "Index: /home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\n===================================================================\n--- /home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\n+++ /home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\n@@ -79,9 +79,9 @@\n const table = useReactTable({\n   columns: columnDefs,\n   data: items,\n   getCoreRowModel: getCoreRowModel(),\n-  getRowId: (row) => getRowId((row as { original: TItem }).original),\n+  getRowId: (row) => getRowId(row as TItem),\n });\n \n return (\n   <div className=\"space-y-4\">\n",
+              "filediff": {
+                "file": "/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx",
+                "patch": "Index: /home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\n===================================================================\n--- /home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\n+++ /home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx\n@@ -79,9 +79,9 @@\n const table = useReactTable({\n   columns: columnDefs,\n   data: items,\n   getCoreRowModel: getCoreRowModel(),\n-  getRowId: (row) => getRowId((row as { original: TItem }).original),\n+  getRowId: (row) => getRowId(row as TItem),\n });\n \n return (\n   <div className=\"space-y-4\">\n",
+                "additions": 1,
+                "deletions": 1
+              },
+              "truncated": false
+            },
+            "title": "src/components/layouts/list-page-layout.tsx",
+            "time": {
+              "start": 1779544823075,
+              "end": 1779544823352
+            }
+          },
+          "id": "prt_e5522f378001YBZusNwtN3GIGo",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522e94a002pMjStVRGoxwHw7"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "f2f45da99a7951ff7455bf45eb7cd33beeaf2419",
+          "type": "step-finish",
+          "tokens": {
+            "total": 38971,
+            "input": 8801,
+            "output": 80,
+            "reasoning": 10,
+            "cache": {
+              "write": 0,
+              "read": 30080
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55231706001xJOzmaMCAr7aHi",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522e94a002pMjStVRGoxwHw7"
+        },
+        {
+          "type": "patch",
+          "hash": "3899f7d1bb3001009591341ab047004cedb11400",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/src/components/layouts/list-page-layout.tsx"
+          ],
+          "id": "prt_e5523175700104qyMDw2wGLU7V",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e5522e94a002pMjStVRGoxwHw7"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5522e87c001ZW7fo3RzEoJ4sB",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39013,
+          "input": 67,
+          "output": 33,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 38912
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544823653,
+          "completed": 1779544828874
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55231765002QwHPTt5UX3NRgN",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "f2f45da99a7951ff7455bf45eb7cd33beeaf2419",
+          "type": "step-start",
+          "id": "prt_e5523203d001pe5s3NmmocqQ2U",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55231765002QwHPTt5UX3NRgN"
+        },
+        {
+          "type": "tool",
+          "tool": "bash",
+          "callID": "call_bc20ff5173da4390a7a1ff8a",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "bun --bun run check:types 2>&1 | tail -5",
+              "description": "Typecheck the fix"
+            },
+            "output": "src/components/sidebar.tsx(417,68): error TS2339: Property 'role' does not exist on type '{ name: string; email: string; image?: string | null | undefined; }'.\nsrc/components/ui/calendar.tsx(112,9): error TS2353: Object literal may only specify known properties, and 'table' does not exist in type 'Partial<ClassNames>'.\nsrc/lib/auth/access-control.ts(139,18): error TS7006: Parameter 'access' implicitly has an 'any' type.\nsrc/routes/(protected)/(app)/contracts/$contractId.tsx(203,17): error TS2322: Type '{ error: string | undefined; isPending: boolean; mode: \"edit\"; onChange: Dispatch<SetStateAction<ContractFormValues>>; onSubmit: () => void; users: UserOption[]; values: ContractFormValues; }' is not assignable to type 'IntrinsicAttributes & { mode: \"create\" | \"edit\"; onSubmit: (values: { assigneeId: string; clientId: number; description?: string | undefined; endDate?: string | undefined; ... 7 more ...; title: string; }) => void; isPending: boolean; defaultValues?: Partial<...> | undefined; }'.\n  Property 'error' does not exist on type 'IntrinsicAttributes & { mode: \"create\" | \"edit\"; onSubmit: (values: { assigneeId: string; clientId: number; description?: string | undefined; endDate?: string | undefined; ... 7 more ...; title: string; }) => void; isPending: boolean; defaultValues?: Partial<...> | undefined; }'.\n",
+            "metadata": {
+              "output": "src/components/sidebar.tsx(417,68): error TS2339: Property 'role' does not exist on type '{ name: string; email: string; image?: string | null | undefined; }'.\nsrc/components/ui/calendar.tsx(112,9): error TS2353: Object literal may only specify known properties, and 'table' does not exist in type 'Partial<ClassNames>'.\nsrc/lib/auth/access-control.ts(139,18): error TS7006: Parameter 'access' implicitly has an 'any' type.\nsrc/routes/(protected)/(app)/contracts/$contractId.tsx(203,17): error TS2322: Type '{ error: string | undefined; isPending: boolean; mode: \"edit\"; onChange: Dispatch<SetStateAction<ContractFormValues>>; onSubmit: () => void; users: UserOption[]; values: ContractFormValues; }' is not assignable to type 'IntrinsicAttributes & { mode: \"create\" | \"edit\"; onSubmit: (values: { assigneeId: string; clientId: number; description?: string | undefined; endDate?: string | undefined; ... 7 more ...; title: string; }) => void; isPending: boolean; defaultValues?: Partial<...> | undefined; }'.\n  Property 'error' does not exist on type 'IntrinsicAttributes & { mode: \"create\" | \"edit\"; onSubmit: (values: { assigneeId: string; clientId: number; description?: string | undefined; endDate?: string | undefined; ... 7 more ...; title: string; }) => void; isPending: boolean; defaultValues?: Partial<...> | undefined; }'.\n",
+              "exit": 0,
+              "description": "Typecheck the fix",
+              "truncated": false
+            },
+            "title": "Typecheck the fix",
+            "time": {
+              "start": 1779544828813,
+              "end": 1779544828819
+            }
+          },
+          "id": "prt_e55232058001nbDkp4mRFl1OUq",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55231765002QwHPTt5UX3NRgN"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "f2f45da99a7951ff7455bf45eb7cd33beeaf2419",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39013,
+            "input": 67,
+            "output": 33,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 38912
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55232bad001M9NjUQpk7kHIu7",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55231765002QwHPTt5UX3NRgN"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5522e87c001ZW7fo3RzEoJ4sB",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39412,
+          "input": 389,
+          "output": 46,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 38976
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779544828880,
+          "completed": 1779544831404
+        },
+        "finish": "stop",
+        "id": "msg_e55232bd0002mmOsdAiq91o43F",
+        "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6"
+      },
+      "parts": [
+        {
+          "snapshot": "f2f45da99a7951ff7455bf45eb7cd33beeaf2419",
+          "type": "step-start",
+          "id": "prt_e552333e0001oVkjyDdcbaW4xd",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55232bd0002mmOsdAiq91o43F"
+        },
+        {
+          "type": "text",
+          "text": "No new type errors from this file. The pre-existing errors are unrelated. The fix is correct — `getRowId` in TanStack Table v8 receives the raw data item directly, not a Row model with `.original`.",
+          "time": {
+            "start": 1779544830971,
+            "end": 1779544831335
+          },
+          "id": "prt_e552333fb001GfAyi7j5kDEp1J",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55232bd0002mmOsdAiq91o43F"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "f2f45da99a7951ff7455bf45eb7cd33beeaf2419",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39412,
+            "input": 389,
+            "output": 46,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 38976
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55233589001XSMnZfAEw9YFtJ",
+          "sessionID": "ses_1aadec7b7ffeNDMHcQOHzqTYo6",
+          "messageID": "msg_e55232bd0002mmOsdAiq91o43F"
+        }
+      ]
+    }
+  ]
+}
