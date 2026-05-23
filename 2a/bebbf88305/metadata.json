@@ -3,7 +3,7 @@
   "checkpoint_id": "2abebbf88305",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 13,
+  "checkpoints_count": 26,
   "files_touched": [
     ".gitignore",
     ".zed/settings.json",
@@ -25,6 +25,7 @@
     "src/components/data-table-filter/components/filter-value.tsx",
     "src/components/filter-view-tabs.tsx",
     "src/components/forms/client-form.tsx",
+    "src/components/layouts/data-view-layout.tsx",
     "src/db-schemas/filter-view.ts",
     "src/lib/filter-views.ts",
     "src/lib/form-schemas/client.ts",
@@ -102,13 +103,19 @@
       "transcript": "/2a/bebbf88305/8/full.jsonl",
       "content_hash": "/2a/bebbf88305/8/content_hash.txt",
       "prompt": "/2a/bebbf88305/8/prompt.txt"
+    },
+    {
+      "metadata": "/2a/bebbf88305/9/metadata.json",
+      "transcript": "/2a/bebbf88305/9/full.jsonl",
+      "content_hash": "/2a/bebbf88305/9/content_hash.txt",
+      "prompt": "/2a/bebbf88305/9/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 536312,
+    "input_tokens": 886880,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 3563072,
-    "output_tokens": 34211,
-    "api_call_count": 108
+    "cache_read_tokens": 11984640,
+    "output_tokens": 57106,
+    "api_call_count": 230
   }
 }

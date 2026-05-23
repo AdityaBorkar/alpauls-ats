@@ -1,0 +1,365 @@
+@src/routes/(protected)/(app)/clients/$clientId.tsx Add the following buttons:
+
+- Show all Job Mandates from "CLIENT NAME" (redirect to /job-mandates?filters={})
+- Show all Contracts from "CLIENT NAME"
+- Show conversations from "CLIENT NAME"
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId.tsx</path>
+<type>file</type>
+<content>
+1: import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+2: import { createFileRoute, useNavigate } from "@tanstack/react-router";
+3: import { format } from "date-fns";
+4: import {
+5:   Archive,
+6:   ArrowLeft,
+7:   Building2,
+8:   Clock,
+9:   Edit,
+10:   MapPin,
+11: } from "lucide-react";
+12: import { useState } from "react";
+13: 
+14: import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+15: import { Badge } from "@/components/ui/badge";
+16: import { Button } from "@/components/ui/button";
+17: import {
+18:   Card,
+19:   CardContent,
+20:   CardDescription,
+21:   CardFooter,
+22:   CardHeader,
+23:   CardTitle,
+24: } from "@/components/ui/card";
+25: import { Separator } from "@/components/ui/separator";
+26: import { Skeleton } from "@/components/ui/skeleton";
+27: import type { ClientLocation } from "@/db-schemas/client";
+28: import { rpc } from "@/rpc/client";
+29: 
+30: import { ClientForm } from "./-form";
+31: 
+32: export const Route = createFileRoute("/(protected)/(app)/clients/$clientId")({
+33:   component: ClientDetailPage,
+34: });
+35: 
+36: type ClientDetail = {
+37:   archived: boolean;
+38:   assignee: {
+39:     id: string;
+40:     image: string | null;
+41:     name: string | null;
+42:   };
+43:   assigneeId: string;
+44:   createdAt: Date | null;
+45:   description: string | null;
+46:   id: number;
+47:   internalNotes: string | null;
+48:   legalName: string | null;
+49:   locations: ClientLocation[] | null;
+50:   logo: string | null;
+51:   name: string;
+52:   slug: string;
+53:   updatedAt: Date | null;
+54: };
+55: 
+56: type ClientEvent = {
+57:   id: number;
+58:   clientId: number;
+59:   field: string;
+60:   oldValue: string | null;
+61:   newValue: string | null;
+62:   changedBy: string;
+63:   changedAt: Date | null;
+64: };
+65: 
+66: function ClientDetailPage() {
+67:   const { clientId } = Route.useParams();
+68:   const navigate = useNavigate();
+69:   const queryClient = useQueryClient();
+70:   const numericId = Number.parseInt(clientId, 10);
+71: 
+72:   const { data: clientData, isLoading } = useQuery(
+73:     rpc.client.getById.queryOptions({ input: { id: numericId } }),
+74:   );
+75: 
+76:   const client = clientData as ClientDetail | undefined;
+77: 
+78:   const { data: eventsData } = useQuery(
+79:     rpc.client.listEvents.queryOptions({
+80:       input: { clientId: numericId },
+81:     }),
+82:   );
+83: 
+84:   const events =
+85:     (eventsData as { items: ClientEvent[] } | undefined)?.items ?? [];
+86: 
+87:   const [isEditing, setIsEditing] = useState(false);
+88: 
+89:   const archiveMutation = useMutation({
+90:     mutationFn: () => rpc.client.archive.call({ id: numericId }),
+91:     onSuccess: () => {
+92:       queryClient.invalidateQueries({ queryKey: ["client"] });
+93:       navigate({ to: "/clients" });
+94:     },
+95:   });
+96: 
+97:   if (isLoading) {
+98:     return (
+99:       <div className="space-y-6 p-6">
+100:         <div className="flex items-center gap-4">
+101:           <Skeleton className="h-8 w-8" />
+102:           <div className="space-y-2">
+103:             <Skeleton className="h-5 w-48" />
+104:             <Skeleton className="h-4 w-64" />
+105:           </div>
+106:         </div>
+107:         <Skeleton className="h-40 w-full max-w-2xl" />
+108:       </div>
+109:     );
+110:   }
+111: 
+112:   if (!client) {
+113:     return (
+114:       <div className="space-y-6 p-6">
+115:         <Button
+116:           onClick={() => navigate({ to: "/clients" })}
+117:           size="icon-sm"
+118:           variant="ghost"
+119:         >
+120:           <ArrowLeft className="h-4 w-4" />
+121:         </Button>
+122:         <p className="text-muted-foreground">Client not found</p>
+123:       </div>
+124:     );
+125:   }
+126: 
+127:   return (
+128:     <div className="space-y-6 p-6">
+129:       <div className="flex items-center gap-3">
+130:         <Button
+131:           onClick={() => navigate({ to: "/clients" })}
+132:           size="icon-sm"
+133:           variant="ghost"
+134:         >
+135:           <ArrowLeft className="h-4 w-4" />
+136:         </Button>
+137:         <div className="flex items-center gap-3">
+138:           {client.logo && (
+139:             <img
+140:               alt=""
+141:               className="h-10 w-10 rounded-lg border object-contain p-0.5"
+142:               src={client.logo}
+143:             />
+144:           )}
+145:           <div>
+146:             <div className="flex items-center gap-2">
+147:               <h2 className="font-semibold text-lg">{client.name}</h2>
+148:               {client.archived && (
+149:                 <Badge className="text-muted-foreground" variant="outline">
+150:                   Archived
+151:                 </Badge>
+152:               )}
+153:             </div>
+154:             {client.legalName && (
+155:               <p className="text-muted-foreground text-sm">
+156:                 {client.legalName}
+157:               </p>
+158:             )}
+159:           </div>
+160:         </div>
+161:       </div>
+162: 
+163:       <div className="grid max-w-2xl gap-6">
+164:         <Card>
+165:           <CardHeader>
+166:             <CardTitle className="flex items-center gap-2">
+167:               <Building2 className="h-4 w-4" />
+168:               Client Information
+169:             </CardTitle>
+170:             <CardDescription>Details about this client</CardDescription>
+171:           </CardHeader>
+172:           <CardContent>
+173:             {isEditing ? (
+174:               <ClientForm
+175:                 clientId={numericId}
+176:                 defaultValues={{
+177:                   assigneeId: client.assigneeId,
+178:                   internalNotes: client.internalNotes ?? "",
+179:                   legalName: client.legalName ?? "",
+180:                   locations: client.locations ?? [],
+181:                   logo: client.logo ?? undefined,
+182:                   name: client.name,
+183:                   slug: client.slug,
+184:                 }}
+185:                 mode="edit"
+186:                 onCancel={() => setIsEditing(false)}
+187:                 onSuccess={() => setIsEditing(false)}
+188:               />
+189:             ) : (
+190:               <div className="space-y-3">
+191:                 <div className="flex justify-between">
+192:                   <span className="text-muted-foreground text-sm">
+193:                     Nick Name
+194:                   </span>
+195:                   <span className="font-medium text-sm">{client.name}</span>
+196:                 </div>
+197:                 <Separator />
+198:                 {client.legalName && (
+199:                   <>
+200:                     <div className="flex justify-between">
+201:                       <span className="text-muted-foreground text-sm">
+202:                         Legal Name
+203:                       </span>
+204:                       <span className="font-medium text-sm">
+205:                         {client.legalName}
+206:                       </span>
+207:                     </div>
+208:                     <Separator />
+209:                   </>
+210:                 )}
+211:                 <div className="flex justify-between">
+212:                   <span className="text-muted-foreground text-sm">Slug</span>
+213:                   <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+214:                     {client.slug}
+215:                   </code>
+216:                 </div>
+217:                 <Separator />
+218:                 <div className="flex justify-between">
+219:                   <span className="text-muted-foreground text-sm">
+220:                     Assignee
+221:                   </span>
+222:                   <div className="flex items-center gap-2">
+223:                     <Avatar className="h-5 w-5">
+224:                       <AvatarImage src={client.assignee.image ?? undefined} />
+225:                       <AvatarFallback>
+226:                         {client.assignee.name?.[0] ?? "?"}
+227:                       </AvatarFallback>
+228:                     </Avatar>
+229:                     <span className="font-medium text-sm">
+230:                       {client.assignee.name}
+231:                     </span>
+232:                   </div>
+233:                 </div>
+234:                 <Separator />
+235:                 {client.locations && client.locations.length > 0 && (
+236:                   <>
+237:                     <div className="flex justify-between">
+238:                       <span className="flex items-center gap-1 text-muted-foreground text-sm">
+239:                         <MapPin className="h-3.5 w-3.5" />
+240:                         Locations
+241:                       </span>
+242:                       <div className="flex flex-wrap justify-end gap-1">
+243:                         {client.locations.map((loc) => (
+244:                           <Badge
+245:                             key={`${loc.city}-${loc.country}`}
+246:                             variant="secondary"
+247:                           >
+248:                             {loc.city}, {loc.country}
+249:                           </Badge>
+250:                         ))}
+251:                       </div>
+252:                     </div>
+253:                     <Separator />
+254:                   </>
+255:                 )}
+256:                 {client.internalNotes && (
+257:                   <>
+258:                     <div className="flex flex-col gap-1">
+259:                       <span className="text-muted-foreground text-sm">
+260:                         Internal Notes
+261:                       </span>
+262:                       <p className="text-sm">{client.internalNotes}</p>
+263:                     </div>
+264:                     <Separator />
+265:                   </>
+266:                 )}
+267:                 <div className="flex justify-between">
+268:                   <span className="text-muted-foreground text-sm">Created</span>
+269:                   <span className="font-medium text-sm">
+270:                     {client.createdAt
+271:                       ? format(new Date(client.createdAt), "MMM d, yyyy")
+272:                       : "—"}
+273:                   </span>
+274:                 </div>
+275:               </div>
+276:             )}
+277:           </CardContent>
+278:           {!isEditing && (
+279:             <CardFooter className="flex gap-2">
+280:               <Button
+281:                 onClick={() => setIsEditing(true)}
+282:                 size="sm"
+283:                 variant="outline"
+284:               >
+285:                 <Edit className="h-3.5 w-3.5" />
+286:                 Edit client
+287:               </Button>
+288:               {!client.archived && (
+289:                 <Button
+290:                   disabled={archiveMutation.isPending}
+291:                   onClick={() => archiveMutation.mutate()}
+292:                   size="sm"
+293:                   variant="outline"
+294:                 >
+295:                   <Archive className="h-3.5 w-3.5" />
+296:                   Archive
+297:                 </Button>
+298:               )}
+299:             </CardFooter>
+300:           )}
+301:         </Card>
+302: 
+303:         {events.length > 0 && (
+304:           <Card>
+305:             <CardHeader>
+306:               <CardTitle className="flex items-center gap-2">
+307:                 <Clock className="h-4 w-4" />
+308:                 Change Records
+309:               </CardTitle>
+310:               <CardDescription>
+311:                 History of changes made to this client
+312:               </CardDescription>
+313:             </CardHeader>
+314:             <CardContent>
+315:               <div className="space-y-3">
+316:                 {events.map((event) => (
+317:                   <div className="flex items-start gap-3" key={event.id}>
+318:                     <div className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-muted" />
+319:                     <div className="min-w-0 flex-1">
+320:                       <p className="text-sm">
+321:                         <span className="font-medium">{event.field}</span>
+322:                         {event.oldValue && (
+323:                           <span className="text-muted-foreground">
+324:                             {" "}
+325:                             from "{event.oldValue}"
+326:                           </span>
+327:                         )}
+328:                         {event.newValue && (
+329:                           <span className="text-muted-foreground">
+330:                             {" "}
+331:                             to "{event.newValue}"
+332:                           </span>
+333:                         )}
+334:                       </p>
+335:                       <p className="text-muted-foreground text-xs">
+336:                         {event.changedAt
+337:                           ? format(
+338:                               new Date(event.changedAt),
+339:                               "MMM d, yyyy h:mm a",
+340:                             )
+341:                           : "—"}
+342:                       </p>
+343:                     </div>
+344:                   </div>
+345:                 ))}
+346:               </div>
+347:             </CardContent>
+348:           </Card>
+349:         )}
+350:       </div>
+351:     </div>
+352:   );
+353: }
+
+(End of file - total 353 lines)
+</content>
