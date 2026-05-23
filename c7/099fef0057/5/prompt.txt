@@ -1,0 +1,241 @@
+@src/components/client-list-view.tsx Implement search box with filters prefilled (from bazza ui)
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx</path>
+<type>file</type>
+<content>
+1: import { useQuery } from "@tanstack/react-query";
+2: import {
+3:   flexRender,
+4:   getCoreRowModel,
+5:   useReactTable,
+6: } from "@tanstack/react-table";
+7: import { Archive } from "lucide-react";
+8: import { parseAsJson, useQueryState } from "nuqs";
+9: import { useState } from "react";
+10: import { z } from "zod";
+11: 
+12: import { DataTableFilter } from "@/components/data-table-filter";
+13: import type { FiltersState } from "@/components/data-table-filter/core/types";
+14: import { useDataTableFilters } from "@/components/data-table-filter/hooks/use-data-table-filters";
+15: import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+16: import { Button } from "@/components/ui/button";
+17: import {
+18:   Table,
+19:   TableBody,
+20:   TableCell,
+21:   TableHead,
+22:   TableHeader,
+23:   TableRow,
+24: } from "@/components/ui/table";
+25: import { rpc } from "@/rpc/client";
+26: 
+27: import { clientColumnDefs } from "./client-list-view/columns";
+28: import { clientColumnsConfig } from "./client-list-view/filters";
+29: 
+30: export type ClientItem = {
+31:   id: number;
+32:   name: string;
+33:   legalName: string | null;
+34:   slug: string;
+35:   logo: string | null;
+36:   archived: boolean;
+37:   assigneeId: string;
+38:   assignee: {
+39:     id: string;
+40:     name: string | null;
+41:     image: string | null;
+42:   };
+43:   createdAt: Date | null;
+44:   updatedAt: Date | null;
+45: };
+46: 
+47: type ClientListResponse = {
+48:   items: ClientItem[];
+49:   nextCursor: string | null;
+50: };
+51: 
+52: type ClientListViewProps = {
+53:   onClientClick: (client: ClientItem) => void;
+54: };
+55: 
+56: const filtersSchema = z.custom<FiltersState>();
+57: 
+58: function filtersToRpcParams(filters: FiltersState) {
+59:   let search: string | undefined;
+60:   let archived: boolean | undefined;
+61:   let assigneeId: string[] | undefined;
+62: 
+63:   for (const f of filters) {
+64:     if (f.columnId === "name" && f.type === "text") {
+65:       search = f.values[0];
+66:     }
+67:     if (f.columnId === "archived" && f.type === "option") {
+68:       archived = f.values[0] === "true";
+69:     }
+70:     if (f.columnId === "assigneeId" && f.type === "option") {
+71:       assigneeId = [...f.values];
+72:     }
+73:   }
+74: 
+75:   return { archived, assigneeId, search };
+76: }
+77: 
+78: export function ClientListView({ onClientClick }: ClientListViewProps) {
+79:   const [filters, setFilters] = useQueryState<FiltersState>(
+80:     "filters",
+81:     parseAsJson(filtersSchema.parse).withDefault([]),
+82:   );
+83: 
+84:   const [cursor, setCursor] = useState<string | undefined>();
+85: 
+86:   const rpcParams = filtersToRpcParams(filters);
+87: 
+88:   const { data: clientsData, isLoading } = useQuery(
+89:     rpc.client.list.queryOptions({
+90:       input: {
+91:         archived: rpcParams.archived,
+92:         assigneeId: rpcParams.assigneeId,
+93:         cursor,
+94:         limit: 20,
+95:         search: rpcParams.search,
+96:       },
+97:     }) as any,
+98:   );
+99: 
+100:   const { data: usersData } = useQuery(
+101:     rpc.users.list.queryOptions({ input: { limit: 100 } }) as any,
+102:   );
+103: 
+104:   const clients = (clientsData as ClientListResponse | undefined)?.items ?? [];
+105:   const nextCursor = (clientsData as ClientListResponse | undefined)
+106:     ?.nextCursor;
+107: 
+108:   const assigneeOptions = ((usersData as any)?.items ?? []).map((u: any) => ({
+109:     icon: (
+110:       <Avatar className="size-4">
+111:         <AvatarImage src={u.image ?? undefined} />
+112:         <AvatarFallback>{u.name?.[0] ?? "?"}</AvatarFallback>
+113:       </Avatar>
+114:     ),
+115:     label: u.name ?? "Unknown",
+116:     value: u.id,
+117:   }));
+118: 
+119:   const archivedOptions = [
+120:     { icon: <Archive className="size-4" />, label: "Archived", value: "true" },
+121:     { label: "Active", value: "false" },
+122:   ];
+123: 
+124:   const {
+125:     columns,
+126:     filters: filterState,
+127:     actions,
+128:     strategy,
+129:   } = useDataTableFilters({
+130:     columnsConfig: clientColumnsConfig,
+131:     data: clients,
+132:     filters,
+133:     onFiltersChange: (next) => {
+134:       setFilters(next);
+135:       setCursor(undefined);
+136:     },
+137:     options: {
+138:       archived: archivedOptions,
+139:       assigneeId: assigneeOptions,
+140:     },
+141:     strategy: "server",
+142:   });
+143: 
+144:   const table = useReactTable({
+145:     columns: clientColumnDefs,
+146:     data: clients,
+147:     getCoreRowModel: getCoreRowModel(),
+148:     getRowId: (row) => String(row.id),
+149:   });
+150: 
+151:   return (
+152:     <div className="space-y-4">
+153:       <DataTableFilter
+154:         actions={actions}
+155:         columns={columns}
+156:         filters={filterState}
+157:         locale="en"
+158:         strategy={strategy}
+159:       />
+160: 
+161:       <div className="rounded-lg border bg-card">
+162:         <Table>
+163:           <TableHeader>
+164:             {table.getHeaderGroups().map((headerGroup) => (
+165:               <TableRow key={headerGroup.id}>
+166:                 {headerGroup.headers.map((header) => (
+167:                   <TableHead key={header.id}>
+168:                     {header.isPlaceholder
+169:                       ? null
+170:                       : flexRender(
+171:                           header.column.columnDef.header,
+172:                           header.getContext(),
+173:                         )}
+174:                   </TableHead>
+175:                 ))}
+176:               </TableRow>
+177:             ))}
+178:           </TableHeader>
+179:           <TableBody>
+180:             {isLoading ? (
+181:               <TableRow>
+182:                 <TableCell
+183:                   className="text-center text-muted-foreground"
+184:                   colSpan={clientColumnDefs.length}
+185:                 >
+186:                   Loading...
+187:                 </TableCell>
+188:               </TableRow>
+189:             ) : clients.length === 0 ? (
+190:               <TableRow>
+191:                 <TableCell
+192:                   className="text-center text-muted-foreground"
+193:                   colSpan={clientColumnDefs.length}
+194:                 >
+195:                   No clients found
+196:                 </TableCell>
+197:               </TableRow>
+198:             ) : (
+199:               table.getRowModel().rows.map((row) => (
+200:                 <TableRow
+201:                   className="cursor-pointer"
+202:                   key={row.id}
+203:                   onClick={() => onClientClick(row.original)}
+204:                 >
+205:                   {row.getVisibleCells().map((cell) => (
+206:                     <TableCell key={cell.id}>
+207:                       {flexRender(
+208:                         cell.column.columnDef.cell,
+209:                         cell.getContext(),
+210:                       )}
+211:                     </TableCell>
+212:                   ))}
+213:                 </TableRow>
+214:               ))
+215:             )}
+216:           </TableBody>
+217:         </Table>
+218:       </div>
+219: 
+220:       {nextCursor && (
+221:         <div className="flex justify-center">
+222:           <Button
+223:             onClick={() => setCursor(nextCursor)}
+224:             size="sm"
+225:             variant="outline"
+226:           >
+227:             Load more
+228:           </Button>
+229:         </div>
+230:       )}
+231:     </div>
+232:   );
+233: }
+
+(End of file - total 233 lines)
+</content>
