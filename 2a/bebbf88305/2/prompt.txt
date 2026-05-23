@@ -1,0 +1,436 @@
+@src/routes/(protected)/(app)/clients/index.tsx integrate the filters logic into the @src/components/layouts/data-view-layout.tsx . Index must only handle creation of data filter views and pass them on, it must not manage filter views props or filters or search.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx</path>
+<type>file</type>
+<content>
+1: import type { UseQueryOptions } from "@tanstack/react-query";
+2: import { useQuery } from "@tanstack/react-query";
+3: import {
+4:   createFileRoute,
+5:   Link,
+6:   useNavigate,
+7:   useSearch,
+8: } from "@tanstack/react-router";
+9: import { Archive } from "lucide-react";
+10: import { parseAsJson, useQueryState } from "nuqs";
+11: import { useMemo } from "react";
+12: import { z } from "zod";
+13: 
+14: import { DataTableFilter } from "@/components/data-table-filter";
+15: import type { FiltersState } from "@/components/data-table-filter/core/types";
+16: import { useDataTableFilters } from "@/components/data-table-filter/hooks/use-data-table-filters";
+17: import { FilterViewTabs } from "@/components/filter-view-tabs";
+18: import { DataViewLayout } from "@/components/layouts/data-view-layout";
+19: import NavLayout from "@/components/layouts/nav-layout";
+20: import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+21: import type { FilterViewDisplay } from "@/db-schemas";
+22: import {
+23:   type ClientItem,
+24:   clientColumnDefs,
+25:   clientColumnsConfig,
+26: } from "@/routes/(protected)/(app)/clients/-view-config";
+27: import { rpc } from "@/rpc/client";
+28: 
+29: export const Route = createFileRoute("/(protected)/(app)/clients/")({
+30:   component: ClientsPage,
+31:   validateSearch: z.object({
+32:     view: z.string().optional(),
+33:   }),
+34: });
+35: 
+36: type FilterViewRow = {
+37:   createdAt: Date | null;
+38:   display: FilterViewDisplay;
+39:   domain: string;
+40:   id: string;
+41:   isSystemCreated: boolean;
+42:   label: string;
+43:   refine: FiltersState;
+44:   updatedAt: Date | null;
+45: };
+46: 
+47: type ClientListInput = {
+48:   archived?: boolean;
+49:   assigneeId?: string[];
+50:   cursor?: string;
+51:   limit?: number;
+52:   search?: string;
+53:   sortBy?: "name" | "createdAt";
+54:   sortOrder?: "asc" | "desc";
+55: };
+56: 
+57: const filtersSchema = z.custom<FiltersState>((val): val is FiltersState =>
+58:   Array.isArray(val),
+59: );
+60: 
+61: function filterKey(f: FiltersState[number]) {
+62:   return `${f.columnId}::${f.operator}`;
+63: }
+64: 
+65: function filtersEqual(a: FiltersState[number], b: FiltersState[number]) {
+66:   return (
+67:     a.columnId === b.columnId &&
+68:     a.operator === b.operator &&
+69:     a.type === b.type &&
+70:     a.values.length === b.values.length &&
+71:     a.values.every((v, i) => v === b.values[i])
+72:   );
+73: }
+74: 
+75: function mergeFilters(base: FiltersState, overrides: FiltersState) {
+76:   const overrideMap = new Map(overrides.map((o) => [filterKey(o), o]));
+77:   const result: FiltersState = [];
+78: 
+79:   for (const b of base) {
+80:     const key = filterKey(b);
+81:     if (overrideMap.has(key)) {
+82:       const override = overrideMap.get(key);
+83:       if (override && !filtersEqual(b, override)) {
+84:         result.push(override);
+85:       }
+86:       overrideMap.delete(key);
+87:     } else {
+88:       result.push(b);
+89:     }
+90:   }
+91: 
+92:   for (const o of overrideMap.values()) {
+93:     result.push(o);
+94:   }
+95: 
+96:   return result;
+97: }
+98: 
+99: function computeOverrides(base: FiltersState, effective: FiltersState) {
+100:   const overrides: FiltersState = [];
+101:   const baseMap = new Map(base.map((b) => [filterKey(b), b]));
+102: 
+103:   for (const f of effective) {
+104:     const key = filterKey(f);
+105:     const baseFilter = baseMap.get(key);
+106:     if (!baseFilter || !filtersEqual(baseFilter, f)) {
+107:       overrides.push(f);
+108:     }
+109:   }
+110: 
+111:   return overrides;
+112: }
+113: 
+114: function filtersToBaseInput(filters: FiltersState) {
+115:   let archived: boolean | undefined;
+116:   let assigneeId: string[] | undefined;
+117: 
+118:   for (const f of filters) {
+119:     if (f.columnId === "archived" && f.type === "option") {
+120:       archived = f.values[0] === "true";
+121:     }
+122:     if (f.columnId === "assigneeId" && f.type === "option") {
+123:       assigneeId = [...f.values];
+124:     }
+125:   }
+126: 
+127:   return { archived, assigneeId } satisfies Omit<
+128:     ClientListInput,
+129:     "cursor" | "limit" | "search"
+130:   >;
+131: }
+132: 
+133: function ClientsPage() {
+134:   const navigate = useNavigate();
+135:   const { view } = useSearch({ from: Route.id });
+136: 
+137:   const [urlFilters, setUrlFilters] = useQueryState<FiltersState>(
+138:     "filters",
+139:     parseAsJson(filtersSchema.parse).withDefault([]),
+140:   );
+141: 
+142:   const { data: filterViewsData } = useQuery({
+143:     ...rpc.filterView.list.queryOptions({ input: { domain: "clients" } }),
+144:     enabled: !!view,
+145:   });
+146: 
+147:   const filterViews = (filterViewsData ?? []) as FilterViewRow[];
+148:   const activeView = view ? filterViews.find((v) => v.id === view) : null;
+149:   const baseFilters = activeView?.refine ?? [];
+150: 
+151:   const effectiveFilters = view
+152:     ? mergeFilters(baseFilters, urlFilters)
+153:     : urlFilters;
+154: 
+155:   const updateFilters: React.Dispatch<React.SetStateAction<FiltersState>> = (
+156:     next,
+157:   ) => {
+158:     const resolved = typeof next === "function" ? next(effectiveFilters) : next;
+159: 
+160:     if (view) {
+161:       const overrides = computeOverrides(baseFilters, resolved);
+162:       setUrlFilters(overrides.length > 0 ? overrides : null);
+163:     } else {
+164:       setUrlFilters(resolved);
+165:     }
+166:   };
+167: 
+168:   const baseInput = useMemo(
+169:     () => filtersToBaseInput(effectiveFilters),
+170:     [effectiveFilters],
+171:   );
+172: 
+173:   const { data: usersData } = useQuery(
+174:     rpc.users.list.queryOptions({ input: { limit: 100 } }),
+175:   );
+176: 
+177:   const assigneeOptions = (usersData?.items ?? []).map((u) => ({
+178:     icon: (
+179:       <Avatar className="size-4">
+180:         <AvatarImage src={u.image ?? undefined} />
+181:         <AvatarFallback>{u.name?.[0] ?? "?"}</AvatarFallback>
+182:       </Avatar>
+183:     ),
+184:     label: u.name ?? "Unknown",
+185:     value: u.id,
+186:   }));
+187: 
+188:   const archivedOptions = [
+189:     { icon: <Archive className="size-4" />, label: "Archived", value: "true" },
+190:     { label: "Active", value: "false" },
+191:   ];
+192: 
+193:   const {
+194:     columns,
+195:     filters: filterState,
+196:     actions,
+197:     strategy,
+198:   } = useDataTableFilters({
+199:     columnsConfig: clientColumnsConfig,
+200:     data: [] as ClientItem[],
+201:     filters: effectiveFilters,
+202:     onFiltersChange: updateFilters,
+203:     options: {
+204:       archived: archivedOptions,
+205:       assigneeId: assigneeOptions,
+206:     },
+207:     strategy: "server",
+208:   });
+209: 
+210:   return (
+211:     <NavLayout
+212:       baseUrl="/clients"
+213:       label="Clients"
+214:       leftItems={<FilterViewTabs domain="clients" />}
+215:       rightItems={
+216:         <Link className="flex" to="/clients/new">
+217:           New Client
+218:         </Link>
+219:       }
+220:     >
+221:       <DataViewLayout<ClientItem, ClientListInput>
+222:         baseInput={baseInput}
+223:         columnDefs={clientColumnDefs}
+224:         emptyMessage="No clients found"
+225:         filterSlot={
+226:           <DataTableFilter
+227:             actions={actions}
+228:             columns={columns}
+229:             filters={filterState}
+230:             locale="en"
+231:             strategy={strategy}
+232:           />
+233:         }
+234:         getRowId={(row) => String(row.id)}
+235:         listProcedure={{
+236:           queryOptions: (opts) =>
+237:             rpc.client.list.queryOptions({
+238:               input: opts.input as ClientListInput,
+239:             }) as UseQueryOptions,
+240:         }}
+241:         onRowClick={(client) =>
+242:           navigate({
+243:             params: { clientId: String(client.id) },
+244:             to: "/clients/$clientId",
+245:           })
+246:         }
+247:         searchPlaceholder="Search clients..."
+248:       />
+249:     </NavLayout>
+250:   );
+251: }
+
+(End of file - total 251 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx</path>
+<type>file</type>
+<content>
+1: import type { UseQueryOptions } from "@tanstack/react-query";
+2: import { useQuery } from "@tanstack/react-query";
+3: import type { ColumnDef } from "@tanstack/react-table";
+4: import {
+5:   flexRender,
+6:   getCoreRowModel,
+7:   useReactTable,
+8: } from "@tanstack/react-table";
+9: import { Search } from "lucide-react";
+10: import { useRef, useState } from "react";
+11: 
+12: import { Button } from "@/components/ui/button";
+13: import { Input } from "@/components/ui/input";
+14: import {
+15:   Table,
+16:   TableBody,
+17:   TableCell,
+18:   TableHead,
+19:   TableHeader,
+20:   TableRow,
+21: } from "@/components/ui/table";
+22: 
+23: export function DataViewLayout<TItem, TInput extends Record<string, unknown>>({
+24:   baseInput,
+25:   columnDefs,
+26:   emptyMessage = "No items found",
+27:   filterSlot,
+28:   getRowId,
+29:   listProcedure,
+30:   onRowClick,
+31:   searchPlaceholder = "Search...",
+32: }: {
+33:   baseInput: Omit<TInput, "cursor" | "limit" | "search">;
+34:   columnDefs: ColumnDef<TItem>[];
+35:   emptyMessage?: string;
+36:   filterSlot?: React.ReactNode;
+37:   getRowId: (row: TItem) => string;
+38:   listProcedure: {
+39:     queryOptions: (opts: { input: TInput }) => UseQueryOptions;
+40:   };
+41:   onRowClick?: (row: TItem) => void;
+42:   searchPlaceholder?: string;
+43: }) {
+44:   const [search, setSearch] = useState("");
+45:   const [cursor, setCursor] = useState<string | undefined>();
+46: 
+47:   const prevBaseInput = useRef(baseInput);
+48:   if (prevBaseInput.current !== baseInput) {
+49:     setCursor(undefined);
+50:     prevBaseInput.current = baseInput;
+51:   }
+52: 
+53:   const queryResult = useQuery(
+54:     listProcedure.queryOptions({
+55:       input: {
+56:         ...baseInput,
+57:         cursor,
+58:         limit: 20,
+59:         search: search || undefined,
+60:       } as unknown as TInput,
+61:     }) as UseQueryOptions<{
+62:       items: TItem[];
+63:       nextCursor?: string;
+64:     }>,
+65:   );
+66: 
+67:   const data = queryResult.data;
+68:   const isLoading = queryResult.isLoading;
+69: 
+70:   const items = data?.items ?? [];
+71:   const nextCursor = data?.nextCursor;
+72: 
+73:   const table = useReactTable({
+74:     columns: columnDefs,
+75:     data: items,
+76:     getCoreRowModel: getCoreRowModel(),
+77:     getRowId: (row) => getRowId(row as TItem),
+78:   });
+79: 
+80:   return (
+81:     <div className="space-y-4">
+82:       <div className="flex items-start gap-2">
+83:         <div className="relative flex-1">
+84:           <Search className="absolute top-2.5 left-2.5 size-4 text-muted-foreground" />
+85:           <Input
+86:             className="pl-8"
+87:             onChange={(e) => {
+88:               setSearch(e.target.value);
+89:               setCursor(undefined);
+90:             }}
+91:             placeholder={searchPlaceholder}
+92:             value={search}
+93:           />
+94:         </div>
+95:         {filterSlot}
+96:       </div>
+97: 
+98:       <div className="rounded-lg border bg-card">
+99:         <Table>
+100:           <TableHeader>
+101:             {table.getHeaderGroups().map((headerGroup) => (
+102:               <TableRow key={headerGroup.id}>
+103:                 {headerGroup.headers.map((header) => (
+104:                   <TableHead key={header.id}>
+105:                     {header.isPlaceholder
+106:                       ? null
+107:                       : flexRender(
+108:                           header.column.columnDef.header,
+109:                           header.getContext(),
+110:                         )}
+111:                   </TableHead>
+112:                 ))}
+113:               </TableRow>
+114:             ))}
+115:           </TableHeader>
+116:           <TableBody>
+117:             {isLoading ? (
+118:               <TableRow>
+119:                 <TableCell
+120:                   className="text-center text-muted-foreground"
+121:                   colSpan={columnDefs.length}
+122:                 >
+123:                   Loading...
+124:                 </TableCell>
+125:               </TableRow>
+126:             ) : items.length === 0 ? (
+127:               <TableRow>
+128:                 <TableCell
+129:                   className="text-center text-muted-foreground"
+130:                   colSpan={columnDefs.length}
+131:                 >
+132:                   {emptyMessage}
+133:                 </TableCell>
+134:               </TableRow>
+135:             ) : (
+136:               table.getRowModel().rows.map((row) => (
+137:                 <TableRow
+138:                   className="cursor-pointer"
+139:                   key={row.id}
+140:                   onClick={() => onRowClick?.(row.original as TItem)}
+141:                 >
+142:                   {row.getVisibleCells().map((cell) => (
+143:                     <TableCell key={cell.id}>
+144:                       {flexRender(
+145:                         cell.column.columnDef.cell,
+146:                         cell.getContext(),
+147:                       )}
+148:                     </TableCell>
+149:                   ))}
+150:                 </TableRow>
+151:               ))
+152:             )}
+153:           </TableBody>
+154:         </Table>
+155:       </div>
+156: 
+157:       {nextCursor && (
+158:         <div className="flex justify-center">
+159:           <Button
+160:             onClick={() => setCursor(nextCursor)}
+161:             size="sm"
+162:             variant="outline"
+163:           >
+164:             Load more
+165:           </Button>
+166:         </div>
+167:       )}
+168:     </div>
+169:   );
+170: }
+
+(End of file - total 170 lines)
+</content>
