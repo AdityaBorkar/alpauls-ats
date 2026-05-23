@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1050.0",
-    "@aws-sdk/s3-request-presigner": "^3.1050.0",
+    "@aws-sdk/client-s3": "^3.1048.0",
+    "@aws-sdk/s3-request-presigner": "^3.1048.0",
     "@base-ui/react": "^1.5.0",
     "@dagrejs/dagre": "^3.0.0",
     "@fontsource-variable/inter": "^5.2.8",
@@ -18,12 +18,12 @@
     "@tanstack/react-devtools": "^0.10.5",
     "@tanstack/react-query": "^5.100.11",
     "@tanstack/react-query-devtools": "^5.100.11",
-    "@tanstack/react-router": "^1.170.4",
+    "@tanstack/react-router": "^1.170.5",
     "@tanstack/react-router-devtools": "^1.167.0",
     "@tanstack/react-router-ssr-query": "^1.167.0",
-    "@tanstack/react-start": "^1.168.6",
+    "@tanstack/react-start": "^1.168.7",
     "@tanstack/react-table": "^8.21.3",
-    "@tanstack/router-plugin": "^1.168.6",
+    "@tanstack/router-plugin": "^1.168.7",
     "@typescript/native-preview": "^7.0.0-dev.20260519.1",
     "@xyflow/react": "^12.10.2",
     "better-auth": "^1.6.11",
@@ -34,10 +34,10 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.16.0",
-    "nitro": "npm:nitro-nightly@^3.0.1-alpha.2",
+    "nitro": "npm:nitro-nightly@^3.0.260429-beta",
     "nuqs": "^2.8.9",
     "pg": "^8.21.0",
-    "posthog-js": "^1.374.2",
+    "posthog-js": "^1.374.3",
     "react": "^19.2.6",
     "react-day-picker": "^10.0.1",
     "react-dom": "^19.2.6",
@@ -49,9 +49,9 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@ai-hero/sandcastle": "^0.5.10",
+    "@ai-hero/sandcastle": "^0.5.11",
     "@biomejs/biome": "2.4.15",
-    "@cloudflare/vite-plugin": "^1.37.2",
+    "@cloudflare/vite-plugin": "^1.37.1",
     "@electric-sql/pglite": "^0.4.5",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/devtools-vite": "^0.7.0",
@@ -69,10 +69,13 @@
     "taze": "^19.13.0",
     "tsx": "^4.22.3",
     "vite": "^8.0.13",
-    "vitest": "^4.1.6",
-    "wrangler": "^4.93.0"
+    "vitest": "^4.1.7",
+    "wrangler": "^4.92.0"
   },
   "name": "alpauls-ats",
+  "overrides": {
+    "@tanstack/query-core": "5.100.11"
+  },
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild", "lightningcss"]
   },

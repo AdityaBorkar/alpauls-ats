@@ -1,3 +1,5 @@
+import type { FiltersState } from "@/components/data-table-filter/core/types";
+
 export const filterViews = [
   {
     display: {
@@ -11,21 +13,14 @@ export const filterViews = [
     id: "clients-active",
     isSystemCreated: true,
     label: "Active",
-    refine: [{ field: "status", op: "equal", value: "active" }],
-  },
-  {
-    display: {
-      fields: ["id", "status"],
-      groupBy: null,
-      orderBy: "createdAt",
-      orderType: "desc",
-      type: "list",
-    },
-    domain: "clients" as const,
-    id: "clients-inactive",
-    isSystemCreated: true,
-    label: "Inactive",
-    refine: [{ field: "status", op: "equal", value: "inactive" }],
+    refine: [
+      {
+        columnId: "archived",
+        operator: "is",
+        type: "option",
+        values: ["false"],
+      },
+    ] satisfies FiltersState,
   },
   {
     display: {
@@ -39,7 +34,14 @@ export const filterViews = [
     id: "clients-archived",
     isSystemCreated: true,
     label: "Archived",
-    refine: [{ field: "status", op: "equal", value: "archived" }],
+    refine: [
+      {
+        columnId: "archived",
+        operator: "is",
+        type: "option",
+        values: ["true"],
+      },
+    ] satisfies FiltersState,
   },
 ];
 

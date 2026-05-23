@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 
-import { clientEvents } from "@/db-schemas";
+import { clientEvents, user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
 
 export async function recordClientEvent(
@@ -25,8 +25,21 @@ export async function listClientEvents(
   limit = 50,
 ) {
   const rows = await db
-    .select()
+    .select({
+      changedAt: clientEvents.changedAt,
+      changedBy: clientEvents.changedBy,
+      changedByEmail: user.email,
+      changedByImage: user.image,
+      changedByName: user.name,
+      changedByPhone: user.phoneNumber,
+      clientId: clientEvents.clientId,
+      field: clientEvents.field,
+      id: clientEvents.id,
+      newValue: clientEvents.newValue,
+      oldValue: clientEvents.oldValue,
+    })
     .from(clientEvents)
+    .leftJoin(user, eq(clientEvents.changedBy, user.id))
     .where(eq(clientEvents.clientId, clientId))
     .orderBy(desc(clientEvents.changedAt))
     .limit(limit + 1);

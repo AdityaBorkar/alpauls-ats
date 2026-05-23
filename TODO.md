@@ -2,10 +2,17 @@
 
 - "/" - Fix Forms and solve for React Scan
 
-- Clients >
-- Implement "Filters", "Display" and Search using Data Tables https://ui.bazza.dev/docs/data-table-filter
+- Single line Audit Log
+- Remove the card layout
+- Add the buttons are ghost-styled links
 
+
+## Search
+
+- actions
 - pg_vector bm25 + full text search
+
+## Shortcuts
 
 - Re-using Browser Specific
   - ALT + (-> / <-) = Pages Back / Forward

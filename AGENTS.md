@@ -12,6 +12,7 @@
 - **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)
 - **Validation**: Zod v4 (different API from Zod 3)
 - **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)
+- **Deploy**: Cloudflare (Wrangler) — see deploy commands below
 
 ## Key Commands
 ```bash
@@ -21,9 +22,12 @@ bun --bun run preview          # Preview production build
 bun --bun run test             # bun vitest run
 bun --bun run check:lint       # Biome check --fix
 bun --bun run check:types      # tsgo --noEmit
-bun --bun run db:push          # Drizzle push schema to DB (dev only — no generate/migrate scripts)
+bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)
 bun --bun run db:studio        # Drizzle Studio
 bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts
+bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types
+bun --bun run deploy:staging   # Wrangler upload to staging
+bun --bun run deploy:prod      # Wrangler upload to production
 ```
 
 For other Biome operations, invoke directly:
@@ -37,24 +41,24 @@ bunx --bun @biomejs/biome format --write
 2. Set `DATABASE_URL` in `.env.local` (default: `postgresql://postgres:postgres@localhost:5432/mydb`)
 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`
 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)
-5. `bun --bun run db:push` — sync schema to DB
+5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)
 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables
-7. `bun scripts/seed.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)
+7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)
 
 ## Architecture
 - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore
-- **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/auth.ts` — redirects unauthenticated users to `/`
-- **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/auth.ts` (`getSession` server function)
-- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `task.*`, `client.*`, `contract.*`, `reminder.*`, `notification.*`, `admin.*`, `users.*`
+- **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`
+- **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)
+- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`
 - **oRPC procedure chain** (`src/rpc/middleware.ts`):
   - `base` — raw context (headers only), defined in `src/rpc/context.ts`
   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)
 - **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.
-- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)
+- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)
 - **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `"custom"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.
 - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.
 - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`
-- **Integrations dir**: `integrations/` (email, forms, posthog, reports, tables, tanstack-query, web-push, whatsapp) — app-level providers/clients aliased via `#/*`
+- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`
 - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)
 
 ## Testing
@@ -75,11 +79,14 @@ bunx --bun @biomejs/biome format --write
 - Relative reminders are only valid when the task has a deadline
 - See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology
 
+## Design Rules
+- **Do not use Card Design** — avoid wrapping content in `<Card>` components or card-like containers with borders/shadows. Prefer flat layouts, subtle dividers, and whitespace for visual separation.
+
 ## Style Notes
 - Biome: 2-space indent, double quotes, `organizeImports: on`
 - Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`
 - Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)
-- Biome disables ALL lint rules in `src/components/ui/**` (shadcn components — set `recommended: false`)
+- Biome disables ALL lint rules in `src/components/ui/**` and `src/components/data-table-filter/**` (shadcn/vendored — set `recommended: false`)
 
 ## Gotchas
 - `bunfig.toml` sets `install.auto = "disable"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.
@@ -88,6 +95,7 @@ bunx --bun @biomejs/biome format --write
 - Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)
 - Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: "PUBLIC_"` and `src/env.ts` `clientPrefix: "PUBLIC_"`
 - `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)
+- `src/routes/api/-auth.ts` uses TanStack Router `-` prefix convention (dash-prefixed files are non-route helpers, not URL segments)
 
 ## Animation Notes
 - No bounce

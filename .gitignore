@@ -14,5 +14,5 @@ node_modules
 .opencode
 .sandcastle
 
-./src/routeTree.gen.ts
-./worker-configuration.d.ts
+src/routeTree.gen.ts
+worker-configuration.d.ts

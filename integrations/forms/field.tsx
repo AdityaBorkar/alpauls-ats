@@ -63,7 +63,12 @@ function resolveFieldDef(fieldDef: FieldDef): {
   };
 }
 
-function Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {
+function Field<T extends ComboboxOption>({
+  name,
+  disabled,
+  config,
+  overrides,
+}: FieldProps<T>) {
   const { fieldMap } = useFormContext();
   const { control } = useRhfContext();
 

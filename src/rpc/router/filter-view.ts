@@ -10,6 +10,13 @@ const listFilterViewsSchema = z.object({
   domain: z.string(),
 });
 
+const filterModelSchema = z.object({
+  columnId: z.string(),
+  operator: z.string(),
+  type: z.enum(["text", "number", "date", "option", "multiOption"]),
+  values: z.array(z.any()),
+});
+
 const createFilterViewSchema = z.object({
   display: z.object({
     fields: z.array(z.string()),
@@ -20,18 +27,22 @@ const createFilterViewSchema = z.object({
   }),
   domain: z.string(),
   label: z.string().min(1),
-  refine: z.array(
-    z.object({
-      field: z.string(),
-      op: z.string(),
-      value: z.string(),
-    }),
-  ),
+  refine: z.array(filterModelSchema),
 });
 
 const updateFilterViewSchema = z.object({
+  display: z
+    .object({
+      fields: z.array(z.string()),
+      groupBy: z.string().nullable(),
+      orderBy: z.string(),
+      orderType: z.string(),
+      type: z.string(),
+    })
+    .optional(),
   id: z.string(),
-  label: z.string().min(1),
+  label: z.string().min(1).optional(),
+  refine: z.array(filterModelSchema).optional(),
 });
 
 const deleteFilterViewSchema = z.object({
@@ -86,9 +97,14 @@ export const filterViewUpdate = protectedProcedure
       });
     }
 
+    const updates: Partial<typeof filterViews.$inferInsert> = {};
+    if (input.label !== undefined) updates.label = input.label;
+    if (input.refine !== undefined) updates.refine = input.refine;
+    if (input.display !== undefined) updates.display = input.display;
+
     const [row] = await db
       .update(filterViews)
-      .set({ label: input.label })
+      .set(updates)
       .where(eq(filterViews.id, input.id))
       .returning();
     return row;

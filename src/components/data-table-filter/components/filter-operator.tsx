@@ -54,17 +54,19 @@ export function FilterOperator<TData, TType extends ColumnDataType>({
 
   return (
     <Popover onOpenChange={setOpen} open={open}>
-      <PopoverTrigger asChild>
-        <Button
-          className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs"
-          variant="ghost"
-        >
-          <FilterOperatorDisplay
-            columnType={column.type}
-            filter={filter}
-            locale={locale}
+      <PopoverTrigger
+        render={
+          <Button
+            className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs"
+            variant="ghost"
           />
-        </Button>
+        }
+      >
+        <FilterOperatorDisplay
+          columnType={column.type}
+          filter={filter}
+          locale={locale}
+        />
       </PopoverTrigger>
       <PopoverContent
         align="start"

@@ -68,18 +68,20 @@ function __FilterValue<TData, TType extends ColumnDataType>({
   return (
     <Popover>
       {/*<PopoverAnchor className="h-full" />*/}
-      <PopoverTrigger asChild>
-        <Button
-          className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs"
-          variant="ghost"
-        >
-          <FilterValueDisplay
-            actions={actions}
-            column={column}
-            filter={filter}
-            locale={locale}
+      <PopoverTrigger
+        render={
+          <Button
+            className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs"
+            variant="ghost"
           />
-        </Button>
+        }
+      >
+        <FilterValueDisplay
+          actions={actions}
+          column={column}
+          filter={filter}
+          locale={locale}
+        />
       </PopoverTrigger>
       <PopoverContent
         align="start"

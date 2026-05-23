@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Command,
@@ -138,14 +138,14 @@ function __FilterSelector<TData>({
       }}
       open={open}
     >
-      <PopoverTrigger asChild>
-        <Button
-          className={cn("h-7", hasFilters && "!px-2 w-fit")}
-          variant="outline"
-        >
-          <FilterIcon className="size-4" />
-          {!hasFilters && <span>{t("filter", locale)}</span>}
-        </Button>
+      <PopoverTrigger
+        className={cn(
+          buttonVariants({ className: "h-7", variant: "outline" }),
+          hasFilters && "!px-2 w-fit",
+        )}
+      >
+        <FilterIcon className="size-4" />
+        {!hasFilters && <span>{t("filter", locale)}</span>}
       </PopoverTrigger>
       <PopoverContent
         align="start"

@@ -35,12 +35,13 @@ import { Route as protectedappReportsReportIdRouteImport } from './routes/(prote
 import { Route as protectedappContractsNewRouteImport } from './routes/(protected)/(app)/contracts/new'
 import { Route as protectedappContractsContractIdRouteImport } from './routes/(protected)/(app)/contracts/$contractId'
 import { Route as protectedappClientsNewRouteImport } from './routes/(protected)/(app)/clients/new'
-import { Route as protectedappClientsClientIdRouteImport } from './routes/(protected)/(app)/clients/$clientId'
 import { Route as protectedappphase2WhatsappRouteImport } from './routes/(protected)/(app)/(phase-2)/whatsapp'
 import { Route as protectedappphase2VoiceRouteImport } from './routes/(protected)/(app)/(phase-2)/voice'
 import { Route as protectedappphase2OmnichannelRouteImport } from './routes/(protected)/(app)/(phase-2)/omnichannel'
 import { Route as protectedappphase2EmailRouteImport } from './routes/(protected)/(app)/(phase-2)/email'
 import { Route as protectedappphase2AgentsRouteImport } from './routes/(protected)/(app)/(phase-2)/agents'
+import { Route as protectedappClientsClientIdIndexRouteImport } from './routes/(protected)/(app)/clients/$clientId/index'
+import { Route as protectedappClientsClientIdEditRouteImport } from './routes/(protected)/(app)/clients/$clientId/edit'
 
 const protectedRouteRoute = protectedRouteRouteImport.update({
   id: '/(protected)',
@@ -183,12 +184,6 @@ const protectedappClientsNewRoute = protectedappClientsNewRouteImport.update({
   path: '/clients/new',
   getParentRoute: () => protectedRouteRoute,
 } as any)
-const protectedappClientsClientIdRoute =
-  protectedappClientsClientIdRouteImport.update({
-    id: '/(app)/clients/$clientId',
-    path: '/clients/$clientId',
-    getParentRoute: () => protectedRouteRoute,
-  } as any)
 const protectedappphase2WhatsappRoute =
   protectedappphase2WhatsappRouteImport.update({
     id: '/(app)/(phase-2)/whatsapp',
@@ -217,6 +212,18 @@ const protectedappphase2AgentsRoute =
     path: '/agents',
     getParentRoute: () => protectedRouteRoute,
   } as any)
+const protectedappClientsClientIdIndexRoute =
+  protectedappClientsClientIdIndexRouteImport.update({
+    id: '/(app)/clients/$clientId/',
+    path: '/clients/$clientId/',
+    getParentRoute: () => protectedRouteRoute,
+  } as any)
+const protectedappClientsClientIdEditRoute =
+  protectedappClientsClientIdEditRouteImport.update({
+    id: '/(app)/clients/$clientId/edit',
+    path: '/clients/$clientId/edit',
+    getParentRoute: () => protectedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -237,7 +244,6 @@ export interface FileRoutesByFullPath {
   '/omnichannel': typeof protectedappphase2OmnichannelRoute
   '/voice': typeof protectedappphase2VoiceRoute
   '/whatsapp': typeof protectedappphase2WhatsappRoute
-  '/clients/$clientId': typeof protectedappClientsClientIdRoute
   '/clients/new': typeof protectedappClientsNewRoute
   '/contracts/$contractId': typeof protectedappContractsContractIdRoute
   '/contracts/new': typeof protectedappContractsNewRoute
@@ -250,6 +256,8 @@ export interface FileRoutesByFullPath {
   '/reports/': typeof protectedappReportsIndexRoute
   '/tasks/': typeof protectedappTasksIndexRoute
   '/settings/members/': typeof protectedSettingsMembersIndexRoute
+  '/clients/$clientId/edit': typeof protectedappClientsClientIdEditRoute
+  '/clients/$clientId/': typeof protectedappClientsClientIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -270,7 +278,6 @@ export interface FileRoutesByTo {
   '/omnichannel': typeof protectedappphase2OmnichannelRoute
   '/voice': typeof protectedappphase2VoiceRoute
   '/whatsapp': typeof protectedappphase2WhatsappRoute
-  '/clients/$clientId': typeof protectedappClientsClientIdRoute
   '/clients/new': typeof protectedappClientsNewRoute
   '/contracts/$contractId': typeof protectedappContractsContractIdRoute
   '/contracts/new': typeof protectedappContractsNewRoute
@@ -283,6 +290,8 @@ export interface FileRoutesByTo {
   '/reports': typeof protectedappReportsIndexRoute
   '/tasks': typeof protectedappTasksIndexRoute
   '/settings/members': typeof protectedSettingsMembersIndexRoute
+  '/clients/$clientId/edit': typeof protectedappClientsClientIdEditRoute
+  '/clients/$clientId': typeof protectedappClientsClientIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -305,7 +314,6 @@ export interface FileRoutesById {
   '/(protected)/(app)/(phase-2)/omnichannel': typeof protectedappphase2OmnichannelRoute
   '/(protected)/(app)/(phase-2)/voice': typeof protectedappphase2VoiceRoute
   '/(protected)/(app)/(phase-2)/whatsapp': typeof protectedappphase2WhatsappRoute
-  '/(protected)/(app)/clients/$clientId': typeof protectedappClientsClientIdRoute
   '/(protected)/(app)/clients/new': typeof protectedappClientsNewRoute
   '/(protected)/(app)/contracts/$contractId': typeof protectedappContractsContractIdRoute
   '/(protected)/(app)/contracts/new': typeof protectedappContractsNewRoute
@@ -318,6 +326,8 @@ export interface FileRoutesById {
   '/(protected)/(app)/reports/': typeof protectedappReportsIndexRoute
   '/(protected)/(app)/tasks/': typeof protectedappTasksIndexRoute
   '/(protected)/settings/members/': typeof protectedSettingsMembersIndexRoute
+  '/(protected)/(app)/clients/$clientId/edit': typeof protectedappClientsClientIdEditRoute
+  '/(protected)/(app)/clients/$clientId/': typeof protectedappClientsClientIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -340,7 +350,6 @@ export interface FileRouteTypes {
     | '/omnichannel'
     | '/voice'
     | '/whatsapp'
-    | '/clients/$clientId'
     | '/clients/new'
     | '/contracts/$contractId'
     | '/contracts/new'
@@ -353,6 +362,8 @@ export interface FileRouteTypes {
     | '/reports/'
     | '/tasks/'
     | '/settings/members/'
+    | '/clients/$clientId/edit'
+    | '/clients/$clientId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -373,7 +384,6 @@ export interface FileRouteTypes {
     | '/omnichannel'
     | '/voice'
     | '/whatsapp'
-    | '/clients/$clientId'
     | '/clients/new'
     | '/contracts/$contractId'
     | '/contracts/new'
@@ -386,6 +396,8 @@ export interface FileRouteTypes {
     | '/reports'
     | '/tasks'
     | '/settings/members'
+    | '/clients/$clientId/edit'
+    | '/clients/$clientId'
   id:
     | '__root__'
     | '/'
@@ -407,7 +419,6 @@ export interface FileRouteTypes {
     | '/(protected)/(app)/(phase-2)/omnichannel'
     | '/(protected)/(app)/(phase-2)/voice'
     | '/(protected)/(app)/(phase-2)/whatsapp'
-    | '/(protected)/(app)/clients/$clientId'
     | '/(protected)/(app)/clients/new'
     | '/(protected)/(app)/contracts/$contractId'
     | '/(protected)/(app)/contracts/new'
@@ -420,6 +431,8 @@ export interface FileRouteTypes {
     | '/(protected)/(app)/reports/'
     | '/(protected)/(app)/tasks/'
     | '/(protected)/settings/members/'
+    | '/(protected)/(app)/clients/$clientId/edit'
+    | '/(protected)/(app)/clients/$clientId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -614,13 +627,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedappClientsNewRouteImport
       parentRoute: typeof protectedRouteRoute
     }
-    '/(protected)/(app)/clients/$clientId': {
-      id: '/(protected)/(app)/clients/$clientId'
-      path: '/clients/$clientId'
-      fullPath: '/clients/$clientId'
-      preLoaderRoute: typeof protectedappClientsClientIdRouteImport
-      parentRoute: typeof protectedRouteRoute
-    }
     '/(protected)/(app)/(phase-2)/whatsapp': {
       id: '/(protected)/(app)/(phase-2)/whatsapp'
       path: '/whatsapp'
@@ -656,6 +662,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedappphase2AgentsRouteImport
       parentRoute: typeof protectedRouteRoute
     }
+    '/(protected)/(app)/clients/$clientId/': {
+      id: '/(protected)/(app)/clients/$clientId/'
+      path: '/clients/$clientId'
+      fullPath: '/clients/$clientId/'
+      preLoaderRoute: typeof protectedappClientsClientIdIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/clients/$clientId/edit': {
+      id: '/(protected)/(app)/clients/$clientId/edit'
+      path: '/clients/$clientId/edit'
+      fullPath: '/clients/$clientId/edit'
+      preLoaderRoute: typeof protectedappClientsClientIdEditRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
   }
 }
 
@@ -674,7 +694,6 @@ interface protectedRouteRouteChildren {
   protectedappphase2OmnichannelRoute: typeof protectedappphase2OmnichannelRoute
   protectedappphase2VoiceRoute: typeof protectedappphase2VoiceRoute
   protectedappphase2WhatsappRoute: typeof protectedappphase2WhatsappRoute
-  protectedappClientsClientIdRoute: typeof protectedappClientsClientIdRoute
   protectedappClientsNewRoute: typeof protectedappClientsNewRoute
   protectedappContractsContractIdRoute: typeof protectedappContractsContractIdRoute
   protectedappContractsNewRoute: typeof protectedappContractsNewRoute
@@ -687,6 +706,8 @@ interface protectedRouteRouteChildren {
   protectedappReportsIndexRoute: typeof protectedappReportsIndexRoute
   protectedappTasksIndexRoute: typeof protectedappTasksIndexRoute
   protectedSettingsMembersIndexRoute: typeof protectedSettingsMembersIndexRoute
+  protectedappClientsClientIdEditRoute: typeof protectedappClientsClientIdEditRoute
+  protectedappClientsClientIdIndexRoute: typeof protectedappClientsClientIdIndexRoute
 }
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
@@ -704,7 +725,6 @@ const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedappphase2OmnichannelRoute: protectedappphase2OmnichannelRoute,
   protectedappphase2VoiceRoute: protectedappphase2VoiceRoute,
   protectedappphase2WhatsappRoute: protectedappphase2WhatsappRoute,
-  protectedappClientsClientIdRoute: protectedappClientsClientIdRoute,
   protectedappClientsNewRoute: protectedappClientsNewRoute,
   protectedappContractsContractIdRoute: protectedappContractsContractIdRoute,
   protectedappContractsNewRoute: protectedappContractsNewRoute,
@@ -717,6 +737,8 @@ const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedappReportsIndexRoute: protectedappReportsIndexRoute,
   protectedappTasksIndexRoute: protectedappTasksIndexRoute,
   protectedSettingsMembersIndexRoute: protectedSettingsMembersIndexRoute,
+  protectedappClientsClientIdEditRoute: protectedappClientsClientIdEditRoute,
+  protectedappClientsClientIdIndexRoute: protectedappClientsClientIdIndexRoute,
 }
 
 const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(

@@ -60,6 +60,7 @@ export const clientUpdate = protectedProcedure
   .input(updateClientSchema)
   .handler(async ({ input, context }) => {
     const { id, ...updates } = input;
+    if (!id) throw new Error("id is required for update");
     const userId = context.user.id;
     const client = await updateClient(id, updates, userId);
     return client;

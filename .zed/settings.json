@@ -1,9 +1,9 @@
 {
   "file_scan_exclusions": [
-    // "**/.agents",
     "**/.codegraphcontext",
     "**/.entire",
     "**/.git",
+    "**/.tanstack",
     "**/.wrangler",
     "**/node_modules"
   ],

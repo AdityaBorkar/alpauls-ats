@@ -7,6 +7,8 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
+import type { FiltersState } from "@/components/data-table-filter/core/types";
+
 export type FilterViewDisplay = {
   type: string;
   groupBy: string | null;
@@ -14,12 +16,6 @@ export type FilterViewDisplay = {
   orderType: string;
   fields: string[];
 };
-
-export type FilterViewRefine = {
-  op: string;
-  field: string;
-  value: string;
-}[];
 
 export type FilterViewDomain = "clients" | "prospects";
 
@@ -32,7 +28,7 @@ export const filterViews = pgTable(
     id: text().primaryKey(),
     isSystemCreated: boolean("is_system_created").notNull().default(true),
     label: text().notNull(),
-    refine: jsonb("refine").$type<FilterViewRefine>().notNull(),
+    refine: jsonb("refine").$type<FiltersState>().notNull(),
     updatedAt: timestamp("updated_at").defaultNow(),
   },
   (table) => [index("filter_views_domain_idx").on(table.domain)],

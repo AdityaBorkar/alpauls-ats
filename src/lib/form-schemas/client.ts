@@ -8,7 +8,7 @@ export const Client_FormSchema = z.object({
     .string()
     .min(1)
     .meta({ component: "combobox", label: "Assignee" }),
-  id: z.number(),
+  id: z.number().optional(),
   internalNotes: z.string().optional().meta({
     component: "textarea",
     label: "Internal Notes",

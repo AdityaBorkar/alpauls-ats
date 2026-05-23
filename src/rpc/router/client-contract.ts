@@ -395,8 +395,21 @@ export async function listContractEvents(
   limit = 50,
 ) {
   const rows = await db
-    .select()
+    .select({
+      changedAt: contractEvents.changedAt,
+      changedBy: contractEvents.changedBy,
+      changedByEmail: user.email,
+      changedByImage: user.image,
+      changedByName: user.name,
+      changedByPhone: user.phoneNumber,
+      contractId: contractEvents.contractId,
+      field: contractEvents.field,
+      id: contractEvents.id,
+      newValue: contractEvents.newValue,
+      oldValue: contractEvents.oldValue,
+    })
     .from(contractEvents)
+    .leftJoin(user, eq(contractEvents.changedBy, user.id))
     .where(eq(contractEvents.contractId, contractId))
     .orderBy(desc(contractEvents.changedAt))
     .limit(limit + 1);

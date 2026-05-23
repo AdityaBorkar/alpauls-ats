@@ -1,8 +1,9 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
 
-import { ClientForm } from "@/components/forms/client-form";
 import NavLayout from "@/components/layouts/nav-layout";
+
+import { ClientForm } from "./-form";
 
 export const Route = createFileRoute("/(protected)/(app)/clients/new")({
   component: NewClientPage,

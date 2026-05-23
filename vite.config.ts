@@ -27,6 +27,7 @@ export default defineConfig({
   },
   server: {
     port: 3020,
+    strictPort: true,
     watch: {
       ignored: [
         "**/.codegraphcontext/**",

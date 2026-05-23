@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 
-import { taskEvents, tasks } from "@/db-schemas";
+import { taskEvents, tasks, user } from "@/db-schemas";
 import { db } from "@/lib/db/server";
 import { createNotification } from "@/services/notification-service";
 
@@ -52,8 +52,21 @@ export async function recordEvent(
 
 export async function listEvents(taskId: number, _cursor?: string, limit = 50) {
   const rows = await db
-    .select()
+    .select({
+      changedAt: taskEvents.changedAt,
+      changedBy: taskEvents.changedBy,
+      changedByEmail: user.email,
+      changedByImage: user.image,
+      changedByName: user.name,
+      changedByPhone: user.phoneNumber,
+      field: taskEvents.field,
+      id: taskEvents.id,
+      newValue: taskEvents.newValue,
+      oldValue: taskEvents.oldValue,
+      taskId: taskEvents.taskId,
+    })
     .from(taskEvents)
+    .leftJoin(user, eq(taskEvents.changedBy, user.id))
     .where(eq(taskEvents.taskId, taskId))
     .orderBy(desc(taskEvents.changedAt))
     .limit(limit + 1);
