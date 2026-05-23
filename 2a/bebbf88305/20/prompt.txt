@@ -1,0 +1,48 @@
+@src/routes/(protected)/(app)/clients/index.tsx Implement Filter Views in the file. For each filter view, attach a context menu to "edit", "copy link", "delete", "ask ai". For system created filter views, remove the "delete" and "edit" option. Fetch the filter views from the database.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx</path>
+<type>file</type>
+<content>
+1: import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+2: import { Plus } from "lucide-react";
+3: import { z } from "zod";
+4: 
+5: import { ClientListView } from "@/components/client-list-view";
+6: import NavLayout from "@/components/layouts/nav-layout";
+7: 
+8: export const Route = createFileRoute("/(protected)/(app)/clients/")({
+9:   component: ClientsPage,
+10:   validateSearch: z.object({}),
+11: });
+12: 
+13: function ClientsPage() {
+14:   const navigate = useNavigate();
+15: 
+16:   // TODO: Work on Filter Views
+17: 
+18:   return (
+19:     <NavLayout
+20:       baseUrl="/clients"
+21:       label="Clients"
+22:       leftItems={<div>FILTER ITEMS</div>}
+23:       rightItems={
+24:         <Link className="flex" to="/clients/new">
+25:           <Plus className="mr-1.5 h-4 w-4" />
+26:           New Client
+27:         </Link>
+28:       }
+29:     >
+30:       <ClientListView
+31:         onItemClick={(client) =>
+32:           navigate({
+33:             params: { clientId: String(client.id) },
+34:             to: "/clients/$clientId",
+35:           })
+36:         }
+37:       />
+38:     </NavLayout>
+39:   );
+40: }
+
+(End of file - total 40 lines)
+</content>
