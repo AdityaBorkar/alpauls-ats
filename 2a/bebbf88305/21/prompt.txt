@@ -1,0 +1,7 @@
+Search the codebase to understand:
+1. What types does rpc.client.list.queryOptions return? Look at src/rpc/ directory for the client router/procedures
+2. What types does rpc.users.list.queryOptions return?
+3. Is there a way to infer the output type from the RPC procedures without `as any`?
+4. Look at src/rpc/client.ts to understand the isomorphic RPC client
+
+Return the relevant type signatures and any patterns for type-safe query usage.
