@@ -1,0 +1,103 @@
+Add rule to @AGENTS.md "Do not use Card Design"
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/AGENTS.md"}
+<path>/home/aditya/projects/alpauls-ats/AGENTS.md</path>
+<type>file</type>
+<content>
+1: # AGENTS.md
+2: 
+3: ## Stack
+4: - **Runtime**: Bun — always use `bun --bun run` for scripts
+5: - **Framework**: TanStack Start (React, SSR)
+6: - **Routing**: TanStack Router, file-based (`src/routes/`)
+7: - **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`
+8: - **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`
+9: - **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session
+10: - **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)
+11: - **Linting/Formatting**: Biome (`biome.json`)
+12: - **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)
+13: - **Validation**: Zod v4 (different API from Zod 3)
+14: - **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)
+15: 
+16: ## Key Commands
+17: ```bash
+18: bun --bun run dev              # Dev server (port 3020)
+19: bun --bun run build            # Production build
+20: bun --bun run preview          # Preview production build
+21: bun --bun run test             # bun vitest run
+22: bun --bun run check:lint       # Biome check --fix
+23: bun --bun run check:types      # tsgo --noEmit
+24: bun --bun run db:push          # Drizzle push schema to DB (dev only — no generate/migrate scripts)
+25: bun --bun run db:studio        # Drizzle Studio
+26: bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts
+27: ```
+28: 
+29: For other Biome operations, invoke directly:
+30: ```bash
+31: bunx --bun @biomejs/biome lint --fix
+32: bunx --bun @biomejs/biome format --write
+33: ```
+34: 
+35: ## Setup
+36: 1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)
+37: 2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)
+38: 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`
+39: 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)
+40: 5. `bun --bun run db:push` — sync schema to DB
+41: 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables
+42: 7. `bun scripts/seed.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)
+43: 
+44: ## Architecture
+45: - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore
+46: - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/auth.ts` — redirects unauthenticated users to `/`
+47: - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/auth.ts` (`getSession` server function)
+48: - **oRPC router**: `src/rpc/router/index.ts` — namespaces: `task.*`, `client.*`, `contract.*`, `reminder.*`, `notification.*`, `admin.*`, `users.*`
+49: - **oRPC procedure chain** (`src/rpc/middleware.ts`):
+50:   - `base` — raw context (headers only), defined in `src/rpc/context.ts`
+51:   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)
+52: - **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.
+53: - **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)
+54: - **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `"custom"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.
+55: - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.
+56: - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`
+57: - **Integrations dir**: `integrations/` (email, forms, posthog, reports, tables, tanstack-query, web-push, whatsapp) — app-level providers/clients aliased via `#/*`
+58: - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)
+59: 
+60: ## Testing
+61: - **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)
+62: - **Pattern**: `src/**/*.test.ts` (co-located in `__tests__/` dirs)
+63: - **DB**: PGlite (in-memory Postgres) — no Docker needed for tests
+64: - **Setup**: `tests/setup.ts` mocks `@/lib/db/server` via `vi.mock`; test files call `setTestDb()` from setup before each test. Helpers in `tests/db.ts`: `createTestDb`, `resetDb`, `seedUser`
+65: - **Caveat**: `vitest.config.ts` only resolves `@/*` and `#tests/*` aliases; `#/*` is NOT available in tests
+66: - **Service tests**: `src/services/__tests__/` cover task, task-event, task-link, client-contract, supervisor-hierarchy, and reminder services
+67: - **Biome relaxes rules in `__tests__/`**: `noExplicitAny: off`, `noNonNullAssertion: off`
+68: - **Biome also relaxes in `src/components/forms/**`**: `useComponentExportOnlyModules: off`, `noExplicitAny: off`
+69: 
+70: ## Domain Constraints
+71: - Self-registration is **disabled** — only admins can create users (enforced in `databaseHooks` in auth config)
+72: - Auth uses phone-number + OTP; email/password login is off
+73: - Tasks cannot be deleted — only archived (boolean flag)
+74: - Every task change produces an immutable Task Event (audit trail)
+75: - Relative reminders are only valid when the task has a deadline
+76: - See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology
+77: 
+78: ## Style Notes
+79: - Biome: 2-space indent, double quotes, `organizeImports: on`
+80: - Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`
+81: - Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)
+82: - Biome disables ALL lint rules in `src/components/ui/**` (shadcn components — set `recommended: false`)
+83: 
+84: ## Gotchas
+85: - `bunfig.toml` sets `install.auto = "disable"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.
+86: - Drizzle uses `db:push` only (no `generate`/`migrate` scripts) — schema is pushed directly to DB
+87: - `bunfig.toml` sets `test.onlyFailures = true` and `test.randomize = true` for Vitest
+88: - Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)
+89: - Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: "PUBLIC_"` and `src/env.ts` `clientPrefix: "PUBLIC_"`
+90: - `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)
+91: 
+92: ## Animation Notes
+93: - No bounce
+94: - Durations at the lower end (100-160ms for press, 150-200ms for collapse)
+95: - ease-out curves that start fast and settle
+
+(End of file - total 95 lines)
+</content>
