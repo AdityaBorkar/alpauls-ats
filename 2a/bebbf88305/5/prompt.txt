@@ -1,0 +1,344 @@
+@src/routes/(protected)/(app)/clients/$clientId.tsx Improve the design of the page.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId.tsx</path>
+<type>file</type>
+<content>
+1: import PackageBoxAlt from "@iconify-react/lets-icons/package-box-alt";
+2: import Sertificate from "@iconify-react/lets-icons/sertificate";
+3: import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+4: import { createFileRoute, useNavigate } from "@tanstack/react-router";
+5: import { format } from "date-fns";
+6: import { Archive, Building2, Edit, Hash, MapPin } from "lucide-react";
+7: import { useState } from "react";
+8: 
+9: import AuditLogs, { type AuditLogEntry } from "@/components/audit-logs";
+10: import NavLayout from "@/components/layouts/nav-layout";
+11: import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+12: import { Badge } from "@/components/ui/badge";
+13: import { Button } from "@/components/ui/button";
+14: import {
+15:   Card,
+16:   CardContent,
+17:   CardDescription,
+18:   CardFooter,
+19:   CardHeader,
+20:   CardTitle,
+21: } from "@/components/ui/card";
+22: import { Separator } from "@/components/ui/separator";
+23: import { Skeleton } from "@/components/ui/skeleton";
+24: import type { ClientLocation } from "@/db-schemas/client";
+25: import { rpc } from "@/rpc/client";
+26: 
+27: import { ClientForm } from "./-form";
+28: 
+29: export const Route = createFileRoute("/(protected)/(app)/clients/$clientId")({
+30:   component: ClientDetailPage,
+31: });
+32: 
+33: type ClientDetail = {
+34:   archived: boolean;
+35:   assignee: {
+36:     id: string;
+37:     image: string | null;
+38:     name: string | null;
+39:   };
+40:   assigneeId: string;
+41:   createdAt: Date | null;
+42:   description: string | null;
+43:   id: number;
+44:   internalNotes: string | null;
+45:   legalName: string | null;
+46:   locations: ClientLocation[] | null;
+47:   logo: string | null;
+48:   name: string;
+49:   slug: string;
+50:   updatedAt: Date | null;
+51: };
+52: 
+53: function ClientDetailPage() {
+54:   const { clientId } = Route.useParams();
+55:   const navigate = useNavigate();
+56:   const queryClient = useQueryClient();
+57:   const numericId = Number.parseInt(clientId, 10);
+58: 
+59:   const { data: clientData, isLoading } = useQuery(
+60:     rpc.client.getById.queryOptions({ input: { id: numericId } }),
+61:   );
+62: 
+63:   const client = clientData as ClientDetail | undefined;
+64: 
+65:   const { data: eventsData } = useQuery(
+66:     rpc.client.listEvents.queryOptions({
+67:       input: { clientId: numericId },
+68:     }),
+69:   );
+70: 
+71:   const events =
+72:     (eventsData as { items: AuditLogEntry[] } | undefined)?.items ?? [];
+73: 
+74:   const [isEditing, setIsEditing] = useState(false);
+75: 
+76:   const archiveMutation = useMutation({
+77:     mutationFn: () => rpc.client.archive.call({ id: numericId }),
+78:     onSuccess: () => {
+79:       queryClient.invalidateQueries({ queryKey: ["client"] });
+80:       navigate({ to: "/clients" });
+81:     },
+82:   });
+83: 
+84:   if (isLoading) {
+85:     return (
+86:       <NavLayout
+87:         baseUrl="/clients"
+88:         label="Clients"
+89:         leftItems={<div>Loading...</div>}
+90:       >
+91:         <div className="space-y-6">
+92:           <div className="flex items-center gap-4">
+93:             <Skeleton className="h-8 w-8" />
+94:             <div className="space-y-2">
+95:               <Skeleton className="h-5 w-48" />
+96:               <Skeleton className="h-4 w-64" />
+97:             </div>
+98:           </div>
+99:           <Skeleton className="h-40 w-full max-w-2xl" />
+100:         </div>
+101:       </NavLayout>
+102:     );
+103:   }
+104: 
+105:   if (!client) {
+106:     return (
+107:       <NavLayout baseUrl="/clients" label="Clients">
+108:         <p className="text-muted-foreground">Client not found</p>
+109:       </NavLayout>
+110:     );
+111:   }
+112: 
+113:   return (
+114:     <NavLayout
+115:       baseUrl="/clients"
+116:       label="Clients"
+117:       leftItems={<div>{client.name}</div>}
+118:     >
+119:       <div className="space-y-6">
+120:         <div className="grid max-w-2xl gap-6">
+121:           <Card>
+122:             <CardHeader>
+123:               <CardTitle className="flex items-center gap-2">
+124:                 <Building2 className="h-4 w-4" />
+125:                 Client Information
+126:               </CardTitle>
+127:               <CardDescription>Details about this client</CardDescription>
+128:             </CardHeader>
+129:             <CardContent>
+130:               {isEditing ? (
+131:                 <ClientForm
+132:                   clientId={numericId}
+133:                   defaultValues={{
+134:                     assigneeId: client.assigneeId,
+135:                     internalNotes: client.internalNotes ?? "",
+136:                     legalName: client.legalName ?? "",
+137:                     locations: client.locations ?? [],
+138:                     logo: client.logo ?? undefined,
+139:                     name: client.name,
+140:                     slug: client.slug,
+141:                   }}
+142:                   mode="edit"
+143:                   onCancel={() => setIsEditing(false)}
+144:                   onSuccess={() => setIsEditing(false)}
+145:                 />
+146:               ) : (
+147:                 <div className="space-y-3">
+148:                   <div className="flex justify-between">
+149:                     <span className="flex items-center gap-1 text-muted-foreground text-sm">
+150:                       <Hash className="h-3.5 w-3.5" />
+151:                       ID
+152:                     </span>
+153:                     <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+154:                       {client.id}
+155:                     </code>
+156:                   </div>
+157:                   <Separator />
+158:                   <div className="flex justify-between">
+159:                     <span className="text-muted-foreground text-sm">
+160:                       Nick Name
+161:                     </span>
+162:                     <span className="font-medium text-sm">{client.name}</span>
+163:                   </div>
+164:                   <Separator />
+165:                   {client.legalName && (
+166:                     <>
+167:                       <div className="flex justify-between">
+168:                         <span className="text-muted-foreground text-sm">
+169:                           Legal Name
+170:                         </span>
+171:                         <span className="font-medium text-sm">
+172:                           {client.legalName}
+173:                         </span>
+174:                       </div>
+175:                       <Separator />
+176:                     </>
+177:                   )}
+178:                   <div className="flex justify-between">
+179:                     <span className="text-muted-foreground text-sm">Slug</span>
+180:                     <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+181:                       {client.slug}
+182:                     </code>
+183:                   </div>
+184:                   <Separator />
+185:                   <div className="flex justify-between">
+186:                     <span className="text-muted-foreground text-sm">
+187:                       Assignee
+188:                     </span>
+189:                     <div className="flex items-center gap-2">
+190:                       <Avatar className="h-5 w-5">
+191:                         <AvatarImage src={client.assignee.image ?? undefined} />
+192:                         <AvatarFallback>
+193:                           {client.assignee.name?.[0] ?? "?"}
+194:                         </AvatarFallback>
+195:                       </Avatar>
+196:                       <span className="font-medium text-sm">
+197:                         {client.assignee.name}
+198:                       </span>
+199:                     </div>
+200:                   </div>
+201:                   <Separator />
+202:                   {client.description && (
+203:                     <>
+204:                       <div className="flex flex-col gap-1">
+205:                         <span className="text-muted-foreground text-sm">
+206:                           Description
+207:                         </span>
+208:                         <p className="text-sm">{client.description}</p>
+209:                       </div>
+210:                       <Separator />
+211:                     </>
+212:                   )}
+213:                   {client.locations && client.locations.length > 0 && (
+214:                     <>
+215:                       <div className="flex justify-between">
+216:                         <span className="flex items-center gap-1 text-muted-foreground text-sm">
+217:                           <MapPin className="h-3.5 w-3.5" />
+218:                           Locations
+219:                         </span>
+220:                         <div className="flex flex-wrap justify-end gap-1">
+221:                           {client.locations.map((loc) => (
+222:                             <Badge
+223:                               key={`${loc.city}-${loc.country}`}
+224:                               variant="secondary"
+225:                             >
+226:                               {loc.city}, {loc.country}
+227:                             </Badge>
+228:                           ))}
+229:                         </div>
+230:                       </div>
+231:                       <Separator />
+232:                     </>
+233:                   )}
+234:                   {client.internalNotes && (
+235:                     <>
+236:                       <div className="flex flex-col gap-1">
+237:                         <span className="text-muted-foreground text-sm">
+238:                           Internal Notes
+239:                         </span>
+240:                         <p className="text-sm">{client.internalNotes}</p>
+241:                       </div>
+242:                       <Separator />
+243:                     </>
+244:                   )}
+245:                   <div className="flex justify-between">
+246:                     <span className="text-muted-foreground text-sm">
+247:                       Archived
+248:                     </span>
+249:                     <Badge
+250:                       variant={client.archived ? "destructive" : "secondary"}
+251:                     >
+252:                       {client.archived ? "Yes" : "No"}
+253:                     </Badge>
+254:                   </div>
+255:                   <Separator />
+256:                   <div className="flex justify-between">
+257:                     <span className="text-muted-foreground text-sm">
+258:                       Created
+259:                     </span>
+260:                     <span className="font-medium text-sm">
+261:                       {client.createdAt
+262:                         ? format(new Date(client.createdAt), "MMM d, yyyy")
+263:                         : "—"}
+264:                     </span>
+265:                   </div>
+266:                   <Separator />
+267:                   <div className="flex justify-between">
+268:                     <span className="text-muted-foreground text-sm">
+269:                       Updated
+270:                     </span>
+271:                     <span className="font-medium text-sm">
+272:                       {client.updatedAt
+273:                         ? format(new Date(client.updatedAt), "MMM d, yyyy")
+274:                         : "—"}
+275:                     </span>
+276:                   </div>
+277:                 </div>
+278:               )}
+279:             </CardContent>
+280:             {!isEditing && (
+281:               <CardFooter className="flex flex-wrap gap-2">
+282:                 <Button
+283:                   onClick={() => setIsEditing(true)}
+284:                   size="sm"
+285:                   variant="outline"
+286:                 >
+287:                   <Edit className="h-3.5 w-3.5" />
+288:                   Edit client
+289:                 </Button>
+290:                 {!client.archived && (
+291:                   <Button
+292:                     disabled={archiveMutation.isPending}
+293:                     onClick={() => archiveMutation.mutate()}
+294:                     size="sm"
+295:                     variant="outline"
+296:                   >
+297:                     <Archive className="h-3.5 w-3.5" />
+298:                     Archive
+299:                   </Button>
+300:                 )}
+301:                 <Button
+302:                   onClick={() =>
+303:                     navigate({
+304:                       search: { clientId: client.id, clientName: client.name },
+305:                       to: "/job-mandates",
+306:                     })
+307:                   }
+308:                   size="sm"
+309:                   variant="outline"
+310:                 >
+311:                   <PackageBoxAlt className="h-3.5 w-3.5" />
+312:                   Job Mandates
+313:                 </Button>
+314:                 <Button
+315:                   onClick={() =>
+316:                     navigate({
+317:                       search: { clientId: client.id, clientName: client.name },
+318:                       to: "/contracts",
+319:                     })
+320:                   }
+321:                   size="sm"
+322:                   variant="outline"
+323:                 >
+324:                   <Sertificate className="h-3.5 w-3.5" />
+325:                   Contracts
+326:                 </Button>
+327:               </CardFooter>
+328:             )}
+329:           </Card>
+330: 
+331:           <AuditLogs domainName="client" entries={events} />
+332:         </div>
+333:       </div>
+334:     </NavLayout>
+335:   );
+336: }
+
+(End of file - total 336 lines)
+</content>
