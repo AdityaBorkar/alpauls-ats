@@ -1,0 +1,740 @@
+{
+  "info": {
+    "id": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+    "slug": "quiet-cactus",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "parentID": "ses_1ab5f8cc7ffePHqXMA3F4rFTol",
+    "title": "Explore Form and Field components (@explore subagent)",
+    "agent": "explore",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai",
+      "variant": "default"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 10412,
+      "output": 2106,
+      "reasoning": 696,
+      "cache": {
+        "read": 37056,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "todowrite",
+        "action": "deny",
+        "pattern": "*"
+      },
+      {
+        "permission": "task",
+        "action": "deny",
+        "pattern": "*"
+      }
+    ],
+    "time": {
+      "created": 1779536269796,
+      "updated": 1779536305622
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779536269871
+        },
+        "tools": {
+          "todowrite": false,
+          "task": false
+        },
+        "agent": "explore",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e54a09221001rXQafZDWPP3GQl",
+        "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "I need to understand the Form component API in this codebase. Please find and read the following:\n1. The Form component exported from `#/forms` — look in `integrations/forms/` directory\n2. How other forms in `src/components/forms/` use the Form component (check 1-2 other form files for patterns)\n\nSpecifically, I need to know:\n- Does the Form component provide `onSubmit`, `isPending`, `isSaveDraftPending`, `onSaveDraft` via render props or context?\n- What does the Form component's props interface look like?\n\nReturn the Form component source and a summary of how other forms wire up mutations.",
+          "id": "prt_e54a092a000154oMG2ELDhNtET",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09221001rXQafZDWPP3GQl"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54a09221001rXQafZDWPP3GQl",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5338,
+          "input": 2231,
+          "output": 49,
+          "reasoning": 50,
+          "cache": {
+            "write": 0,
+            "read": 3008
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779536270310,
+          "completed": 1779536273251
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54a093e6001Vc9FMrvtKzZJTV",
+        "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y"
+      },
+      "parts": [
+        {
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-start",
+          "id": "prt_e54a09afa001t8i0vujyCCj2Hm",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a093e6001Vc9FMrvtKzZJTV"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants to understand the Form component API in this codebase. Let me start by finding the Form component in the `integrations/forms/` directory, and then look at how other forms in `src/components/forms/` use it.",
+          "time": {
+            "start": 1779536272126,
+            "end": 1779536272420
+          },
+          "id": "prt_e54a09afe00175f0bCRgcnsonP",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a093e6001Vc9FMrvtKzZJTV"
+        },
+        {
+          "type": "text",
+          "text": "I'll start by finding the Form component in the integrations directory and examining form files in the components directory.",
+          "time": {
+            "start": 1779536272425,
+            "end": 1779536272716
+          },
+          "id": "prt_e54a09c290010SR2WpQl9f21Z5",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a093e6001Vc9FMrvtKzZJTV"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_4e6095828787443ab1481c01",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "integrations/forms/**/*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/field-array.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/combobox-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/index.ts\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/string-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/number-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/enum-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/boolean-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/context.ts\n/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts",
+            "metadata": {
+              "count": 11,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779536272660,
+              "end": 1779536272951
+            }
+          },
+          "id": "prt_e54a09ccb001uYY7G5b9PCmO5y",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a093e6001Vc9FMrvtKzZJTV"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_e2bc774053af4f93b8144c96",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/forms/**/*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx\n/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx\n/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx",
+            "metadata": {
+              "count": 3,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779536272697,
+              "end": 1779536272899
+            }
+          },
+          "id": "prt_e54a09d1a001gIEke9qpHAgrth",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a093e6001Vc9FMrvtKzZJTV"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5338,
+            "input": 2231,
+            "output": 49,
+            "reasoning": 50,
+            "cache": {
+              "write": 0,
+              "read": 3008
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54a09ef9001q5HjMNnljbxtj5",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a093e6001Vc9FMrvtKzZJTV"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54a09221001rXQafZDWPP3GQl",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5812,
+          "input": 326,
+          "output": 150,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 5312
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779536273278,
+          "completed": 1779536276399
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54a09f7e001R1LqUrsVHS1XCB",
+        "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y"
+      },
+      "parts": [
+        {
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-start",
+          "id": "prt_e54a0a552001QnNu9MwzpBcf27",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "reasoning",
+          "text": "Let me read the main Form component files and the index, then a couple of the form files that use it.",
+          "time": {
+            "start": 1779536274798,
+            "end": 1779536275004
+          },
+          "id": "prt_e54a0a56e001cnaHUG99fKiMFN",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "text",
+          "text": "Now let me read the core Form component files and a couple of example form usages in parallel.",
+          "time": {
+            "start": 1779536275008,
+            "end": 1779536275811
+          },
+          "id": "prt_e54a0a63f001AMRZPCTfvr4jo0",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_cb0c9255df5a4388b2bb4365",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/index.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/index.ts</path>\n<type>file</type>\n<content>\n1: export { useFormContext } from \"./context\";\n2: export type { FieldConfig, FieldProps } from \"./field\";\n3: export { Field } from \"./field\";\n4: export type {\n5:   ComboboxConfig,\n6:   ComboboxOption,\n7: } from \"./field-components/combobox-field\";\n8: export { ComboboxField } from \"./field-components/combobox-field\";\n9: export type { FieldArrayConfig } from \"./field-components/field-array\";\n10: export { FieldArray } from \"./field-components/field-array\";\n11: export type { FormProps, ValidationMode } from \"./form\";\n12: export { Form } from \"./form\";\n13: export type { FieldDef, FieldMap, FieldMeta } from \"./use-form\";\n\n(End of file - total 13 lines)\n</content>",
+            "metadata": {
+              "preview": "export { useFormContext } from \"./context\";\nexport type { FieldConfig, FieldProps } from \"./field\";\nexport { Field } from \"./field\";\nexport type {\n  ComboboxConfig,\n  ComboboxOption,\n} from \"./field-components/combobox-field\";\nexport { ComboboxField } from \"./field-components/combobox-field\";\nexport type { FieldArrayConfig } from \"./field-components/field-array\";\nexport { FieldArray } from \"./field-components/field-array\";\nexport type { FormProps, ValidationMode } from \"./form\";\nexport { Form } from \"./form\";\nexport type { FieldDef, FieldMap, FieldMeta } from \"./use-form\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/index.ts",
+            "time": {
+              "start": 1779536275251,
+              "end": 1779536275324
+            }
+          },
+          "id": "prt_e54a0a6b0001NyNXV6ckg6p2Ld",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_20e51e66ab1f48c78dc06ead",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx</path>\n<type>file</type>\n<content>\n1: import { zodResolver } from \"@hookform/resolvers/zod\";\n2: import { useId } from \"react\";\n3: import type { FieldErrors } from \"react-hook-form\";\n4: import { FormProvider, useForm } from \"react-hook-form\";\n5: import type { z } from \"zod\";\n6: \n7: import { FormContext } from \"./context\";\n8: import { buildDefaults, buildFieldMap } from \"./use-form\";\n9: \n10: export type ValidationMode = \"onBlur\" | \"onChange\" | \"onSubmit\" | \"all\";\n11: \n12: type FormRenderMethods = ReturnType<typeof useForm>;\n13: \n14: export type FormProps<T extends z.ZodObject<any>> = {\n15:   schema: T;\n16:   onSubmit: (values: z.infer<T>) => void;\n17:   onInvalid?: (errors: FieldErrors) => void;\n18:   defaultValues?: Partial<z.infer<T>>;\n19:   validationMode?: ValidationMode;\n20:   className?: string;\n21:   children: React.ReactNode | ((methods: FormRenderMethods) => React.ReactNode);\n22:   ref?: React.Ref<any>;\n23: };\n24: \n25: export function Form<T extends z.ZodObject<any>>({\n26:   schema,\n27:   onSubmit,\n28:   onInvalid,\n29:   defaultValues: defaultValuesProp,\n30:   validationMode = \"onBlur\",\n31:   className,\n32:   children,\n33:   ref,\n34: }: FormProps<T>) {\n35:   const uid = useId();\n36:   const fieldMap = buildFieldMap(schema);\n37:   const schemaDefaults = buildDefaults(schema, defaultValuesProp);\n38: \n39:   const methods = useForm({\n40:     defaultValues: schemaDefaults,\n41:     mode: validationMode,\n42:     resolver: zodResolver(schema) as any,\n43:     reValidateMode: \"onChange\",\n44:   });\n45: \n46:   if (ref) {\n47:     (ref as React.MutableRefObject<any>).current = methods;\n48:   }\n49: \n50:   function handleSubmit(e: React.FormEvent) {\n51:     e.preventDefault();\n52:     methods.handleSubmit((values) => {\n53:       const parsed = schema.parse(values);\n54:       onSubmit(parsed as z.infer<T>);\n55:     }, onInvalid as any)();\n56:   }\n57: \n58:   return (\n59:     <FormContext value={{ fieldMap, formId: uid }}>\n60:       <FormProvider {...methods}>\n61:         <form className={className} onSubmit={handleSubmit}>\n62:           {typeof children === \"function\" ? children(methods) : children}\n63:         </form>\n64:       </FormProvider>\n65:     </FormContext>\n66:   );\n67: }\n\n(End of file - total 67 lines)\n</content>",
+            "metadata": {
+              "preview": "import { zodResolver } from \"@hookform/resolvers/zod\";\nimport { useId } from \"react\";\nimport type { FieldErrors } from \"react-hook-form\";\nimport { FormProvider, useForm } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { FormContext } from \"./context\";\nimport { buildDefaults, buildFieldMap } from \"./use-form\";\n\nexport type ValidationMode = \"onBlur\" | \"onChange\" | \"onSubmit\" | \"all\";\n\ntype FormRenderMethods = ReturnType<typeof useForm>;\n\nexport type FormProps<T extends z.ZodObject<any>> = {\n  schema: T;\n  onSubmit: (values: z.infer<T>) => void;\n  onInvalid?: (errors: FieldErrors) => void;\n  defaultValues?: Partial<z.infer<T>>;\n  validationMode?: ValidationMode;\n  className?: string;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/form.tsx",
+            "time": {
+              "start": 1779536275424,
+              "end": 1779536275685
+            }
+          },
+          "id": "prt_e54a0a743001jg55mE1PIjSnrF",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_07f3952ec7cb4dccbf3b9a2d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/context.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/context.ts</path>\n<type>file</type>\n<content>\n1: import { createContext, useContext } from \"react\";\n2: \n3: import type { FieldMap } from \"./use-form\";\n4: \n5: type FormContextValue = {\n6:   fieldMap: FieldMap;\n7:   formId: string;\n8: };\n9: \n10: const FormContext = createContext<FormContextValue | null>(null);\n11: \n12: function useFormContext(): FormContextValue {\n13:   const ctx = useContext(FormContext);\n14:   if (!ctx) {\n15:     throw new Error(\"SmartField must be used within a SchemaForm\");\n16:   }\n17:   return ctx;\n18: }\n19: \n20: export type { FormContextValue };\n21: export { FormContext, useFormContext };\n\n(End of file - total 21 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createContext, useContext } from \"react\";\n\nimport type { FieldMap } from \"./use-form\";\n\ntype FormContextValue = {\n  fieldMap: FieldMap;\n  formId: string;\n};\n\nconst FormContext = createContext<FormContextValue | null>(null);\n\nfunction useFormContext(): FormContextValue {\n  const ctx = useContext(FormContext);\n  if (!ctx) {\n    throw new Error(\"SmartField must be used within a SchemaForm\");\n  }\n  return ctx;\n}\n\nexport type { FormContextValue };",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/context.ts",
+            "time": {
+              "start": 1779536275540,
+              "end": 1779536275782
+            }
+          },
+          "id": "prt_e54a0a7f6001C2GlfGcEbOWc3t",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_8df5a9624f6e4501b270e166",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts</path>\n<type>file</type>\n<content>\n1: import type { z } from \"zod\";\n2: \n3: export type FieldMeta = {\n4:   label?: string;\n5:   placeholder?: string;\n6:   description?: string;\n7:   component?: \"textarea\" | \"password\" | \"combobox\" | \"checkbox\";\n8: };\n9: \n10: export type FieldKind =\n11:   | \"string\"\n12:   | \"number\"\n13:   | \"boolean\"\n14:   | \"enum\"\n15:   | \"array\"\n16:   | \"optional\"\n17:   | \"unknown\";\n18: \n19: export type FieldDef = {\n20:   kind: FieldKind;\n21:   meta: FieldMeta | undefined;\n22:   isOptional: boolean;\n23:   enumEntries?: Record<string, string>;\n24:   arrayElement?: FieldMap;\n25:   innerKind?: FieldKind;\n26:   innerMeta?: FieldMeta | undefined;\n27:   checks?: string[];\n28: };\n29: \n30: export type FieldMap = Record<string, FieldDef>;\n31: \n32: export function getKind(schema: any): FieldKind {\n33:   const type: string = schema._zod?.def?.type ?? \"\";\n34:   if (type === \"string\") return \"string\";\n35:   if (type === \"number\") return \"number\";\n36:   if (type === \"boolean\") return \"boolean\";\n37:   if (type === \"enum\") return \"enum\";\n38:   if (type === \"array\") return \"array\";\n39:   if (type === \"optional\") return \"optional\";\n40:   return \"unknown\";\n41: }\n42: \n43: export function getMeta(schema: any): FieldMeta | undefined {\n44:   if (typeof schema.meta === \"function\") {\n45:     const result = schema.meta();\n46:     if (result && typeof result === \"object\") return result;\n47:   }\n48:   return undefined;\n49: }\n50: \n51: export function getChecks(schema: any): string[] {\n52:   const def = schema._zod?.def;\n53:   if (!def?.checks) return [];\n54:   return def.checks\n55:     .map((c: any) => c.format ?? c._zod?.def?.type ?? c.type)\n56:     .filter(Boolean);\n57: }\n58: \n59: export function buildFieldDef(schema: any): FieldDef {\n60:   const kind = getKind(schema);\n61:   const meta = getMeta(schema);\n62: \n63:   if (kind === \"optional\") {\n64:     const innerSchema = schema._zod?.def?.innerType;\n65:     const innerKind = innerSchema ? getKind(innerSchema) : \"unknown\";\n66:     const innerMeta = innerSchema ? getMeta(innerSchema) : undefined;\n67:     const checks = innerSchema ? getChecks(innerSchema) : [];\n68:     return {\n69:       checks,\n70:       innerKind,\n71:       innerMeta,\n72:       isOptional: true,\n73:       kind,\n74:       meta: meta ?? innerMeta,\n75:       ...(innerKind === \"enum\" && innerSchema\n76:         ? { enumEntries: innerSchema._zod?.def?.entries }\n77:         : {}),\n78:       ...(innerKind === \"array\" && innerSchema\n79:         ? { arrayElement: buildFieldMap(innerSchema._zod?.def?.element) }\n80:         : {}),\n81:     };\n82:   }\n83: \n84:   if (kind === \"array\") {\n85:     const elementSchema = schema._zod?.def?.element;\n86:     return {\n87:       arrayElement: elementSchema ? buildFieldMap(elementSchema) : undefined,\n88:       isOptional: false,\n89:       kind,\n90:       meta,\n91:     };\n92:   }\n93: \n94:   return {\n95:     checks: getChecks(schema),\n96:     isOptional: false,\n97:     kind,\n98:     meta,\n99:     ...(kind === \"enum\" ? { enumEntries: schema._zod?.def?.entries } : {}),\n100:   };\n101: }\n102: \n103: export function buildFieldMap(schema: any): FieldMap {\n104:   if (!schema?.shape) return {};\n105:   const map: FieldMap = {};\n106:   for (const [key, fieldSchema] of Object.entries(schema.shape)) {\n107:     map[key] = buildFieldDef(fieldSchema);\n108:   }\n109:   return map;\n110: }\n111: \n112: export function deriveDefault(fieldDef: FieldDef): any {\n113:   if (fieldDef.isOptional) return undefined;\n114:   if (fieldDef.kind === \"string\") return \"\";\n115:   if (fieldDef.kind === \"number\") return 0;\n116:   if (fieldDef.kind === \"boolean\") return false;\n117:   if (fieldDef.kind === \"enum\" && fieldDef.enumEntries) {\n118:     return Object.values(fieldDef.enumEntries)[0];\n119:   }\n120:   if (fieldDef.kind === \"array\") return [];\n121:   return undefined;\n122: }\n123: \n124: export function buildDefaults(\n125:   schema: z.ZodObject<any>,\n126:   overrides?: Record<string, any>,\n127: ): Record<string, any> {\n128:   const fieldMap = buildFieldMap(schema);\n129:   const defaults: Record<string, any> = {};\n130:   for (const [key, def] of Object.entries(fieldMap)) {\n131:     defaults[key] = deriveDefault(def);\n132:   }\n133:   if (overrides) {\n134:     for (const [key, value] of Object.entries(overrides)) {\n135:       defaults[key] = value;\n136:     }\n137:   }\n138:   return defaults;\n139: }\n\n(End of file - total 139 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { z } from \"zod\";\n\nexport type FieldMeta = {\n  label?: string;\n  placeholder?: string;\n  description?: string;\n  component?: \"textarea\" | \"password\" | \"combobox\" | \"checkbox\";\n};\n\nexport type FieldKind =\n  | \"string\"\n  | \"number\"\n  | \"boolean\"\n  | \"enum\"\n  | \"array\"\n  | \"optional\"\n  | \"unknown\";\n\nexport type FieldDef = {\n  kind: FieldKind;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/use-form.ts",
+            "time": {
+              "start": 1779536275715,
+              "end": 1779536275877
+            }
+          },
+          "id": "prt_e54a0a8a3001zR2EdkIG8A6PsV",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_e40fae25c5fd462a860e9e31",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx</path>\n<type>file</type>\n<content>\n1: import type { ControllerRenderProps } from \"react-hook-form\";\n2: import { Controller, useFormContext as useRhfContext } from \"react-hook-form\";\n3: \n4: import { Label } from \"@/components/ui/label\";\n5: \n6: import { useFormContext } from \"./context\";\n7: import { BooleanField } from \"./field-components/boolean-field\";\n8: import type {\n9:   ComboboxConfig,\n10:   ComboboxOption,\n11: } from \"./field-components/combobox-field\";\n12: import { ComboboxField } from \"./field-components/combobox-field\";\n13: import { EnumField } from \"./field-components/enum-field\";\n14: import type { FieldArrayConfig } from \"./field-components/field-array\";\n15: import { FieldArray } from \"./field-components/field-array\";\n16: import { NumberField } from \"./field-components/number-field\";\n17: import { StringField } from \"./field-components/string-field\";\n18: import type { FieldDef, FieldMeta } from \"./use-form\";\n19: \n20: type FieldConfig<T extends ComboboxOption> =\n21:   | ComboboxConfig<T>\n22:   | FieldArrayConfig;\n23: \n24: export type { FieldConfig };\n25: \n26: type FieldProps<T extends ComboboxOption> = {\n27:   name: string;\n28:   disabled?: boolean;\n29:   config?: FieldConfig<T>;\n30:   overrides?: (props: {\n31:     field: ControllerRenderProps;\n32:     config: FieldConfig<T> | undefined;\n33:     error?: string;\n34:     disabled?: boolean;\n35:   }) => React.ReactNode;\n36: };\n37: \n38: function resolveFieldDef(fieldDef: FieldDef): {\n39:   kind: string;\n40:   meta: FieldMeta | undefined;\n41:   isOptional: boolean;\n42:   enumEntries?: Record<string, string>;\n43:   arrayElement?: Record<string, any>;\n44:   checks?: string[];\n45: } {\n46:   if (fieldDef.kind === \"optional\") {\n47:     return {\n48:       arrayElement: fieldDef.arrayElement,\n49:       checks: fieldDef.checks,\n50:       enumEntries: fieldDef.enumEntries,\n51:       isOptional: true,\n52:       kind: fieldDef.innerKind ?? \"unknown\",\n53:       meta: fieldDef.meta,\n54:     };\n55:   }\n56:   return {\n57:     arrayElement: fieldDef.arrayElement,\n58:     checks: fieldDef.checks,\n59:     enumEntries: fieldDef.enumEntries,\n60:     isOptional: false,\n61:     kind: fieldDef.kind,\n62:     meta: fieldDef.meta,\n63:   };\n64: }\n65: \n66: function Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {\n67:   const { fieldMap } = useFormContext();\n68:   const { control } = useRhfContext();\n69: \n70:   const fieldDef = fieldMap[name];\n71:   if (!fieldDef) return null;\n72: \n73:   const resolved = resolveFieldDef(fieldDef);\n74:   const meta = resolved.meta;\n75:   const label = meta?.label ?? name;\n76: \n77:   return (\n78:     <Controller\n79:       name={name}\n80:       render={({ field, fieldState }) => {\n81:         const error = fieldState.error?.message;\n82: \n83:         if (overrides) {\n84:           return (\n85:             <div className=\"space-y-2\">\n86:               <Label>{label}</Label>\n87:               {overrides({ config, disabled, error, field })}\n88:               {error && <p className=\"text-destructive text-xs\">{error}</p>}\n89:               {meta?.description && !error && (\n90:                 <p className=\"text-muted-foreground text-xs\">\n91:                   {meta.description}\n92:                 </p>\n93:               )}\n94:             </div>\n95:           );\n96:         }\n97: \n98:         if (resolved.kind === \"array\") {\n99:           return (\n100:             <div className=\"space-y-2\">\n101:               <Label>{label}</Label>\n102:               <FieldArray\n103:                 config={config as FieldArrayConfig | undefined}\n104:                 control={control}\n105:                 disabled={disabled}\n106:                 elementFields={resolved.arrayElement}\n107:                 meta={meta}\n108:                 name={name}\n109:               />\n110:               {error && <p className=\"text-destructive text-xs\">{error}</p>}\n111:             </div>\n112:           );\n113:         }\n114: \n115:         return (\n116:           <div className=\"space-y-2\">\n117:             <Label>{label}</Label>\n118:             {renderField(resolved, field, meta, disabled, config)}\n119:             {error && <p className=\"text-destructive text-xs\">{error}</p>}\n120:             {meta?.description && !error && (\n121:               <p className=\"text-muted-foreground text-xs\">\n122:                 {meta.description}\n123:               </p>\n124:             )}\n125:           </div>\n126:         );\n127:       }}\n128:     />\n129:   );\n130: }\n131: \n132: function renderField<T>(\n133:   resolved: ReturnType<typeof resolveFieldDef>,\n134:   field: any,\n135:   meta: FieldMeta | undefined,\n136:   disabled: boolean | undefined,\n137:   config: FieldConfig<T> | undefined,\n138: ): React.ReactNode {\n139:   if (meta?.component === \"combobox\") {\n140:     return (\n141:       <ComboboxField\n142:         config={config as ComboboxConfig<any> | undefined}\n143:         disabled={disabled}\n144:         field={field}\n145:         meta={meta}\n146:       />\n147:     );\n148:   }\n149: \n150:   switch (resolved.kind) {\n151:     case \"string\":\n152:       return (\n153:         <StringField\n154:           checks={resolved.checks}\n155:           disabled={disabled}\n156:           field={field}\n157:           meta={meta}\n158:         />\n159:       );\n160:     case \"number\":\n161:       return <NumberField disabled={disabled} field={field} meta={meta} />;\n162:     case \"boolean\":\n163:       return (\n164:         <BooleanField\n165:           disabled={disabled}\n166:           field={field}\n167:           label={meta?.label ?? \"\"}\n168:           meta={meta}\n169:         />\n170:       );\n171:     case \"enum\":\n172:       return (\n173:         <EnumField\n174:           disabled={disabled}\n175:           entries={resolved.enumEntries}\n176:           field={field}\n177:           meta={meta}\n178:         />\n179:       );\n180:     default:\n181:       return null;\n182:   }\n183: }\n184: \n185: export type { FieldProps };\n186: export { Field };\n\n(End of file - total 186 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ControllerRenderProps } from \"react-hook-form\";\nimport { Controller, useFormContext as useRhfContext } from \"react-hook-form\";\n\nimport { Label } from \"@/components/ui/label\";\n\nimport { useFormContext } from \"./context\";\nimport { BooleanField } from \"./field-components/boolean-field\";\nimport type {\n  ComboboxConfig,\n  ComboboxOption,\n} from \"./field-components/combobox-field\";\nimport { ComboboxField } from \"./field-components/combobox-field\";\nimport { EnumField } from \"./field-components/enum-field\";\nimport type { FieldArrayConfig } from \"./field-components/field-array\";\nimport { FieldArray } from \"./field-components/field-array\";\nimport { NumberField } from \"./field-components/number-field\";\nimport { StringField } from \"./field-components/string-field\";\nimport type { FieldDef, FieldMeta } from \"./use-form\";\n\ntype FieldConfig<T extends ComboboxOption> =",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field.tsx",
+            "time": {
+              "start": 1779536275806,
+              "end": 1779536276009
+            }
+          },
+          "id": "prt_e54a0a90a001VfrfZBVIR02VH6",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5812,
+            "input": 326,
+            "output": 150,
+            "reasoning": 24,
+            "cache": {
+              "write": 0,
+              "read": 5312
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54a0ab5d001Bt5HatzxJ3toS4",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a09f7e001R1LqUrsVHS1XCB"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54a09221001rXQafZDWPP3GQl",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 9891,
+          "input": 4029,
+          "output": 70,
+          "reasoning": 32,
+          "cache": {
+            "write": 0,
+            "read": 5760
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779536276419,
+          "completed": 1779536278785
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54a0abc3001aNh1Gz1879L9ct",
+        "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y"
+      },
+      "parts": [
+        {
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-start",
+          "id": "prt_e54a0b11d001TFKOm20Jp6F4bM",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0abc3001aNh1Gz1879L9ct"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have the Form component source. Let me read two of the form files in `src/components/forms/` to see how they wire up mutations.",
+          "time": {
+            "start": 1779536277811,
+            "end": 1779536278075
+          },
+          "id": "prt_e54a0b133001wNUkUF5rDrvtxd",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0abc3001aNh1Gz1879L9ct"
+        },
+        {
+          "type": "text",
+          "text": "Now let me read two example form files to see how they wire up mutations.",
+          "time": {
+            "start": 1779536278080,
+            "end": 1779536278510
+          },
+          "id": "prt_e54a0b240001lQ2D1CZglNqHy4",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0abc3001aNh1Gz1879L9ct"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_7f5c532b05bf4d0b9d171737",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx</path>\n<type>file</type>\n<content>\n1: import { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\n2: import { useNavigate } from \"@tanstack/react-router\";\n3: import { useEffect } from \"react\";\n4: import { useFormContext } from \"react-hook-form\";\n5: import type { z } from \"zod\";\n6: \n7: import { Field, Form } from \"#/forms\";\n8: import { LogoUpload } from \"@/components/logo-upload\";\n9: import { Button } from \"@/components/ui/button\";\n10: import { Client_FormSchema } from \"@/lib/form-schemas/client\";\n11: import { slugify } from \"@/lib/utils\";\n12: import { rpc } from \"@/rpc/client\";\n13: \n14: type ClientFormType = z.infer<typeof Client_FormSchema>;\n15: \n16: export function ClientForm({\n17:   mode,\n18:   draftId,\n19: }: {\n20:   mode: \"create\" | \"edit\";\n21:   draftId?: string;\n22: }) {\n23:   const { data: bd_users } = useQuery(\n24:     rpc.users.list.queryOptions({\n25:       input: { limit: 100, role: [\"admin\", \"bd\"] },\n26:     }),\n27:   );\n28: \n29:   // isPending={createMutation.isPending}\n30:   // isSaveDraftPending={saveDraftMutation.isPending}\n31:   // onSaveDraft={(values) => saveDraftMutation.mutate(values)}\n32:   // onSubmit={(values) => createMutation.mutate(values)}\n33: \n34:   const navigate = useNavigate();\n35:   const queryClient = useQueryClient();\n36: \n37:   const { data: draft } = useQuery({\n38:     ...rpc.draft.getById.queryOptions({ input: { id: draftId! } }),\n39:     enabled: !!draftId,\n40:   });\n41: \n42:   const createMutation = useMutation({\n43:     mutationFn: (input: Record<string, any>) =>\n44:       rpc.client.create.call(input as any),\n45:     onSuccess: async (data) => {\n46:       if (!data) return;\n47:       queryClient.invalidateQueries({ queryKey: [\"client\"] });\n48:       if (draftId) {\n49:         await rpc.draft.delete.call({ id: draftId });\n50:         queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n51:       }\n52:       navigate({\n53:         params: { clientId: String(data.id) },\n54:         to: \"/clients/$clientId\",\n55:       });\n56:     },\n57:   });\n58: \n59:   const saveDraftMutation = useMutation({\n60:     mutationFn: (input: Record<string, any>) =>\n61:       rpc.draft.create.call({\n62:         data: input as Record<string, unknown>,\n63:         entityType: \"client\",\n64:         title: input.name,\n65:       }),\n66:     onSuccess: () => {\n67:       queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n68:     },\n69:   });\n70: \n71:   const defaultValues = draft // TODO: VALIDATE DRAFT AND REFINE IT AND PASS IT ON\n72:     ? // TODO: PRINT ERRORS ON VALIDATION FAILURE\n73:       {\n74:         assigneeId: (draft.data.assigneeId as string) ?? \"\",\n75:         internalNotes: (draft.data.internalNotes as string) ?? undefined,\n76:         legalName: (draft.data.legalName as string) ?? undefined,\n77:         locations: draft.data.locations as\n78:           | { city: string; country: string }[]\n79:           | undefined,\n80:         logo: (draft.data.logo as string) ?? undefined,\n81:         name: (draft.data.name as string) ?? \"\",\n82:         slug: (draft.data.slug as string) ?? undefined,\n83:       }\n84:     : undefined;\n85: \n86:   return (\n87:     <Form\n88:       className=\"space-y-6\"\n89:       defaultValues={defaultValues}\n90:       onSubmit={onSubmit}\n91:       schema={Client_FormSchema}\n92:     >\n93:       <Field name=\"name\" />\n94:       <Field name=\"legalName\" />\n95:       <Field\n96:         name=\"logo\"\n97:         overrides={({ field }) => (\n98:           <LogoUpload\n99:             onChange={(url: string | null) => field.onChange(url)}\n100:             value={field.value}\n101:           />\n102:         )}\n103:       />\n104:       <SlugSync mode={mode} />\n105:       <Field name=\"slug\" />\n106:       <Field name=\"locations\" />\n107:       <Field name=\"internalNotes\" />\n108:       <Field\n109:         config={{\n110:           getOptionLabel: ({ name }) => name,\n111:           getOptionValue: ({ id }) => id,\n112:           options: bd_users?.items ?? [],\n113:         }}\n114:         name=\"assigneeId\"\n115:       />\n116:       <ClientFormActions\n117:         isPending={isPending}\n118:         isSaveDraftPending={isSaveDraftPending}\n119:         mode={mode}\n120:         onSaveDraft={onSaveDraft}\n121:       />\n122:     </Form>\n123:   );\n124: }\n125: \n126: function SlugSync({ mode }: { mode: \"create\" | \"edit\" }) {\n127:   const { watch, setValue } = useFormContext();\n128: \n129:   useEffect(() => {\n130:     if (mode === \"edit\") return;\n131:     const { unsubscribe } = watch((values, { name }) => {\n132:       if (name === \"name\" && typeof values.name === \"string\") {\n133:         setValue(\"slug\", slugify(values.name), { shouldValidate: true });\n134:       }\n135:     });\n136:     return unsubscribe;\n137:   }, [mode, watch, setValue]);\n138: \n139:   return null;\n140: }\n141: \n142: function ClientFormActions({\n143:   mode,\n144:   isPending,\n145:   onSaveDraft,\n146:   isSaveDraftPending,\n147: }: {\n148:   mode: \"create\" | \"edit\";\n149:   isPending: boolean;\n150:   onSaveDraft?: (values: ClientFormType) => void;\n151:   isSaveDraftPending?: boolean;\n152: }) {\n153:   const { watch, getValues } = useFormContext<ClientFormType>();\n154:   const name = watch(\"name\");\n155:   const assigneeId = watch(\"assigneeId\");\n156: \n157:   function handleSaveDraft() {\n158:     if (onSaveDraft) {\n159:       onSaveDraft(getValues());\n160:     }\n161:   }\n162: \n163:   return (\n164:     <div className=\"flex gap-3\">\n165:       <Button disabled={isPending || !name || !assigneeId} type=\"submit\">\n166:         {mode === \"create\" ? \"Create Client\" : \"Save Changes\"}\n167:       </Button>\n168:       {mode === \"create\" && onSaveDraft && (\n169:         <Button\n170:           disabled={isSaveDraftPending || !name}\n171:           onClick={handleSaveDraft}\n172:           type=\"button\"\n173:           variant=\"outline\"\n174:         >\n175:           {isSaveDraftPending ? \"Saving...\" : \"Save to Drafts\"}\n176:         </Button>\n177:       )}\n178:     </div>\n179:   );\n180: }\n\n(End of file - total 180 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { useNavigate } from \"@tanstack/react-router\";\nimport { useEffect } from \"react\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { LogoUpload } from \"@/components/logo-upload\";\nimport { Button } from \"@/components/ui/button\";\nimport { Client_FormSchema } from \"@/lib/form-schemas/client\";\nimport { slugify } from \"@/lib/utils\";\nimport { rpc } from \"@/rpc/client\";\n\ntype ClientFormType = z.infer<typeof Client_FormSchema>;\n\nexport function ClientForm({\n  mode,\n  draftId,\n}: {\n  mode: \"create\" | \"edit\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/forms/client-form.tsx",
+            "time": {
+              "start": 1779536278356,
+              "end": 1779536278385
+            }
+          },
+          "id": "prt_e54a0b2ca001bXWp34KHM5lvdE",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0abc3001aNh1Gz1879L9ct"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_c937549d41d946609e8786ee",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx</path>\n<type>file</type>\n<content>\n1: import { useQuery } from \"@tanstack/react-query\";\n2: import { useFormContext } from \"react-hook-form\";\n3: import type { z } from \"zod\";\n4: \n5: import { Field, Form } from \"#/forms\";\n6: import { Button } from \"@/components/ui/button\";\n7: import { ClientContract_FormSchema } from \"@/lib/form-schemas/client-contract\";\n8: import { rpc } from \"@/rpc/client\";\n9: \n10: type ClientContractType = z.infer<typeof ClientContract_FormSchema>;\n11: \n12: export function ContractForm({\n13:   mode,\n14:   onSubmit,\n15:   isPending,\n16:   defaultValues,\n17: }: {\n18:   mode: \"create\" | \"edit\";\n19:   onSubmit: (values: ClientContractType) => void;\n20:   isPending: boolean;\n21:   defaultValues?: Partial<ClientContractType>;\n22: }) {\n23:   const { data: clients } = useQuery(\n24:     rpc.client.list.queryOptions({ input: { limit: 100 } }),\n25:   );\n26: \n27:   const { data: bd_users } = useQuery(\n28:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"bd\"] } }),\n29:   );\n30: \n31:   const { data: rm_users } = useQuery(\n32:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"rm\"] } }),\n33:   );\n34: \n35:   return (\n36:     <Form\n37:       className=\"space-y-6\"\n38:       defaultValues={defaultValues}\n39:       onSubmit={onSubmit}\n40:       schema={ClientContract_FormSchema}\n41:     >\n42:       <Field name=\"title\" />\n43:       <Field name=\"referenceNumber\" />\n44:       <Field name=\"description\" />\n45:       <Field\n46:         config={{\n47:           getOptionLabel: ({ name }) => name,\n48:           getOptionValue: ({ id }) => id,\n49:           options: clients?.items || [],\n50:           // placeholder: \"Search clients...\",\n51:         }}\n52:         name=\"clientId\"\n53:       />\n54:       <Field\n55:         config={{\n56:           getOptionLabel: ({ name }) => name,\n57:           getOptionValue: ({ id }) => id,\n58:           options: bd_users?.items,\n59:           // placeholder: \"Search BD users...\",\n60:         }}\n61:         name=\"assigneeId\"\n62:       />\n63:       <Field\n64:         config={{\n65:           getOptionLabel: ({ name }) => name,\n66:           getOptionValue: ({ id }) => id,\n67:           options: rm_users?.items,\n68:           // placeholder: \"Search RM users...\",\n69:         }}\n70:         name=\"rmId\"\n71:       />\n72:       <div className=\"grid grid-cols-3 gap-4\">\n73:         <Field name=\"startDate\" />\n74:         <Field name=\"endDate\" />\n75:         <Field name=\"signedDate\" />\n76:       </div>\n77:       <Field name=\"pdfLink\" />\n78:       <Field name=\"status\" />\n79:       <ContractFormActions isPending={isPending} mode={mode} />\n80:     </Form>\n81:   );\n82: }\n83: \n84: function ContractFormActions({\n85:   mode,\n86:   isPending,\n87: }: {\n88:   mode: \"create\" | \"edit\";\n89:   isPending: boolean;\n90: }) {\n91:   const { watch } = useFormContext();\n92:   const title = watch(\"title\");\n93:   const clientId = watch(\"clientId\");\n94:   const assigneeId = watch(\"assigneeId\");\n95: \n96:   return (\n97:     <div className=\"flex gap-3\">\n98:       <Button\n99:         disabled={isPending || !title || !clientId || !assigneeId}\n100:         type=\"submit\"\n101:       >\n102:         {mode === \"create\" ? \"Create Contract\" : \"Save Changes\"}\n103:       </Button>\n104:     </div>\n105:   );\n106: }\n\n(End of file - total 106 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useQuery } from \"@tanstack/react-query\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { Button } from \"@/components/ui/button\";\nimport { ClientContract_FormSchema } from \"@/lib/form-schemas/client-contract\";\nimport { rpc } from \"@/rpc/client\";\n\ntype ClientContractType = z.infer<typeof ClientContract_FormSchema>;\n\nexport function ContractForm({\n  mode,\n  onSubmit,\n  isPending,\n  defaultValues,\n}: {\n  mode: \"create\" | \"edit\";\n  onSubmit: (values: ClientContractType) => void;\n  isPending: boolean;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/forms/contract-form.tsx",
+            "time": {
+              "start": 1779536278502,
+              "end": 1779536278556
+            }
+          },
+          "id": "prt_e54a0b388001qRka12iKkEE0zx",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0abc3001aNh1Gz1879L9ct"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 9891,
+            "input": 4029,
+            "output": 70,
+            "reasoning": 32,
+            "cache": {
+              "write": 0,
+              "read": 5760
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54a0b49d001Siih6iBF63Bt7g",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0abc3001aNh1Gz1879L9ct"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54a09221001rXQafZDWPP3GQl",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 13178,
+          "input": 2704,
+          "output": 42,
+          "reasoning": 576,
+          "cache": {
+            "write": 0,
+            "read": 9856
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779536278808,
+          "completed": 1779536287131
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54a0b51800142R3f61a6f6pUp",
+        "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y"
+      },
+      "parts": [
+        {
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-start",
+          "id": "prt_e54a0bbb1001fpAi5URyfnQ5Vo",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0b51800142R3f61a6f6pUp"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have a clear picture of the Form component API and how other forms use it. Let me also check if there's a `member-form.tsx` to see another pattern.\n\nActually, I already have enough information. Let me also quickly check the member-form to be thorough, and look at how `isPending` and `onSaveDraft` are wired in the client-form. I notice the client-form references `isPending` and `isSaveDraftPending` and `onSaveDraft` and `onSubmit` but I don't see where they're defined - they seem to be undefined variables. Let me check if there's something I'm missing, or if the form is still a work in progress.\n\nLooking at the client-form more carefully:\n- Line 29-32 has commented-out code showing the intended pattern:\n  ```\n  // isPending={createMutation.isPending}\n  // isSaveDraftPending={saveDraftMutation.isPending}\n  // onSaveDraft={(values) => saveDraftMutation.mutate(values)}\n  // onSubmit={(values) => createMutation.mutate(values)}\n  ```\n- But lines 90-92 pass `onSubmit={onSubmit}` which is also undefined - there's a local function `onSubmit` that I don't see defined.\n\nWait, I see `onSubmit` is passed as a prop to `<Form onSubmit={onSubmit}>`, but `onSubmit` is not defined anywhere in the component. And `isPending` and `isSaveDraftPending` and `onSaveDraft` are referenced on lines 117-121 but also not defined. This looks like a WIP/incomplete form.\n\nThe contract-form takes `onSubmit` and `isPending` as props from the parent component, which is a different pattern.\n\nSo the key finding is:\n1. The `Form` component itself does NOT provide `onSubmit`, `isPending`, `isSaveDraftPending`, or `onSaveDraft` via render props or context.\n2. The `Form` component's `children` prop accepts either `React.ReactNode` or a render function `(methods: FormRenderMethods) => React.ReactNode`, where `FormRenderMethods` is `ReturnType<typeof useForm>` from react-hook-form.\n3. The actual mutation logic (pending states, draft saving) is handled by the consumer component, not by Form itself.\n4. In the contract-form, `onSubmit` and `isPending` are passed as props to the `ContractForm` component from its parent.\n5. In the client-form, `isPending`, `isSaveDraftPending`, and `onSaveDraft` are referenced but appear to be undefined (WIP), with commented-out code showing the intended pattern of passing mutation state to a separate `ClientFormActions` component.\n\nLet me provide a comprehensive summary.",
+          "time": {
+            "start": 1779536280534,
+            "end": 1779536286630
+          },
+          "id": "prt_e54a0bbd6001OOlXNYq7yG2awf",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0b51800142R3f61a6f6pUp"
+        },
+        {
+          "type": "text",
+          "text": "Now let me also quickly check the member-form for a third data point:",
+          "time": {
+            "start": 1779536286652,
+            "end": 1779536286888
+          },
+          "id": "prt_e54a0d3bc001KCB4IlHx8TXVYr",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0b51800142R3f61a6f6pUp"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_bf93c6bbe8ef493887a26142",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx</path>\n<type>file</type>\n<content>\n1: import { useQuery } from \"@tanstack/react-query\";\n2: import { useFormContext } from \"react-hook-form\";\n3: import type { z } from \"zod\";\n4: \n5: import { Field, Form } from \"#/forms\";\n6: import { PermissionsEditor } from \"@/components/permissions-editor\";\n7: import { SupervisorCombobox } from \"@/components/supervisor-combobox\";\n8: import { Button } from \"@/components/ui/button\";\n9: import { Member_FormSchema } from \"@/lib/form-schemas/auth\";\n10: import { rpc } from \"@/rpc/client\";\n11: \n12: type MemberFormType = z.infer<typeof Member_FormSchema>;\n13: \n14: export type RoleCode =\n15:   | \"admin\"\n16:   | \"bd\"\n17:   | \"caller\"\n18:   | \"custom\"\n19:   | \"qc\"\n20:   | \"rm\"\n21:   | \"sc\"\n22:   | \"tl\";\n23: \n24: export function MemberForm({\n25:   mode,\n26:   onSubmit,\n27:   isPending,\n28:   defaultValues,\n29: }: {\n30:   mode: \"create\" | \"edit\";\n31:   onSubmit: (values: MemberFormType) => void;\n32:   isPending: boolean;\n33:   defaultValues?: Partial<MemberFormType>;\n34: }) {\n35:   const { data: users } = useQuery(\n36:     rpc.users.list.queryOptions({ input: { limit: 100 } }),\n37:   );\n38: \n39:   return (\n40:     <Form\n41:       className=\"space-y-6\"\n42:       defaultValues={defaultValues}\n43:       onSubmit={onSubmit}\n44:       schema={Member_FormSchema}\n45:     >\n46:       <Field name=\"name\" />\n47:       <Field name=\"email\" />\n48:       {mode === \"create\" && <Field name=\"password\" />}\n49:       <Field name=\"role\" />\n50:       <MemberSupervisorField\n51:         excludeUserId={defaultValues?.id}\n52:         users={users?.items ?? []}\n53:       />\n54:       <MemberPermissionsField />\n55:       <MemberFormActions isPending={isPending} mode={mode} />\n56:     </Form>\n57:   );\n58: }\n59: \n60: function MemberSupervisorField({\n61:   users,\n62:   excludeUserId,\n63: }: {\n64:   users: { id: string; name: string; email: string; role: string | null }[];\n65:   excludeUserId?: string;\n66: }) {\n67:   const { watch } = useFormContext();\n68:   const currentRole = watch(\"role\");\n69:   const isAdmin = currentRole === \"admin\";\n70: \n71:   return (\n72:     <Field\n73:       disabled={isAdmin}\n74:       name=\"supervisorId\"\n75:       overrides={({ field, disabled: fieldDisabled }) => (\n76:         <SupervisorCombobox\n77:           disabled={fieldDisabled}\n78:           excludeUserId={excludeUserId}\n79:           onChange={field.onChange}\n80:           required={!isAdmin}\n81:           users={users}\n82:           value={field.value}\n83:         />\n84:       )}\n85:     />\n86:   );\n87: }\n88: \n89: function MemberPermissionsField() {\n90:   const { watch } = useFormContext();\n91:   const currentRole = watch(\"role\");\n92:   const showPermissions = currentRole === \"custom\";\n93: \n94:   if (!showPermissions) return null;\n95: \n96:   return (\n97:     <Field\n98:       name=\"permissions\"\n99:       overrides={({ field }) => (\n100:         <PermissionsEditor\n101:           onChange={field.onChange}\n102:           value={field.value ?? {}}\n103:         />\n104:       )}\n105:     />\n106:   );\n107: }\n108: \n109: function MemberFormActions({\n110:   mode,\n111:   isPending,\n112: }: {\n113:   mode: \"create\" | \"edit\";\n114:   isPending: boolean;\n115: }) {\n116:   const { watch } = useFormContext();\n117:   const name = watch(\"name\");\n118:   const email = watch(\"email\");\n119: \n120:   return (\n121:     <div className=\"flex gap-3\">\n122:       <Button disabled={isPending || !name || !email} type=\"submit\">\n123:         {mode === \"create\" ? \"Add Member\" : \"Save Changes\"}\n124:       </Button>\n125:     </div>\n126:   );\n127: }\n\n(End of file - total 127 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useQuery } from \"@tanstack/react-query\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { PermissionsEditor } from \"@/components/permissions-editor\";\nimport { SupervisorCombobox } from \"@/components/supervisor-combobox\";\nimport { Button } from \"@/components/ui/button\";\nimport { Member_FormSchema } from \"@/lib/form-schemas/auth\";\nimport { rpc } from \"@/rpc/client\";\n\ntype MemberFormType = z.infer<typeof Member_FormSchema>;\n\nexport type RoleCode =\n  | \"admin\"\n  | \"bd\"\n  | \"caller\"\n  | \"custom\"\n  | \"qc\"\n  | \"rm\"",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/forms/member-form.tsx",
+            "time": {
+              "start": 1779536286869,
+              "end": 1779536286943
+            }
+          },
+          "id": "prt_e54a0d43d001XwSi0KFibi0Xcd",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0b51800142R3f61a6f6pUp"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 13178,
+            "input": 2704,
+            "output": 42,
+            "reasoning": 576,
+            "cache": {
+              "write": 0,
+              "read": 9856
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54a0d549001lOvJz49ESiZsy6",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0b51800142R3f61a6f6pUp"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54a09221001rXQafZDWPP3GQl",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 16051,
+          "input": 1122,
+          "output": 1795,
+          "reasoning": 14,
+          "cache": {
+            "write": 0,
+            "read": 13120
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779536287142,
+          "completed": 1779536302614
+        },
+        "finish": "stop",
+        "id": "msg_e54a0d5a6001ga05cMr7B1VkDd",
+        "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y"
+      },
+      "parts": [
+        {
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-start",
+          "id": "prt_e54a0de24001n8a8B1Y0RDIS8p",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0d5a6001ga05cMr7B1VkDd"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have a complete picture. Let me summarize all findings.",
+          "time": {
+            "start": 1779536289321,
+            "end": 1779536289381
+          },
+          "id": "prt_e54a0de29001WZj8O6wfsb9lrV",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0d5a6001ga05cMr7B1VkDd"
+        },
+        {
+          "type": "text",
+          "text": "Here is a complete analysis of the Form component API and how forms wire up mutations.\n\n---\n\n## Form Component Source\n\n**File:** `/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx`\n\n### Props Interface (`FormProps`)\n\n```ts\nexport type FormProps<T extends z.ZodObject<any>> = {\n  schema: T;                                          // Zod schema for validation\n  onSubmit: (values: z.infer<T>) => void;             // Called with parsed values on valid submit\n  onInvalid?: (errors: FieldErrors) => void;           // Called on validation failure\n  defaultValues?: Partial<z.infer<T>>;                 // Overrides for auto-derived defaults\n  validationMode?: ValidationMode;                     // \"onBlur\" | \"onChange\" | \"onSubmit\" | \"all\" (default: \"onBlur\")\n  className?: string;                                  // Passed to the <form> element\n  children: React.ReactNode | ((methods: FormRenderMethods) => React.ReactNode);  // Render prop or static children\n  ref?: React.Ref<any>;                               // Exposes react-hook-form methods via ref\n};\n```\n\nWhere `FormRenderMethods = ReturnType<typeof useForm>` (the full react-hook-form `UseFormReturn` object).\n\n### What the Form Component Does\n\n1. Builds a `fieldMap` from the Zod schema (introspecting types, meta, enum entries, etc.)\n2. Derives `defaultValues` from the schema structure (strings = `\"\"`, numbers = `0`, booleans = `false`, etc.), merged with any `defaultValues` prop overrides\n3. Creates a react-hook-form instance with `zodResolver(schema)`\n4. Wraps children in two contexts:\n   - `FormContext` providing `{ fieldMap, formId }` (used by `Field` component)\n   - `FormProvider` from react-hook-form (used by `useFormContext` from RHF)\n5. Renders a `<form>` element whose `onSubmit` calls `schema.parse(values)` then delegates to the `onSubmit` prop\n6. If `children` is a function, calls it with the RHF methods object (render prop pattern)\n\n### Context Provided\n\n**`FormContext`** (from `integrations/forms/context.ts`):\n```ts\ntype FormContextValue = {\n  fieldMap: FieldMap;   // Schema-derived field definitions\n  formId: string;      // Unique form ID\n};\n```\n\n---\n\n## Key Answer: Does Form Provide `onSubmit`, `isPending`, `isSaveDraftPending`, `onSaveDraft`?\n\n**No.** The `Form` component does **not** provide any of these via render props or context:\n\n- **`onSubmit`** -- This is a **prop you pass IN** to `Form`. It is not provided back. The Form calls it when the form is submitted with valid values.\n- **`isPending`** -- Not provided by Form at all. It is managed entirely by the consumer.\n- **`isSaveDraftPending`** -- Not provided by Form. Managed by the consumer.\n- **`onSaveDraft`** -- Not provided by Form. Managed by the consumer.\n\nThe only thing the Form provides back to children (via render prop) is the **react-hook-form methods** object (`UseFormReturn`), which includes `register`, `control`, `watch`, `setValue`, `getValues`, `handleSubmit`, `formState`, etc. It does **not** inject any mutation-related state or callbacks.\n\n---\n\n## How Other Forms Wire Up Mutations\n\nThe pattern across all three forms (`contract-form`, `member-form`, `client-form`) is consistent:\n\n### Pattern: Mutations are the consumer's responsibility\n\nThe `Form` component is purely a schema-driven form wrapper. Mutations, pending states, and draft logic live in the **consumer component** (or its parent), and are threaded down to action buttons via props.\n\n#### Contract Form (`/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx`)\n\n- The `ContractForm` component receives `onSubmit` and `isPending` as **props from its parent**.\n- These are passed directly to `<Form onSubmit={onSubmit}>`.\n- `isPending` is passed to a separate `ContractFormActions` component that renders the submit button with `disabled={isPending}`.\n\n```ts\nexport function ContractForm({\n  mode, onSubmit, isPending, defaultValues,\n}: {\n  mode: \"create\" | \"edit\";\n  onSubmit: (values: ClientContractType) => void;  // from parent\n  isPending: boolean;                               // from parent\n  defaultValues?: Partial<ClientContractType>;\n}) {\n  return (\n    <Form onSubmit={onSubmit} schema={...}>\n      {/* fields */}\n      <ContractFormActions isPending={isPending} mode={mode} />\n    </Form>\n  );\n}\n```\n\n#### Member Form (`/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx`)\n\nIdentical pattern: `onSubmit` and `isPending` are props from the parent. No draft functionality.\n\n```ts\nexport function MemberForm({\n  mode, onSubmit, isPending, defaultValues,\n}: {\n  mode: \"create\" | \"edit\";\n  onSubmit: (values: MemberFormType) => void;  // from parent\n  isPending: boolean;                           // from parent\n  defaultValues?: Partial<MemberFormType>;\n}) {\n  return (\n    <Form onSubmit={onSubmit} schema={...}>\n      {/* fields */}\n      <MemberFormActions isPending={isPending} mode={mode} />\n    </Form>\n  );\n}\n```\n\n#### Client Form (`/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx`)\n\nThis form is **more self-contained** -- it defines its own `createMutation` and `saveDraftMutation` internally using `useMutation`. However, it appears to be **a work in progress**:\n\n- Lines 29-32 contain **commented-out code** showing the intended pattern of passing mutation state via render props:\n  ```ts\n  // isPending={createMutation.isPending}\n  // isSaveDraftPending={saveDraftMutation.isPending}\n  // onSaveDraft={(values) => saveDraftMutation.mutate(values)}\n  // onSubmit={(values) => createMutation.mutate(values)}\n  ```\n- The references to `isPending`, `isSaveDraftPending`, and `onSaveDraft` on lines 117-120 are **currently undefined variables** (likely broken/WIP).\n- A separate `ClientFormActions` component receives these as props and uses `useFormContext().getValues()` to read current form values for the draft save:\n  ```ts\n  function ClientFormActions({ mode, isPending, onSaveDraft, isSaveDraftPending }) {\n    const { watch, getValues } = useFormContext<ClientFormType>();\n    function handleSaveDraft() {\n      if (onSaveDraft) onSaveDraft(getValues());\n    }\n    // renders Submit button + optional \"Save to Drafts\" button\n  }\n  ```\n\n### Summary of Mutation Wiring Pattern\n\n| Concern | Where it lives | How it reaches the Form |\n|---|---|---|\n| `onSubmit` callback | Parent component (or self-defined mutation) | Passed as `onSubmit` prop to `<Form>` |\n| `isPending` state | Parent component (or self-defined mutation) | Threaded to a separate `*FormActions` child component |\n| `isSaveDraftPending` | Self-defined `saveDraftMutation` | Threaded to `*FormActions` child component |\n| `onSaveDraft` | Self-defined mutation calling `saveDraftMutation.mutate(values)` | Threaded to `*FormActions`, which uses `useFormContext().getValues()` to read values |\n| Submit button | Separate `*FormActions` component (not inside Form) | Uses `type=\"submit\"` to trigger the Form's native submit |\n| Draft button | Separate `*FormActions` component | Uses `type=\"button\"` + `onClick` calling `onSaveDraft(getValues())` |\n\nThe key architectural point: **the `Form` component is a pure form infrastructure layer** (schema validation, field auto-rendering, RHF context). All mutation orchestration is external. The render prop `children={(methods) => ...}` gives you access to RHF methods, but **not** to any mutation state -- you must wire that yourself via props or a state manager.",
+          "time": {
+            "start": 1779536289384,
+            "end": 1779536302540
+          },
+          "id": "prt_e54a0de68001kt0lQOVDv0bFnf",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0d5a6001ga05cMr7B1VkDd"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "df1720e245d85419d2295c4bf21750f41b5918d8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 16051,
+            "input": 1122,
+            "output": 1795,
+            "reasoning": 14,
+            "cache": {
+              "write": 0,
+              "read": 13120
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54a111f4001AiRvOd7BKsZpoB",
+          "sessionID": "ses_1ab5f6e1bffeXVW3lo6KKjzv5y",
+          "messageID": "msg_e54a0d5a6001ga05cMr7B1VkDd"
+        }
+      ]
+    }
+  ]
+}

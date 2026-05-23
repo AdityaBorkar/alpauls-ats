@@ -1,0 +1,9 @@
+I need to understand the Form component API in this codebase. Please find and read the following:
+1. The Form component exported from `#/forms` — look in `integrations/forms/` directory
+2. How other forms in `src/components/forms/` use the Form component (check 1-2 other form files for patterns)
+
+Specifically, I need to know:
+- Does the Form component provide `onSubmit`, `isPending`, `isSaveDraftPending`, `onSaveDraft` via render props or context?
+- What does the Form component's props interface look like?
+
+Return the Form component source and a summary of how other forms wire up mutations.

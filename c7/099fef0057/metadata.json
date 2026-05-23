@@ -1,0 +1,44 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "c7099fef0057",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "TODO.md",
+    "bun.lock",
+    "package.json",
+    "src/components/client-list-view.tsx",
+    "src/components/forms/client-form.tsx",
+    "src/components/layouts/nav-layout.tsx",
+    "src/components/sidebar.tsx",
+    "src/components/ui/popover.tsx",
+    "src/db-schemas/draft.ts",
+    "src/db-schemas/index.ts",
+    "src/lib/auth/access-control.ts",
+    "src/lib/utils.ts",
+    "src/routeTree.gen.ts",
+    "src/router.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/clients/new.tsx",
+    "src/routes/(protected)/(app)/drafts.tsx",
+    "src/rpc/router/draft.ts",
+    "src/rpc/router/index.ts",
+    "src/services/draft-service.ts"
+  ],
+  "sessions": [
+    {
+      "metadata": "/c7/099fef0057/0/metadata.json",
+      "transcript": "/c7/099fef0057/0/full.jsonl",
+      "content_hash": "/c7/099fef0057/0/content_hash.txt",
+      "prompt": "/c7/099fef0057/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 10412,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 37056,
+    "output_tokens": 2106,
+    "api_call_count": 5
+  }
+}
