@@ -1,0 +1,636 @@
+{
+  "info": {
+    "id": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+    "slug": "glowing-wizard",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "parentID": "ses_1aa3b5e47ffeKdAIrMeUef2aki",
+    "title": "Explore DataViewLayout consumers (@explore subagent)",
+    "agent": "explore",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai",
+      "variant": "default"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 28345,
+      "output": 2446,
+      "reasoning": 153,
+      "cache": {
+        "read": 8256,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "todowrite",
+        "action": "deny",
+        "pattern": "*"
+      },
+      {
+        "permission": "task",
+        "action": "deny",
+        "pattern": "*"
+      }
+    ],
+    "time": {
+      "created": 1779555420671,
+      "updated": 1779555450704
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779555420725
+        },
+        "tools": {
+          "todowrite": false,
+          "task": false
+        },
+        "agent": "explore",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e55c4ca30001Wj56Plhpqgt4Ql",
+        "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "Search the codebase for all files that import or use DataViewLayout from \"@/components/layouts/data-view-layout\". Also find the FilterViewTabs component source, the useDataTableFilters hook source, and the data-table-filter core types. Return the file paths and key exports/interfaces for each.",
+          "id": "prt_e55c4ca3c001XEjXjm7pQaJ3l0",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4ca30001Wj56Plhpqgt4Ql"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55c4ca30001Wj56Plhpqgt4Ql",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5489,
+          "input": 3915,
+          "output": 94,
+          "reasoning": 72,
+          "cache": {
+            "write": 0,
+            "read": 1408
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779555420959,
+          "completed": 1779555423868
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55c4cb1f001Amfruhysc5W0aH",
+        "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE"
+      },
+      "parts": [
+        {
+          "snapshot": "21cd5dc9b87e2be62f059ee644ceb0964d633ff0",
+          "type": "step-start",
+          "id": "prt_e55c4cfcd0012CPFPXdTALgcog",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to find:\n1. All files that import or use `DataViewLayout` from `@/components/layouts/data-view-layout`\n2. The `FilterViewTabs` component source\n3. The `useDataTableFilters` hook source\n4. The data-table-filter core types\n\nLet me search for all of these in parallel.",
+          "time": {
+            "start": 1779555422160,
+            "end": 1779555422800
+          },
+          "id": "prt_e55c4cfd0001jX40AQmUooMSXc",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_968e580b51be4bcbb4cc0a5b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "from\\s+[\"']@/components/layouts/data-view-layout[\"']"
+            },
+            "output": "Found 1 matches\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx:\n  Line 18: import { DataViewLayout } from \"@/components/layouts/data-view-layout\";\n",
+            "metadata": {
+              "matches": 1,
+              "truncated": false
+            },
+            "title": "from\\s+[\"']@/components/layouts/data-view-layout[\"']",
+            "time": {
+              "start": 1779555423129,
+              "end": 1779555423165
+            }
+          },
+          "id": "prt_e55c4d252001c5Z1B8h01ZW1mY",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_80abea91c8a64353b093a79d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "DataViewLayout"
+            },
+            "output": "Found 3 matches\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx:\n  Line 18: import { DataViewLayout } from \"@/components/layouts/data-view-layout\";\n\n  Line 221:       <DataViewLayout<ClientItem, ClientListInput>\n\n\n/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx:\n  Line 23: export function DataViewLayout<TItem, TInput extends Record<string, unknown>>({\n",
+            "metadata": {
+              "matches": 3,
+              "truncated": false
+            },
+            "title": "DataViewLayout",
+            "time": {
+              "start": 1779555423138,
+              "end": 1779555423169
+            }
+          },
+          "id": "prt_e55c4d39b001gMJt79vw1dSUcG",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_d2bdb231dfb74c6aac587492",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/filter-view-tabs*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779555423191,
+              "end": 1779555423232
+            }
+          },
+          "id": "prt_e55c4d3a50012H3n7jvGDFW25s",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_00cd6ced26ff4657b4945a77",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/use-data-table-filters*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779555423201,
+              "end": 1779555423236
+            }
+          },
+          "id": "prt_e55c4d3db00181bppAczG1vhL9",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_5c6b732896dd48f497debc1d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/data-table-filter/**/*.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/memo.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/filter-fns.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/i18n.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/helpers.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/debounce.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/lib/array.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/operators.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/types.ts\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts",
+            "metadata": {
+              "count": 9,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779555423543,
+              "end": 1779555423576
+            }
+          },
+          "id": "prt_e55c4d4a9001uBAD31VX3Zig8h",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_0d6cad40772d4e5a98a1f25e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/data-table-filter/**/*.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-selector.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-value.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-operator.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/ui/debounced-input.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-unmount.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-debounce-callback.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/active-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-subject.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-actions.tsx",
+            "metadata": {
+              "count": 12,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779555423648,
+              "end": 1779555423681
+            }
+          },
+          "id": "prt_e55c4d54b001TNx9rsPgZhwpzw",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "21cd5dc9b87e2be62f059ee644ceb0964d633ff0",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5489,
+            "input": 3915,
+            "output": 94,
+            "reasoning": 72,
+            "cache": {
+              "write": 0,
+              "read": 1408
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55c4d5df001V58upS4iLO3smm",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4cb1f001Amfruhysc5W0aH"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55c4ca30001Wj56Plhpqgt4Ql",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 6423,
+          "input": 716,
+          "output": 206,
+          "reasoning": 61,
+          "cache": {
+            "write": 0,
+            "read": 5440
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779555423881,
+          "completed": 1779555427101
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55c4d689001C2jZt3tN2XIf60",
+        "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE"
+      },
+      "parts": [
+        {
+          "snapshot": "21cd5dc9b87e2be62f059ee644ceb0964d633ff0",
+          "type": "step-start",
+          "id": "prt_e55c4da64001quzSh9WX8zxat6",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I need to read the key files:\n1. The DataViewLayout source\n2. The client route that uses it (briefly)\n3. FilterViewTabs source\n4. useDataTableFilters hook source\n5. data-table-filter core types\n\nLet me read all of these in parallel.",
+          "time": {
+            "start": 1779555424871,
+            "end": 1779555425334
+          },
+          "id": "prt_e55c4da67001XqQTrhcYUHd7GT",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "text",
+          "text": "Now let me read the key source files in parallel:",
+          "time": {
+            "start": 1779555425336,
+            "end": 1779555426607
+          },
+          "id": "prt_e55c4dc38001xzF4xWzRp21dSq",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_3db73199d2ff4434acba6212",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx</path>\n<type>file</type>\n<content>\n1: import type { UseQueryOptions } from \"@tanstack/react-query\";\n2: import { useQuery } from \"@tanstack/react-query\";\n3: import type { ColumnDef } from \"@tanstack/react-table\";\n4: import {\n5:   flexRender,\n6:   getCoreRowModel,\n7:   useReactTable,\n8: } from \"@tanstack/react-table\";\n9: import { Search } from \"lucide-react\";\n10: import { useRef, useState } from \"react\";\n11: \n12: import { Button } from \"@/components/ui/button\";\n13: import { Input } from \"@/components/ui/input\";\n14: import {\n15:   Table,\n16:   TableBody,\n17:   TableCell,\n18:   TableHead,\n19:   TableHeader,\n20:   TableRow,\n21: } from \"@/components/ui/table\";\n22: \n23: export function DataViewLayout<TItem, TInput extends Record<string, unknown>>({\n24:   baseInput,\n25:   columnDefs,\n26:   emptyMessage = \"No items found\",\n27:   filterSlot,\n28:   getRowId,\n29:   listProcedure,\n30:   onRowClick,\n31:   searchPlaceholder = \"Search...\",\n32: }: {\n33:   baseInput: Omit<TInput, \"cursor\" | \"limit\" | \"search\">;\n34:   columnDefs: ColumnDef<TItem>[];\n35:   emptyMessage?: string;\n36:   filterSlot?: React.ReactNode;\n37:   getRowId: (row: TItem) => string;\n38:   listProcedure: {\n39:     queryOptions: (opts: { input: TInput }) => UseQueryOptions;\n40:   };\n41:   onRowClick?: (row: TItem) => void;\n42:   searchPlaceholder?: string;\n43: }) {\n44:   const [search, setSearch] = useState(\"\");\n45:   const [cursor, setCursor] = useState<string | undefined>();\n46: \n47:   const prevBaseInput = useRef(baseInput);\n48:   if (prevBaseInput.current !== baseInput) {\n49:     setCursor(undefined);\n50:     prevBaseInput.current = baseInput;\n51:   }\n52: \n53:   const queryResult = useQuery(\n54:     listProcedure.queryOptions({\n55:       input: {\n56:         ...baseInput,\n57:         cursor,\n58:         limit: 20,\n59:         search: search || undefined,\n60:       } as unknown as TInput,\n61:     }) as UseQueryOptions<{\n62:       items: TItem[];\n63:       nextCursor?: string;\n64:     }>,\n65:   );\n66: \n67:   const data = queryResult.data;\n68:   const isLoading = queryResult.isLoading;\n69: \n70:   const items = data?.items ?? [];\n71:   const nextCursor = data?.nextCursor;\n72: \n73:   const table = useReactTable({\n74:     columns: columnDefs,\n75:     data: items,\n76:     getCoreRowModel: getCoreRowModel(),\n77:     getRowId: (row) => getRowId(row as TItem),\n78:   });\n79: \n80:   return (\n81:     <div className=\"space-y-4\">\n82:       <div className=\"flex items-start gap-2\">\n83:         <div className=\"relative flex-1\">\n84:           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n85:           <Input\n86:             className=\"pl-8\"\n87:             onChange={(e) => {\n88:               setSearch(e.target.value);\n89:               setCursor(undefined);\n90:             }}\n91:             placeholder={searchPlaceholder}\n92:             value={search}\n93:           />\n94:         </div>\n95:         {filterSlot}\n96:       </div>\n97: \n98:       <div className=\"rounded-lg border bg-card\">\n99:         <Table>\n100:           <TableHeader>\n101:             {table.getHeaderGroups().map((headerGroup) => (\n102:               <TableRow key={headerGroup.id}>\n103:                 {headerGroup.headers.map((header) => (\n104:                   <TableHead key={header.id}>\n105:                     {header.isPlaceholder\n106:                       ? null\n107:                       : flexRender(\n108:                           header.column.columnDef.header,\n109:                           header.getContext(),\n110:                         )}\n111:                   </TableHead>\n112:                 ))}\n113:               </TableRow>\n114:             ))}\n115:           </TableHeader>\n116:           <TableBody>\n117:             {isLoading ? (\n118:               <TableRow>\n119:                 <TableCell\n120:                   className=\"text-center text-muted-foreground\"\n121:                   colSpan={columnDefs.length}\n122:                 >\n123:                   Loading...\n124:                 </TableCell>\n125:               </TableRow>\n126:             ) : items.length === 0 ? (\n127:               <TableRow>\n128:                 <TableCell\n129:                   className=\"text-center text-muted-foreground\"\n130:                   colSpan={columnDefs.length}\n131:                 >\n132:                   {emptyMessage}\n133:                 </TableCell>\n134:               </TableRow>\n135:             ) : (\n136:               table.getRowModel().rows.map((row) => (\n137:                 <TableRow\n138:                   className=\"cursor-pointer\"\n139:                   key={row.id}\n140:                   onClick={() => onRowClick?.(row.original as TItem)}\n141:                 >\n142:                   {row.getVisibleCells().map((cell) => (\n143:                     <TableCell key={cell.id}>\n144:                       {flexRender(\n145:                         cell.column.columnDef.cell,\n146:                         cell.getContext(),\n147:                       )}\n148:                     </TableCell>\n149:                   ))}\n150:                 </TableRow>\n151:               ))\n152:             )}\n153:           </TableBody>\n154:         </Table>\n155:       </div>\n156: \n157:       {nextCursor && (\n158:         <div className=\"flex justify-center\">\n159:           <Button\n160:             onClick={() => setCursor(nextCursor)}\n161:             size=\"sm\"\n162:             variant=\"outline\"\n163:           >\n164:             Load more\n165:           </Button>\n166:         </div>\n167:       )}\n168:     </div>\n169:   );\n170: }\n\n(End of file - total 170 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { UseQueryOptions } from \"@tanstack/react-query\";\nimport { useQuery } from \"@tanstack/react-query\";\nimport type { ColumnDef } from \"@tanstack/react-table\";\nimport {\n  flexRender,\n  getCoreRowModel,\n  useReactTable,\n} from \"@tanstack/react-table\";\nimport { Search } from \"lucide-react\";\nimport { useRef, useState } from \"react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/layouts/data-view-layout.tsx",
+            "time": {
+              "start": 1779555425532,
+              "end": 1779555425573
+            }
+          },
+          "id": "prt_e55c4dc83001zK5PqvYlPGBMHY",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_ef842c828068494a914c117b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx</path>\n<type>file</type>\n<content>\n1: \"use client\";\n2: \n3: import {\n4:   IconCopy,\n5:   IconPencil,\n6:   IconSparkles,\n7:   IconTrash,\n8: } from \"@tabler/icons-react\";\n9: import { useQuery, useQueryClient } from \"@tanstack/react-query\";\n10: import { parseAsJson, parseAsString, useQueryState } from \"nuqs\";\n11: import { useState } from \"react\";\n12: import { z } from \"zod\";\n13: \n14: import type { FiltersState } from \"@/components/data-table-filter/core/types\";\n15: import { Button } from \"@/components/ui/button\";\n16: import {\n17:   ContextMenu,\n18:   ContextMenuContent,\n19:   ContextMenuItem,\n20:   ContextMenuSeparator,\n21:   ContextMenuTrigger,\n22: } from \"@/components/ui/context-menu\";\n23: import {\n24:   Dialog,\n25:   DialogClose,\n26:   DialogContent,\n27:   DialogDescription,\n28:   DialogFooter,\n29:   DialogHeader,\n30:   DialogTitle,\n31: } from \"@/components/ui/dialog\";\n32: import { Input } from \"@/components/ui/input\";\n33: import { rpc } from \"@/rpc/client\";\n34: \n35: type FilterViewTab = {\n36:   display: unknown;\n37:   domain: string;\n38:   id: string;\n39:   isSystemCreated: boolean;\n40:   label: string;\n41:   refine: FiltersState;\n42: };\n43: \n44: type FilterViewTabsProps = {\n45:   domain: string;\n46: };\n47: \n48: const filtersSchema = z.custom<FiltersState>((val): val is FiltersState =>\n49:   Array.isArray(val),\n50: );\n51: \n52: export function FilterViewTabs({ domain }: FilterViewTabsProps) {\n53:   const [view, setView] = useQueryState(\"view\", parseAsString.withDefault(\"\"));\n54:   const [, setFilters] = useQueryState<FiltersState>(\n55:     \"filters\",\n56:     parseAsJson(filtersSchema.parse).withDefault([]),\n57:   );\n58: \n59:   const queryClient = useQueryClient();\n60: \n61:   const { data: filterViews } = useQuery({\n62:     ...rpc.filterView.list.queryOptions({ input: { domain } }),\n63:     select: (data) => data as FilterViewTab[],\n64:   });\n65: \n66:   const [editDialogOpen, setEditDialogOpen] = useState(false);\n67:   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);\n68:   const [editingView, setEditingView] = useState<FilterViewTab | null>(null);\n69:   const [deletingView, setDeletingView] = useState<FilterViewTab | null>(null);\n70:   const [editLabel, setEditLabel] = useState(\"\");\n71: \n72:   const views = filterViews ?? [];\n73: \n74:   function handleTabClick(fv: FilterViewTab) {\n75:     setView(fv.id);\n76:     setFilters(null);\n77:   }\n78: \n79:   function handleEdit(fv: FilterViewTab) {\n80:     setEditingView(fv);\n81:     setEditLabel(fv.label);\n82:     setEditDialogOpen(true);\n83:   }\n84: \n85:   async function handleEditSubmit() {\n86:     if (!editingView || !editLabel.trim()) return;\n87:     await rpc.filterView.update.call({\n88:       id: editingView.id,\n89:       label: editLabel.trim(),\n90:     });\n91:     queryClient.invalidateQueries(\n92:       rpc.filterView.list.queryOptions({ input: { domain } }),\n93:     );\n94:     setEditDialogOpen(false);\n95:     setEditingView(null);\n96:   }\n97: \n98:   function handleCopyLink(fv: FilterViewTab) {\n99:     const url = new URL(window.location.href);\n100:     url.searchParams.set(\"view\", fv.id);\n101:     navigator.clipboard.writeText(url.toString());\n102:   }\n103: \n104:   function handleDelete(fv: FilterViewTab) {\n105:     setDeletingView(fv);\n106:     setDeleteDialogOpen(true);\n107:   }\n108: \n109:   async function handleDeleteConfirm() {\n110:     if (!deletingView) return;\n111:     await rpc.filterView.delete.call({ id: deletingView.id });\n112:     queryClient.invalidateQueries(\n113:       rpc.filterView.list.queryOptions({ input: { domain } }),\n114:     );\n115:     if (view === deletingView.id) {\n116:       setView(null);\n117:       setFilters(null);\n118:     }\n119:     setDeleteDialogOpen(false);\n120:     setDeletingView(null);\n121:   }\n122: \n123:   return (\n124:     <>\n125:       <div className=\"flex items-center gap-1\">\n126:         {views.map((fv) => {\n127:           const isActive = view === fv.id;\n128:           return (\n129:             <ContextMenu key={fv.id}>\n130:               <ContextMenuTrigger>\n131:                 <button\n132:                   className={`inline-flex h-7 items-center rounded-md px-2.5 font-medium text-sm transition-colors ${\n133:                     isActive\n134:                       ? \"bg-foreground text-background\"\n135:                       : \"text-muted-foreground hover:bg-muted hover:text-foreground\"\n136:                   }`}\n137:                   onClick={() => handleTabClick(fv)}\n138:                   type=\"button\"\n139:                 >\n140:                   {fv.label}\n141:                 </button>\n142:               </ContextMenuTrigger>\n143:               <ContextMenuContent>\n144:                 {!fv.isSystemCreated && (\n145:                   <>\n146:                     <ContextMenuItem onClick={() => handleEdit(fv)}>\n147:                       <IconPencil className=\"size-4\" />\n148:                       Edit\n149:                     </ContextMenuItem>\n150:                     <ContextMenuSeparator />\n151:                   </>\n152:                 )}\n153:                 <ContextMenuItem onClick={() => handleCopyLink(fv)}>\n154:                   <IconCopy className=\"size-4\" />\n155:                   Copy link\n156:                 </ContextMenuItem>\n157:                 {!fv.isSystemCreated && (\n158:                   <>\n159:                     <ContextMenuSeparator />\n160:                     <ContextMenuItem\n161:                       onClick={() => handleDelete(fv)}\n162:                       variant=\"destructive\"\n163:                     >\n164:                       <IconTrash className=\"size-4\" />\n165:                       Delete\n166:                     </ContextMenuItem>\n167:                   </>\n168:                 )}\n169:                 <ContextMenuSeparator />\n170:                 <ContextMenuItem disabled>\n171:                   <IconSparkles className=\"size-4\" />\n172:                   Ask AI\n173:                 </ContextMenuItem>\n174:               </ContextMenuContent>\n175:             </ContextMenu>\n176:           );\n177:         })}\n178:       </div>\n179: \n180:       <Dialog onOpenChange={setEditDialogOpen} open={editDialogOpen}>\n181:         <DialogContent>\n182:           <DialogHeader>\n183:             <DialogTitle>Edit filter view</DialogTitle>\n184:             <DialogDescription>\n185:               Rename this filter view. The filters themselves won&apos;t change.\n186:             </DialogDescription>\n187:           </DialogHeader>\n188:           <Input\n189:             onChange={(e) => setEditLabel(e.target.value)}\n190:             onKeyDown={(e) => {\n191:               if (e.key === \"Enter\") handleEditSubmit();\n192:             }}\n193:             value={editLabel}\n194:           />\n195:           <DialogFooter>\n196:             <DialogClose render={<Button variant=\"outline\" />}>\n197:               Cancel\n198:             </DialogClose>\n199:             <Button disabled={!editLabel.trim()} onClick={handleEditSubmit}>\n200:               Save\n201:             </Button>\n202:           </DialogFooter>\n203:         </DialogContent>\n204:       </Dialog>\n205: \n206:       <Dialog onOpenChange={setDeleteDialogOpen} open={deleteDialogOpen}>\n207:         <DialogContent>\n208:           <DialogHeader>\n209:             <DialogTitle>Delete filter view</DialogTitle>\n210:             <DialogDescription>\n211:               Are you sure you want to delete &ldquo;{deletingView?.label}\n212:               &rdquo;? This action cannot be undone.\n213:             </DialogDescription>\n214:           </DialogHeader>\n215:           <DialogFooter>\n216:             <DialogClose render={<Button variant=\"outline\" />}>\n217:               Cancel\n218:             </DialogClose>\n219:             <Button onClick={handleDeleteConfirm} variant=\"destructive\">\n220:               Delete\n221:             </Button>\n222:           </DialogFooter>\n223:         </DialogContent>\n224:       </Dialog>\n225:     </>\n226:   );\n227: }\n\n(End of file - total 227 lines)\n</content>",
+            "metadata": {
+              "preview": "\"use client\";\n\nimport {\n  IconCopy,\n  IconPencil,\n  IconSparkles,\n  IconTrash,\n} from \"@tabler/icons-react\";\nimport { useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { parseAsJson, parseAsString, useQueryState } from \"nuqs\";\nimport { useState } from \"react\";\nimport { z } from \"zod\";\n\nimport type { FiltersState } from \"@/components/data-table-filter/core/types\";\nimport { Button } from \"@/components/ui/button\";\nimport {\n  ContextMenu,\n  ContextMenuContent,\n  ContextMenuItem,\n  ContextMenuSeparator,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/filter-view-tabs.tsx",
+            "time": {
+              "start": 1779555425807,
+              "end": 1779555425955
+            }
+          },
+          "id": "prt_e55c4dd0a001rnbIuhW27SfwkN",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_a44c2c3f04704db58637bbca",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx</path>\n<type>file</type>\n<content>\n1: \"use client\";\n2: \n3: import type React from \"react\";\n4: import { useMemo, useState } from \"react\";\n5: \n6: import { createColumns } from \"../core/filters\";\n7: import { DEFAULT_OPERATORS, determineNewOperator } from \"../core/operators\";\n8: import type {\n9:   ColumnConfig,\n10:   ColumnDataType,\n11:   ColumnOption,\n12:   DataTableFilterActions,\n13:   FilterModel,\n14:   FilterStrategy,\n15:   FiltersState,\n16:   NumberColumnIds,\n17:   OptionBasedColumnDataType,\n18:   OptionColumnIds,\n19: } from \"../core/types\";\n20: import { addUniq, removeUniq, uniq } from \"../lib/array\";\n21: import {\n22:   createDateFilterValue,\n23:   createNumberFilterValue,\n24:   isColumnOptionArray,\n25:   isColumnOptionMap,\n26:   isMinMaxTuple,\n27: } from \"../lib/helpers\";\n28: \n29: export interface DataTableFiltersOptions<\n30:   TData,\n31:   TColumns extends ReadonlyArray<ColumnConfig<TData, any, any, any>>,\n32:   TStrategy extends FilterStrategy,\n33: > {\n34:   strategy: TStrategy;\n35:   data: TData[];\n36:   columnsConfig: TColumns;\n37:   defaultFilters?: FiltersState;\n38:   filters?: FiltersState;\n39:   onFiltersChange?: React.Dispatch<React.SetStateAction<FiltersState>>;\n40:   options?: Partial<\n41:     Record<OptionColumnIds<TColumns>, ColumnOption[] | undefined>\n42:   >;\n43:   faceted?: Partial<\n44:     | Record<OptionColumnIds<TColumns>, Map<string, number> | undefined>\n45:     | Record<NumberColumnIds<TColumns>, [number, number] | undefined>\n46:   >;\n47: }\n48: \n49: export function useDataTableFilters<\n50:   TData,\n51:   TColumns extends ReadonlyArray<ColumnConfig<TData, any, any, any>>,\n52:   TStrategy extends FilterStrategy,\n53: >({\n54:   strategy,\n55:   data,\n56:   columnsConfig,\n57:   defaultFilters,\n58:   filters: externalFilters,\n59:   onFiltersChange,\n60:   options,\n61:   faceted,\n62: }: DataTableFiltersOptions<TData, TColumns, TStrategy>) {\n63:   const [internalFilters, setInternalFilters] = useState<FiltersState>(\n64:     defaultFilters ?? [],\n65:   );\n66: \n67:   if (\n68:     (externalFilters && !onFiltersChange) ||\n69:     (!externalFilters && onFiltersChange)\n70:   ) {\n71:     throw new Error(\n72:       \"If using controlled state, you must specify both filters and onFiltersChange.\",\n73:     );\n74:   }\n75: \n76:   const filters = externalFilters ?? internalFilters;\n77:   const setFilters = onFiltersChange ?? setInternalFilters;\n78: \n79:   // Convert ColumnConfig to Column, applying options and faceted options if provided\n80:   const columns = useMemo(() => {\n81:     const enhancedConfigs = columnsConfig.map((config) => {\n82:       let final = config;\n83: \n84:       // Set options, if exists\n85:       if (\n86:         options &&\n87:         (config.type === \"option\" || config.type === \"multiOption\")\n88:       ) {\n89:         const optionsInput = options[config.id as OptionColumnIds<TColumns>];\n90:         if (!optionsInput || !isColumnOptionArray(optionsInput)) return config;\n91: \n92:         final = { ...final, options: optionsInput };\n93:       }\n94: \n95:       // Set faceted options, if exists\n96:       if (\n97:         faceted &&\n98:         (config.type === \"option\" || config.type === \"multiOption\")\n99:       ) {\n100:         const facetedOptionsInput =\n101:           faceted[config.id as OptionColumnIds<TColumns>];\n102:         if (!facetedOptionsInput || !isColumnOptionMap(facetedOptionsInput))\n103:           return config;\n104: \n105:         final = { ...final, facetedOptions: facetedOptionsInput };\n106:       }\n107: \n108:       // Set faceted min/max values, if exists\n109:       if (config.type === \"number\" && faceted) {\n110:         const minMaxTuple = faceted[config.id as NumberColumnIds<TColumns>];\n111:         if (!minMaxTuple || !isMinMaxTuple(minMaxTuple)) return config;\n112: \n113:         final = {\n114:           ...final,\n115:           max: minMaxTuple[1],\n116:           min: minMaxTuple[0],\n117:         };\n118:       }\n119: \n120:       return final;\n121:     });\n122: \n123:     return createColumns(data, enhancedConfigs, strategy);\n124:   }, [data, columnsConfig, options, faceted, strategy]);\n125: \n126:   const actions: DataTableFilterActions = useMemo(\n127:     () => ({\n128:       addFilterValue<TData, TType extends OptionBasedColumnDataType>(\n129:         column: ColumnConfig<TData, TType>,\n130:         values: FilterModel<TType>[\"values\"],\n131:       ) {\n132:         if (column.type === \"option\") {\n133:           setFilters((prev) => {\n134:             const filter = prev.find((f) => f.columnId === column.id);\n135:             const isColumnFiltered = filter && filter.values.length > 0;\n136:             if (!isColumnFiltered) {\n137:               return [\n138:                 ...prev,\n139:                 {\n140:                   columnId: column.id,\n141:                   operator:\n142:                     values.length > 1\n143:                       ? DEFAULT_OPERATORS[column.type].multiple\n144:                       : DEFAULT_OPERATORS[column.type].single,\n145:                   type: column.type,\n146:                   values,\n147:                 },\n148:               ];\n149:             }\n150:             const oldValues = filter.values;\n151:             const newValues = addUniq(filter.values, values);\n152:             const newOperator = determineNewOperator(\n153:               \"option\",\n154:               oldValues,\n155:               newValues,\n156:               filter.operator,\n157:             );\n158:             return prev.map((f) =>\n159:               f.columnId === column.id\n160:                 ? {\n161:                     columnId: column.id,\n162:                     operator: newOperator,\n163:                     type: column.type,\n164:                     values: newValues,\n165:                   }\n166:                 : f,\n167:             );\n168:           });\n169:           return;\n170:         }\n171:         if (column.type === \"multiOption\") {\n172:           setFilters((prev) => {\n173:             const filter = prev.find((f) => f.columnId === column.id);\n174:             const isColumnFiltered = filter && filter.values.length > 0;\n175:             if (!isColumnFiltered) {\n176:               return [\n177:                 ...prev,\n178:                 {\n179:                   columnId: column.id,\n180:                   operator:\n181:                     values.length > 1\n182:                       ? DEFAULT_OPERATORS[column.type].multiple\n183:                       : DEFAULT_OPERATORS[column.type].single,\n184:                   type: column.type,\n185:                   values,\n186:                 },\n187:               ];\n188:             }\n189:             const oldValues = filter.values;\n190:             const newValues = addUniq(filter.values, values);\n191:             const newOperator = determineNewOperator(\n192:               \"multiOption\",\n193:               oldValues,\n194:               newValues,\n195:               filter.operator,\n196:             );\n197:             if (newValues.length === 0) {\n198:               return prev.filter((f) => f.columnId !== column.id);\n199:             }\n200:             return prev.map((f) =>\n201:               f.columnId === column.id\n202:                 ? {\n203:                     columnId: column.id,\n204:                     operator: newOperator,\n205:                     type: column.type,\n206:                     values: newValues,\n207:                   }\n208:                 : f,\n209:             );\n210:           });\n211:           return;\n212:         }\n213:         throw new Error(\n214:           \"[data-table-filter] addFilterValue() is only supported for option columns\",\n215:         );\n216:       },\n217:       removeAllFilters() {\n218:         setFilters([]);\n219:       },\n220:       removeFilter(columnId: string) {\n221:         setFilters((prev) => prev.filter((f) => f.columnId !== columnId));\n222:       },\n223:       removeFilterValue<TData, TType extends OptionBasedColumnDataType>(\n224:         column: ColumnConfig<TData, TType>,\n225:         value: FilterModel<TType>[\"values\"],\n226:       ) {\n227:         if (column.type === \"option\") {\n228:           setFilters((prev) => {\n229:             const filter = prev.find((f) => f.columnId === column.id);\n230:             const isColumnFiltered = filter && filter.values.length > 0;\n231:             if (!isColumnFiltered) {\n232:               return [...prev];\n233:             }\n234:             const newValues = removeUniq(filter.values, value);\n235:             const oldValues = filter.values;\n236:             const newOperator = determineNewOperator(\n237:               \"option\",\n238:               oldValues,\n239:               newValues,\n240:               filter.operator,\n241:             );\n242:             if (newValues.length === 0) {\n243:               return prev.filter((f) => f.columnId !== column.id);\n244:             }\n245:             return prev.map((f) =>\n246:               f.columnId === column.id\n247:                 ? {\n248:                     columnId: column.id,\n249:                     operator: newOperator,\n250:                     type: column.type,\n251:                     values: newValues,\n252:                   }\n253:                 : f,\n254:             );\n255:           });\n256:           return;\n257:         }\n258:         if (column.type === \"multiOption\") {\n259:           setFilters((prev) => {\n260:             const filter = prev.find((f) => f.columnId === column.id);\n261:             const isColumnFiltered = filter && filter.values.length > 0;\n262:             if (!isColumnFiltered) {\n263:               return [...prev];\n264:             }\n265:             const newValues = removeUniq(filter.values, value);\n266:             const oldValues = filter.values;\n267:             const newOperator = determineNewOperator(\n268:               \"multiOption\",\n269:               oldValues,\n270:               newValues,\n271:               filter.operator,\n272:             );\n273:             if (newValues.length === 0) {\n274:               return prev.filter((f) => f.columnId !== column.id);\n275:             }\n276:             return prev.map((f) =>\n277:               f.columnId === column.id\n278:                 ? {\n279:                     columnId: column.id,\n280:                     operator: newOperator,\n281:                     type: column.type,\n282:                     values: newValues,\n283:                   }\n284:                 : f,\n285:             );\n286:           });\n287:           return;\n288:         }\n289:         throw new Error(\n290:           \"[data-table-filter] removeFilterValue() is only supported for option columns\",\n291:         );\n292:       },\n293:       setFilterOperator<TType extends ColumnDataType>(\n294:         columnId: string,\n295:         operator: FilterModel<TType>[\"operator\"],\n296:       ) {\n297:         setFilters((prev) =>\n298:           prev.map((f) => (f.columnId === columnId ? { ...f, operator } : f)),\n299:         );\n300:       },\n301:       setFilterValue<TData, TType extends ColumnDataType>(\n302:         column: ColumnConfig<TData, TType>,\n303:         values: FilterModel<TType>[\"values\"],\n304:       ) {\n305:         setFilters((prev) => {\n306:           const filter = prev.find((f) => f.columnId === column.id);\n307:           const isColumnFiltered = filter && filter.values.length > 0;\n308:           const newValues =\n309:             column.type === \"number\"\n310:               ? createNumberFilterValue(values as number[])\n311:               : column.type === \"date\"\n312:                 ? createDateFilterValue(\n313:                     values as [Date, Date] | [Date] | [] | undefined,\n314:                   )\n315:                 : uniq(values);\n316:           if (newValues.length === 0) return prev;\n317:           if (!isColumnFiltered) {\n318:             return [\n319:               ...prev,\n320:               {\n321:                 columnId: column.id,\n322:                 operator:\n323:                   values.length > 1\n324:                     ? DEFAULT_OPERATORS[column.type].multiple\n325:                     : DEFAULT_OPERATORS[column.type].single,\n326:                 type: column.type,\n327:                 values: newValues,\n328:               },\n329:             ];\n330:           }\n331:           const oldValues = filter.values;\n332:           const newOperator = determineNewOperator(\n333:             column.type,\n334:             oldValues,\n335:             newValues,\n336:             filter.operator,\n337:           );\n338:           const newFilter = {\n339:             columnId: column.id,\n340:             operator: newOperator,\n341:             type: column.type,\n342:             values: newValues as any,\n343:           } satisfies FilterModel<TType>;\n344:           return prev.map((f) => (f.columnId === column.id ? newFilter : f));\n345:         });\n346:       },\n347:     }),\n348:     [setFilters],\n349:   );\n350: \n351:   return { actions, columns, filters, strategy }; // columns is Column<TData>[]\n352: }\n\n(End of file - total 352 lines)\n</content>",
+            "metadata": {
+              "preview": "\"use client\";\n\nimport type React from \"react\";\nimport { useMemo, useState } from \"react\";\n\nimport { createColumns } from \"../core/filters\";\nimport { DEFAULT_OPERATORS, determineNewOperator } from \"../core/operators\";\nimport type {\n  ColumnConfig,\n  ColumnDataType,\n  ColumnOption,\n  DataTableFilterActions,\n  FilterModel,\n  FilterStrategy,\n  FiltersState,\n  NumberColumnIds,\n  OptionBasedColumnDataType,\n  OptionColumnIds,\n} from \"../core/types\";\nimport { addUniq, removeUniq, uniq } from \"../lib/array\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/hooks/use-data-table-filters.tsx",
+            "time": {
+              "start": 1779555425825,
+              "end": 1779555425981
+            }
+          },
+          "id": "prt_e55c4de13001NvPtTY42lo2ooY",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_7ac07cb2ef74467fbd2e8df0",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/types.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/types.ts</path>\n<type>file</type>\n<content>\n1: import type { LucideIcon } from \"lucide-react\";\n2: \n3: /*\n4:  * # GENERAL NOTES:\n5:  *\n6:  * ## GENERICS:\n7:  *\n8:  * TData is the shape of a single row in your data table.\n9:  * TVal is the shape of the underlying value for a column.\n10:  * TType is the type (kind) of the column.\n11:  *\n12:  */\n13: \n14: export type ElementType<T> = T extends (infer U)[] ? U : T;\n15: \n16: export type Nullable<T> = T | null | undefined;\n17: \n18: /*\n19:  * The model of a column option.\n20:  * Used for representing underlying column values of type `option` or `multiOption`.\n21:  */\n22: export interface ColumnOption {\n23:   /* The label to display for the option. */\n24:   label: string;\n25:   /* The internal value of the option. */\n26:   value: string;\n27:   /* An optional icon to display next to the label. */\n28:   icon?: React.ReactElement | React.ElementType;\n29: }\n30: \n31: export interface ColumnOptionExtended extends ColumnOption {\n32:   selected?: boolean;\n33:   count?: number;\n34: }\n35: \n36: /*\n37:  * Represents the data type (kind) of a column.\n38:  */\n39: export type ColumnDataType =\n40:   /* The column value is a string that should be searchable. */\n41:   | \"text\"\n42:   | \"number\"\n43:   | \"date\"\n44:   /* The column value can be a single value from a list of options. */\n45:   | \"option\"\n46:   /* The column value can be zero or more values from a list of options. */\n47:   | \"multiOption\";\n48: \n49: /*\n50:  * Represents the data type (kind) of option and multi-option columns.\n51:  */\n52: export type OptionBasedColumnDataType = Extract<\n53:   ColumnDataType,\n54:   \"option\" | \"multiOption\"\n55: >;\n56: \n57: /*\n58:  * Maps a ColumnDataType to it's primitive type (i.e. string, number, etc.).\n59:  */\n60: export type ColumnDataNativeMap = {\n61:   text: string;\n62:   number: number;\n63:   date: Date;\n64:   option: string;\n65:   multiOption: string[];\n66: };\n67: \n68: /*\n69:  * Represents the value of a column filter.\n70:  * Contigent on the filtered column's data type.\n71:  */\n72: export type FilterValues<T extends ColumnDataType> = Array<\n73:   ElementType<ColumnDataNativeMap[T]>\n74: >;\n75: \n76: /*\n77:  * An accessor function for a column's data.\n78:  * Uses the original row data as an argument.\n79:  */\n80: export type TAccessorFn<TData, TVal = unknown> = (data: TData) => TVal;\n81: \n82: /*\n83:  * Used by `option` and `multiOption` columns.\n84:  * Transforms the underlying column value into a valid ColumnOption.\n85:  */\n86: export type TTransformOptionFn<TVal = unknown> = (\n87:   value: ElementType<NonNullable<TVal>>,\n88: ) => ColumnOption;\n89: \n90: /*\n91:  * Used by `option` and `multiOption` columns.\n92:  * A custom ordering function when sorting a column's options.\n93:  */\n94: export type TOrderFn<TVal = unknown> = (\n95:   a: ElementType<NonNullable<TVal>>,\n96:   b: ElementType<NonNullable<TVal>>,\n97: ) => number;\n98: \n99: /*\n100:  * The configuration for a column.\n101:  */\n102: export type ColumnConfig<\n103:   TData,\n104:   TType extends ColumnDataType = any,\n105:   TVal = unknown,\n106:   TId extends string = string,\n107: > = {\n108:   id: TId;\n109:   accessor: TAccessorFn<TData, TVal>;\n110:   displayName: string;\n111:   icon: LucideIcon;\n112:   type: TType;\n113:   options?: TType extends OptionBasedColumnDataType ? ColumnOption[] : never;\n114:   facetedOptions?: TType extends OptionBasedColumnDataType\n115:     ? Map<string, number>\n116:     : never;\n117:   min?: TType extends \"number\" ? number : never;\n118:   max?: TType extends \"number\" ? number : never;\n119:   transformOptionFn?: TType extends OptionBasedColumnDataType\n120:     ? TTransformOptionFn<TVal>\n121:     : never;\n122:   orderFn?: TType extends OptionBasedColumnDataType ? TOrderFn<TVal> : never;\n123: };\n124: \n125: export type OptionColumnId<T> =\n126:   T extends ColumnConfig<\n127:     infer TData,\n128:     \"option\" | \"multiOption\",\n129:     infer TVal,\n130:     infer TId\n131:   >\n132:     ? TId\n133:     : never;\n134: \n135: export type OptionColumnIds<\n136:   T extends ReadonlyArray<ColumnConfig<any, any, any, any>>,\n137: > = {\n138:   [K in keyof T]: OptionColumnId<T[K]>;\n139: }[number];\n140: \n141: export type NumberColumnId<T> =\n142:   T extends ColumnConfig<infer TData, \"number\", infer TVal, infer TId>\n143:     ? TId\n144:     : never;\n145: \n146: export type NumberColumnIds<\n147:   T extends ReadonlyArray<ColumnConfig<any, any, any, any>>,\n148: > = {\n149:   [K in keyof T]: NumberColumnId<T[K]>;\n150: }[number];\n151: \n152: /*\n153:  * Describes a helper function for creating column configurations.\n154:  */\n155: export type ColumnConfigHelper<TData> = {\n156:   accessor: <\n157:     TAccessor extends TAccessorFn<TData>,\n158:     TType extends ColumnDataType,\n159:     TVal extends ReturnType<TAccessor>,\n160:   >(\n161:     accessor: TAccessor,\n162:     config?: Omit<ColumnConfig<TData, TType, TVal>, \"accessor\">,\n163:   ) => ColumnConfig<TData, TType, unknown>;\n164: };\n165: \n166: export type DataTableFilterConfig<TData> = {\n167:   data: TData[];\n168:   columns: ColumnConfig<TData>[];\n169: };\n170: \n171: export type ColumnProperties<TData, TVal> = {\n172:   getOptions: () => ColumnOption[];\n173:   getValues: () => ElementType<NonNullable<TVal>>[];\n174:   getFacetedUniqueValues: () => Map<string, number> | undefined;\n175:   getFacetedMinMaxValues: () => [number, number] | undefined;\n176:   prefetchOptions: () => Promise<void>; // Prefetch options\n177:   prefetchValues: () => Promise<void>; // Prefetch values\n178:   prefetchFacetedUniqueValues: () => Promise<void>; // Prefetch faceted unique values\n179:   prefetchFacetedMinMaxValues: () => Promise<void>; // Prefetch faceted min/max values\n180: };\n181: \n182: export type ColumnPrivateProperties<TData, TVal> = {\n183:   _prefetchedOptionsCache: ColumnOption[] | null;\n184:   _prefetchedValuesCache: ElementType<NonNullable<TVal>>[] | null;\n185:   _prefetchedFacetedUniqueValuesCache: Map<string, number> | null;\n186:   _prefetchedFacetedMinMaxValuesCache: [number, number] | null;\n187: };\n188: \n189: export type Column<\n190:   TData,\n191:   TType extends ColumnDataType = any,\n192:   TVal = unknown,\n193: > = ColumnConfig<TData, TType, TVal> &\n194:   ColumnProperties<TData, TVal> &\n195:   ColumnPrivateProperties<TData, TVal>;\n196: \n197: /*\n198:  * Describes the available actions on column filters.\n199:  * Includes both column-specific and global actions, ultimately acting on the column filters.\n200:  */\n201: export interface DataTableFilterActions {\n202:   addFilterValue: <TData, TType extends OptionBasedColumnDataType>(\n203:     column: Column<TData, TType>,\n204:     values: FilterModel<TType>[\"values\"],\n205:   ) => void;\n206: \n207:   removeFilterValue: <TData, TType extends OptionBasedColumnDataType>(\n208:     column: Column<TData, TType>,\n209:     value: FilterModel<TType>[\"values\"],\n210:   ) => void;\n211: \n212:   setFilterValue: <TData, TType extends ColumnDataType>(\n213:     column: Column<TData, TType>,\n214:     values: FilterModel<TType>[\"values\"],\n215:   ) => void;\n216: \n217:   setFilterOperator: <TType extends ColumnDataType>(\n218:     columnId: string,\n219:     operator: FilterModel<TType>[\"operator\"],\n220:   ) => void;\n221: \n222:   removeFilter: (columnId: string) => void;\n223: \n224:   removeAllFilters: () => void;\n225: }\n226: \n227: export type FilterStrategy = \"client\" | \"server\";\n228: \n229: /* Operators for text data */\n230: export type TextFilterOperator = \"contains\" | \"does not contain\";\n231: \n232: /* Operators for number data */\n233: export type NumberFilterOperator =\n234:   | \"is\"\n235:   | \"is not\"\n236:   | \"is less than\"\n237:   | \"is greater than or equal to\"\n238:   | \"is greater than\"\n239:   | \"is less than or equal to\"\n240:   | \"is between\"\n241:   | \"is not between\";\n242: \n243: /* Operators for date data */\n244: export type DateFilterOperator =\n245:   | \"is\"\n246:   | \"is not\"\n247:   | \"is before\"\n248:   | \"is on or after\"\n249:   | \"is after\"\n250:   | \"is on or before\"\n251:   | \"is between\"\n252:   | \"is not between\";\n253: \n254: /* Operators for option data */\n255: export type OptionFilterOperator = \"is\" | \"is not\" | \"is any of\" | \"is none of\";\n256: \n257: /* Operators for multi-option data */\n258: export type MultiOptionFilterOperator =\n259:   | \"include\"\n260:   | \"exclude\"\n261:   | \"include any of\"\n262:   | \"include all of\"\n263:   | \"exclude if any of\"\n264:   | \"exclude if all\";\n265: \n266: /* Maps filter operators to their respective data types */\n267: export type FilterOperators = {\n268:   text: TextFilterOperator;\n269:   number: NumberFilterOperator;\n270:   date: DateFilterOperator;\n271:   option: OptionFilterOperator;\n272:   multiOption: MultiOptionFilterOperator;\n273: };\n274: \n275: /*\n276:  *\n277:  * FilterValue is a type that represents a filter value for a specific column.\n278:  *\n279:  * It consists of:\n280:  * - Operator: The operator to be used for the filter.\n281:  * - Values: An array of values to be used for the filter.\n282:  *\n283:  */\n284: export type FilterModel<TType extends ColumnDataType = any> = {\n285:   columnId: string;\n286:   type: TType;\n287:   operator: FilterOperators[TType];\n288:   values: FilterValues<TType>;\n289: };\n290: \n291: export type FiltersState = Array<FilterModel>;\n292: \n293: /*\n294:  * FilterDetails is a type that represents the details of all the filter operators for a specific column data type.\n295:  */\n296: export type FilterDetails<T extends ColumnDataType> = {\n297:   [key in FilterOperators[T]]: FilterOperatorDetails<key, T>;\n298: };\n299: \n300: export type FilterOperatorTarget = \"single\" | \"multiple\";\n301: \n302: export type FilterOperatorDetailsBase<\n303:   OperatorValue,\n304:   T extends ColumnDataType,\n305: > = {\n306:   /* The i18n key for the operator. */\n307:   key: string;\n308:   /* The operator value. Usually the string representation of the operator. */\n309:   value: OperatorValue;\n310:   /* How much data the operator applies to. */\n311:   target: FilterOperatorTarget;\n312:   /* The plural form of the operator, if applicable. */\n313:   singularOf?: FilterOperators[T];\n314:   /* The singular form of the operator, if applicable. */\n315:   pluralOf?: FilterOperators[T];\n316:   /* All related operators. Normally, all the operators which share the same target. */\n317:   relativeOf: FilterOperators[T] | Array<FilterOperators[T]>;\n318:   /* Whether the operator is negated. */\n319:   isNegated: boolean;\n320:   /* If the operator is not negated, this provides the negated equivalent. */\n321:   negation?: FilterOperators[T];\n322:   /* If the operator is negated, this provides the positive equivalent. */\n323:   negationOf?: FilterOperators[T];\n324: };\n325: \n326: /*\n327:  *\n328:  * FilterOperatorDetails is a type that provides details about a filter operator for a specific column data type.\n329:  * It extends FilterOperatorDetailsBase with additional logic and contraints on the defined properties.\n330:  *\n331:  */\n332: export type FilterOperatorDetails<\n333:   OperatorValue,\n334:   T extends ColumnDataType,\n335: > = FilterOperatorDetailsBase<OperatorValue, T> &\n336:   (\n337:     | { singularOf?: never; pluralOf?: never }\n338:     | { target: \"single\"; singularOf: FilterOperators[T]; pluralOf?: never }\n339:     | { target: \"multiple\"; singularOf?: never; pluralOf: FilterOperators[T] }\n340:   ) &\n341:   (\n342:     | { isNegated: false; negation: FilterOperators[T]; negationOf?: never }\n343:     | { isNegated: true; negation?: never; negationOf: FilterOperators[T] }\n344:   );\n345: \n346: /* Maps column data types to their respective filter operator details */\n347: export type FilterTypeOperatorDetails = {\n348:   [key in ColumnDataType]: FilterDetails<key>;\n349: };\n\n(End of file - total 349 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { LucideIcon } from \"lucide-react\";\n\n/*\n * # GENERAL NOTES:\n *\n * ## GENERICS:\n *\n * TData is the shape of a single row in your data table.\n * TVal is the shape of the underlying value for a column.\n * TType is the type (kind) of the column.\n *\n */\n\nexport type ElementType<T> = T extends (infer U)[] ? U : T;\n\nexport type Nullable<T> = T | null | undefined;\n\n/*\n * The model of a column option.\n * Used for representing underlying column values of type `option` or `multiOption`.",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/core/types.ts",
+            "time": {
+              "start": 1779555425923,
+              "end": 1779555426017
+            }
+          },
+          "id": "prt_e55c4de27001Sh2FQ2uc9Asi76",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_4ac57444e3df4688bac4a528",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts</path>\n<type>file</type>\n<content>\n1: import { isAnyOf, uniq } from \"../lib/array\";\n2: import { isColumnOptionArray } from \"../lib/helpers\";\n3: import { memo } from \"../lib/memo\";\n4: import type {\n5:   Column,\n6:   ColumnConfig,\n7:   ColumnDataType,\n8:   ColumnOption,\n9:   ElementType,\n10:   FilterStrategy,\n11:   Nullable,\n12:   TAccessorFn,\n13:   TOrderFn,\n14:   TTransformOptionFn,\n15: } from \"./types\";\n16: \n17: class ColumnConfigBuilder<\n18:   TData,\n19:   TType extends ColumnDataType = any,\n20:   TVal = unknown,\n21:   TId extends string = string, // Add TId generic\n22: > {\n23:   private config: Partial<ColumnConfig<TData, TType, TVal, TId>>;\n24: \n25:   constructor(type: TType) {\n26:     this.config = { type } as Partial<ColumnConfig<TData, TType, TVal, TId>>;\n27:   }\n28: \n29:   private clone(): ColumnConfigBuilder<TData, TType, TVal, TId> {\n30:     const newInstance = new ColumnConfigBuilder<TData, TType, TVal, TId>(\n31:       this.config.type as TType,\n32:     );\n33:     newInstance.config = { ...this.config };\n34:     return newInstance;\n35:   }\n36: \n37:   id<TNewId extends string>(\n38:     value: TNewId,\n39:   ): ColumnConfigBuilder<TData, TType, TVal, TNewId> {\n40:     const newInstance = this.clone() as any; // We'll refine this\n41:     newInstance.config.id = value;\n42:     return newInstance as ColumnConfigBuilder<TData, TType, TVal, TNewId>;\n43:   }\n44: \n45:   accessor<TNewVal>(\n46:     accessor: TAccessorFn<TData, TNewVal>,\n47:   ): ColumnConfigBuilder<TData, TType, TNewVal, TId> {\n48:     const newInstance = this.clone() as any;\n49:     newInstance.config.accessor = accessor;\n50:     return newInstance as ColumnConfigBuilder<TData, TType, TNewVal, TId>;\n51:   }\n52: \n53:   displayName(value: string): ColumnConfigBuilder<TData, TType, TVal, TId> {\n54:     const newInstance = this.clone();\n55:     newInstance.config.displayName = value;\n56:     return newInstance;\n57:   }\n58: \n59:   icon(value: any): ColumnConfigBuilder<TData, TType, TVal, TId> {\n60:     const newInstance = this.clone();\n61:     newInstance.config.icon = value;\n62:     return newInstance;\n63:   }\n64: \n65:   min(\n66:     value: number,\n67:   ): ColumnConfigBuilder<\n68:     TData,\n69:     TType extends \"number\" ? TType : never,\n70:     TVal,\n71:     TId\n72:   > {\n73:     if (this.config.type !== \"number\") {\n74:       throw new Error(\"min() is only applicable to number columns\");\n75:     }\n76:     const newInstance = this.clone() as any;\n77:     newInstance.config.min = value;\n78:     return newInstance;\n79:   }\n80: \n81:   max(\n82:     value: number,\n83:   ): ColumnConfigBuilder<\n84:     TData,\n85:     TType extends \"number\" ? TType : never,\n86:     TVal,\n87:     TId\n88:   > {\n89:     if (this.config.type !== \"number\") {\n90:       throw new Error(\"max() is only applicable to number columns\");\n91:     }\n92:     const newInstance = this.clone() as any;\n93:     newInstance.config.max = value;\n94:     return newInstance;\n95:   }\n96: \n97:   options(\n98:     value: ColumnOption[],\n99:   ): ColumnConfigBuilder<\n100:     TData,\n101:     TType extends \"option\" | \"multiOption\" ? TType : never,\n102:     TVal,\n103:     TId\n104:   > {\n105:     if (!isAnyOf(this.config.type, [\"option\", \"multiOption\"])) {\n106:       throw new Error(\n107:         \"options() is only applicable to option or multiOption columns\",\n108:       );\n109:     }\n110:     const newInstance = this.clone() as any;\n111:     newInstance.config.options = value;\n112:     return newInstance;\n113:   }\n114: \n115:   transformOptionFn(\n116:     fn: TTransformOptionFn<TVal>,\n117:   ): ColumnConfigBuilder<\n118:     TData,\n119:     TType extends \"option\" | \"multiOption\" ? TType : never,\n120:     TVal,\n121:     TId\n122:   > {\n123:     if (!isAnyOf(this.config.type, [\"option\", \"multiOption\"])) {\n124:       throw new Error(\n125:         \"transformOptionFn() is only applicable to option or multiOption columns\",\n126:       );\n127:     }\n128:     const newInstance = this.clone() as any;\n129:     newInstance.config.transformOptionFn = fn;\n130:     return newInstance;\n131:   }\n132: \n133:   orderFn(\n134:     fn: TOrderFn<TVal>,\n135:   ): ColumnConfigBuilder<\n136:     TData,\n137:     TType extends \"option\" | \"multiOption\" ? TType : never,\n138:     TVal,\n139:     TId\n140:   > {\n141:     if (!isAnyOf(this.config.type, [\"option\", \"multiOption\"])) {\n142:       throw new Error(\n143:         \"orderFn() is only applicable to option or multiOption columns\",\n144:       );\n145:     }\n146:     const newInstance = this.clone() as any;\n147:     newInstance.config.orderFn = fn;\n148:     return newInstance;\n149:   }\n150: \n151:   build(): ColumnConfig<TData, TType, TVal, TId> {\n152:     if (!this.config.id) throw new Error(\"id is required\");\n153:     if (!this.config.accessor) throw new Error(\"accessor is required\");\n154:     if (!this.config.displayName) throw new Error(\"displayName is required\");\n155:     if (!this.config.icon) throw new Error(\"icon is required\");\n156:     return this.config as ColumnConfig<TData, TType, TVal, TId>;\n157:   }\n158: }\n159: \n160: // Update the helper interface\n161: interface FluentColumnConfigHelper<TData> {\n162:   text: () => ColumnConfigBuilder<TData, \"text\", string>;\n163:   number: () => ColumnConfigBuilder<TData, \"number\", number>;\n164:   date: () => ColumnConfigBuilder<TData, \"date\", Date>;\n165:   option: () => ColumnConfigBuilder<TData, \"option\", string>;\n166:   multiOption: () => ColumnConfigBuilder<TData, \"multiOption\", string[]>;\n167: }\n168: \n169: // Factory function remains mostly the same\n170: export function createColumnConfigHelper<\n171:   TData,\n172: >(): FluentColumnConfigHelper<TData> {\n173:   return {\n174:     date: () => new ColumnConfigBuilder<TData, \"date\", Date>(\"date\"),\n175:     multiOption: () =>\n176:       new ColumnConfigBuilder<TData, \"multiOption\", string[]>(\"multiOption\"),\n177:     number: () => new ColumnConfigBuilder<TData, \"number\", number>(\"number\"),\n178:     option: () => new ColumnConfigBuilder<TData, \"option\", string>(\"option\"),\n179:     text: () => new ColumnConfigBuilder<TData, \"text\", string>(\"text\"),\n180:   };\n181: }\n182: \n183: export function getColumnOptions<TData, TType extends ColumnDataType, TVal>(\n184:   column: ColumnConfig<TData, TType, TVal>,\n185:   data: TData[],\n186:   strategy: FilterStrategy,\n187: ): ColumnOption[] {\n188:   if (!isAnyOf(column.type, [\"option\", \"multiOption\"])) {\n189:     console.warn(\n190:       \"Column options can only be retrieved for option and multiOption columns\",\n191:     );\n192:     return [];\n193:   }\n194: \n195:   if (strategy === \"server\" && !column.options) {\n196:     throw new Error(\"column options are required for server-side filtering\");\n197:   }\n198: \n199:   if (column.options) {\n200:     return column.options;\n201:   }\n202: \n203:   const filtered = data\n204:     .flatMap(column.accessor)\n205:     .filter((v): v is NonNullable<TVal> => v !== undefined && v !== null);\n206: \n207:   let models = uniq(filtered);\n208: \n209:   if (column.orderFn) {\n210:     models = models.sort((m1, m2) =>\n211:       column.orderFn!(\n212:         m1 as ElementType<NonNullable<TVal>>,\n213:         m2 as ElementType<NonNullable<TVal>>,\n214:       ),\n215:     );\n216:   }\n217: \n218:   if (column.transformOptionFn) {\n219:     // Memoize transformOptionFn calls\n220:     const memoizedTransform = memo(\n221:       () => [models],\n222:       (deps) =>\n223:         deps[0].map((m) =>\n224:           column.transformOptionFn!(m as ElementType<NonNullable<TVal>>),\n225:         ),\n226:       { key: `transform-${column.id}` },\n227:     );\n228:     return memoizedTransform();\n229:   }\n230: \n231:   if (isColumnOptionArray(models)) return models;\n232: \n233:   throw new Error(\n234:     `[data-table-filter] [${column.id}] Either provide static options, a transformOptionFn, or ensure the column data conforms to ColumnOption type`,\n235:   );\n236: }\n237: \n238: export function getColumnValues<TData, TType extends ColumnDataType, TVal>(\n239:   column: ColumnConfig<TData, TType, TVal>,\n240:   data: TData[],\n241: ) {\n242:   // Memoize accessor calls\n243:   const memoizedAccessor = memo(\n244:     () => [data],\n245:     (deps) =>\n246:       deps[0]\n247:         .flatMap(column.accessor)\n248:         .filter(\n249:           (v): v is NonNullable<TVal> => v !== undefined && v !== null,\n250:         ) as ElementType<NonNullable<TVal>>[],\n251:     { key: `accessor-${column.id}` },\n252:   );\n253: \n254:   const raw = memoizedAccessor();\n255: \n256:   if (!isAnyOf(column.type, [\"option\", \"multiOption\"])) {\n257:     return raw;\n258:   }\n259: \n260:   if (column.options) {\n261:     return raw\n262:       .map((v) => column.options?.find((o) => o.value === v)?.value)\n263:       .filter((v) => v !== undefined && v !== null);\n264:   }\n265: \n266:   if (column.transformOptionFn) {\n267:     const memoizedTransform = memo(\n268:       () => [raw],\n269:       (deps) =>\n270:         deps[0].map(\n271:           (v) => column.transformOptionFn!(v) as ElementType<NonNullable<TVal>>,\n272:         ),\n273:       { key: `transform-values-${column.id}` },\n274:     );\n275:     return memoizedTransform();\n276:   }\n277: \n278:   if (isColumnOptionArray(raw)) {\n279:     return raw;\n280:   }\n281: \n282:   throw new Error(\n283:     `[data-table-filter] [${column.id}] Either provide static options, a transformOptionFn, or ensure the column data conforms to ColumnOption type`,\n284:   );\n285: }\n286: \n287: export function getFacetedUniqueValues<\n288:   TData,\n289:   TType extends ColumnDataType,\n290:   TVal,\n291: >(\n292:   column: ColumnConfig<TData, TType, TVal>,\n293:   values: string[] | ColumnOption[],\n294:   strategy: FilterStrategy,\n295: ): Map<string, number> | undefined {\n296:   if (!isAnyOf(column.type, [\"option\", \"multiOption\"])) {\n297:     console.warn(\n298:       \"Faceted unique values can only be retrieved for option and multiOption columns\",\n299:     );\n300:     return new Map<string, number>();\n301:   }\n302: \n303:   if (strategy === \"server\") {\n304:     return column.facetedOptions;\n305:   }\n306: \n307:   const acc = new Map<string, number>();\n308: \n309:   if (isColumnOptionArray(values)) {\n310:     for (const option of values) {\n311:       const curr = acc.get(option.value) ?? 0;\n312:       acc.set(option.value, curr + 1);\n313:     }\n314:   } else {\n315:     for (const option of values) {\n316:       const curr = acc.get(option as string) ?? 0;\n317:       acc.set(option as string, curr + 1);\n318:     }\n319:   }\n320: \n321:   return acc;\n322: }\n323: \n324: export function getFacetedMinMaxValues<\n325:   TData,\n326:   TType extends ColumnDataType,\n327:   TVal,\n328: >(\n329:   column: ColumnConfig<TData, TType, TVal>,\n330:   data: TData[],\n331:   strategy: FilterStrategy,\n332: ): [number, number] | undefined {\n333:   if (column.type !== \"number\") return undefined; // Only applicable to number columns\n334: \n335:   if (typeof column.min === \"number\" && typeof column.max === \"number\") {\n336:     return [column.min, column.max];\n337:   }\n338: \n339:   if (strategy === \"server\") {\n340:     return undefined;\n341:   }\n342: \n343:   const values = data\n344:     .flatMap((row) => column.accessor(row) as Nullable<number>)\n345:     .filter((v): v is number => typeof v === \"number\" && !Number.isNaN(v));\n346: \n347:   if (values.length === 0) {\n348:     return [0, 0]; // Fallback to config or reasonable defaults\n349:   }\n350: \n351:   const min = Math.min(...values);\n352:   const max = Math.max(...values);\n353: \n354:   return [min, max];\n355: }\n356: \n357: export function createColumns<TData>(\n358:   data: TData[],\n359:   columnConfigs: ReadonlyArray<ColumnConfig<TData, any, any, any>>,\n360:   strategy: FilterStrategy,\n361: ): Column<TData>[] {\n362:   return columnConfigs.map((columnConfig) => {\n363:     const getOptions: () => ColumnOption[] = memo(\n364:       () => [data, strategy, columnConfig.options],\n365:       ([data, strategy]) =>\n366:         getColumnOptions(columnConfig, data as any, strategy as any),\n367:       { key: `options-${columnConfig.id}` },\n368:     );\n369: \n370:     const getValues: () => ElementType<NonNullable<any>>[] = memo(\n371:       () => [data, strategy],\n372:       () => (strategy === \"client\" ? getColumnValues(columnConfig, data) : []),\n373:       { key: `values-${columnConfig.id}` },\n374:     );\n375: \n376:     const getUniqueValues: () => Map<string, number> | undefined = memo(\n377:       () => [getValues(), strategy],\n378:       ([values, strategy]) =>\n379:         getFacetedUniqueValues(columnConfig, values as any, strategy as any),\n380:       { key: `faceted-${columnConfig.id}` },\n381:     );\n382: \n383:     const getMinMaxValues: () => [number, number] | undefined = memo(\n384:       () => [data, strategy],\n385:       () => getFacetedMinMaxValues(columnConfig, data, strategy),\n386:       { key: `minmax-${columnConfig.id}` },\n387:     );\n388: \n389:     // Create the Column instance\n390:     const column: Column<TData> = {\n391:       ...columnConfig,\n392:       _prefetchedFacetedMinMaxValuesCache: null,\n393:       _prefetchedFacetedUniqueValuesCache: null,\n394:       _prefetchedOptionsCache: null, // Initialize private cache\n395:       _prefetchedValuesCache: null,\n396:       getFacetedMinMaxValues: getMinMaxValues,\n397:       getFacetedUniqueValues: getUniqueValues,\n398:       getOptions,\n399:       getValues,\n400:       prefetchFacetedMinMaxValues: async () => {},\n401:       prefetchFacetedUniqueValues: async () => {},\n402:       // Prefetch methods will be added below\n403:       prefetchOptions: async () => {}, // Placeholder, defined below\n404:       prefetchValues: async () => {},\n405:     };\n406: \n407:     if (strategy === \"client\") {\n408:       // Define prefetch methods with access to the column instance\n409:       column.prefetchOptions = async (): Promise<void> => {\n410:         if (!column._prefetchedOptionsCache) {\n411:           await new Promise((resolve) =>\n412:             setTimeout(() => {\n413:               const options = getOptions();\n414:               column._prefetchedOptionsCache = options;\n415:               // console.log(`Prefetched options for ${columnConfig.id}`)\n416:               resolve(undefined);\n417:             }, 0),\n418:           );\n419:         }\n420:       };\n421: \n422:       column.prefetchValues = async (): Promise<void> => {\n423:         if (!column._prefetchedValuesCache) {\n424:           await new Promise((resolve) =>\n425:             setTimeout(() => {\n426:               const values = getValues();\n427:               column._prefetchedValuesCache = values;\n428:               // console.log(`Prefetched values for ${columnConfig.id}`)\n429:               resolve(undefined);\n430:             }, 0),\n431:           );\n432:         }\n433:       };\n434: \n435:       column.prefetchFacetedUniqueValues = async (): Promise<void> => {\n436:         if (!column._prefetchedFacetedUniqueValuesCache) {\n437:           await new Promise((resolve) =>\n438:             setTimeout(() => {\n439:               const facetedMap = getUniqueValues();\n440:               column._prefetchedFacetedUniqueValuesCache = facetedMap ?? null;\n441:               // console.log(\n442:               //   `Prefetched faceted unique values for ${columnConfig.id}`,\n443:               // )\n444:               resolve(undefined);\n445:             }, 0),\n446:           );\n447:         }\n448:       };\n449: \n450:       column.prefetchFacetedMinMaxValues = async (): Promise<void> => {\n451:         if (!column._prefetchedFacetedMinMaxValuesCache) {\n452:           await new Promise((resolve) =>\n453:             setTimeout(() => {\n454:               const value = getMinMaxValues();\n455:               column._prefetchedFacetedMinMaxValuesCache = value ?? null;\n456:               // console.log(\n457:               //   `Prefetched faceted min/max values for ${columnConfig.id}`,\n458:               // )\n459:               resolve(undefined);\n460:             }, 0),\n461:           );\n462:         }\n463:       };\n464:     }\n465: \n466:     return column;\n467:   });\n468: }\n\n(End of file - total 468 lines)\n</content>",
+            "metadata": {
+              "preview": "import { isAnyOf, uniq } from \"../lib/array\";\nimport { isColumnOptionArray } from \"../lib/helpers\";\nimport { memo } from \"../lib/memo\";\nimport type {\n  Column,\n  ColumnConfig,\n  ColumnDataType,\n  ColumnOption,\n  ElementType,\n  FilterStrategy,\n  Nullable,\n  TAccessorFn,\n  TOrderFn,\n  TTransformOptionFn,\n} from \"./types\";\n\nclass ColumnConfigBuilder<\n  TData,\n  TType extends ColumnDataType = any,\n  TVal = unknown,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/core/filters.ts",
+            "time": {
+              "start": 1779555426106,
+              "end": 1779555426645
+            }
+          },
+          "id": "prt_e55c4de89001FwYtqr7Xf7Ca38",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_fa275a5e6ccd4e62bd0cbfc7",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/operators.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/operators.ts</path>\n<type>file</type>\n<content>\n1: import { type Locale, t } from \"../lib/i18n\";\n2: import type {\n3:   ColumnDataType,\n4:   FilterDetails,\n5:   FilterOperators,\n6:   FilterOperatorTarget,\n7:   FilterTypeOperatorDetails,\n8:   FilterValues,\n9: } from \"./types\";\n10: \n11: export const DEFAULT_OPERATORS: Record<\n12:   ColumnDataType,\n13:   Record<FilterOperatorTarget, FilterOperators[ColumnDataType]>\n14: > = {\n15:   date: {\n16:     multiple: \"is between\",\n17:     single: \"is\",\n18:   },\n19:   multiOption: {\n20:     multiple: \"include any of\",\n21:     single: \"include\",\n22:   },\n23:   number: {\n24:     multiple: \"is between\",\n25:     single: \"is\",\n26:   },\n27:   option: {\n28:     multiple: \"is any of\",\n29:     single: \"is\",\n30:   },\n31:   text: {\n32:     multiple: \"contains\",\n33:     single: \"contains\",\n34:   },\n35: };\n36: \n37: /* Details for all the filter operators for option data type */\n38: export const optionFilterOperators = {\n39:   is: {\n40:     isNegated: false,\n41:     key: \"filters.option.is\",\n42:     negation: \"is not\",\n43:     relativeOf: \"is not\",\n44:     singularOf: \"is any of\",\n45:     target: \"single\",\n46:     value: \"is\",\n47:   },\n48:   \"is any of\": {\n49:     isNegated: false,\n50:     key: \"filters.option.isAnyOf\",\n51:     negation: \"is none of\",\n52:     pluralOf: \"is\",\n53:     relativeOf: \"is none of\",\n54:     target: \"multiple\",\n55:     value: \"is any of\",\n56:   },\n57:   \"is none of\": {\n58:     isNegated: true,\n59:     key: \"filters.option.isNoneOf\",\n60:     negationOf: \"is any of\",\n61:     pluralOf: \"is not\",\n62:     relativeOf: \"is any of\",\n63:     target: \"multiple\",\n64:     value: \"is none of\",\n65:   },\n66:   \"is not\": {\n67:     isNegated: true,\n68:     key: \"filters.option.isNot\",\n69:     negationOf: \"is\",\n70:     relativeOf: \"is\",\n71:     singularOf: \"is none of\",\n72:     target: \"single\",\n73:     value: \"is not\",\n74:   },\n75: } as const satisfies FilterDetails<\"option\">;\n76: \n77: /* Details for all the filter operators for multi-option data type */\n78: export const multiOptionFilterOperators = {\n79:   exclude: {\n80:     isNegated: true,\n81:     key: \"filters.multiOption.exclude\",\n82:     negationOf: \"include\",\n83:     relativeOf: \"include\",\n84:     singularOf: \"exclude if any of\",\n85:     target: \"single\",\n86:     value: \"exclude\",\n87:   },\n88:   \"exclude if all\": {\n89:     isNegated: true,\n90:     key: \"filters.multiOption.excludeIfAll\",\n91:     negationOf: \"include any of\",\n92:     pluralOf: \"exclude\",\n93:     relativeOf: [\"include any of\", \"include all of\", \"exclude if any of\"],\n94:     target: \"multiple\",\n95:     value: \"exclude if all\",\n96:   },\n97:   \"exclude if any of\": {\n98:     isNegated: true,\n99:     key: \"filters.multiOption.excludeIfAnyOf\",\n100:     negationOf: \"include all of\",\n101:     pluralOf: \"exclude\",\n102:     relativeOf: [\"include any of\", \"exclude if all\", \"include all of\"],\n103:     target: \"multiple\",\n104:     value: \"exclude if any of\",\n105:   },\n106:   include: {\n107:     isNegated: false,\n108:     key: \"filters.multiOption.include\",\n109:     negation: \"exclude\",\n110:     relativeOf: \"exclude\",\n111:     singularOf: \"include any of\",\n112:     target: \"single\",\n113:     value: \"include\",\n114:   },\n115:   \"include all of\": {\n116:     isNegated: false,\n117:     key: \"filters.multiOption.includeAllOf\",\n118:     negation: \"exclude if any of\",\n119:     pluralOf: \"include\",\n120:     relativeOf: [\"include any of\", \"exclude if all\", \"exclude if any of\"],\n121:     target: \"multiple\",\n122:     value: \"include all of\",\n123:   },\n124:   \"include any of\": {\n125:     isNegated: false,\n126:     key: \"filters.multiOption.includeAnyOf\",\n127:     negation: \"exclude if all\",\n128:     pluralOf: \"include\",\n129:     relativeOf: [\"exclude if all\", \"include all of\", \"exclude if any of\"],\n130:     target: \"multiple\",\n131:     value: \"include any of\",\n132:   },\n133: } as const satisfies FilterDetails<\"multiOption\">;\n134: \n135: /* Details for all the filter operators for date data type */\n136: export const dateFilterOperators = {\n137:   is: {\n138:     isNegated: false,\n139:     key: \"filters.date.is\",\n140:     negation: \"is before\",\n141:     relativeOf: \"is after\",\n142:     singularOf: \"is between\",\n143:     target: \"single\",\n144:     value: \"is\",\n145:   },\n146:   \"is after\": {\n147:     isNegated: false,\n148:     key: \"filters.date.isAfter\",\n149:     negation: \"is on or before\",\n150:     relativeOf: [\n151:       \"is\",\n152:       \"is not\",\n153:       \"is before\",\n154:       \"is on or after\",\n155:       \"is on or before\",\n156:     ],\n157:     singularOf: \"is between\",\n158:     target: \"single\",\n159:     value: \"is after\",\n160:   },\n161:   \"is before\": {\n162:     isNegated: false,\n163:     key: \"filters.date.isBefore\",\n164:     negation: \"is on or after\",\n165:     relativeOf: [\n166:       \"is\",\n167:       \"is not\",\n168:       \"is on or after\",\n169:       \"is after\",\n170:       \"is on or before\",\n171:     ],\n172:     singularOf: \"is between\",\n173:     target: \"single\",\n174:     value: \"is before\",\n175:   },\n176:   \"is between\": {\n177:     isNegated: false,\n178:     key: \"filters.date.isBetween\",\n179:     negation: \"is not between\",\n180:     pluralOf: \"is\",\n181:     relativeOf: \"is not between\",\n182:     target: \"multiple\",\n183:     value: \"is between\",\n184:   },\n185:   \"is not\": {\n186:     isNegated: true,\n187:     key: \"filters.date.isNot\",\n188:     negationOf: \"is\",\n189:     relativeOf: [\n190:       \"is\",\n191:       \"is before\",\n192:       \"is on or after\",\n193:       \"is after\",\n194:       \"is on or before\",\n195:     ],\n196:     singularOf: \"is not between\",\n197:     target: \"single\",\n198:     value: \"is not\",\n199:   },\n200:   \"is not between\": {\n201:     isNegated: true,\n202:     key: \"filters.date.isNotBetween\",\n203:     negationOf: \"is between\",\n204:     pluralOf: \"is not\",\n205:     relativeOf: \"is between\",\n206:     target: \"multiple\",\n207:     value: \"is not between\",\n208:   },\n209:   \"is on or after\": {\n210:     isNegated: false,\n211:     key: \"filters.date.isOnOrAfter\",\n212:     negation: \"is before\",\n213:     relativeOf: [\"is\", \"is not\", \"is before\", \"is after\", \"is on or before\"],\n214:     singularOf: \"is between\",\n215:     target: \"single\",\n216:     value: \"is on or after\",\n217:   },\n218:   \"is on or before\": {\n219:     isNegated: false,\n220:     key: \"filters.date.isOnOrBefore\",\n221:     negation: \"is after\",\n222:     relativeOf: [\"is\", \"is not\", \"is after\", \"is on or after\", \"is before\"],\n223:     singularOf: \"is between\",\n224:     target: \"single\",\n225:     value: \"is on or before\",\n226:   },\n227: } as const satisfies FilterDetails<\"date\">;\n228: \n229: /* Details for all the filter operators for text data type */\n230: export const textFilterOperators = {\n231:   contains: {\n232:     isNegated: false,\n233:     key: \"filters.text.contains\",\n234:     negation: \"does not contain\",\n235:     relativeOf: \"does not contain\",\n236:     target: \"single\",\n237:     value: \"contains\",\n238:   },\n239:   \"does not contain\": {\n240:     isNegated: true,\n241:     key: \"filters.text.doesNotContain\",\n242:     negationOf: \"contains\",\n243:     relativeOf: \"contains\",\n244:     target: \"single\",\n245:     value: \"does not contain\",\n246:   },\n247: } as const satisfies FilterDetails<\"text\">;\n248: \n249: /* Details for all the filter operators for number data type */\n250: export const numberFilterOperators = {\n251:   is: {\n252:     isNegated: false,\n253:     key: \"filters.number.is\",\n254:     negation: \"is not\",\n255:     relativeOf: [\n256:       \"is not\",\n257:       \"is greater than\",\n258:       \"is less than or equal to\",\n259:       \"is less than\",\n260:       \"is greater than or equal to\",\n261:     ],\n262:     singularOf: \"is between\",\n263:     target: \"single\",\n264:     value: \"is\",\n265:   },\n266:   \"is between\": {\n267:     isNegated: false,\n268:     key: \"filters.number.isBetween\",\n269:     negation: \"is not between\",\n270:     pluralOf: \"is\",\n271:     relativeOf: \"is not between\",\n272:     target: \"multiple\",\n273:     value: \"is between\",\n274:   },\n275:   \"is greater than\": {\n276:     isNegated: false,\n277:     key: \"filters.number.greaterThan\",\n278:     negation: \"is less than or equal to\",\n279:     relativeOf: [\n280:       \"is\",\n281:       \"is not\",\n282:       \"is less than or equal to\",\n283:       \"is less than\",\n284:       \"is greater than or equal to\",\n285:     ],\n286:     singularOf: \"is between\",\n287:     target: \"single\",\n288:     value: \"is greater than\",\n289:   },\n290:   \"is greater than or equal to\": {\n291:     isNegated: false,\n292:     key: \"filters.number.greaterThanOrEqual\",\n293:     negation: \"is less than or equal to\",\n294:     relativeOf: [\n295:       \"is\",\n296:       \"is not\",\n297:       \"is greater than\",\n298:       \"is less than or equal to\",\n299:       \"is less than\",\n300:     ],\n301:     singularOf: \"is between\",\n302:     target: \"single\",\n303:     value: \"is greater than or equal to\",\n304:   },\n305:   \"is less than\": {\n306:     isNegated: false,\n307:     key: \"filters.number.lessThan\",\n308:     negation: \"is greater than\",\n309:     relativeOf: [\n310:       \"is\",\n311:       \"is not\",\n312:       \"is greater than\",\n313:       \"is less than or equal to\",\n314:       \"is greater than or equal to\",\n315:     ],\n316:     singularOf: \"is between\",\n317:     target: \"single\",\n318:     value: \"is less than\",\n319:   },\n320:   \"is less than or equal to\": {\n321:     isNegated: false,\n322:     key: \"filters.number.lessThanOrEqual\",\n323:     negation: \"is greater than or equal to\",\n324:     relativeOf: [\n325:       \"is\",\n326:       \"is not\",\n327:       \"is greater than\",\n328:       \"is less than\",\n329:       \"is greater than or equal to\",\n330:     ],\n331:     singularOf: \"is between\",\n332:     target: \"single\",\n333:     value: \"is less than or equal to\",\n334:   },\n335:   \"is not\": {\n336:     isNegated: true,\n337:     key: \"filters.number.isNot\",\n338:     negationOf: \"is\",\n339:     relativeOf: [\n340:       \"is\",\n341:       \"is greater than\",\n342:       \"is less than or equal to\",\n343:       \"is less than\",\n344:       \"is greater than or equal to\",\n345:     ],\n346:     singularOf: \"is not between\",\n347:     target: \"single\",\n348:     value: \"is not\",\n349:   },\n350:   \"is not between\": {\n351:     isNegated: true,\n352:     key: \"filters.number.isNotBetween\",\n353:     negationOf: \"is between\",\n354:     pluralOf: \"is not\",\n355:     relativeOf: \"is between\",\n356:     target: \"multiple\",\n357:     value: \"is not between\",\n358:   },\n359: } as const satisfies FilterDetails<\"number\">;\n360: \n361: export const filterTypeOperatorDetails: FilterTypeOperatorDetails = {\n362:   date: dateFilterOperators,\n363:   multiOption: multiOptionFilterOperators,\n364:   number: numberFilterOperators,\n365:   option: optionFilterOperators,\n366:   text: textFilterOperators,\n367: };\n368: \n369: /*\n370:  *\n371:  * Determines the new operator for a filter based on the current operator, old and new filter values.\n372:  *\n373:  * This handles cases where the filter values have transitioned from a single value to multiple values (or vice versa),\n374:  * and the current operator needs to be transitioned to its plural form (or singular form).\n375:  *\n376:  * For example, if the current operator is 'is', and the new filter values have a length of 2, the\n377:  * new operator would be 'is any of'.\n378:  *\n379:  */\n380: export function determineNewOperator<TType extends ColumnDataType>(\n381:   type: TType,\n382:   oldVals: FilterValues<TType>,\n383:   nextVals: FilterValues<TType>,\n384:   currentOperator: FilterOperators[TType],\n385: ): FilterOperators[TType] {\n386:   const a =\n387:     Array.isArray(oldVals) && Array.isArray(oldVals[0])\n388:       ? oldVals[0].length\n389:       : oldVals.length;\n390:   const b =\n391:     Array.isArray(nextVals) && Array.isArray(nextVals[0])\n392:       ? nextVals[0].length\n393:       : nextVals.length;\n394: \n395:   // If filter size has not transitioned from single to multiple (or vice versa)\n396:   // or is unchanged, return the current operator.\n397:   if (a === b || (a >= 2 && b >= 2) || (a <= 1 && b <= 1))\n398:     return currentOperator;\n399: \n400:   const opDetails = filterTypeOperatorDetails[type][currentOperator];\n401: \n402:   // Handle transition from single to multiple filter values.\n403:   if (a < b && b >= 2) return opDetails.singularOf ?? currentOperator;\n404:   // Handle transition from multiple to single filter values.\n405:   if (a > b && b <= 1) return opDetails.pluralOf ?? currentOperator;\n406:   return currentOperator;\n407: }\n\n(End of file - total 407 lines)\n</content>",
+            "metadata": {
+              "preview": "import { type Locale, t } from \"../lib/i18n\";\nimport type {\n  ColumnDataType,\n  FilterDetails,\n  FilterOperators,\n  FilterOperatorTarget,\n  FilterTypeOperatorDetails,\n  FilterValues,\n} from \"./types\";\n\nexport const DEFAULT_OPERATORS: Record<\n  ColumnDataType,\n  Record<FilterOperatorTarget, FilterOperators[ColumnDataType]>\n> = {\n  date: {\n    multiple: \"is between\",\n    single: \"is\",\n  },\n  multiOption: {\n    multiple: \"include any of\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/core/operators.ts",
+            "time": {
+              "start": 1779555426584,
+              "end": 1779555426682
+            }
+          },
+          "id": "prt_e55c4df8f001zxQM9QMf9BTcvx",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_261d90168a2e4bf2bf57a708",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx</path>\n<type>file</type>\n<content>\n1: export { DataTableFilter } from \"./components/data-table-filter\";\n2: export { useDataTableFilters } from \"./hooks/use-data-table-filters\";\n\n(End of file - total 2 lines)\n</content>",
+            "metadata": {
+              "preview": "export { DataTableFilter } from \"./components/data-table-filter\";\nexport { useDataTableFilters } from \"./hooks/use-data-table-filters\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/data-table-filter/index.tsx",
+            "time": {
+              "start": 1779555426601,
+              "end": 1779555426666
+            }
+          },
+          "id": "prt_e55c4e11d001DrMYnS2uZi9TdK",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "21cd5dc9b87e2be62f059ee644ceb0964d633ff0",
+          "type": "step-finish",
+          "tokens": {
+            "total": 6423,
+            "input": 716,
+            "output": 206,
+            "reasoning": 61,
+            "cache": {
+              "write": 0,
+              "read": 5440
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55c4e1d4001u6JSwjo9T8ujZZ",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4d689001C2jZt3tN2XIf60"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e55c4ca30001Wj56Plhpqgt4Ql",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 27288,
+          "input": 23714,
+          "output": 2146,
+          "reasoning": 20,
+          "cache": {
+            "write": 0,
+            "read": 1408
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779555427115,
+          "completed": 1779555448001
+        },
+        "finish": "stop",
+        "id": "msg_e55c4e32b001OGCu1cYk3Ac2DQ",
+        "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE"
+      },
+      "parts": [
+        {
+          "snapshot": "21cd5dc9b87e2be62f059ee644ceb0964d633ff0",
+          "type": "step-start",
+          "id": "prt_e55c4fad100140oD7ctrwiYBTb",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4e32b001OGCu1cYk3Ac2DQ"
+        },
+        {
+          "type": "reasoning",
+          "text": "I now have all the information needed to provide a comprehensive answer. Let me compile the findings.",
+          "time": {
+            "start": 1779555433171,
+            "end": 1779555433639
+          },
+          "id": "prt_e55c4fad3001hi5ahCohC7yTfp",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4e32b001OGCu1cYk3Ac2DQ"
+        },
+        {
+          "type": "text",
+          "text": "Here are the complete findings for each of your search targets:\n\n---\n\n## 1. Files that import or use `DataViewLayout` from `@/components/layouts/data-view-layout`\n\n**Only one file** imports/uses it:\n\n- **`/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx`**\n  - Line 18: `import { DataViewLayout } from \"@/components/layouts/data-view-layout\";`\n  - Line 221: `<DataViewLayout<ClientItem, ClientListInput> ...>`\n\n---\n\n## 2. DataViewLayout Component Source\n\n**File:** `/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx`\n\n**Key export:**\n\n- `DataViewLayout<TItem, TInput extends Record<string, unknown>>` -- A generic data-table layout component that provides:\n  - **Props:** `baseInput`, `columnDefs`, `emptyMessage`, `filterSlot`, `getRowId`, `listProcedure`, `onRowClick`, `searchPlaceholder`\n  - **Built-in features:** search input with cursor-based pagination, TanStack Table rendering, loading/empty states, \"Load more\" button for cursor pagination\n  - **`filterSlot`** (a `React.ReactNode`) is the integration point for passing in filter UI (e.g., `DataTableFilter` and `FilterViewTabs`)\n\n---\n\n## 3. FilterViewTabs Component Source\n\n**File:** `/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx`\n\n**Key exports:**\n\n- `FilterViewTabs` -- Renders tab-like buttons for saved filter views (fetched via `rpc.filterView.list`)\n- **Local type `FilterViewTab`:** `{ display: unknown; domain: string; id: string; isSystemCreated: boolean; label: string; refine: FiltersState }`\n- **Props type `FilterViewTabsProps`:** `{ domain: string }`\n- **Behavior:**\n  - Uses `nuqs` (`useQueryState`) to sync the active `view` and `filters` query params\n  - Tab click sets `view` param and clears `filters`\n  - Context menu on each tab: Edit (rename), Copy link, Delete, \"Ask AI\" (disabled)\n  - Edit and delete dialogs for non-system-created views\n  - Invalidates query cache after mutations via `rpc.filterView.update` / `rpc.filterView.delete`\n\n---\n\n## 4. `useDataTableFilters` Hook Source\n\n**File:** `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx`\n\n**Key exports:**\n\n- `DataTableFiltersOptions<TData, TColumns, TStrategy>` -- Options interface:\n  - `strategy`: `FilterStrategy` (`\"client\" | \"server\"`)\n  - `data`: `TData[]`\n  - `columnsConfig`: `ReadonlyArray<ColumnConfig<TData, any, any, any>>`\n  - `defaultFilters?`: `FiltersState`\n  - `filters?`: `FiltersState` (controlled)\n  - `onFiltersChange?`: `React.Dispatch<React.SetStateAction<FiltersState>>`\n  - `options?`: Partial record of `ColumnOption[]` keyed by option column IDs\n  - `faceted?`: Partial record of `Map<string, number>` (for option cols) or `[number, number]` (for number cols)\n\n- `useDataTableFilters<TData, TColumns, TStrategy>()` -- Returns:\n  - `{ actions, columns, filters, strategy }`\n  - `actions` is a `DataTableFilterActions` with methods: `addFilterValue`, `removeFilterValue`, `setFilterValue`, `setFilterOperator`, `removeFilter`, `removeAllFilters`\n  - `columns` is `Column<TData>[]` (enhanced from `columnsConfig` with options/faceted data applied)\n  - Supports both controlled (`filters` + `onFiltersChange`) and uncontrolled (`defaultFilters`) modes\n\n- **Re-exported from:** `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx`\n\n---\n\n## 5. Data-Table-Filter Core Types\n\n**File:** `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/types.ts`\n\n**Key type/interface exports:**\n\n| Export | Kind | Description |\n|---|---|---|\n| `ElementType<T>` | Type | Extracts element type from an array |\n| `Nullable<T>` | Type | `T \\| null \\| undefined` |\n| `ColumnOption` | Interface | `{ label, value, icon? }` -- option model for option/multiOption columns |\n| `ColumnOptionExtended` | Interface | Extends `ColumnOption` with `selected?`, `count?` |\n| `ColumnDataType` | Type | `\"text\" \\| \"number\" \\| \"date\" \\| \"option\" \\| \"multiOption\"` |\n| `OptionBasedColumnDataType` | Type | Extract of `ColumnDataType` for `\"option\" \\| \"multiOption\"` |\n| `ColumnDataNativeMap` | Type | Maps data types to primitives: `{ text: string, number: number, date: Date, option: string, multiOption: string[] }` |\n| `FilterValues<T>` | Type | Array of the element type for a given `ColumnDataType` |\n| `TAccessorFn<TData, TVal>` | Type | `(data: TData) => TVal` -- column accessor function |\n| `TTransformOptionFn<TVal>` | Type | Transforms underlying value into `ColumnOption` |\n| `TOrderFn<TVal>` | Type | Custom sort comparator for column options |\n| `ColumnConfig<TData, TType, TVal, TId>` | Type | Full column config: `{ id, accessor, displayName, icon, type, options?, facetedOptions?, min?, max?, transformOptionFn?, orderFn? }` |\n| `OptionColumnId<T>` / `OptionColumnIds<TColumns>` | Type | Extracts option/multiOption column IDs from config arrays |\n| `NumberColumnId<T>` / `NumberColumnIds<TColumns>` | Type | Extracts number column IDs from config arrays |\n| `ColumnConfigHelper<TData>` | Type | Helper for building column configs fluently |\n| `DataTableFilterConfig<TData>` | Type | `{ data, columns }` |\n| `ColumnProperties<TData, TVal>` | Type | Runtime methods: `getOptions`, `getValues`, `getFacetedUniqueValues`, `getFacetedMinMaxValues`, and prefetch variants |\n| `ColumnPrivateProperties<TData, TVal>` | Type | Internal caches for prefetched data |\n| `Column<TData, TType, TVal>` | Type | Intersection of `ColumnConfig` + `ColumnProperties` + `ColumnPrivateProperties` |\n| `DataTableFilterActions` | Interface | `{ addFilterValue, removeFilterValue, setFilterValue, setFilterOperator, removeFilter, removeAllFilters }` |\n| `FilterStrategy` | Type | `\"client\" \\| \"server\"` |\n| `TextFilterOperator` | Type | `\"contains\" \\| \"does not contain\"` |\n| `NumberFilterOperator` | Type | `\"is\" \\| \"is not\" \\| \"is less than\" \\| \"is greater than or equal to\" \\| \"is greater than\" \\| \"is less than or equal to\" \\| \"is between\" \\| \"is not between\"` |\n| `DateFilterOperator` | Type | `\"is\" \\| \"is not\" \\| \"is before\" \\| \"is on or after\" \\| \"is after\" \\| \"is on or before\" \\| \"is between\" \\| \"is not between\"` |\n| `OptionFilterOperator` | Type | `\"is\" \\| \"is not\" \\| \"is any of\" \\| \"is none of\"` |\n| `MultiOptionFilterOperator` | Type | `\"include\" \\| \"exclude\" \\| \"include any of\" \\| \"include all of\" \\| \"exclude if any of\" \\| \"exclude if all\"` |\n| `FilterOperators` | Type | Maps `ColumnDataType` to its operator union |\n| `FilterModel<TType>` | Type | `{ columnId, type, operator, values }` -- single filter entry |\n| `FiltersState` | Type | `Array<FilterModel>` -- the full filter state |\n| `FilterDetails<T>` | Type | Maps operators to their `FilterOperatorDetails` for a data type |\n| `FilterOperatorTarget` | Type | `\"single\" \\| \"multiple\"` |\n| `FilterOperatorDetailsBase<OperatorValue, T>` | Type | Base: `{ key, value, target, singularOf?, pluralOf?, relativeOf, isNegated, negation?, negationOf? }` |\n| `FilterOperatorDetails<OperatorValue, T>` | Type | Refined base with discriminated unions on `target` and `isNegated` |\n| `FilterTypeOperatorDetails` | Type | Maps every `ColumnDataType` to its `FilterDetails` |\n\n---\n\n### Supporting Core Files\n\n- **`/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/operators.ts`** -- Exports `DEFAULT_OPERATORS`, per-type operator detail objects (`optionFilterOperators`, `multiOptionFilterOperators`, `dateFilterOperators`, `textFilterOperators`, `numberFilterOperators`), the combined `filterTypeOperatorDetails`, and `determineNewOperator()`.\n- **`/home/aditya/projects/alpauls-ats/src/components/data-table-filter/core/filters.ts`** -- Exports `createColumnConfigHelper<TData>()` (fluent builder with `.text()`, `.number()`, `.date()`, `.option()`, `.multiOption()`), `getColumnOptions()`, `getColumnValues()`, `getFacetedUniqueValues()`, `getFacetedMinMaxValues()`, and `createColumns()`.\n- **`/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx`** -- Barrel re-exports: `DataTableFilter` (component) and `useDataTableFilters` (hook).",
+          "time": {
+            "start": 1779555433647,
+            "end": 1779555447800
+          },
+          "id": "prt_e55c4fcaf001499fPfLrMX52w4",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4e32b001OGCu1cYk3Ac2DQ"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "21cd5dc9b87e2be62f059ee644ceb0964d633ff0",
+          "type": "step-finish",
+          "tokens": {
+            "total": 27288,
+            "input": 23714,
+            "output": 2146,
+            "reasoning": 20,
+            "cache": {
+              "write": 0,
+              "read": 1408
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55c53423001yLdXfPP1S4hsgr",
+          "sessionID": "ses_1aa3b3601ffegrv7wYhYAeF8YE",
+          "messageID": "msg_e55c4e32b001OGCu1cYk3Ac2DQ"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Search the codebase for all files that import or use DataViewLayout from "@/components/layouts/data-view-layout". Also find the FilterViewTabs component source, the useDataTableFilters hook source, and the data-table-filter core types. Return the file paths and key exports/interfaces for each.
