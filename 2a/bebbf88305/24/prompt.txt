@@ -1,0 +1,10 @@
+I need to understand the form infrastructure in this codebase to review a client-form component. Please find and read:
+
+1. The Form and Field components from the `#/forms` integration (look in `integrations/forms/`)
+2. The `Client_FormSchema` from `src/lib/form-schemas/client`
+3. The `rpc` client from `src/rpc/client.ts` — specifically the `client.create`, `draft.getById`, `draft.create`, `draft.delete`, and `users.list` signatures
+4. Any OTHER form files in `src/components/forms/` to see if there's a pattern for how forms are structured
+5. The `slugify` utility from `src/lib/utils`
+6. The `LogoUpload` component
+
+Return the full contents of each file you find, and note which ones you couldn't locate. Be thorough — this is for a code quality audit.

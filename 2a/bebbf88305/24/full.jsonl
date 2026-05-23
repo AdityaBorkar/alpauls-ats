@@ -1,0 +1,1365 @@
+{
+  "info": {
+    "id": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+    "slug": "gentle-tiger",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "parentID": "ses_1ab466779ffetj861Qp8qXadGi",
+    "title": "Explore form infrastructure and related patterns (@explore subagent)",
+    "agent": "explore",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai",
+      "variant": "default"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 26886,
+      "output": 13581,
+      "reasoning": 133,
+      "cache": {
+        "read": 45504,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "todowrite",
+        "action": "deny",
+        "pattern": "*"
+      },
+      {
+        "permission": "task",
+        "action": "deny",
+        "pattern": "*"
+      }
+    ],
+    "time": {
+      "created": 1779537920240,
+      "updated": 1779537940484
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779537920264
+        },
+        "tools": {
+          "todowrite": false,
+          "task": false
+        },
+        "agent": "explore",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e54b9c104001MvoS3OWMGycRg7",
+        "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "I need to understand the form infrastructure in this codebase to review a client-form component. Please find and read:\n\n1. The Form and Field components from the `#/forms` integration (look in `integrations/forms/`)\n2. The `Client_FormSchema` from `src/lib/form-schemas/client`\n3. The `rpc` client from `src/rpc/client.ts` — specifically the `client.create`, `draft.getById`, `draft.create`, `draft.delete`, and `users.list` signatures\n4. Any OTHER form files in `src/components/forms/` to see if there's a pattern for how forms are structured\n5. The `slugify` utility from `src/lib/utils`\n6. The `LogoUpload` component\n\nReturn the full contents of each file you find, and note which ones you couldn't locate. Be thorough — this is for a code quality audit.",
+          "id": "prt_e54b9c1800010eXpeBtn9r5Dbk",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c104001MvoS3OWMGycRg7"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54b9c104001MvoS3OWMGycRg7",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5421,
+          "input": 3877,
+          "output": 107,
+          "reasoning": 29,
+          "cache": {
+            "write": 0,
+            "read": 1408
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779537920649,
+          "completed": 1779537923431
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54b9c2880011M7guz9mHm8jWG",
+        "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp"
+      },
+      "parts": [
+        {
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-start",
+          "id": "prt_e54b9c721001EzXce7sCjAessH",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to find and read several files related to form infrastructure. Let me start by searching for all the relevant files in parallel.",
+          "time": {
+            "start": 1779537921828,
+            "end": 1779537922182
+          },
+          "id": "prt_e54b9c724001koixBPIS4nK4XQ",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "text",
+          "text": "I'll start by searching for all the relevant files in parallel.",
+          "time": {
+            "start": 1779537922185,
+            "end": 1779537923310
+          },
+          "id": "prt_e54b9c889001lZQ6iwykHR2swW",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_47cc891c50be43de9ecae367",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "integrations/forms/**"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/field-array.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/combobox-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/index.ts\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/string-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/number-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/enum-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/field-components/boolean-field.tsx\n/home/aditya/projects/alpauls-ats/integrations/forms/context.ts\n/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts",
+            "metadata": {
+              "count": 11,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537922794,
+              "end": 1779537922950
+            }
+          },
+          "id": "prt_e54b9caa7001G1FsLrfUNbgMm0",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_75ebbae7897341e2977f6bb9",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/lib/form-schemas/client*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/lib/form-schemas/client.ts\n/home/aditya/projects/alpauls-ats/src/lib/form-schemas/client-contract.ts",
+            "metadata": {
+              "count": 2,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537922874,
+              "end": 1779537922919
+            }
+          },
+          "id": "prt_e54b9caf0001EFrwZ54XtEPmhB",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_00a2b1be7ae0434e9d8c4941",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/rpc/client.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/rpc/client.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537922939,
+              "end": 1779537923002
+            }
+          },
+          "id": "prt_e54b9cb4f001JL4wyZPMsuWU5r",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_d75b1658c0294f3b9f63eace",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/forms/**"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx\n/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx\n/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx",
+            "metadata": {
+              "count": 3,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537923025,
+              "end": 1779537923079
+            }
+          },
+          "id": "prt_e54b9cb930010RTSaZxKIs58sK",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_01af1c9e38be48ee8f7dbb1b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/lib/utils*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/lib/utils.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537923114,
+              "end": 1779537923165
+            }
+          },
+          "id": "prt_e54b9cbe4001QPep8cTgew63Ue",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_ae90a567a7fe42cd98713623",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/**/LogoUpload*"
+            },
+            "output": "No files found",
+            "metadata": {
+              "count": 0,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537923198,
+              "end": 1779537923229
+            }
+          },
+          "id": "prt_e54b9cc380015TxX5EN1fC6jPI",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_a1dc2676149b4d879664fc92",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/rpc/router/index.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537923294,
+              "end": 1779537923330
+            }
+          },
+          "id": "prt_e54b9ccbd001hTGVlmSl0dPJWO",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5421,
+            "input": 3877,
+            "output": 107,
+            "reasoning": 29,
+            "cache": {
+              "write": 0,
+              "read": 1408
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54b9cd3f001LtO10WqJSfylvJ",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9c2880011M7guz9mHm8jWG"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54b9c104001MvoS3OWMGycRg7",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 6173,
+          "input": 445,
+          "output": 334,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 5376
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779537923440,
+          "completed": 1779537926865
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54b9cd70001hVtCgWvdvG95G8",
+        "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp"
+      },
+      "parts": [
+        {
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-start",
+          "id": "prt_e54b9d1a9001ocFWDZyBghnEAi",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "reasoning",
+          "text": "Let me search more broadly for LogoUpload component and also read all the found files.",
+          "time": {
+            "start": 1779537924716,
+            "end": 1779537924759
+          },
+          "id": "prt_e54b9d26c001o7Su2Z6J7Iq9Jb",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "text",
+          "text": "Let me search more broadly for LogoUpload and also start reading all the found files.",
+          "time": {
+            "start": 1779537924761,
+            "end": 1779537926736
+          },
+          "id": "prt_e54b9d2990014T8YTwG2wCxZo3",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_9fb8c8c7df9949668f3ba3b5",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "LogoUpload"
+            },
+            "output": "Found 5 matches\n/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx:\n  Line 8: import { LogoUpload } from \"@/components/logo-upload\";\n\n  Line 95:           <LogoUpload\n\n\n/home/aditya/projects/alpauls-ats/docs/plans/form-builder.md:\n  Line 101:           <LogoUpload url={field.value} onUrlChange={field.onChange} />\n\n\n/home/aditya/projects/alpauls-ats/src/components/logo-upload.tsx:\n  Line 15: type LogoUploadProps = {\n\n  Line 20: export function LogoUpload({ value, onChange }: LogoUploadProps) {\n",
+            "metadata": {
+              "matches": 5,
+              "truncated": false
+            },
+            "title": "LogoUpload",
+            "time": {
+              "start": 1779537924802,
+              "end": 1779537925315
+            }
+          },
+          "id": "prt_e54b9d2a7001cKQXHVhwIY4NC0",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_b3ce14256d18480a8c76d1bf",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx</path>\n<type>file</type>\n<content>\n1: import { zodResolver } from \"@hookform/resolvers/zod\";\n2: import { useId } from \"react\";\n3: import type { FieldErrors } from \"react-hook-form\";\n4: import { FormProvider, useForm } from \"react-hook-form\";\n5: import type { z } from \"zod\";\n6: \n7: import { FormContext } from \"./context\";\n8: import { buildDefaults, buildFieldMap } from \"./use-form\";\n9: \n10: export type ValidationMode = \"onBlur\" | \"onChange\" | \"onSubmit\" | \"all\";\n11: \n12: type FormRenderMethods = ReturnType<typeof useForm>;\n13: \n14: export type FormProps<T extends z.ZodObject<any>> = {\n15:   schema: T;\n16:   onSubmit: (values: z.infer<T>) => void;\n17:   onInvalid?: (errors: FieldErrors) => void;\n18:   defaultValues?: Partial<z.infer<T>>;\n19:   validationMode?: ValidationMode;\n20:   className?: string;\n21:   children: React.ReactNode | ((methods: FormRenderMethods) => React.ReactNode);\n22:   ref?: React.Ref<any>;\n23: };\n24: \n25: export function Form<T extends z.ZodObject<any>>({\n26:   schema,\n27:   onSubmit,\n28:   onInvalid,\n29:   defaultValues: defaultValuesProp,\n30:   validationMode = \"onBlur\",\n31:   className,\n32:   children,\n33:   ref,\n34: }: FormProps<T>) {\n35:   const uid = useId();\n36:   const fieldMap = buildFieldMap(schema);\n37:   const schemaDefaults = buildDefaults(schema, defaultValuesProp);\n38: \n39:   const methods = useForm({\n40:     defaultValues: schemaDefaults,\n41:     mode: validationMode,\n42:     resolver: zodResolver(schema) as any,\n43:     reValidateMode: \"onChange\",\n44:   });\n45: \n46:   if (ref) {\n47:     (ref as React.MutableRefObject<any>).current = methods;\n48:   }\n49: \n50:   function handleSubmit(e: React.FormEvent) {\n51:     e.preventDefault();\n52:     methods.handleSubmit((values) => {\n53:       const parsed = schema.parse(values);\n54:       onSubmit(parsed as z.infer<T>);\n55:     }, onInvalid as any)();\n56:   }\n57: \n58:   return (\n59:     <FormContext value={{ fieldMap, formId: uid }}>\n60:       <FormProvider {...methods}>\n61:         <form className={className} onSubmit={handleSubmit}>\n62:           {typeof children === \"function\" ? children(methods) : children}\n63:         </form>\n64:       </FormProvider>\n65:     </FormContext>\n66:   );\n67: }\n\n(End of file - total 67 lines)\n</content>",
+            "metadata": {
+              "preview": "import { zodResolver } from \"@hookform/resolvers/zod\";\nimport { useId } from \"react\";\nimport type { FieldErrors } from \"react-hook-form\";\nimport { FormProvider, useForm } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { FormContext } from \"./context\";\nimport { buildDefaults, buildFieldMap } from \"./use-form\";\n\nexport type ValidationMode = \"onBlur\" | \"onChange\" | \"onSubmit\" | \"all\";\n\ntype FormRenderMethods = ReturnType<typeof useForm>;\n\nexport type FormProps<T extends z.ZodObject<any>> = {\n  schema: T;\n  onSubmit: (values: z.infer<T>) => void;\n  onInvalid?: (errors: FieldErrors) => void;\n  defaultValues?: Partial<z.infer<T>>;\n  validationMode?: ValidationMode;\n  className?: string;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/form.tsx",
+            "time": {
+              "start": 1779537924935,
+              "end": 1779537924974
+            }
+          },
+          "id": "prt_e54b9d2d8001DrsF8VI4SSvA0T",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_0ea50702744c4fc5a53bb127",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx</path>\n<type>file</type>\n<content>\n1: import type { ControllerRenderProps } from \"react-hook-form\";\n2: import { Controller, useFormContext as useRhfContext } from \"react-hook-form\";\n3: \n4: import { Label } from \"@/components/ui/label\";\n5: \n6: import { useFormContext } from \"./context\";\n7: import { BooleanField } from \"./field-components/boolean-field\";\n8: import type {\n9:   ComboboxConfig,\n10:   ComboboxOption,\n11: } from \"./field-components/combobox-field\";\n12: import { ComboboxField } from \"./field-components/combobox-field\";\n13: import { EnumField } from \"./field-components/enum-field\";\n14: import type { FieldArrayConfig } from \"./field-components/field-array\";\n15: import { FieldArray } from \"./field-components/field-array\";\n16: import { NumberField } from \"./field-components/number-field\";\n17: import { StringField } from \"./field-components/string-field\";\n18: import type { FieldDef, FieldMeta } from \"./use-form\";\n19: \n20: type FieldConfig<T extends ComboboxOption> =\n21:   | ComboboxConfig<T>\n22:   | FieldArrayConfig;\n23: \n24: export type { FieldConfig };\n25: \n26: type FieldProps<T extends ComboboxOption> = {\n27:   name: string;\n28:   disabled?: boolean;\n29:   config?: FieldConfig<T>;\n30:   overrides?: (props: {\n31:     field: ControllerRenderProps;\n32:     config: FieldConfig<T> | undefined;\n33:     error?: string;\n34:     disabled?: boolean;\n35:   }) => React.ReactNode;\n36: };\n37: \n38: function resolveFieldDef(fieldDef: FieldDef): {\n39:   kind: string;\n40:   meta: FieldMeta | undefined;\n41:   isOptional: boolean;\n42:   enumEntries?: Record<string, string>;\n43:   arrayElement?: Record<string, any>;\n44:   checks?: string[];\n45: } {\n46:   if (fieldDef.kind === \"optional\") {\n47:     return {\n48:       arrayElement: fieldDef.arrayElement,\n49:       checks: fieldDef.checks,\n50:       enumEntries: fieldDef.enumEntries,\n51:       isOptional: true,\n52:       kind: fieldDef.innerKind ?? \"unknown\",\n53:       meta: fieldDef.meta,\n54:     };\n55:   }\n56:   return {\n57:     arrayElement: fieldDef.arrayElement,\n58:     checks: fieldDef.checks,\n59:     enumEntries: fieldDef.enumEntries,\n60:     isOptional: false,\n61:     kind: fieldDef.kind,\n62:     meta: fieldDef.meta,\n63:   };\n64: }\n65: \n66: function Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {\n67:   const { fieldMap } = useFormContext();\n68:   const { control } = useRhfContext();\n69: \n70:   const fieldDef = fieldMap[name];\n71:   if (!fieldDef) return null;\n72: \n73:   const resolved = resolveFieldDef(fieldDef);\n74:   const meta = resolved.meta;\n75:   const label = meta?.label ?? name;\n76: \n77:   return (\n78:     <Controller\n79:       name={name}\n80:       render={({ field, fieldState }) => {\n81:         const error = fieldState.error?.message;\n82: \n83:         if (overrides) {\n84:           return (\n85:             <div className=\"space-y-2\">\n86:               <Label>{label}</Label>\n87:               {overrides({ config, disabled, error, field })}\n88:               {error && <p className=\"text-destructive text-xs\">{error}</p>}\n89:               {meta?.description && !error && (\n90:                 <p className=\"text-muted-foreground text-xs\">\n91:                   {meta.description}\n92:                 </p>\n93:               )}\n94:             </div>\n95:           );\n96:         }\n97: \n98:         if (resolved.kind === \"array\") {\n99:           return (\n100:             <div className=\"space-y-2\">\n101:               <Label>{label}</Label>\n102:               <FieldArray\n103:                 config={config as FieldArrayConfig | undefined}\n104:                 control={control}\n105:                 disabled={disabled}\n106:                 elementFields={resolved.arrayElement}\n107:                 meta={meta}\n108:                 name={name}\n109:               />\n110:               {error && <p className=\"text-destructive text-xs\">{error}</p>}\n111:             </div>\n112:           );\n113:         }\n114: \n115:         return (\n116:           <div className=\"space-y-2\">\n117:             <Label>{label}</Label>\n118:             {renderField(resolved, field, meta, disabled, config)}\n119:             {error && <p className=\"text-destructive text-xs\">{error}</p>}\n120:             {meta?.description && !error && (\n121:               <p className=\"text-muted-foreground text-xs\">\n122:                 {meta.description}\n123:               </p>\n124:             )}\n125:           </div>\n126:         );\n127:       }}\n128:     />\n129:   );\n130: }\n131: \n132: function renderField<T>(\n133:   resolved: ReturnType<typeof resolveFieldDef>,\n134:   field: any,\n135:   meta: FieldMeta | undefined,\n136:   disabled: boolean | undefined,\n137:   config: FieldConfig<T> | undefined,\n138: ): React.ReactNode {\n139:   if (meta?.component === \"combobox\") {\n140:     return (\n141:       <ComboboxField\n142:         config={config as ComboboxConfig<any> | undefined}\n143:         disabled={disabled}\n144:         field={field}\n145:         meta={meta}\n146:       />\n147:     );\n148:   }\n149: \n150:   switch (resolved.kind) {\n151:     case \"string\":\n152:       return (\n153:         <StringField\n154:           checks={resolved.checks}\n155:           disabled={disabled}\n156:           field={field}\n157:           meta={meta}\n158:         />\n159:       );\n160:     case \"number\":\n161:       return <NumberField disabled={disabled} field={field} meta={meta} />;\n162:     case \"boolean\":\n163:       return (\n164:         <BooleanField\n165:           disabled={disabled}\n166:           field={field}\n167:           label={meta?.label ?? \"\"}\n168:           meta={meta}\n169:         />\n170:       );\n171:     case \"enum\":\n172:       return (\n173:         <EnumField\n174:           disabled={disabled}\n175:           entries={resolved.enumEntries}\n176:           field={field}\n177:           meta={meta}\n178:         />\n179:       );\n180:     default:\n181:       return null;\n182:   }\n183: }\n184: \n185: export type { FieldProps };\n186: export { Field };\n\n(End of file - total 186 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ControllerRenderProps } from \"react-hook-form\";\nimport { Controller, useFormContext as useRhfContext } from \"react-hook-form\";\n\nimport { Label } from \"@/components/ui/label\";\n\nimport { useFormContext } from \"./context\";\nimport { BooleanField } from \"./field-components/boolean-field\";\nimport type {\n  ComboboxConfig,\n  ComboboxOption,\n} from \"./field-components/combobox-field\";\nimport { ComboboxField } from \"./field-components/combobox-field\";\nimport { EnumField } from \"./field-components/enum-field\";\nimport type { FieldArrayConfig } from \"./field-components/field-array\";\nimport { FieldArray } from \"./field-components/field-array\";\nimport { NumberField } from \"./field-components/number-field\";\nimport { StringField } from \"./field-components/string-field\";\nimport type { FieldDef, FieldMeta } from \"./use-form\";\n\ntype FieldConfig<T extends ComboboxOption> =",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field.tsx",
+            "time": {
+              "start": 1779537925264,
+              "end": 1779537925297
+            }
+          },
+          "id": "prt_e54b9d34d0015KiDm5gIfc6O3e",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_f2e9375b051e45e482343728",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/index.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/index.ts</path>\n<type>file</type>\n<content>\n1: export { useFormContext } from \"./context\";\n2: export type { FieldConfig, FieldProps } from \"./field\";\n3: export { Field } from \"./field\";\n4: export type {\n5:   ComboboxConfig,\n6:   ComboboxOption,\n7: } from \"./field-components/combobox-field\";\n8: export { ComboboxField } from \"./field-components/combobox-field\";\n9: export type { FieldArrayConfig } from \"./field-components/field-array\";\n10: export { FieldArray } from \"./field-components/field-array\";\n11: export type { FormProps, ValidationMode } from \"./form\";\n12: export { Form } from \"./form\";\n13: export type { FieldDef, FieldMap, FieldMeta } from \"./use-form\";\n\n(End of file - total 13 lines)\n</content>",
+            "metadata": {
+              "preview": "export { useFormContext } from \"./context\";\nexport type { FieldConfig, FieldProps } from \"./field\";\nexport { Field } from \"./field\";\nexport type {\n  ComboboxConfig,\n  ComboboxOption,\n} from \"./field-components/combobox-field\";\nexport { ComboboxField } from \"./field-components/combobox-field\";\nexport type { FieldArrayConfig } from \"./field-components/field-array\";\nexport { FieldArray } from \"./field-components/field-array\";\nexport type { FormProps, ValidationMode } from \"./form\";\nexport { Form } from \"./form\";\nexport type { FieldDef, FieldMap, FieldMeta } from \"./use-form\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/index.ts",
+            "time": {
+              "start": 1779537925380,
+              "end": 1779537925426
+            }
+          },
+          "id": "prt_e54b9d4a0001y7B6dh95WGriDb",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_b635ec5c3ddf43869eb669c4",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/context.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/context.ts</path>\n<type>file</type>\n<content>\n1: import { createContext, useContext } from \"react\";\n2: \n3: import type { FieldMap } from \"./use-form\";\n4: \n5: type FormContextValue = {\n6:   fieldMap: FieldMap;\n7:   formId: string;\n8: };\n9: \n10: const FormContext = createContext<FormContextValue | null>(null);\n11: \n12: function useFormContext(): FormContextValue {\n13:   const ctx = useContext(FormContext);\n14:   if (!ctx) {\n15:     throw new Error(\"SmartField must be used within a SchemaForm\");\n16:   }\n17:   return ctx;\n18: }\n19: \n20: export type { FormContextValue };\n21: export { FormContext, useFormContext };\n\n(End of file - total 21 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createContext, useContext } from \"react\";\n\nimport type { FieldMap } from \"./use-form\";\n\ntype FormContextValue = {\n  fieldMap: FieldMap;\n  formId: string;\n};\n\nconst FormContext = createContext<FormContextValue | null>(null);\n\nfunction useFormContext(): FormContextValue {\n  const ctx = useContext(FormContext);\n  if (!ctx) {\n    throw new Error(\"SmartField must be used within a SchemaForm\");\n  }\n  return ctx;\n}\n\nexport type { FormContextValue };",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/context.ts",
+            "time": {
+              "start": 1779537925540,
+              "end": 1779537925570
+            }
+          },
+          "id": "prt_e54b9d51b001aYWzsCTSGeeVyg",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_5b778263f4354daa9e9fdc4f",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts</path>\n<type>file</type>\n<content>\n1: import type { z } from \"zod\";\n2: \n3: export type FieldMeta = {\n4:   label?: string;\n5:   placeholder?: string;\n6:   description?: string;\n7:   component?: \"textarea\" | \"password\" | \"combobox\" | \"checkbox\";\n8: };\n9: \n10: export type FieldKind =\n11:   | \"string\"\n12:   | \"number\"\n13:   | \"boolean\"\n14:   | \"enum\"\n15:   | \"array\"\n16:   | \"optional\"\n17:   | \"unknown\";\n18: \n19: export type FieldDef = {\n20:   kind: FieldKind;\n21:   meta: FieldMeta | undefined;\n22:   isOptional: boolean;\n23:   enumEntries?: Record<string, string>;\n24:   arrayElement?: FieldMap;\n25:   innerKind?: FieldKind;\n26:   innerMeta?: FieldMeta | undefined;\n27:   checks?: string[];\n28: };\n29: \n30: export type FieldMap = Record<string, FieldDef>;\n31: \n32: export function getKind(schema: any): FieldKind {\n33:   const type: string = schema._zod?.def?.type ?? \"\";\n34:   if (type === \"string\") return \"string\";\n35:   if (type === \"number\") return \"number\";\n36:   if (type === \"boolean\") return \"boolean\";\n37:   if (type === \"enum\") return \"enum\";\n38:   if (type === \"array\") return \"array\";\n39:   if (type === \"optional\") return \"optional\";\n40:   return \"unknown\";\n41: }\n42: \n43: export function getMeta(schema: any): FieldMeta | undefined {\n44:   if (typeof schema.meta === \"function\") {\n45:     const result = schema.meta();\n46:     if (result && typeof result === \"object\") return result;\n47:   }\n48:   return undefined;\n49: }\n50: \n51: export function getChecks(schema: any): string[] {\n52:   const def = schema._zod?.def;\n53:   if (!def?.checks) return [];\n54:   return def.checks\n55:     .map((c: any) => c.format ?? c._zod?.def?.type ?? c.type)\n56:     .filter(Boolean);\n57: }\n58: \n59: export function buildFieldDef(schema: any): FieldDef {\n60:   const kind = getKind(schema);\n61:   const meta = getMeta(schema);\n62: \n63:   if (kind === \"optional\") {\n64:     const innerSchema = schema._zod?.def?.innerType;\n65:     const innerKind = innerSchema ? getKind(innerSchema) : \"unknown\";\n66:     const innerMeta = innerSchema ? getMeta(innerSchema) : undefined;\n67:     const checks = innerSchema ? getChecks(innerSchema) : [];\n68:     return {\n69:       checks,\n70:       innerKind,\n71:       innerMeta,\n72:       isOptional: true,\n73:       kind,\n74:       meta: meta ?? innerMeta,\n75:       ...(innerKind === \"enum\" && innerSchema\n76:         ? { enumEntries: innerSchema._zod?.def?.entries }\n77:         : {}),\n78:       ...(innerKind === \"array\" && innerSchema\n79:         ? { arrayElement: buildFieldMap(innerSchema._zod?.def?.element) }\n80:         : {}),\n81:     };\n82:   }\n83: \n84:   if (kind === \"array\") {\n85:     const elementSchema = schema._zod?.def?.element;\n86:     return {\n87:       arrayElement: elementSchema ? buildFieldMap(elementSchema) : undefined,\n88:       isOptional: false,\n89:       kind,\n90:       meta,\n91:     };\n92:   }\n93: \n94:   return {\n95:     checks: getChecks(schema),\n96:     isOptional: false,\n97:     kind,\n98:     meta,\n99:     ...(kind === \"enum\" ? { enumEntries: schema._zod?.def?.entries } : {}),\n100:   };\n101: }\n102: \n103: export function buildFieldMap(schema: any): FieldMap {\n104:   if (!schema?.shape) return {};\n105:   const map: FieldMap = {};\n106:   for (const [key, fieldSchema] of Object.entries(schema.shape)) {\n107:     map[key] = buildFieldDef(fieldSchema);\n108:   }\n109:   return map;\n110: }\n111: \n112: export function deriveDefault(fieldDef: FieldDef): any {\n113:   if (fieldDef.isOptional) return undefined;\n114:   if (fieldDef.kind === \"string\") return \"\";\n115:   if (fieldDef.kind === \"number\") return 0;\n116:   if (fieldDef.kind === \"boolean\") return false;\n117:   if (fieldDef.kind === \"enum\" && fieldDef.enumEntries) {\n118:     return Object.values(fieldDef.enumEntries)[0];\n119:   }\n120:   if (fieldDef.kind === \"array\") return [];\n121:   return undefined;\n122: }\n123: \n124: export function buildDefaults(\n125:   schema: z.ZodObject<any>,\n126:   overrides?: Record<string, any>,\n127: ): Record<string, any> {\n128:   const fieldMap = buildFieldMap(schema);\n129:   const defaults: Record<string, any> = {};\n130:   for (const [key, def] of Object.entries(fieldMap)) {\n131:     defaults[key] = deriveDefault(def);\n132:   }\n133:   if (overrides) {\n134:     for (const [key, value] of Object.entries(overrides)) {\n135:       defaults[key] = value;\n136:     }\n137:   }\n138:   return defaults;\n139: }\n\n(End of file - total 139 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { z } from \"zod\";\n\nexport type FieldMeta = {\n  label?: string;\n  placeholder?: string;\n  description?: string;\n  component?: \"textarea\" | \"password\" | \"combobox\" | \"checkbox\";\n};\n\nexport type FieldKind =\n  | \"string\"\n  | \"number\"\n  | \"boolean\"\n  | \"enum\"\n  | \"array\"\n  | \"optional\"\n  | \"unknown\";\n\nexport type FieldDef = {\n  kind: FieldKind;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/use-form.ts",
+            "time": {
+              "start": 1779537925617,
+              "end": 1779537925634
+            }
+          },
+          "id": "prt_e54b9d5a9001AaHGl3cxQR8qlZ",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_095fb106a62d42a88b3ac7a3",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/form-schemas/client.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/form-schemas/client.ts</path>\n<type>file</type>\n<content>\n1: import { z } from \"zod\";\n2: \n3: import { AddressSchema } from \"./~utils\";\n4: \n5: export const Client_FormSchema = z.object({\n6:   archived: z.boolean().optional(),\n7:   assigneeId: z\n8:     .string()\n9:     .min(1)\n10:     .meta({ component: \"combobox\", label: \"Assignee\" }),\n11:   id: z.number(),\n12:   internalNotes: z.string().optional().meta({\n13:     component: \"textarea\",\n14:     label: \"Internal Notes\",\n15:     placeholder: \"Internal notes about this client...\",\n16:   }),\n17:   legalName: z\n18:     .string()\n19:     .optional()\n20:     .meta({ label: \"Client Legal Name\", placeholder: \"Acme Corporation Ltd.\" }),\n21:   locations: z.array(AddressSchema).optional().meta({ label: \"Locations\" }),\n22:   logo: z.string().optional().meta({ label: \"Logo\" }),\n23:   name: z\n24:     .string()\n25:     .min(1)\n26:     .meta({ label: \"Client Nick Name\", placeholder: \"Acme Corp\" }),\n27:   slug: z.string().optional().meta({\n28:     description: \"Used in URLs: /clients/{slug}\",\n29:     label: \"Slug\",\n30:     placeholder: \"acme-corp\",\n31:   }),\n32: });\n\n(End of file - total 32 lines)\n</content>",
+            "metadata": {
+              "preview": "import { z } from \"zod\";\n\nimport { AddressSchema } from \"./~utils\";\n\nexport const Client_FormSchema = z.object({\n  archived: z.boolean().optional(),\n  assigneeId: z\n    .string()\n    .min(1)\n    .meta({ component: \"combobox\", label: \"Assignee\" }),\n  id: z.number(),\n  internalNotes: z.string().optional().meta({\n    component: \"textarea\",\n    label: \"Internal Notes\",\n    placeholder: \"Internal notes about this client...\",\n  }),\n  legalName: z\n    .string()\n    .optional()\n    .meta({ label: \"Client Legal Name\", placeholder: \"Acme Corporation Ltd.\" }),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/form-schemas/client.ts",
+            "time": {
+              "start": 1779537925834,
+              "end": 1779537925865
+            }
+          },
+          "id": "prt_e54b9d5f8001QcAxDf4HObuzik",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_c0a4a24229474a63962f0a04",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/client.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/client.ts</path>\n<type>file</type>\n<content>\n1: import { createORPCClient } from \"@orpc/client\";\n2: import { RPCLink } from \"@orpc/client/fetch\";\n3: import type { RouterClient } from \"@orpc/server\";\n4: import { createRouterClient } from \"@orpc/server\";\n5: import { createTanstackQueryUtils } from \"@orpc/tanstack-query\";\n6: import { createIsomorphicFn } from \"@tanstack/react-start\";\n7: import { getRequestHeaders } from \"@tanstack/react-start/server\";\n8: \n9: import { router } from \"@/rpc/router\";\n10: \n11: const getORPCClient = createIsomorphicFn()\n12:   .server(() =>\n13:     createRouterClient(router, {\n14:       context: () => ({\n15:         headers: getRequestHeaders(),\n16:       }),\n17:     }),\n18:   )\n19:   .client((): RouterClient<typeof router> => {\n20:     const link = new RPCLink({\n21:       url: `${window.location.origin}/api/rpc`,\n22:     });\n23:     return createORPCClient(link);\n24:   });\n25: \n26: export const client: RouterClient<typeof router> = getORPCClient();\n27: \n28: export const rpc = createTanstackQueryUtils(client);\n\n(End of file - total 28 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createORPCClient } from \"@orpc/client\";\nimport { RPCLink } from \"@orpc/client/fetch\";\nimport type { RouterClient } from \"@orpc/server\";\nimport { createRouterClient } from \"@orpc/server\";\nimport { createTanstackQueryUtils } from \"@orpc/tanstack-query\";\nimport { createIsomorphicFn } from \"@tanstack/react-start\";\nimport { getRequestHeaders } from \"@tanstack/react-start/server\";\n\nimport { router } from \"@/rpc/router\";\n\nconst getORPCClient = createIsomorphicFn()\n  .server(() =>\n    createRouterClient(router, {\n      context: () => ({\n        headers: getRequestHeaders(),\n      }),\n    }),\n  )\n  .client((): RouterClient<typeof router> => {\n    const link = new RPCLink({",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/client.ts",
+            "time": {
+              "start": 1779537925947,
+              "end": 1779537925978
+            }
+          },
+          "id": "prt_e54b9d6d7001K301WuiLr7ktQe",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_67a831e9099644aa949d9752",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts</path>\n<type>file</type>\n<content>\n1: import * as admin from \"./admin\";\n2: import {\n3:   clientArchive,\n4:   clientCreate,\n5:   clientGetById,\n6:   clientGetUploadUrl,\n7:   clientList,\n8:   clientListEvents,\n9:   clientUpdate,\n10: } from \"./client\";\n11: import {\n12:   contractArchive,\n13:   contractCreate,\n14:   contractGetById,\n15:   contractList,\n16:   contractListEvents,\n17:   contractUpdate,\n18: } from \"./client-contract\";\n19: import {\n20:   draftCreate,\n21:   draftDelete,\n22:   draftGetById,\n23:   draftList,\n24:   draftUpdate,\n25: } from \"./draft\";\n26: import {\n27:   filterViewCreate,\n28:   filterViewDelete,\n29:   filterViewList,\n30:   filterViewUpdate,\n31: } from \"./filter-view\";\n32: import {\n33:   notificationList,\n34:   notificationMarkAllRead,\n35:   notificationMarkRead,\n36: } from \"./notification\";\n37: import { reminderArchive, reminderCreate, reminderList } from \"./reminder\";\n38: import {\n39:   taskAddLink,\n40:   taskArchive,\n41:   taskCreate,\n42:   taskGetById,\n43:   taskList,\n44:   taskListEvents,\n45:   taskRemoveLink,\n46:   taskStats,\n47:   taskUpdate,\n48: } from \"./task\";\n49: import { usersList } from \"./users\";\n50: \n51: export const router = {\n52:   admin,\n53:   client: {\n54:     archive: clientArchive,\n55:     create: clientCreate,\n56:     getById: clientGetById,\n57:     getUploadUrl: clientGetUploadUrl,\n58:     list: clientList,\n59:     listEvents: clientListEvents,\n60:     update: clientUpdate,\n61:   },\n62:   contract: {\n63:     archive: contractArchive,\n64:     create: contractCreate,\n65:     getById: contractGetById,\n66:     list: contractList,\n67:     listEvents: contractListEvents,\n68:     update: contractUpdate,\n69:   },\n70:   draft: {\n71:     create: draftCreate,\n72:     delete: draftDelete,\n73:     getById: draftGetById,\n74:     list: draftList,\n75:     update: draftUpdate,\n76:   },\n77:   filterView: {\n78:     create: filterViewCreate,\n79:     delete: filterViewDelete,\n80:     list: filterViewList,\n81:     update: filterViewUpdate,\n82:   },\n83:   notification: {\n84:     list: notificationList,\n85:     markAllRead: notificationMarkAllRead,\n86:     markRead: notificationMarkRead,\n87:   },\n88:   reminder: {\n89:     archive: reminderArchive,\n90:     create: reminderCreate,\n91:     list: reminderList,\n92:   },\n93:   task: {\n94:     addLink: taskAddLink,\n95:     archive: taskArchive,\n96:     create: taskCreate,\n97:     getById: taskGetById,\n98:     list: taskList,\n99:     listEvents: taskListEvents,\n100:     removeLink: taskRemoveLink,\n101:     stats: taskStats,\n102:     update: taskUpdate,\n103:   },\n104:   users: {\n105:     list: usersList,\n106:   },\n107: };\n\n(End of file - total 107 lines)\n</content>",
+            "metadata": {
+              "preview": "import * as admin from \"./admin\";\nimport {\n  clientArchive,\n  clientCreate,\n  clientGetById,\n  clientGetUploadUrl,\n  clientList,\n  clientListEvents,\n  clientUpdate,\n} from \"./client\";\nimport {\n  contractArchive,\n  contractCreate,\n  contractGetById,\n  contractList,\n  contractListEvents,\n  contractUpdate,\n} from \"./client-contract\";\nimport {\n  draftCreate,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/index.ts",
+            "time": {
+              "start": 1779537926087,
+              "end": 1779537926124
+            }
+          },
+          "id": "prt_e54b9d74900135FNfINtHVsn2S",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_52a4eb18e3204e5789e0678d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/utils.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/utils.ts</path>\n<type>file</type>\n<content>\n1: import type { ClassValue } from \"clsx\";\n2: import { clsx } from \"clsx\";\n3: import { twMerge } from \"tailwind-merge\";\n4: \n5: export function cn(...inputs: ClassValue[]) {\n6:   return twMerge(clsx(inputs));\n7: }\n8: \n9: export function slugify(text: string): string {\n10:   return text\n11:     .toLowerCase()\n12:     .replace(/[^a-z0-9]+/g, \"-\")\n13:     .replace(/^-|-$/g, \"\");\n14: }\n\n(End of file - total 14 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n\nexport function slugify(text: string): string {\n  return text\n    .toLowerCase()\n    .replace(/[^a-z0-9]+/g, \"-\")\n    .replace(/^-|-$/g, \"\");\n}",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/utils.ts",
+            "time": {
+              "start": 1779537926196,
+              "end": 1779537926249
+            }
+          },
+          "id": "prt_e54b9d7d8001PjSVe97gI5DQ5Y",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_00dd8a0af6574330bfd822e6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx</path>\n<type>file</type>\n<content>\n1: import { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\n2: import { useNavigate } from \"@tanstack/react-router\";\n3: import { useEffect } from \"react\";\n4: import { useFormContext } from \"react-hook-form\";\n5: import type { z } from \"zod\";\n6: \n7: import { Field, Form } from \"#/forms\";\n8: import { LogoUpload } from \"@/components/logo-upload\";\n9: import { Button } from \"@/components/ui/button\";\n10: import { Client_FormSchema } from \"@/lib/form-schemas/client\";\n11: import { slugify } from \"@/lib/utils\";\n12: import { rpc } from \"@/rpc/client\";\n13: \n14: type ClientFormType = z.infer<typeof Client_FormSchema>;\n15: \n16: export function ClientForm({\n17:   mode,\n18:   draftId,\n19: }: {\n20:   mode: \"create\" | \"edit\";\n21:   draftId?: string;\n22: }) {\n23:   const { data: bd_users } = useQuery(\n24:     rpc.users.list.queryOptions({\n25:       input: { limit: 100, role: [\"admin\", \"bd\"] },\n26:     }) as any,\n27:   ) as { data?: { items: { id: string; name: string }[] } };\n28: \n29:   const navigate = useNavigate();\n30:   const queryClient = useQueryClient();\n31: \n32:   const { data: draft } = useQuery({\n33:     ...(rpc.draft.getById.queryOptions({\n34:       input: { id: Number(draftId!) },\n35:     }) as any),\n36:     enabled: !!draftId,\n37:   }) as { data?: { data: Record<string, unknown> } };\n38: \n39:   const createMutation = useMutation({\n40:     mutationFn: (input: Record<string, any>) =>\n41:       rpc.client.create.call(input as any),\n42:     onSuccess: async (data) => {\n43:       if (!data) return;\n44:       queryClient.invalidateQueries({ queryKey: [\"client\"] });\n45:       if (draftId) {\n46:         await rpc.draft.delete.call({ id: Number(draftId) });\n47:         queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n48:       }\n49:       navigate({\n50:         params: { clientId: String(data.id) },\n51:         to: \"/clients/$clientId\",\n52:       });\n53:     },\n54:   });\n55: \n56:   const saveDraftMutation = useMutation({\n57:     mutationFn: (input: Record<string, any>) =>\n58:       rpc.draft.create.call({\n59:         data: input as Record<string, unknown>,\n60:         entityType: \"client\",\n61:         title: input.name,\n62:       }),\n63:     onSuccess: () => {\n64:       queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n65:     },\n66:   });\n67: \n68:   const defaultValues = draft // TODO: VALIDATE DRAFT AND REFINE IT AND PASS IT ON\n69:     ? // TODO: PRINT ERRORS ON VALIDATION FAILURE\n70:       {\n71:         assigneeId: (draft.data.assigneeId as string) ?? \"\",\n72:         internalNotes: (draft.data.internalNotes as string) ?? undefined,\n73:         legalName: (draft.data.legalName as string) ?? undefined,\n74:         locations: draft.data.locations as\n75:           | { city: string; country: string }[]\n76:           | undefined,\n77:         logo: (draft.data.logo as string) ?? undefined,\n78:         name: (draft.data.name as string) ?? \"\",\n79:         slug: (draft.data.slug as string) ?? undefined,\n80:       }\n81:     : undefined;\n82: \n83:   return (\n84:     <Form\n85:       className=\"space-y-6\"\n86:       defaultValues={defaultValues}\n87:       onSubmit={(values) => createMutation.mutate(values)}\n88:       schema={Client_FormSchema}\n89:     >\n90:       <Field name=\"name\" />\n91:       <Field name=\"legalName\" />\n92:       <Field\n93:         name=\"logo\"\n94:         overrides={({ field }) => (\n95:           <LogoUpload\n96:             onChange={(url: string | null) => field.onChange(url)}\n97:             value={field.value}\n98:           />\n99:         )}\n100:       />\n101:       <SlugSync mode={mode} />\n102:       <Field name=\"slug\" />\n103:       <Field name=\"locations\" />\n104:       <Field name=\"internalNotes\" />\n105:       <Field\n106:         config={{\n107:           getOptionLabel: ({ name }) => name,\n108:           getOptionValue: ({ id }) => id,\n109:           options: bd_users?.items ?? [],\n110:         }}\n111:         name=\"assigneeId\"\n112:       />\n113:       <ClientFormActions\n114:         isPending={createMutation.isPending}\n115:         isSaveDraftPending={saveDraftMutation.isPending}\n116:         mode={mode}\n117:         onSaveDraft={(values) => saveDraftMutation.mutate(values)}\n118:       />\n119:     </Form>\n120:   );\n121: }\n122: \n123: function SlugSync({ mode }: { mode: \"create\" | \"edit\" }) {\n124:   const { watch, setValue } = useFormContext();\n125: \n126:   useEffect(() => {\n127:     if (mode === \"edit\") return;\n128:     const { unsubscribe } = watch((values, { name }) => {\n129:       if (name === \"name\" && typeof values.name === \"string\") {\n130:         setValue(\"slug\", slugify(values.name), { shouldValidate: true });\n131:       }\n132:     });\n133:     return unsubscribe;\n134:   }, [mode, watch, setValue]);\n135: \n136:   return null;\n137: }\n138: \n139: function ClientFormActions({\n140:   mode,\n141:   isPending,\n142:   onSaveDraft,\n143:   isSaveDraftPending,\n144: }: {\n145:   mode: \"create\" | \"edit\";\n146:   isPending: boolean;\n147:   onSaveDraft?: (values: ClientFormType) => void;\n148:   isSaveDraftPending?: boolean;\n149: }) {\n150:   const { watch, getValues } = useFormContext<ClientFormType>();\n151:   const name = watch(\"name\");\n152:   const assigneeId = watch(\"assigneeId\");\n153: \n154:   function handleSaveDraft() {\n155:     if (onSaveDraft) {\n156:       onSaveDraft(getValues());\n157:     }\n158:   }\n159: \n160:   return (\n161:     <div className=\"flex gap-3\">\n162:       <Button disabled={isPending || !name || !assigneeId} type=\"submit\">\n163:         {mode === \"create\" ? \"Create Client\" : \"Save Changes\"}\n164:       </Button>\n165:       {mode === \"create\" && onSaveDraft && (\n166:         <Button\n167:           disabled={isSaveDraftPending || !name}\n168:           onClick={handleSaveDraft}\n169:           type=\"button\"\n170:           variant=\"outline\"\n171:         >\n172:           {isSaveDraftPending ? \"Saving...\" : \"Save to Drafts\"}\n173:         </Button>\n174:       )}\n175:     </div>\n176:   );\n177: }\n\n(End of file - total 177 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { useNavigate } from \"@tanstack/react-router\";\nimport { useEffect } from \"react\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { LogoUpload } from \"@/components/logo-upload\";\nimport { Button } from \"@/components/ui/button\";\nimport { Client_FormSchema } from \"@/lib/form-schemas/client\";\nimport { slugify } from \"@/lib/utils\";\nimport { rpc } from \"@/rpc/client\";\n\ntype ClientFormType = z.infer<typeof Client_FormSchema>;\n\nexport function ClientForm({\n  mode,\n  draftId,\n}: {\n  mode: \"create\" | \"edit\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/forms/client-form.tsx",
+            "time": {
+              "start": 1779537926316,
+              "end": 1779537926366
+            }
+          },
+          "id": "prt_e54b9d848001kg3kUPV1Ur4BGq",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_e08d5e9791d846a0abdb399d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx</path>\n<type>file</type>\n<content>\n1: import { useQuery } from \"@tanstack/react-query\";\n2: import { useFormContext } from \"react-hook-form\";\n3: import type { z } from \"zod\";\n4: \n5: import { Field, Form } from \"#/forms\";\n6: import { PermissionsEditor } from \"@/components/permissions-editor\";\n7: import { SupervisorCombobox } from \"@/components/supervisor-combobox\";\n8: import { Button } from \"@/components/ui/button\";\n9: import { Member_FormSchema } from \"@/lib/form-schemas/auth\";\n10: import { rpc } from \"@/rpc/client\";\n11: \n12: type MemberFormType = z.infer<typeof Member_FormSchema>;\n13: \n14: export type RoleCode =\n15:   | \"admin\"\n16:   | \"bd\"\n17:   | \"caller\"\n18:   | \"custom\"\n19:   | \"qc\"\n20:   | \"rm\"\n21:   | \"sc\"\n22:   | \"tl\";\n23: \n24: export function MemberForm({\n25:   mode,\n26:   onSubmit,\n27:   isPending,\n28:   defaultValues,\n29: }: {\n30:   mode: \"create\" | \"edit\";\n31:   onSubmit: (values: MemberFormType) => void;\n32:   isPending: boolean;\n33:   defaultValues?: Partial<MemberFormType>;\n34: }) {\n35:   const { data: users } = useQuery(\n36:     rpc.users.list.queryOptions({ input: { limit: 100 } }),\n37:   );\n38: \n39:   return (\n40:     <Form\n41:       className=\"space-y-6\"\n42:       defaultValues={defaultValues}\n43:       onSubmit={onSubmit}\n44:       schema={Member_FormSchema}\n45:     >\n46:       <Field name=\"name\" />\n47:       <Field name=\"email\" />\n48:       {mode === \"create\" && <Field name=\"password\" />}\n49:       <Field name=\"role\" />\n50:       <MemberSupervisorField\n51:         excludeUserId={defaultValues?.id}\n52:         users={users?.items ?? []}\n53:       />\n54:       <MemberPermissionsField />\n55:       <MemberFormActions isPending={isPending} mode={mode} />\n56:     </Form>\n57:   );\n58: }\n59: \n60: function MemberSupervisorField({\n61:   users,\n62:   excludeUserId,\n63: }: {\n64:   users: { id: string; name: string; email: string; role: string | null }[];\n65:   excludeUserId?: string;\n66: }) {\n67:   const { watch } = useFormContext();\n68:   const currentRole = watch(\"role\");\n69:   const isAdmin = currentRole === \"admin\";\n70: \n71:   return (\n72:     <Field\n73:       disabled={isAdmin}\n74:       name=\"supervisorId\"\n75:       overrides={({ field, disabled: fieldDisabled }) => (\n76:         <SupervisorCombobox\n77:           disabled={fieldDisabled}\n78:           excludeUserId={excludeUserId}\n79:           onChange={field.onChange}\n80:           required={!isAdmin}\n81:           users={users}\n82:           value={field.value}\n83:         />\n84:       )}\n85:     />\n86:   );\n87: }\n88: \n89: function MemberPermissionsField() {\n90:   const { watch } = useFormContext();\n91:   const currentRole = watch(\"role\");\n92:   const showPermissions = currentRole === \"custom\";\n93: \n94:   if (!showPermissions) return null;\n95: \n96:   return (\n97:     <Field\n98:       name=\"permissions\"\n99:       overrides={({ field }) => (\n100:         <PermissionsEditor\n101:           onChange={field.onChange}\n102:           value={field.value ?? {}}\n103:         />\n104:       )}\n105:     />\n106:   );\n107: }\n108: \n109: function MemberFormActions({\n110:   mode,\n111:   isPending,\n112: }: {\n113:   mode: \"create\" | \"edit\";\n114:   isPending: boolean;\n115: }) {\n116:   const { watch } = useFormContext();\n117:   const name = watch(\"name\");\n118:   const email = watch(\"email\");\n119: \n120:   return (\n121:     <div className=\"flex gap-3\">\n122:       <Button disabled={isPending || !name || !email} type=\"submit\">\n123:         {mode === \"create\" ? \"Add Member\" : \"Save Changes\"}\n124:       </Button>\n125:     </div>\n126:   );\n127: }\n\n(End of file - total 127 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useQuery } from \"@tanstack/react-query\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { PermissionsEditor } from \"@/components/permissions-editor\";\nimport { SupervisorCombobox } from \"@/components/supervisor-combobox\";\nimport { Button } from \"@/components/ui/button\";\nimport { Member_FormSchema } from \"@/lib/form-schemas/auth\";\nimport { rpc } from \"@/rpc/client\";\n\ntype MemberFormType = z.infer<typeof Member_FormSchema>;\n\nexport type RoleCode =\n  | \"admin\"\n  | \"bd\"\n  | \"caller\"\n  | \"custom\"\n  | \"qc\"\n  | \"rm\"",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/forms/member-form.tsx",
+            "time": {
+              "start": 1779537926414,
+              "end": 1779537926492
+            }
+          },
+          "id": "prt_e54b9d8b4001cYUsPJrEC3VBMo",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_ef64aff174be44959b1c4891",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx</path>\n<type>file</type>\n<content>\n1: import { useQuery } from \"@tanstack/react-query\";\n2: import { useFormContext } from \"react-hook-form\";\n3: import type { z } from \"zod\";\n4: \n5: import { Field, Form } from \"#/forms\";\n6: import { Button } from \"@/components/ui/button\";\n7: import { ClientContract_FormSchema } from \"@/lib/form-schemas/client-contract\";\n8: import { rpc } from \"@/rpc/client\";\n9: \n10: type ClientContractType = z.infer<typeof ClientContract_FormSchema>;\n11: \n12: export function ContractForm({\n13:   mode,\n14:   onSubmit,\n15:   isPending,\n16:   defaultValues,\n17: }: {\n18:   mode: \"create\" | \"edit\";\n19:   onSubmit: (values: ClientContractType) => void;\n20:   isPending: boolean;\n21:   defaultValues?: Partial<ClientContractType>;\n22: }) {\n23:   const { data: clients } = useQuery(\n24:     rpc.client.list.queryOptions({ input: { limit: 100 } }),\n25:   );\n26: \n27:   const { data: bd_users } = useQuery(\n28:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"bd\"] } }),\n29:   );\n30: \n31:   const { data: rm_users } = useQuery(\n32:     rpc.users.list.queryOptions({ input: { limit: 100, role: [\"rm\"] } }),\n33:   );\n34: \n35:   return (\n36:     <Form\n37:       className=\"space-y-6\"\n38:       defaultValues={defaultValues}\n39:       onSubmit={onSubmit}\n40:       schema={ClientContract_FormSchema}\n41:     >\n42:       <Field name=\"title\" />\n43:       <Field name=\"referenceNumber\" />\n44:       <Field name=\"description\" />\n45:       <Field\n46:         config={{\n47:           getOptionLabel: ({ name }) => name,\n48:           getOptionValue: ({ id }) => id,\n49:           options: clients?.items || [],\n50:           // placeholder: \"Search clients...\",\n51:         }}\n52:         name=\"clientId\"\n53:       />\n54:       <Field\n55:         config={{\n56:           getOptionLabel: ({ name }) => name,\n57:           getOptionValue: ({ id }) => id,\n58:           options: bd_users?.items,\n59:           // placeholder: \"Search BD users...\",\n60:         }}\n61:         name=\"assigneeId\"\n62:       />\n63:       <Field\n64:         config={{\n65:           getOptionLabel: ({ name }) => name,\n66:           getOptionValue: ({ id }) => id,\n67:           options: rm_users?.items,\n68:           // placeholder: \"Search RM users...\",\n69:         }}\n70:         name=\"rmId\"\n71:       />\n72:       <div className=\"grid grid-cols-3 gap-4\">\n73:         <Field name=\"startDate\" />\n74:         <Field name=\"endDate\" />\n75:         <Field name=\"signedDate\" />\n76:       </div>\n77:       <Field name=\"pdfLink\" />\n78:       <Field name=\"status\" />\n79:       <ContractFormActions isPending={isPending} mode={mode} />\n80:     </Form>\n81:   );\n82: }\n83: \n84: function ContractFormActions({\n85:   mode,\n86:   isPending,\n87: }: {\n88:   mode: \"create\" | \"edit\";\n89:   isPending: boolean;\n90: }) {\n91:   const { watch } = useFormContext();\n92:   const title = watch(\"title\");\n93:   const clientId = watch(\"clientId\");\n94:   const assigneeId = watch(\"assigneeId\");\n95: \n96:   return (\n97:     <div className=\"flex gap-3\">\n98:       <Button\n99:         disabled={isPending || !title || !clientId || !assigneeId}\n100:         type=\"submit\"\n101:       >\n102:         {mode === \"create\" ? \"Create Contract\" : \"Save Changes\"}\n103:       </Button>\n104:     </div>\n105:   );\n106: }\n\n(End of file - total 106 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useQuery } from \"@tanstack/react-query\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { Button } from \"@/components/ui/button\";\nimport { ClientContract_FormSchema } from \"@/lib/form-schemas/client-contract\";\nimport { rpc } from \"@/rpc/client\";\n\ntype ClientContractType = z.infer<typeof ClientContract_FormSchema>;\n\nexport function ContractForm({\n  mode,\n  onSubmit,\n  isPending,\n  defaultValues,\n}: {\n  mode: \"create\" | \"edit\";\n  onSubmit: (values: ClientContractType) => void;\n  isPending: boolean;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/forms/contract-form.tsx",
+            "time": {
+              "start": 1779537926727,
+              "end": 1779537926755
+            }
+          },
+          "id": "prt_e54b9d91500170GP78HmDWD9eA",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-finish",
+          "tokens": {
+            "total": 6173,
+            "input": 445,
+            "output": 334,
+            "reasoning": 18,
+            "cache": {
+              "write": 0,
+              "read": 5376
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54b9da8a001Kmi6E0RqR8NRMx",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9cd70001hVtCgWvdvG95G8"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54b9c104001MvoS3OWMGycRg7",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 16026,
+          "input": 14285,
+          "output": 295,
+          "reasoning": 38,
+          "cache": {
+            "write": 0,
+            "read": 1408
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779537926875,
+          "completed": 1779537934118
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54b9dadb001ttf7muoU3HyONi",
+        "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp"
+      },
+      "parts": [
+        {
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-start",
+          "id": "prt_e54b9ed84001KBKbYUeUU7dP0C",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me read the remaining files I haven't read yet: the field components from the forms integration, the LogoUpload component, and the draft/client/user RPC procedure files for signatures.",
+          "time": {
+            "start": 1779537931771,
+            "end": 1779537932120
+          },
+          "id": "prt_e54b9edfb0019MUM1c257k7cGj",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "text",
+          "text": "Now let me read the remaining field components, the LogoUpload component, and the RPC procedure definitions for the signatures requested.",
+          "time": {
+            "start": 1779537932129,
+            "end": 1779537933936
+          },
+          "id": "prt_e54b9ef610014oMyXiRqkKBrvs",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_e81570df5ee74a0c8a2be251",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/string-field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field-components/string-field.tsx</path>\n<type>file</type>\n<content>\n1: import type { ControllerRenderProps } from \"react-hook-form\";\n2: \n3: import { Input } from \"@/components/ui/input\";\n4: import { Textarea } from \"@/components/ui/textarea\";\n5: \n6: import type { FieldMeta } from \"../use-form\";\n7: \n8: type StringFieldProps = {\n9:   field: ControllerRenderProps;\n10:   meta: FieldMeta | undefined;\n11:   disabled: boolean | undefined;\n12:   checks?: string[];\n13: };\n14: \n15: function StringField({ field, meta, disabled, checks }: StringFieldProps) {\n16:   const component = meta?.component;\n17: \n18:   if (component === \"textarea\") {\n19:     return (\n20:       <Textarea\n21:         disabled={disabled}\n22:         onBlur={field.onBlur}\n23:         onChange={(e) => field.onChange(e.target.value)}\n24:         placeholder={meta?.placeholder}\n25:         ref={field.ref}\n26:         value={field.value ?? \"\"}\n27:       />\n28:     );\n29:   }\n30: \n31:   const inputType = resolveInputType(component, checks);\n32: \n33:   return (\n34:     <Input\n35:       disabled={disabled}\n36:       onBlur={field.onBlur}\n37:       onChange={(e) => field.onChange(e.target.value)}\n38:       placeholder={meta?.placeholder}\n39:       ref={field.ref}\n40:       type={inputType}\n41:       value={field.value ?? \"\"}\n42:     />\n43:   );\n44: }\n45: \n46: function resolveInputType(\n47:   component: string | undefined,\n48:   checks?: string[],\n49: ): React.HTMLInputTypeAttribute {\n50:   if (component === \"password\") return \"password\";\n51:   if (checks?.includes(\"email\")) return \"email\";\n52:   if (checks?.includes(\"url\")) return \"url\";\n53:   return \"text\";\n54: }\n55: \n56: export { StringField };\n\n(End of file - total 56 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Input } from \"@/components/ui/input\";\nimport { Textarea } from \"@/components/ui/textarea\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype StringFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  checks?: string[];\n};\n\nfunction StringField({ field, meta, disabled, checks }: StringFieldProps) {\n  const component = meta?.component;\n\n  if (component === \"textarea\") {\n    return (\n      <Textarea",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field-components/string-field.tsx",
+            "time": {
+              "start": 1779537932480,
+              "end": 1779537932528
+            }
+          },
+          "id": "prt_e54b9f002001sqdgG3hTnlzlTK",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_962a704ea9c44fc584abe590",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/number-field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field-components/number-field.tsx</path>\n<type>file</type>\n<content>\n1: import type { ControllerRenderProps } from \"react-hook-form\";\n2: \n3: import { Input } from \"@/components/ui/input\";\n4: \n5: import type { FieldMeta } from \"../use-form\";\n6: \n7: type NumberFieldProps = {\n8:   field: ControllerRenderProps;\n9:   meta: FieldMeta | undefined;\n10:   disabled: boolean | undefined;\n11: };\n12: \n13: function NumberField({ field, meta, disabled }: NumberFieldProps) {\n14:   return (\n15:     <Input\n16:       disabled={disabled}\n17:       onBlur={field.onBlur}\n18:       onChange={(e) => {\n19:         const val = e.target.value;\n20:         field.onChange(val === \"\" ? undefined : Number(val));\n21:       }}\n22:       placeholder={meta?.placeholder}\n23:       ref={field.ref}\n24:       type=\"number\"\n25:       value={field.value ?? \"\"}\n26:     />\n27:   );\n28: }\n29: \n30: export { NumberField };\n\n(End of file - total 30 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Input } from \"@/components/ui/input\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype NumberFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n};\n\nfunction NumberField({ field, meta, disabled }: NumberFieldProps) {\n  return (\n    <Input\n      disabled={disabled}\n      onBlur={field.onBlur}\n      onChange={(e) => {\n        const val = e.target.value;\n        field.onChange(val === \"\" ? undefined : Number(val));",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field-components/number-field.tsx",
+            "time": {
+              "start": 1779537932666,
+              "end": 1779537932769
+            }
+          },
+          "id": "prt_e54b9f0d9001rMY370zV3cFV1g",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_ff5006c5d8554418b9c8d8a6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/boolean-field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field-components/boolean-field.tsx</path>\n<type>file</type>\n<content>\n1: import type { ControllerRenderProps } from \"react-hook-form\";\n2: \n3: import { Checkbox } from \"@/components/ui/checkbox\";\n4: import { Label } from \"@/components/ui/label\";\n5: import { Switch } from \"@/components/ui/switch\";\n6: \n7: import type { FieldMeta } from \"../use-form\";\n8: \n9: type BooleanFieldProps = {\n10:   field: ControllerRenderProps;\n11:   meta: FieldMeta | undefined;\n12:   disabled: boolean | undefined;\n13:   label: string;\n14: };\n15: \n16: function BooleanField({ field, meta, disabled, label }: BooleanFieldProps) {\n17:   const component = meta?.component;\n18: \n19:   if (component === \"checkbox\") {\n20:     return (\n21:       <div className=\"flex items-center gap-2\">\n22:         <Checkbox\n23:           checked={field.value ?? false}\n24:           disabled={disabled}\n25:           onCheckedChange={field.onChange}\n26:           ref={field.ref}\n27:         />\n28:         <Label className=\"font-normal\">{label}</Label>\n29:       </div>\n30:     );\n31:   }\n32: \n33:   return (\n34:     <div className=\"flex items-center gap-2\">\n35:       <Switch\n36:         checked={field.value ?? false}\n37:         disabled={disabled}\n38:         onCheckedChange={field.onChange}\n39:         ref={field.ref}\n40:       />\n41:       <Label className=\"font-normal\">{label}</Label>\n42:     </div>\n43:   );\n44: }\n45: \n46: export { BooleanField };\n\n(End of file - total 46 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Label } from \"@/components/ui/label\";\nimport { Switch } from \"@/components/ui/switch\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype BooleanFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  label: string;\n};\n\nfunction BooleanField({ field, meta, disabled, label }: BooleanFieldProps) {\n  const component = meta?.component;\n\n  if (component === \"checkbox\") {\n    return (",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field-components/boolean-field.tsx",
+            "time": {
+              "start": 1779537932852,
+              "end": 1779537932908
+            }
+          },
+          "id": "prt_e54b9f185001f39NFmbCNKNK8Y",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_b631de22fb7f48ec866e79f1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/enum-field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field-components/enum-field.tsx</path>\n<type>file</type>\n<content>\n1: import type { ControllerRenderProps } from \"react-hook-form\";\n2: \n3: import {\n4:   Select,\n5:   SelectContent,\n6:   SelectItem,\n7:   SelectTrigger,\n8:   SelectValue,\n9: } from \"@/components/ui/select\";\n10: \n11: import type { FieldMeta } from \"../use-form\";\n12: \n13: type EnumFieldProps = {\n14:   field: ControllerRenderProps;\n15:   meta: FieldMeta | undefined;\n16:   disabled: boolean | undefined;\n17:   entries: Record<string, string> | undefined;\n18: };\n19: \n20: function EnumField({ field, meta, disabled, entries }: EnumFieldProps) {\n21:   const options = entries ? Object.entries(entries) : [];\n22: \n23:   return (\n24:     <Select\n25:       disabled={disabled}\n26:       onValueChange={field.onChange}\n27:       value={field.value}\n28:     >\n29:       <SelectTrigger className=\"w-full\">\n30:         <SelectValue placeholder={meta?.placeholder ?? \"Select...\"} />\n31:       </SelectTrigger>\n32:       <SelectContent>\n33:         {options.map(([value, label]) => (\n34:           <SelectItem key={value} value={value}>\n35:             {label}\n36:           </SelectItem>\n37:         ))}\n38:       </SelectContent>\n39:     </Select>\n40:   );\n41: }\n42: \n43: export { EnumField };\n\n(End of file - total 43 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ControllerRenderProps } from \"react-hook-form\";\n\nimport {\n  Select,\n  SelectContent,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype EnumFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  entries: Record<string, string> | undefined;\n};\n\nfunction EnumField({ field, meta, disabled, entries }: EnumFieldProps) {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field-components/enum-field.tsx",
+            "time": {
+              "start": 1779537933032,
+              "end": 1779537933084
+            }
+          },
+          "id": "prt_e54b9f24200187z4mXStf8oGKt",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_821d5f81ccfe452b9750c294",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/combobox-field.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field-components/combobox-field.tsx</path>\n<type>file</type>\n<content>\n1: import { IconChevronDown } from \"@tabler/icons-react\";\n2: import { useState } from \"react\";\n3: import type { ControllerRenderProps } from \"react-hook-form\";\n4: \n5: import { Button } from \"@/components/ui/button\";\n6: import {\n7:   Command,\n8:   CommandEmpty,\n9:   CommandGroup,\n10:   CommandInput,\n11:   CommandItem,\n12:   CommandList,\n13: } from \"@/components/ui/command\";\n14: import {\n15:   Popover,\n16:   PopoverContent,\n17:   PopoverTrigger,\n18: } from \"@/components/ui/popover\";\n19: \n20: import type { FieldMeta } from \"../use-form\";\n21: \n22: type ComboboxOption = Record<string, any>;\n23: \n24: type ComboboxConfig<TOption extends ComboboxOption = ComboboxOption> = {\n25:   options?: TOption[];\n26:   getOptionLabel?: (option: TOption) => string;\n27:   getOptionValue?: (option: TOption) => string | number;\n28:   searchPlaceholder?: string;\n29:   emptyMessage?: string;\n30: };\n31: \n32: type ComboboxFieldProps = {\n33:   field: ControllerRenderProps;\n34:   meta: FieldMeta | undefined;\n35:   disabled: boolean | undefined;\n36:   config: ComboboxConfig<any> | undefined;\n37: };\n38: \n39: function defaultGetOptionLabel(o: ComboboxOption): string {\n40:   return o.label ?? o.name ?? \"\";\n41: }\n42: \n43: function defaultGetOptionValue(o: ComboboxOption): string | number {\n44:   return o.value ?? o.id;\n45: }\n46: \n47: function ComboboxField({ field, meta, disabled, config }: ComboboxFieldProps) {\n48:   const [open, setOpen] = useState(false);\n49:   const [search, setSearch] = useState(\"\");\n50: \n51:   const options = config?.options ?? [];\n52:   const getLabel = config?.getOptionLabel ?? defaultGetOptionLabel;\n53:   const getValue = config?.getOptionValue ?? defaultGetOptionValue;\n54:   const searchPlaceholder = config?.searchPlaceholder ?? \"Search...\";\n55:   const emptyMessage = config?.emptyMessage ?? \"No items found\";\n56: \n57:   const selected = options.find(\n58:     (o) => String(getValue(o)) === String(field.value),\n59:   );\n60: \n61:   const filtered = search\n62:     ? options.filter((o) =>\n63:         getLabel(o).toLowerCase().includes(search.toLowerCase()),\n64:       )\n65:     : options;\n66: \n67:   return (\n68:     <Popover onOpenChange={setOpen} open={open}>\n69:       <PopoverTrigger\n70:         disabled={disabled}\n71:         render={\n72:           <Button\n73:             className=\"w-full justify-between font-normal\"\n74:             role=\"combobox\"\n75:             variant=\"outline\"\n76:           />\n77:         }\n78:       >\n79:         {selected ? (\n80:           <span className=\"truncate\">{getLabel(selected)}</span>\n81:         ) : (\n82:           <span className=\"font-normal text-muted-foreground\">\n83:             {meta?.placeholder ?? \"Select...\"}\n84:           </span>\n85:         )}\n86:         <IconChevronDown className=\"ml-2 h-4 w-4 shrink-0 opacity-50\" />\n87:       </PopoverTrigger>\n88:       <PopoverContent align=\"start\" className=\"p-0\" sideOffset={4}>\n89:         <Command>\n90:           <CommandInput\n91:             onValueChange={setSearch}\n92:             placeholder={searchPlaceholder}\n93:             value={search}\n94:           />\n95:           <CommandList>\n96:             <CommandEmpty>{emptyMessage}</CommandEmpty>\n97:             <CommandGroup>\n98:               {filtered.map((option) => {\n99:                 const val = getValue(option);\n100:                 return (\n101:                   <CommandItem\n102:                     key={String(val)}\n103:                     onSelect={() => {\n104:                       field.onChange(val);\n105:                       setOpen(false);\n106:                     }}\n107:                     value={getLabel(option)}\n108:                   >\n109:                     <span className=\"truncate\">{getLabel(option)}</span>\n110:                   </CommandItem>\n111:                 );\n112:               })}\n113:             </CommandGroup>\n114:           </CommandList>\n115:         </Command>\n116:       </PopoverContent>\n117:     </Popover>\n118:   );\n119: }\n120: \n121: export type { ComboboxConfig, ComboboxOption };\n122: export { ComboboxField };\n\n(End of file - total 122 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconChevronDown } from \"@tabler/icons-react\";\nimport { useState } from \"react\";\nimport type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Button } from \"@/components/ui/button\";\nimport {\n  Command,\n  CommandEmpty,\n  CommandGroup,\n  CommandInput,\n  CommandItem,\n  CommandList,\n} from \"@/components/ui/command\";\nimport {\n  Popover,\n  PopoverContent,\n  PopoverTrigger,\n} from \"@/components/ui/popover\";\n\nimport type { FieldMeta } from \"../use-form\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field-components/combobox-field.tsx",
+            "time": {
+              "start": 1779537933222,
+              "end": 1779537933297
+            }
+          },
+          "id": "prt_e54b9f2f5001UEgrN2wxmbNPrb",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_67722b418f1d44ef805c76f2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/forms/field-components/field-array.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/forms/field-components/field-array.tsx</path>\n<type>file</type>\n<content>\n1: import { IconPlus, IconTrash } from \"@tabler/icons-react\";\n2: import { useFieldArray, useFormContext } from \"react-hook-form\";\n3: \n4: import { Button } from \"@/components/ui/button\";\n5: import { Input } from \"@/components/ui/input\";\n6: \n7: import type { FieldMap, FieldMeta } from \"../use-form\";\n8: \n9: type FieldArrayConfig = {\n10:   addLabel?: string;\n11:   maxItems?: number;\n12:   renderRow?: (props: {\n13:     fields: Record<string, any>;\n14:     index: number;\n15:     remove: () => void;\n16:   }) => React.ReactNode;\n17: };\n18: \n19: type FieldArrayProps = {\n20:   meta: FieldMeta | undefined;\n21:   disabled: boolean | undefined;\n22:   elementFields: FieldMap | undefined;\n23:   config: FieldArrayConfig | undefined;\n24:   control: any;\n25:   name: string;\n26: };\n27: \n28: function FieldArray({\n29:   meta,\n30:   disabled,\n31:   elementFields,\n32:   config,\n33:   control,\n34:   name,\n35: }: FieldArrayProps) {\n36:   const { register } = useFormContext();\n37: \n38:   const { fields, append, remove } = useFieldArray({\n39:     control,\n40:     name,\n41:   });\n42: \n43:   const addLabel = config?.addLabel ?? `Add ${meta?.label ?? \"item\"}`;\n44:   const maxItems = config?.maxItems;\n45: \n46:   function handleAdd() {\n47:     if (disabled) return;\n48:     if (maxItems && fields.length >= maxItems) return;\n49:     const defaults: Record<string, any> = {};\n50:     if (elementFields) {\n51:       for (const [key, def] of Object.entries(elementFields)) {\n52:         if (def.kind === \"string\") defaults[key] = \"\";\n53:         else if (def.kind === \"number\") defaults[key] = 0;\n54:         else if (def.kind === \"boolean\") defaults[key] = false;\n55:       }\n56:     }\n57:     append(defaults);\n58:   }\n59: \n60:   if (config?.renderRow) {\n61:     return (\n62:       <div className=\"space-y-3\">\n63:         {fields.map((item, index) => (\n64:           <div key={item.id}>\n65:             {config?.renderRow?.({\n66:               fields: item as Record<string, any>,\n67:               index,\n68:               remove: () => remove(index),\n69:             })}\n70:           </div>\n71:         ))}\n72:         <Button\n73:           disabled={disabled}\n74:           onClick={handleAdd}\n75:           size=\"xs\"\n76:           type=\"button\"\n77:           variant=\"outline\"\n78:         >\n79:           <IconPlus className=\"h-3 w-3\" />\n80:           {addLabel}\n81:         </Button>\n82:       </div>\n83:     );\n84:   }\n85: \n86:   if (!elementFields) return null;\n87: \n88:   const fieldEntries = Object.entries(elementFields);\n89: \n90:   return (\n91:     <div className=\"space-y-3\">\n92:       {fields.length === 0 && (\n93:         <p className=\"text-muted-foreground text-sm\">\n94:           No {meta?.label?.toLowerCase() ?? \"items\"} added yet\n95:         </p>\n96:       )}\n97:       {fields.map((item, index) => (\n98:         <div className=\"flex items-start gap-2\" key={item.id}>\n99:           {fieldEntries.map(([key, def]) => (\n100:             <div className=\"flex-1\" key={key}>\n101:               <Input\n102:                 disabled={disabled}\n103:                 placeholder={def.meta?.placeholder ?? key}\n104:                 type={def.kind === \"number\" ? \"number\" : \"text\"}\n105:                 {...register(`${name}.${index}.${key}`)}\n106:               />\n107:             </div>\n108:           ))}\n109:           <Button\n110:             className=\"mt-0\"\n111:             disabled={disabled}\n112:             onClick={() => remove(index)}\n113:             size=\"icon-sm\"\n114:             type=\"button\"\n115:             variant=\"ghost\"\n116:           >\n117:             <IconTrash className=\"h-3.5 w-3.5 text-destructive\" />\n118:           </Button>\n119:         </div>\n120:       ))}\n121:       <Button\n122:         disabled={\n123:           disabled || (maxItems !== undefined && fields.length >= maxItems)\n124:         }\n125:         onClick={handleAdd}\n126:         size=\"xs\"\n127:         type=\"button\"\n128:         variant=\"outline\"\n129:       >\n130:         <IconPlus className=\"h-3 w-3\" />\n131:         {addLabel}\n132:       </Button>\n133:     </div>\n134:   );\n135: }\n136: \n137: export type { FieldArrayConfig };\n138: export { FieldArray };\n\n(End of file - total 138 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconPlus, IconTrash } from \"@tabler/icons-react\";\nimport { useFieldArray, useFormContext } from \"react-hook-form\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\n\nimport type { FieldMap, FieldMeta } from \"../use-form\";\n\ntype FieldArrayConfig = {\n  addLabel?: string;\n  maxItems?: number;\n  renderRow?: (props: {\n    fields: Record<string, any>;\n    index: number;\n    remove: () => void;\n  }) => React.ReactNode;\n};\n\ntype FieldArrayProps = {\n  meta: FieldMeta | undefined;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/forms/field-components/field-array.tsx",
+            "time": {
+              "start": 1779537933417,
+              "end": 1779537933523
+            }
+          },
+          "id": "prt_e54b9f3af001ooUgXBIwlxwT1c",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_dedcc110d0fe48c59e7f8e89",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/logo-upload.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/logo-upload.tsx</path>\n<type>file</type>\n<content>\n1: import { ImagePlus, Loader2, Trash2 } from \"lucide-react\";\n2: import { useRef, useState } from \"react\";\n3: \n4: import { Button } from \"@/components/ui/button\";\n5: import { client } from \"@/rpc/client\";\n6: \n7: const ACCEPTED_TYPES = [\n8:   \"image/png\",\n9:   \"image/jpeg\",\n10:   \"image/svg+xml\",\n11:   \"image/webp\",\n12: ];\n13: const MAX_SIZE = 2 * 1024 * 1024;\n14: \n15: type LogoUploadProps = {\n16:   value: string | null | undefined;\n17:   onChange: (url: string | null) => void;\n18: };\n19: \n20: export function LogoUpload({ value, onChange }: LogoUploadProps) {\n21:   const inputRef = useRef<HTMLInputElement>(null);\n22:   const [isUploading, setIsUploading] = useState(false);\n23:   const [error, setError] = useState<string | null>(null);\n24: \n25:   async function handleFileSelect(file: File) {\n26:     setError(null);\n27: \n28:     if (!ACCEPTED_TYPES.includes(file.type)) {\n29:       setError(\"Invalid file type. Use PNG, JPEG, SVG, or WebP.\");\n30:       return;\n31:     }\n32: \n33:     if (file.size > MAX_SIZE) {\n34:       setError(\"File too large. Maximum 2MB.\");\n35:       return;\n36:     }\n37: \n38:     setIsUploading(true);\n39:     try {\n40:       const { url, publicUrl } = await client.client.getUploadUrl({\n41:         contentType: file.type,\n42:         filename: file.name,\n43:       });\n44: \n45:       const uploadRes = await fetch(url, {\n46:         body: file,\n47:         headers: { \"Content-Type\": file.type },\n48:         method: \"PUT\",\n49:       });\n50: \n51:       if (!uploadRes.ok) {\n52:         throw new Error(\"Upload failed\");\n53:       }\n54: \n55:       onChange(publicUrl);\n56:     } catch (err) {\n57:       setError(err instanceof Error ? err.message : \"Upload failed\");\n58:     } finally {\n59:       setIsUploading(false);\n60:     }\n61:   }\n62: \n63:   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {\n64:     const file = e.target.files?.[0];\n65:     if (file) handleFileSelect(file);\n66:     e.target.value = \"\";\n67:   }\n68: \n69:   function handleDrop(e: React.DragEvent) {\n70:     e.preventDefault();\n71:     const file = e.dataTransfer.files[0];\n72:     if (file) handleFileSelect(file);\n73:   }\n74: \n75:   function handleRemove() {\n76:     onChange(null);\n77:   }\n78: \n79:   function handleClick() {\n80:     inputRef.current?.click();\n81:   }\n82: \n83:   function handleKeyDown(e: React.KeyboardEvent) {\n84:     if (e.key === \"Enter\" || e.key === \" \") {\n85:       e.preventDefault();\n86:       inputRef.current?.click();\n87:     }\n88:   }\n89: \n90:   return (\n91:     <div className=\"space-y-2\">\n92:       {value ? (\n93:         <div className=\"flex items-center gap-3\">\n94:           <img\n95:             alt=\"Client logo\"\n96:             className=\"h-16 w-16 rounded-lg border object-contain p-1\"\n97:             src={value}\n98:           />\n99:           <Button onClick={handleRemove} size=\"sm\" variant=\"outline\">\n100:             <Trash2 className=\"h-3.5 w-3.5\" />\n101:             Remove\n102:           </Button>\n103:         </div>\n104:       ) : (\n105:         <button\n106:           className=\"flex h-24 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-muted-foreground/25 border-dashed transition-colors hover:border-muted-foreground/50 hover:bg-muted/50\"\n107:           onClick={handleClick}\n108:           onDragOver={(e) => e.preventDefault()}\n109:           onDrop={handleDrop}\n110:           onKeyDown={handleKeyDown}\n111:           type=\"button\"\n112:         >\n113:           {isUploading ? (\n114:             <Loader2 className=\"h-6 w-6 animate-spin text-muted-foreground\" />\n115:           ) : (\n116:             <ImagePlus className=\"h-6 w-6 text-muted-foreground\" />\n117:           )}\n118:           <p className=\"text-muted-foreground text-xs\">\n119:             {isUploading ? \"Uploading...\" : \"Click or drag to upload logo\"}\n120:           </p>\n121:         </button>\n122:       )}\n123: \n124:       {error && <p className=\"text-destructive text-xs\">{error}</p>}\n125: \n126:       <input\n127:         accept={ACCEPTED_TYPES.join(\",\")}\n128:         className=\"hidden\"\n129:         onChange={handleInputChange}\n130:         ref={inputRef}\n131:         type=\"file\"\n132:       />\n133:     </div>\n134:   );\n135: }\n\n(End of file - total 135 lines)\n</content>",
+            "metadata": {
+              "preview": "import { ImagePlus, Loader2, Trash2 } from \"lucide-react\";\nimport { useRef, useState } from \"react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { client } from \"@/rpc/client\";\n\nconst ACCEPTED_TYPES = [\n  \"image/png\",\n  \"image/jpeg\",\n  \"image/svg+xml\",\n  \"image/webp\",\n];\nconst MAX_SIZE = 2 * 1024 * 1024;\n\ntype LogoUploadProps = {\n  value: string | null | undefined;\n  onChange: (url: string | null) => void;\n};\n\nexport function LogoUpload({ value, onChange }: LogoUploadProps) {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/logo-upload.tsx",
+            "time": {
+              "start": 1779537933554,
+              "end": 1779537933619
+            }
+          },
+          "id": "prt_e54b9f47a001ET4qaBsVUS67qU",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_252a6116103a4c23b07658f2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/rpc/router/client.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537933641,
+              "end": 1779537933799
+            }
+          },
+          "id": "prt_e54b9f4fd001ivgZsDganRDBZc",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_1bd4f223c3044613a26e35b7",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/rpc/router/draft.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/rpc/router/draft.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537933745,
+              "end": 1779537933871
+            }
+          },
+          "id": "prt_e54b9f562001DsGYH8mnJoOLPB",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_8ac0c6d100f843aeaedfbf07",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/rpc/router/users.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537933809,
+              "end": 1779537933895
+            }
+          },
+          "id": "prt_e54b9f5c1001lq2pkMtImxWlb2",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_1354fc7cc8e748ea965638a7",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/lib/form-schemas/~utils*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/lib/form-schemas/~utils.ts",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779537933926,
+              "end": 1779537933975
+            }
+          },
+          "id": "prt_e54b9f615001xBpxDveM0kfEW5",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-finish",
+          "tokens": {
+            "total": 16026,
+            "input": 14285,
+            "output": 295,
+            "reasoning": 38,
+            "cache": {
+              "write": 0,
+              "read": 1408
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54b9f6fc001qDZUrtMVz12Z42",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9dadb001ttf7muoU3HyONi"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54b9c104001MvoS3OWMGycRg7",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 21322,
+          "input": 5178,
+          "output": 120,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 16000
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779537934125,
+          "completed": 1779537940355
+        },
+        "finish": "tool-calls",
+        "id": "msg_e54b9f72d001TNC7UBi592DIzd",
+        "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp"
+      },
+      "parts": [
+        {
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-start",
+          "id": "prt_e54b9fec20017gla6BS2DdkC5p",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I need to read the RPC router files for the specific procedure signatures, and the form-schemas utils file.",
+          "time": {
+            "start": 1779537936076,
+            "end": 1779537936307
+          },
+          "id": "prt_e54b9fecb001UjfFZ7WHNG5oLi",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "type": "text",
+          "text": "Now let me read the RPC router procedure files and the form-schemas utils.",
+          "time": {
+            "start": 1779537936344,
+            "end": 1779537939986
+          },
+          "id": "prt_e54b9ffd8001Wgq6sBW2OwbRUR",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_bbda7498fe4140bfa739d299",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts</path>\n<type>file</type>\n<content>\n1: import { z } from \"zod\";\n2: \n3: import {\n4:   Client_FormSchema as createClientSchema,\n5:   Client_FormSchema as updateClientSchema,\n6: } from \"@/lib/form-schemas/client\";\n7: import { getPresignedUploadUrl, getR2PublicUrl } from \"@/lib/storage/server\";\n8: import { protectedProcedure } from \"@/rpc/middleware\";\n9: import { listClientEvents } from \"@/services/client-event-service\";\n10: import {\n11:   archiveClient as archiveClientService,\n12:   createClient,\n13:   getClient,\n14:   listClients,\n15:   updateClient,\n16: } from \"@/services/client-service\";\n17: \n18: const listClientsSchema = z.object({\n19:   archived: z.boolean().optional(),\n20:   assigneeId: z.array(z.string()).optional(),\n21:   cursor: z.string().optional(),\n22:   limit: z.number().int().min(1).max(100).optional(),\n23:   search: z.string().optional(),\n24:   sortBy: z.enum([\"name\", \"createdAt\"]).optional(),\n25:   sortOrder: z.enum([\"asc\", \"desc\"]).optional(),\n26: });\n27: \n28: const getClientByIdSchema = z.object({\n29:   id: z.number().int().positive(),\n30: });\n31: \n32: const archiveClientSchema = z.object({\n33:   id: z.number().int().positive(),\n34: });\n35: \n36: const listClientEventsSchema = z.object({\n37:   clientId: z.number().int().positive(),\n38:   cursor: z.string().optional(),\n39:   limit: z.number().int().min(1).max(100).optional(),\n40: });\n41: \n42: const getUploadUrlSchema = z.object({\n43:   contentType: z.string().min(1),\n44:   filename: z.string().min(1),\n45: });\n46: \n47: export const clientCreate = protectedProcedure\n48:   .meta({ permission: { action: \"create\", resource: \"clients\" } })\n49:   .input(createClientSchema)\n50:   .handler(async ({ input, context }) => {\n51:     const client = await createClient({\n52:       ...input,\n53:       createdBy: context.user.id,\n54:     });\n55:     return client;\n56:   });\n57: \n58: export const clientUpdate = protectedProcedure\n59:   .meta({ permission: { action: \"update\", resource: \"clients\" } })\n60:   .input(updateClientSchema)\n61:   .handler(async ({ input, context }) => {\n62:     const { id, ...updates } = input;\n63:     const userId = context.user.id;\n64:     const client = await updateClient(id, updates, userId);\n65:     return client;\n66:   });\n67: \n68: export const clientArchive = protectedProcedure\n69:   .meta({ permission: { action: \"archive\", resource: \"clients\" } })\n70:   .input(archiveClientSchema)\n71:   .handler(async ({ input, context }) => {\n72:     const userId = context.user.id;\n73:     const client = await archiveClientService(input.id, userId);\n74:     return client;\n75:   });\n76: \n77: export const clientGetById = protectedProcedure\n78:   .meta({ permission: { action: \"read\", resource: \"clients\" } })\n79:   .input(getClientByIdSchema)\n80:   .handler(async ({ input }) => {\n81:     const client = await getClient(input.id);\n82:     if (!client) throw new Error(\"Client not found\");\n83:     return client;\n84:   });\n85: \n86: export const clientList = protectedProcedure\n87:   .meta({ permission: { action: \"read\", resource: \"clients\" } })\n88:   .input(listClientsSchema)\n89:   .handler(async ({ input, context }) => {\n90:     const result = await listClients({\n91:       cursor: input.cursor,\n92:       filters: {\n93:         archived: input.archived,\n94:         assigneeId: input.assigneeId,\n95:         search: input.search,\n96:       },\n97:       limit: input.limit,\n98:       sortBy: input.sortBy,\n99:       sortOrder: input.sortOrder,\n100:       subordinateCache: context.subordinateCache,\n101:       userId: context.user.id,\n102:     });\n103:     return result;\n104:   });\n105: \n106: export const clientListEvents = protectedProcedure\n107:   .meta({ permission: { action: \"read\", resource: \"clients\" } })\n108:   .input(listClientEventsSchema)\n109:   .handler(async ({ input }) => {\n110:     return listClientEvents(input.clientId, input.cursor, input.limit ?? 50);\n111:   });\n112: \n113: export const clientGetUploadUrl = protectedProcedure\n114:   .meta({ permission: { action: \"create\", resource: \"clients\" } })\n115:   .input(getUploadUrlSchema)\n116:   .handler(async ({ input }) => {\n117:     const key = `clients/${crypto.randomUUID()}/${input.filename}`;\n118:     const url = await getPresignedUploadUrl(key, input.contentType);\n119:     return { key, publicUrl: getR2PublicUrl(key), url };\n120:   });\n\n(End of file - total 120 lines)\n</content>",
+            "metadata": {
+              "preview": "import { z } from \"zod\";\n\nimport {\n  Client_FormSchema as createClientSchema,\n  Client_FormSchema as updateClientSchema,\n} from \"@/lib/form-schemas/client\";\nimport { getPresignedUploadUrl, getR2PublicUrl } from \"@/lib/storage/server\";\nimport { protectedProcedure } from \"@/rpc/middleware\";\nimport { listClientEvents } from \"@/services/client-event-service\";\nimport {\n  archiveClient as archiveClientService,\n  createClient,\n  getClient,\n  listClients,\n  updateClient,\n} from \"@/services/client-service\";\n\nconst listClientsSchema = z.object({\n  archived: z.boolean().optional(),\n  assigneeId: z.array(z.string()).optional(),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/client.ts",
+            "time": {
+              "start": 1779537939419,
+              "end": 1779537939452
+            }
+          },
+          "id": "prt_e54ba0b35001g8yNM2kqDQIpL4",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_e7e730150e884eef808062c1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/draft.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/draft.ts</path>\n<type>file</type>\n<content>\n1: import { z } from \"zod\";\n2: \n3: import { protectedProcedure } from \"@/rpc/middleware\";\n4: import {\n5:   createDraft,\n6:   deleteDraft,\n7:   getDraft,\n8:   listDrafts,\n9:   updateDraft,\n10: } from \"@/services/draft-service\";\n11: \n12: const createDraftSchema = z.object({\n13:   data: z.record(z.string(), z.unknown()),\n14:   entityType: z.string().min(1),\n15:   title: z.string().min(1),\n16: });\n17: \n18: const updateDraftSchema = z.object({\n19:   data: z.record(z.string(), z.unknown()).optional(),\n20:   id: z.number().int().positive(),\n21:   title: z.string().min(1).optional(),\n22: });\n23: \n24: const deleteDraftSchema = z.object({\n25:   id: z.number().int().positive(),\n26: });\n27: \n28: const getDraftByIdSchema = z.object({\n29:   id: z.number().int().positive(),\n30: });\n31: \n32: const listDraftsSchema = z.object({\n33:   cursor: z.string().optional(),\n34:   entityType: z.string().optional(),\n35:   limit: z.number().int().min(1).max(100).optional(),\n36:   sortBy: z.enum([\"createdAt\", \"updatedAt\"]).optional(),\n37:   sortOrder: z.enum([\"asc\", \"desc\"]).optional(),\n38: });\n39: \n40: export const draftCreate = protectedProcedure\n41:   .meta({ permission: { action: \"create\", resource: \"drafts\" } })\n42:   .input(createDraftSchema)\n43:   .handler(async ({ input, context }) => {\n44:     const draft = await createDraft({\n45:       ...input,\n46:       createdBy: context.user.id,\n47:     });\n48:     return draft;\n49:   });\n50: \n51: export const draftUpdate = protectedProcedure\n52:   .meta({ permission: { action: \"update\", resource: \"drafts\" } })\n53:   .input(updateDraftSchema)\n54:   .handler(async ({ input }) => {\n55:     const { id, ...updates } = input;\n56:     const draft = await updateDraft(id, updates);\n57:     return draft;\n58:   });\n59: \n60: export const draftDelete = protectedProcedure\n61:   .meta({ permission: { action: \"delete\", resource: \"drafts\" } })\n62:   .input(deleteDraftSchema)\n63:   .handler(async ({ input, context: ctx }) => {\n64:     const draft = await getDraft(input.id);\n65:     if (!draft) throw new Error(\"Draft not found\");\n66:     if (draft.createdBy !== ctx.user.id && ctx.user.role !== \"admin\") {\n67:       throw new Error(\"You can only delete your own drafts\");\n68:     }\n69:     await deleteDraft(input.id);\n70:     return { success: true };\n71:   });\n72: \n73: export const draftGetById = protectedProcedure\n74:   .meta({ permission: { action: \"read\", resource: \"drafts\" } })\n75:   .input(getDraftByIdSchema)\n76:   .handler(async ({ input }) => {\n77:     const draft = await getDraft(input.id);\n78:     if (!draft) throw new Error(\"Draft not found\");\n79:     return draft;\n80:   });\n81: \n82: export const draftList = protectedProcedure\n83:   .meta({ permission: { action: \"read\", resource: \"drafts\" } })\n84:   .input(listDraftsSchema)\n85:   .handler(async ({ input }) => {\n86:     const result = await listDrafts({\n87:       cursor: input.cursor,\n88:       entityType: input.entityType,\n89:       limit: input.limit,\n90:       sortBy: input.sortBy,\n91:       sortOrder: input.sortOrder,\n92:     });\n93:     return result;\n94:   });\n\n(End of file - total 94 lines)\n</content>",
+            "metadata": {
+              "preview": "import { z } from \"zod\";\n\nimport { protectedProcedure } from \"@/rpc/middleware\";\nimport {\n  createDraft,\n  deleteDraft,\n  getDraft,\n  listDrafts,\n  updateDraft,\n} from \"@/services/draft-service\";\n\nconst createDraftSchema = z.object({\n  data: z.record(z.string(), z.unknown()),\n  entityType: z.string().min(1),\n  title: z.string().min(1),\n});\n\nconst updateDraftSchema = z.object({\n  data: z.record(z.string(), z.unknown()).optional(),\n  id: z.number().int().positive(),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/draft.ts",
+            "time": {
+              "start": 1779537939638,
+              "end": 1779537939701
+            }
+          },
+          "id": "prt_e54ba0be8001GID19LugnHx7Pq",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_78e3f3e8b5904eadae4539c6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts</path>\n<type>file</type>\n<content>\n1: import { and, asc, eq, ilike, inArray, sql } from \"drizzle-orm\";\n2: import { alias } from \"drizzle-orm/pg-core\";\n3: import { z } from \"zod\";\n4: \n5: import { user } from \"@/db-schemas\";\n6: import { db } from \"@/lib/db/server\";\n7: import { protectedProcedure } from \"@/rpc/middleware\";\n8: \n9: const listUsersSchema = z.object({\n10:   cursor: z.string().optional(),\n11:   includeBanned: z.boolean().optional(),\n12:   limit: z.number().int().min(1).max(100).optional(),\n13:   role: z.array(z.string()).optional(),\n14:   search: z.string().optional(),\n15: });\n16: \n17: export const usersList = protectedProcedure\n18:   .meta({ permission: { action: \"read\", resource: \"team_members\" } })\n19:   .input(listUsersSchema)\n20:   .handler(async ({ input }) => {\n21:     const { cursor, includeBanned = false, limit = 20, role, search } = input;\n22: \n23:     const conditions = [];\n24: \n25:     if (cursor) {\n26:       conditions.push(sql`${user.id} > ${cursor}`);\n27:     }\n28: \n29:     if (!includeBanned) {\n30:       conditions.push(sql`(${user.banned} IS NULL OR ${user.banned} = false)`);\n31:     }\n32: \n33:     if (role?.length) {\n34:       conditions.push(inArray(user.role, role));\n35:     }\n36: \n37:     if (search) {\n38:       const pattern = `%${search}%`;\n39:       conditions.push(\n40:         sql`(${ilike(user.name, pattern)} OR ${ilike(user.email, pattern)})`,\n41:       );\n42:     }\n43: \n44:     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;\n45: \n46:     const supervisor = alias(user, \"supervisor\");\n47: \n48:     const rows = await db\n49:       .select({\n50:         banned: user.banned,\n51:         email: user.email,\n52:         id: user.id,\n53:         image: user.image,\n54:         name: user.name,\n55:         phoneNumber: user.phoneNumber,\n56:         role: user.role,\n57:         supervisorId: user.supervisorId,\n58:         supervisorName: supervisor.name,\n59:       })\n60:       .from(user)\n61:       .leftJoin(supervisor, eq(user.supervisorId, supervisor.id))\n62:       .where(whereClause)\n63:       .orderBy(asc(user.id))\n64:       .limit(limit + 1);\n65: \n66:     const hasMore = rows.length > limit;\n67:     const items = hasMore ? rows.slice(0, limit) : rows;\n68:     const nextCursor =\n69:       hasMore && items.length > 0 ? items[items.length - 1].id : null;\n70: \n71:     return { items, nextCursor };\n72:   });\n\n(End of file - total 72 lines)\n</content>",
+            "metadata": {
+              "preview": "import { and, asc, eq, ilike, inArray, sql } from \"drizzle-orm\";\nimport { alias } from \"drizzle-orm/pg-core\";\nimport { z } from \"zod\";\n\nimport { user } from \"@/db-schemas\";\nimport { db } from \"@/lib/db/server\";\nimport { protectedProcedure } from \"@/rpc/middleware\";\n\nconst listUsersSchema = z.object({\n  cursor: z.string().optional(),\n  includeBanned: z.boolean().optional(),\n  limit: z.number().int().min(1).max(100).optional(),\n  role: z.array(z.string()).optional(),\n  search: z.string().optional(),\n});\n\nexport const usersList = protectedProcedure\n  .meta({ permission: { action: \"read\", resource: \"team_members\" } })\n  .input(listUsersSchema)\n  .handler(async ({ input }) => {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/users.ts",
+            "time": {
+              "start": 1779537939797,
+              "end": 1779537940034
+            }
+          },
+          "id": "prt_e54ba0cd1001vr1hlrzxHjDFmk",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_669338ed3bf44251b399a8f9",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/form-schemas/~utils.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/form-schemas/~utils.ts</path>\n<type>file</type>\n<content>\n1: import { z } from \"zod/v4\";\n2: \n3: export const StatusSchema = z.enum([\"active\", \"inactive\", \"archived\"]);\n4: \n5: export const RoleSchema = z.enum([\n6:   \"admin\",\n7:   \"bd\",\n8:   \"rm\",\n9:   \"sc\",\n10:   \"tl\",\n11:   \"caller\",\n12:   \"qc\",\n13:   \"custom\",\n14: ]);\n15: \n16: export const AddressSchema = z.object({\n17:   city: z.string().min(1).meta({ label: \"City\", placeholder: \"City\" }),\n18:   country: z.string().min(1).meta({ label: \"Country\", placeholder: \"Country\" }),\n19: });\n\n(End of file - total 19 lines)\n</content>",
+            "metadata": {
+              "preview": "import { z } from \"zod/v4\";\n\nexport const StatusSchema = z.enum([\"active\", \"inactive\", \"archived\"]);\n\nexport const RoleSchema = z.enum([\n  \"admin\",\n  \"bd\",\n  \"rm\",\n  \"sc\",\n  \"tl\",\n  \"caller\",\n  \"qc\",\n  \"custom\",\n]);\n\nexport const AddressSchema = z.object({\n  city: z.string().min(1).meta({ label: \"City\", placeholder: \"City\" }),\n  country: z.string().min(1).meta({ label: \"Country\", placeholder: \"Country\" }),\n});",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/form-schemas/~utils.ts",
+            "time": {
+              "start": 1779537939965,
+              "end": 1779537940103
+            }
+          },
+          "id": "prt_e54ba0d61001SdVbeVuiqQzhh1",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-finish",
+          "tokens": {
+            "total": 21322,
+            "input": 5178,
+            "output": 120,
+            "reasoning": 24,
+            "cache": {
+              "write": 0,
+              "read": 16000
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54ba0eec001lx45RDrKNjzGzs",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54b9f72d001TNC7UBi592DIzd"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e54b9c104001MvoS3OWMGycRg7",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 37162,
+          "input": 3101,
+          "output": 12725,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 21312
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779537940366,
+          "completed": 1779538047494
+        },
+        "finish": "stop",
+        "id": "msg_e54ba0f8e001cn5hXzZDhjbE1W",
+        "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp"
+      },
+      "parts": [
+        {
+          "snapshot": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "type": "step-start",
+          "id": "prt_e54ba16730013rg2CZKI2zVSLR",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54ba0f8e001cn5hXzZDhjbE1W"
+        },
+        {
+          "type": "reasoning",
+          "text": "I've now found and read all the requested files. Let me compile a comprehensive summary of findings for the user.",
+          "time": {
+            "start": 1779537942158,
+            "end": 1779537942366
+          },
+          "id": "prt_e54ba168e001wQayWS9GNwDJlQ",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54ba0f8e001cn5hXzZDhjbE1W"
+        },
+        {
+          "type": "text",
+          "text": "Here is a complete inventory of every file you requested, with full contents and notes on what was found vs. not found.\n\n---\n\n## 1. Form and Field Components from `#/forms` Integration\n\nAll files found. The integration lives at `/home/aditya/projects/alpauls-ats/integrations/forms/`.\n\n### `/home/aditya/projects/alpauls-ats/integrations/forms/index.ts`\n```ts\nexport { useFormContext } from \"./context\";\nexport type { FieldConfig, FieldProps } from \"./field\";\nexport { Field } from \"./field\";\nexport type {\n  ComboboxConfig,\n  ComboboxOption,\n} from \"./field-components/combobox-field\";\nexport { ComboboxField } from \"./field-components/combobox-field\";\nexport type { FieldArrayConfig } from \"./field-components/field-array\";\nexport { FieldArray } from \"./field-components/field-array\";\nexport type { FormProps, ValidationMode } from \"./form\";\nexport { Form } from \"./form\";\nexport type { FieldDef, FieldMap, FieldMeta } from \"./use-form\";\n```\n\n### `/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx`\n```tsx\nimport { zodResolver } from \"@hookform/resolvers/zod\";\nimport { useId } from \"react\";\nimport type { FieldErrors } from \"react-hook-form\";\nimport { FormProvider, useForm } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { FormContext } from \"./context\";\nimport { buildDefaults, buildFieldMap } from \"./use-form\";\n\nexport type ValidationMode = \"onBlur\" | \"onChange\" | \"onSubmit\" | \"all\";\n\ntype FormRenderMethods = ReturnType<typeof useForm>;\n\nexport type FormProps<T extends z.ZodObject<any>> = {\n  schema: T;\n  onSubmit: (values: z.infer<T>) => void;\n  onInvalid?: (errors: FieldErrors) => void;\n  defaultValues?: Partial<z.infer<T>>;\n  validationMode?: ValidationMode;\n  className?: string;\n  children: React.ReactNode | ((methods: FormRenderMethods) => React.ReactNode);\n  ref?: React.Ref<any>;\n};\n\nexport function Form<T extends z.ZodObject<any>>({\n  schema,\n  onSubmit,\n  onInvalid,\n  defaultValues: defaultValuesProp,\n  validationMode = \"onBlur\",\n  className,\n  children,\n  ref,\n}: FormProps<T>) {\n  const uid = useId();\n  const fieldMap = buildFieldMap(schema);\n  const schemaDefaults = buildDefaults(schema, defaultValuesProp);\n\n  const methods = useForm({\n    defaultValues: schemaDefaults,\n    mode: validationMode,\n    resolver: zodResolver(schema) as any,\n    reValidateMode: \"onChange\",\n  });\n\n  if (ref) {\n    (ref as React.MutableRefObject<any>).current = methods;\n  }\n\n  function handleSubmit(e: React.FormEvent) {\n    e.preventDefault();\n    methods.handleSubmit((values) => {\n      const parsed = schema.parse(values);\n      onSubmit(parsed as z.infer<T>);\n    }, onInvalid as any)();\n  }\n\n  return (\n    <FormContext value={{ fieldMap, formId: uid }}>\n      <FormProvider {...methods}>\n        <form className={className} onSubmit={handleSubmit}>\n          {typeof children === \"function\" ? children(methods) : children}\n        </form>\n      </FormProvider>\n    </FormContext>\n  );\n}\n```\n\n### `/home/aditya/projects/alpauls-ats/integrations/forms/context.ts`\n```ts\nimport { createContext, useContext } from \"react\";\n\nimport type { FieldMap } from \"./use-form\";\n\ntype FormContextValue = {\n  fieldMap: FieldMap;\n  formId: string;\n};\n\nconst FormContext = createContext<FormContextValue | null>(null);\n\nfunction useFormContext(): FormContextValue {\n  const ctx = useContext(FormContext);\n  if (!ctx) {\n    throw new Error(\"SmartField must be used within a SchemaForm\");\n  }\n  return ctx;\n}\n\nexport type { FormContextValue };\nexport { FormContext, useFormContext };\n```\n\n### `/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx`\n```tsx\nimport type { ControllerRenderProps } from \"react-hook-form\";\nimport { Controller, useFormContext as useRhfContext } from \"react-hook-form\";\n\nimport { Label } from \"@/components/ui/label\";\n\nimport { useFormContext } from \"./context\";\nimport { BooleanField } from \"./field-components/boolean-field\";\nimport type {\n  ComboboxConfig,\n  ComboboxOption,\n} from \"./field-components/combobox-field\";\nimport { ComboboxField } from \"./field-components/combobox-field\";\nimport { EnumField } from \"./field-components/enum-field\";\nimport type { FieldArrayConfig } from \"./field-components/field-array\";\nimport { FieldArray } from \"./field-components/field-array\";\nimport { NumberField } from \"./field-components/number-field\";\nimport { StringField } from \"./field-components/string-field\";\nimport type { FieldDef, FieldMeta } from \"./use-form\";\n\ntype FieldConfig<T extends ComboboxOption> =\n  | ComboboxConfig<T>\n  | FieldArrayConfig;\n\nexport type { FieldConfig };\n\ntype FieldProps<T extends ComboboxOption> = {\n  name: string;\n  disabled?: boolean;\n  config?: FieldConfig<T>;\n  overrides?: (props: {\n    field: ControllerRenderProps;\n    config: FieldConfig<T> | undefined;\n    error?: string;\n    disabled?: boolean;\n  }) => React.ReactNode;\n};\n\nfunction resolveFieldDef(fieldDef: FieldDef): {\n  kind: string;\n  meta: FieldMeta | undefined;\n  isOptional: boolean;\n  enumEntries?: Record<string, string>;\n  arrayElement?: Record<string, any>;\n  checks?: string[];\n} {\n  if (fieldDef.kind === \"optional\") {\n    return {\n      arrayElement: fieldDef.arrayElement,\n      checks: fieldDef.checks,\n      enumEntries: fieldDef.enumEntries,\n      isOptional: true,\n      kind: fieldDef.innerKind ?? \"unknown\",\n      meta: fieldDef.meta,\n    };\n  }\n  return {\n    arrayElement: fieldDef.arrayElement,\n    checks: fieldDef.checks,\n    enumEntries: fieldDef.enumEntries,\n    isOptional: false,\n    kind: fieldDef.kind,\n    meta: fieldDef.meta,\n  };\n}\n\nfunction Field<T>({ name, disabled, config, overrides }: FieldProps<T>) {\n  const { fieldMap } = useFormContext();\n  const { control } = useRhfContext();\n\n  const fieldDef = fieldMap[name];\n  if (!fieldDef) return null;\n\n  const resolved = resolveFieldDef(fieldDef);\n  const meta = resolved.meta;\n  const label = meta?.label ?? name;\n\n  return (\n    <Controller\n      name={name}\n      render={({ field, fieldState }) => {\n        const error = fieldState.error?.message;\n\n        if (overrides) {\n          return (\n            <div className=\"space-y-2\">\n              <Label>{label}</Label>\n              {overrides({ config, disabled, error, field })}\n              {error && <p className=\"text-destructive text-xs\">{error}</p>}\n              {meta?.description && !error && (\n                <p className=\"text-muted-foreground text-xs\">\n                  {meta.description}\n                </p>\n              )}\n            </div>\n          );\n        }\n\n        if (resolved.kind === \"array\") {\n          return (\n            <div className=\"space-y-2\">\n              <Label>{label}</Label>\n              <FieldArray\n                config={config as FieldArrayConfig | undefined}\n                control={control}\n                disabled={disabled}\n                elementFields={resolved.arrayElement}\n                meta={meta}\n                name={name}\n              />\n              {error && <p className=\"text-destructive text-xs\">{error}</p>}\n            </div>\n          );\n        }\n\n        return (\n          <div className=\"space-y-2\">\n            <Label>{label}</Label>\n            {renderField(resolved, field, meta, disabled, config)}\n            {error && <p className=\"text-destructive text-xs\">{error}</p>}\n            {meta?.description && !error && (\n              <p className=\"text-muted-foreground text-xs\">\n                {meta.description}\n              </p>\n            )}\n          </div>\n        );\n      }}\n    />\n  );\n}\n\nfunction renderField<T>(\n  resolved: ReturnType<typeof resolveFieldDef>,\n  field: any,\n  meta: FieldMeta | undefined,\n  disabled: boolean | undefined,\n  config: FieldConfig<T> | undefined,\n): React.ReactNode {\n  if (meta?.component === \"combobox\") {\n    return (\n      <ComboboxField\n        config={config as ComboboxConfig<any> | undefined}\n        disabled={disabled}\n        field={field}\n        meta={meta}\n      />\n    );\n  }\n\n  switch (resolved.kind) {\n    case \"string\":\n      return (\n        <StringField\n          checks={resolved.checks}\n          disabled={disabled}\n          field={field}\n          meta={meta}\n        />\n      );\n    case \"number\":\n      return <NumberField disabled={disabled} field={field} meta={meta} />;\n    case \"boolean\":\n      return (\n        <BooleanField\n          disabled={disabled}\n          field={field}\n          label={meta?.label ?? \"\"}\n          meta={meta}\n        />\n      );\n    case \"enum\":\n      return (\n        <EnumField\n          disabled={disabled}\n          entries={resolved.enumEntries}\n          field={field}\n          meta={meta}\n        />\n      );\n    default:\n      return null;\n  }\n}\n\nexport type { FieldProps };\nexport { Field };\n```\n\n### `/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts`\n```ts\nimport type { z } from \"zod\";\n\nexport type FieldMeta = {\n  label?: string;\n  placeholder?: string;\n  description?: string;\n  component?: \"textarea\" | \"password\" | \"combobox\" | \"checkbox\";\n};\n\nexport type FieldKind =\n  | \"string\"\n  | \"number\"\n  | \"boolean\"\n  | \"enum\"\n  | \"array\"\n  | \"optional\"\n  | \"unknown\";\n\nexport type FieldDef = {\n  kind: FieldKind;\n  meta: FieldMeta | undefined;\n  isOptional: boolean;\n  enumEntries?: Record<string, string>;\n  arrayElement?: FieldMap;\n  innerKind?: FieldKind;\n  innerMeta?: FieldMeta | undefined;\n  checks?: string[];\n};\n\nexport type FieldMap = Record<string, FieldDef>;\n\nexport function getKind(schema: any): FieldKind {\n  const type: string = schema._zod?.def?.type ?? \"\";\n  if (type === \"string\") return \"string\";\n  if (type === \"number\") return \"number\";\n  if (type === \"boolean\") return \"boolean\";\n  if (type === \"enum\") return \"enum\";\n  if (type === \"array\") return \"array\";\n  if (type === \"optional\") return \"optional\";\n  return \"unknown\";\n}\n\nexport function getMeta(schema: any): FieldMeta | undefined {\n  if (typeof schema.meta === \"function\") {\n    const result = schema.meta();\n    if (result && typeof result === \"object\") return result;\n  }\n  return undefined;\n}\n\nexport function getChecks(schema: any): string[] {\n  const def = schema._zod?.def;\n  if (!def?.checks) return [];\n  return def.checks\n    .map((c: any) => c.format ?? c._zod?.def?.type ?? c.type)\n    .filter(Boolean);\n}\n\nexport function buildFieldDef(schema: any): FieldDef {\n  const kind = getKind(schema);\n  const meta = getMeta(schema);\n\n  if (kind === \"optional\") {\n    const innerSchema = schema._zod?.def?.innerType;\n    const innerKind = innerSchema ? getKind(innerSchema) : \"unknown\";\n    const innerMeta = innerSchema ? getMeta(innerSchema) : undefined;\n    const checks = innerSchema ? getChecks(innerSchema) : [];\n    return {\n      checks,\n      innerKind,\n      innerMeta,\n      isOptional: true,\n      kind,\n      meta: meta ?? innerMeta,\n      ...(innerKind === \"enum\" && innerSchema\n        ? { enumEntries: innerSchema._zod?.def?.entries }\n        : {}),\n      ...(innerKind === \"array\" && innerSchema\n        ? { arrayElement: buildFieldMap(innerSchema._zod?.def?.element) }\n        : {}),\n    };\n  }\n\n  if (kind === \"array\") {\n    const elementSchema = schema._zod?.def?.element;\n    return {\n      arrayElement: elementSchema ? buildFieldMap(elementSchema) : undefined,\n      isOptional: false,\n      kind,\n      meta,\n    };\n  }\n\n  return {\n    checks: getChecks(schema),\n    isOptional: false,\n    kind,\n    meta,\n    ...(kind === \"enum\" ? { enumEntries: schema._zod?.def?.entries } : {}),\n  };\n}\n\nexport function buildFieldMap(schema: any): FieldMap {\n  if (!schema?.shape) return {};\n  const map: FieldMap = {};\n  for (const [key, fieldSchema] of Object.entries(schema.shape)) {\n    map[key] = buildFieldDef(fieldSchema);\n  }\n  return map;\n}\n\nexport function deriveDefault(fieldDef: FieldDef): any {\n  if (fieldDef.isOptional) return undefined;\n  if (fieldDef.kind === \"string\") return \"\";\n  if (fieldDef.kind === \"number\") return 0;\n  if (fieldDef.kind === \"boolean\") return false;\n  if (fieldDef.kind === \"enum\" && fieldDef.enumEntries) {\n    return Object.values(fieldDef.enumEntries)[0];\n  }\n  if (fieldDef.kind === \"array\") return [];\n  return undefined;\n}\n\nexport function buildDefaults(\n  schema: z.ZodObject<any>,\n  overrides?: Record<string, any>,\n): Record<string, any> {\n  const fieldMap = buildFieldMap(schema);\n  const defaults: Record<string, any> = {};\n  for (const [key, def] of Object.entries(fieldMap)) {\n    defaults[key] = deriveDefault(def);\n  }\n  if (overrides) {\n    for (const [key, value] of Object.entries(overrides)) {\n      defaults[key] = value;\n    }\n  }\n  return defaults;\n}\n```\n\n### Field Sub-Components\n\n**`/home/aditya/projects/alpauls-ats/integrations/forms/field-components/string-field.tsx`**\n```tsx\nimport type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Input } from \"@/components/ui/input\";\nimport { Textarea } from \"@/components/ui/textarea\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype StringFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  checks?: string[];\n};\n\nfunction StringField({ field, meta, disabled, checks }: StringFieldProps) {\n  const component = meta?.component;\n\n  if (component === \"textarea\") {\n    return (\n      <Textarea\n        disabled={disabled}\n        onBlur={field.onBlur}\n        onChange={(e) => field.onChange(e.target.value)}\n        placeholder={meta?.placeholder}\n        ref={field.ref}\n        value={field.value ?? \"\"}\n      />\n    );\n  }\n\n  const inputType = resolveInputType(component, checks);\n\n  return (\n    <Input\n      disabled={disabled}\n      onBlur={field.onBlur}\n      onChange={(e) => field.onChange(e.target.value)}\n      placeholder={meta?.placeholder}\n      ref={field.ref}\n      type={inputType}\n      value={field.value ?? \"\"}\n    />\n  );\n}\n\nfunction resolveInputType(\n  component: string | undefined,\n  checks?: string[],\n): React.HTMLInputTypeAttribute {\n  if (component === \"password\") return \"password\";\n  if (checks?.includes(\"email\")) return \"email\";\n  if (checks?.includes(\"url\")) return \"url\";\n  return \"text\";\n}\n\nexport { StringField };\n```\n\n**`/home/aditya/projects/alpauls-ats/integrations/forms/field-components/number-field.tsx`**\n```tsx\nimport type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Input } from \"@/components/ui/input\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype NumberFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n};\n\nfunction NumberField({ field, meta, disabled }: NumberFieldProps) {\n  return (\n    <Input\n      disabled={disabled}\n      onBlur={field.onBlur}\n      onChange={(e) => {\n        const val = e.target.value;\n        field.onChange(val === \"\" ? undefined : Number(val));\n      }}\n      placeholder={meta?.placeholder}\n      ref={field.ref}\n      type=\"number\"\n      value={field.value ?? \"\"}\n    />\n  );\n}\n\nexport { NumberField };\n```\n\n**`/home/aditya/projects/alpauls-ats/integrations/forms/field-components/boolean-field.tsx`**\n```tsx\nimport type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Label } from \"@/components/ui/label\";\nimport { Switch } from \"@/components/ui/switch\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype BooleanFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  label: string;\n};\n\nfunction BooleanField({ field, meta, disabled, label }: BooleanFieldProps) {\n  const component = meta?.component;\n\n  if (component === \"checkbox\") {\n    return (\n      <div className=\"flex items-center gap-2\">\n        <Checkbox\n          checked={field.value ?? false}\n          disabled={disabled}\n          onCheckedChange={field.onChange}\n          ref={field.ref}\n        />\n        <Label className=\"font-normal\">{label}</Label>\n      </div>\n    );\n  }\n\n  return (\n    <div className=\"flex items-center gap-2\">\n      <Switch\n        checked={field.value ?? false}\n        disabled={disabled}\n        onCheckedChange={field.onChange}\n        ref={field.ref}\n      />\n      <Label className=\"font-normal\">{label}</Label>\n    </div>\n  );\n}\n\nexport { BooleanField };\n```\n\n**`/home/aditya/projects/alpauls-ats/integrations/forms/field-components/enum-field.tsx`**\n```tsx\nimport type { ControllerRenderProps } from \"react-hook-form\";\n\nimport {\n  Select,\n  SelectContent,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype EnumFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  entries: Record<string, string> | undefined;\n};\n\nfunction EnumField({ field, meta, disabled, entries }: EnumFieldProps) {\n  const options = entries ? Object.entries(entries) : [];\n\n  return (\n    <Select\n      disabled={disabled}\n      onValueChange={field.onChange}\n      value={field.value}\n    >\n      <SelectTrigger className=\"w-full\">\n        <SelectValue placeholder={meta?.placeholder ?? \"Select...\"} />\n      </SelectTrigger>\n      <SelectContent>\n        {options.map(([value, label]) => (\n          <SelectItem key={value} value={value}>\n            {label}\n          </SelectItem>\n        ))}\n      </SelectContent>\n    </Select>\n  );\n}\n\nexport { EnumField };\n```\n\n**`/home/aditya/projects/alpauls-ats/integrations/forms/field-components/combobox-field.tsx`**\n```tsx\nimport { IconChevronDown } from \"@tabler/icons-react\";\nimport { useState } from \"react\";\nimport type { ControllerRenderProps } from \"react-hook-form\";\n\nimport { Button } from \"@/components/ui/button\";\nimport {\n  Command,\n  CommandEmpty,\n  CommandGroup,\n  CommandInput,\n  CommandItem,\n  CommandList,\n} from \"@/components/ui/command\";\nimport {\n  Popover,\n  PopoverContent,\n  PopoverTrigger,\n} from \"@/components/ui/popover\";\n\nimport type { FieldMeta } from \"../use-form\";\n\ntype ComboboxOption = Record<string, any>;\n\ntype ComboboxConfig<TOption extends ComboboxOption = ComboboxOption> = {\n  options?: TOption[];\n  getOptionLabel?: (option: TOption) => string;\n  getOptionValue?: (option: TOption) => string | number;\n  searchPlaceholder?: string;\n  emptyMessage?: string;\n};\n\ntype ComboboxFieldProps = {\n  field: ControllerRenderProps;\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  config: ComboboxConfig<any> | undefined;\n};\n\nfunction defaultGetOptionLabel(o: ComboboxOption): string {\n  return o.label ?? o.name ?? \"\";\n}\n\nfunction defaultGetOptionValue(o: ComboboxOption): string | number {\n  return o.value ?? o.id;\n}\n\nfunction ComboboxField({ field, meta, disabled, config }: ComboboxFieldProps) {\n  const [open, setOpen] = useState(false);\n  const [search, setSearch] = useState(\"\");\n\n  const options = config?.options ?? [];\n  const getLabel = config?.getOptionLabel ?? defaultGetOptionLabel;\n  const getValue = config?.getOptionValue ?? defaultGetOptionValue;\n  const searchPlaceholder = config?.searchPlaceholder ?? \"Search...\";\n  const emptyMessage = config?.emptyMessage ?? \"No items found\";\n\n  const selected = options.find(\n    (o) => String(getValue(o)) === String(field.value),\n  );\n\n  const filtered = search\n    ? options.filter((o) =>\n        getLabel(o).toLowerCase().includes(search.toLowerCase()),\n      )\n    : options;\n\n  return (\n    <Popover onOpenChange={setOpen} open={open}>\n      <PopoverTrigger\n        disabled={disabled}\n        render={\n          <Button\n            className=\"w-full justify-between font-normal\"\n            role=\"combobox\"\n            variant=\"outline\"\n          />\n        }\n      >\n        {selected ? (\n          <span className=\"truncate\">{getLabel(selected)}</span>\n        ) : (\n          <span className=\"font-normal text-muted-foreground\">\n            {meta?.placeholder ?? \"Select...\"}\n          </span>\n        )}\n        <IconChevronDown className=\"ml-2 h-4 w-4 shrink-0 opacity-50\" />\n      </PopoverTrigger>\n      <PopoverContent align=\"start\" className=\"p-0\" sideOffset={4}>\n        <Command>\n          <CommandInput\n            onValueChange={setSearch}\n            placeholder={searchPlaceholder}\n            value={search}\n          />\n          <CommandList>\n            <CommandEmpty>{emptyMessage}</CommandEmpty>\n            <CommandGroup>\n              {filtered.map((option) => {\n                const val = getValue(option);\n                return (\n                  <CommandItem\n                    key={String(val)}\n                    onSelect={() => {\n                      field.onChange(val);\n                      setOpen(false);\n                    }}\n                    value={getLabel(option)}\n                  >\n                    <span className=\"truncate\">{getLabel(option)}</span>\n                  </CommandItem>\n                );\n              })}\n            </CommandGroup>\n          </CommandList>\n        </Command>\n      </PopoverContent>\n    </Popover>\n  );\n}\n\nexport type { ComboboxConfig, ComboboxOption };\nexport { ComboboxField };\n```\n\n**`/home/aditya/projects/alpauls-ats/integrations/forms/field-components/field-array.tsx`**\n```tsx\nimport { IconPlus, IconTrash } from \"@tabler/icons-react\";\nimport { useFieldArray, useFormContext } from \"react-hook-form\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\n\nimport type { FieldMap, FieldMeta } from \"../use-form\";\n\ntype FieldArrayConfig = {\n  addLabel?: string;\n  maxItems?: number;\n  renderRow?: (props: {\n    fields: Record<string, any>;\n    index: number;\n    remove: () => void;\n  }) => React.ReactNode;\n};\n\ntype FieldArrayProps = {\n  meta: FieldMeta | undefined;\n  disabled: boolean | undefined;\n  elementFields: FieldMap | undefined;\n  config: FieldArrayConfig | undefined;\n  control: any;\n  name: string;\n};\n\nfunction FieldArray({\n  meta,\n  disabled,\n  elementFields,\n  config,\n  control,\n  name,\n}: FieldArrayProps) {\n  const { register } = useFormContext();\n\n  const { fields, append, remove } = useFieldArray({\n    control,\n    name,\n  });\n\n  const addLabel = config?.addLabel ?? `Add ${meta?.label ?? \"item\"}`;\n  const maxItems = config?.maxItems;\n\n  function handleAdd() {\n    if (disabled) return;\n    if (maxItems && fields.length >= maxItems) return;\n    const defaults: Record<string, any> = {};\n    if (elementFields) {\n      for (const [key, def] of Object.entries(elementFields)) {\n        if (def.kind === \"string\") defaults[key] = \"\";\n        else if (def.kind === \"number\") defaults[key] = 0;\n        else if (def.kind === \"boolean\") defaults[key] = false;\n      }\n    }\n    append(defaults);\n  }\n\n  if (config?.renderRow) {\n    return (\n      <div className=\"space-y-3\">\n        {fields.map((item, index) => (\n          <div key={item.id}>\n            {config?.renderRow?.({\n              fields: item as Record<string, any>,\n              index,\n              remove: () => remove(index),\n            })}\n          </div>\n        ))}\n        <Button\n          disabled={disabled}\n          onClick={handleAdd}\n          size=\"xs\"\n          type=\"button\"\n          variant=\"outline\"\n        >\n          <IconPlus className=\"h-3 w-3\" />\n          {addLabel}\n        </Button>\n      </div>\n    );\n  }\n\n  if (!elementFields) return null;\n\n  const fieldEntries = Object.entries(elementFields);\n\n  return (\n    <div className=\"space-y-3\">\n      {fields.length === 0 && (\n        <p className=\"text-muted-foreground text-sm\">\n          No {meta?.label?.toLowerCase() ?? \"items\"} added yet\n        </p>\n      )}\n      {fields.map((item, index) => (\n        <div className=\"flex items-start gap-2\" key={item.id}>\n          {fieldEntries.map(([key, def]) => (\n            <div className=\"flex-1\" key={key}>\n              <Input\n                disabled={disabled}\n                placeholder={def.meta?.placeholder ?? key}\n                type={def.kind === \"number\" ? \"number\" : \"text\"}\n                {...register(`${name}.${index}.${key}`)}\n              />\n            </div>\n          ))}\n          <Button\n            className=\"mt-0\"\n            disabled={disabled}\n            onClick={() => remove(index)}\n            size=\"icon-sm\"\n            type=\"button\"\n            variant=\"ghost\"\n          >\n            <IconTrash className=\"h-3.5 w-3.5 text-destructive\" />\n          </Button>\n        </div>\n      ))}\n      <Button\n        disabled={\n          disabled || (maxItems !== undefined && fields.length >= maxItems)\n        }\n        onClick={handleAdd}\n        size=\"xs\"\n        type=\"button\"\n        variant=\"outline\"\n      >\n        <IconPlus className=\"h-3 w-3\" />\n        {addLabel}\n      </Button>\n    </div>\n  );\n}\n\nexport type { FieldArrayConfig };\nexport { FieldArray };\n```\n\n---\n\n## 2. `Client_FormSchema` from `src/lib/form-schemas/client`\n\n**Found** at `/home/aditya/projects/alpauls-ats/src/lib/form-schemas/client.ts`:\n```ts\nimport { z } from \"zod\";\n\nimport { AddressSchema } from \"./~utils\";\n\nexport const Client_FormSchema = z.object({\n  archived: z.boolean().optional(),\n  assigneeId: z\n    .string()\n    .min(1)\n    .meta({ component: \"combobox\", label: \"Assignee\" }),\n  id: z.number(),\n  internalNotes: z.string().optional().meta({\n    component: \"textarea\",\n    label: \"Internal Notes\",\n    placeholder: \"Internal notes about this client...\",\n  }),\n  legalName: z\n    .string()\n    .optional()\n    .meta({ label: \"Client Legal Name\", placeholder: \"Acme Corporation Ltd.\" }),\n  locations: z.array(AddressSchema).optional().meta({ label: \"Locations\" }),\n  logo: z.string().optional().meta({ label: \"Logo\" }),\n  name: z\n    .string()\n    .min(1)\n    .meta({ label: \"Client Nick Name\", placeholder: \"Acme Corp\" }),\n  slug: z.string().optional().meta({\n    description: \"Used in URLs: /clients/{slug}\",\n    label: \"Slug\",\n    placeholder: \"acme-corp\",\n  }),\n});\n```\n\nIts dependency `~utils.ts` at `/home/aditya/projects/alpauls-ats/src/lib/form-schemas/~utils.ts`:\n```ts\nimport { z } from \"zod/v4\";\n\nexport const StatusSchema = z.enum([\"active\", \"inactive\", \"archived\"]);\n\nexport const RoleSchema = z.enum([\n  \"admin\",\n  \"bd\",\n  \"rm\",\n  \"sc\",\n  \"tl\",\n  \"caller\",\n  \"qc\",\n  \"custom\",\n]);\n\nexport const AddressSchema = z.object({\n  city: z.string().min(1).meta({ label: \"City\", placeholder: \"City\" }),\n  country: z.string().min(1).meta({ label: \"Country\", placeholder: \"Country\" }),\n});\n```\n\n**Observation:** `~utils.ts` imports from `zod/v4` while `client.ts` imports from `zod`. This is a potential inconsistency for the audit.\n\n---\n\n## 3. RPC Client and Procedure Signatures\n\n### `/home/aditya/projects/alpauls-ats/src/rpc/client.ts`\n```ts\nimport { createORPCClient } from \"@orpc/client\";\nimport { RPCLink } from \"@orpc/client/fetch\";\nimport type { RouterClient } from \"@orpc/server\";\nimport { createRouterClient } from \"@orpc/server\";\nimport { createTanstackQueryUtils } from \"@orpc/tanstack-query\";\nimport { createIsomorphicFn } from \"@tanstack/react-start\";\nimport { getRequestHeaders } from \"@tanstack/react-start/server\";\n\nimport { router } from \"@/rpc/router\";\n\nconst getORPCClient = createIsomorphicFn()\n  .server(() =>\n    createRouterClient(router, {\n      context: () => ({\n        headers: getRequestHeaders(),\n      }),\n    }),\n  )\n  .client((): RouterClient<typeof router> => {\n    const link = new RPCLink({\n      url: `${window.location.origin}/api/rpc`,\n    });\n    return createORPCClient(link);\n  });\n\nexport const client: RouterClient<typeof router> = getORPCClient();\n\nexport const rpc = createTanstackQueryUtils(client);\n```\n\n### Procedure Signatures Extracted from Router Files\n\n**`client.create`** (from `/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts`):\n- Input: `Client_FormSchema` (same schema as above -- `z.object` with `archived`, `assigneeId`, `id`, `internalNotes`, `legalName`, `locations`, `logo`, `name`, `slug`)\n- Permission: `{ action: \"create\", resource: \"clients\" }`\n- Returns: the created client object\n\n**`draft.getById`** (from `/home/aditya/projects/alpauls-ats/src/rpc/router/draft.ts`):\n- Input: `{ id: z.number().int().positive() }`\n- Permission: `{ action: \"read\", resource: \"drafts\" }`\n- Returns: draft object (with `data`, `entityType`, `title`, `createdBy`, etc.)\n\n**`draft.create`** (from same file):\n- Input: `{ data: z.record(z.string(), z.unknown()), entityType: z.string().min(1), title: z.string().min(1) }`\n- Permission: `{ action: \"create\", resource: \"drafts\" }`\n- Returns: the created draft object\n\n**`draft.delete`** (from same file):\n- Input: `{ id: z.number().int().positive() }`\n- Permission: `{ action: \"delete\", resource: \"drafts\" }`\n- Returns: `{ success: true }`\n\n**`users.list`** (from `/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts`):\n- Input: `{ cursor?: string, includeBanned?: boolean, limit?: number (1-100), role?: string[], search?: string }`\n- Permission: `{ action: \"read\", resource: \"team_members\" }`\n- Returns: `{ items: Array<{ banned, email, id, image, name, phoneNumber, role, supervisorId, supervisorName }>, nextCursor: string | null }`\n\n### `/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts`\n```ts\nimport * as admin from \"./admin\";\nimport {\n  clientArchive,\n  clientCreate,\n  clientGetById,\n  clientGetUploadUrl,\n  clientList,\n  clientListEvents,\n  clientUpdate,\n} from \"./client\";\nimport {\n  contractArchive,\n  contractCreate,\n  contractGetById,\n  contractList,\n  contractListEvents,\n  contractUpdate,\n} from \"./client-contract\";\nimport {\n  draftCreate,\n  draftDelete,\n  draftGetById,\n  draftList,\n  draftUpdate,\n} from \"./draft\";\nimport {\n  filterViewCreate,\n  filterViewDelete,\n  filterViewList,\n  filterViewUpdate,\n} from \"./filter-view\";\nimport {\n  notificationList,\n  notificationMarkAllRead,\n  notificationMarkRead,\n} from \"./notification\";\nimport { reminderArchive, reminderCreate, reminderList } from \"./reminder\";\nimport {\n  taskAddLink,\n  taskArchive,\n  taskCreate,\n  taskGetById,\n  taskList,\n  taskListEvents,\n  taskRemoveLink,\n  taskStats,\n  taskUpdate,\n} from \"./task\";\nimport { usersList } from \"./users\";\n\nexport const router = {\n  admin,\n  client: {\n    archive: clientArchive,\n    create: clientCreate,\n    getById: clientGetById,\n    getUploadUrl: clientGetUploadUrl,\n    list: clientList,\n    listEvents: clientListEvents,\n    update: clientUpdate,\n  },\n  contract: {\n    archive: contractArchive,\n    create: contractCreate,\n    getById: contractGetById,\n    list: contractList,\n    listEvents: contractListEvents,\n    update: contractUpdate,\n  },\n  draft: {\n    create: draftCreate,\n    delete: draftDelete,\n    getById: draftGetById,\n    list: draftList,\n    update: draftUpdate,\n  },\n  filterView: {\n    create: filterViewCreate,\n    delete: filterViewDelete,\n    list: filterViewList,\n    update: filterViewUpdate,\n  },\n  notification: {\n    list: notificationList,\n    markAllRead: notificationMarkAllRead,\n    markRead: notificationMarkRead,\n  },\n  reminder: {\n    archive: reminderArchive,\n    create: reminderCreate,\n    list: reminderList,\n  },\n  task: {\n    addLink: taskAddLink,\n    archive: taskArchive,\n    create: taskCreate,\n    getById: taskGetById,\n    list: taskList,\n    listEvents: taskListEvents,\n    removeLink: taskRemoveLink,\n    stats: taskStats,\n    update: taskUpdate,\n  },\n  users: {\n    list: usersList,\n  },\n};\n```\n\n---\n\n## 4. Other Form Files in `src/components/forms/`\n\nAll three form files found:\n\n### `/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx`\n```tsx\nimport { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { useNavigate } from \"@tanstack/react-router\";\nimport { useEffect } from \"react\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { LogoUpload } from \"@/components/logo-upload\";\nimport { Button } from \"@/components/ui/button\";\nimport { Client_FormSchema } from \"@/lib/form-schemas/client\";\nimport { slugify } from \"@/lib/utils\";\nimport { rpc } from \"@/rpc/client\";\n\ntype ClientFormType = z.infer<typeof Client_FormSchema>;\n\nexport function ClientForm({\n  mode,\n  draftId,\n}: {\n  mode: \"create\" | \"edit\";\n  draftId?: string;\n}) {\n  const { data: bd_users } = useQuery(\n    rpc.users.list.queryOptions({\n      input: { limit: 100, role: [\"admin\", \"bd\"] },\n    }) as any,\n  ) as { data?: { items: { id: string; name: string }[] } };\n\n  const navigate = useNavigate();\n  const queryClient = useQueryClient();\n\n  const { data: draft } = useQuery({\n    ...(rpc.draft.getById.queryOptions({\n      input: { id: Number(draftId!) },\n    }) as any),\n    enabled: !!draftId,\n  }) as { data?: { data: Record<string, unknown> } };\n\n  const createMutation = useMutation({\n    mutationFn: (input: Record<string, any>) =>\n      rpc.client.create.call(input as any),\n    onSuccess: async (data) => {\n      if (!data) return;\n      queryClient.invalidateQueries({ queryKey: [\"client\"] });\n      if (draftId) {\n        await rpc.draft.delete.call({ id: Number(draftId) });\n        queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n      }\n      navigate({\n        params: { clientId: String(data.id) },\n        to: \"/clients/$clientId\",\n      });\n    },\n  });\n\n  const saveDraftMutation = useMutation({\n    mutationFn: (input: Record<string, any>) =>\n      rpc.draft.create.call({\n        data: input as Record<string, unknown>,\n        entityType: \"client\",\n        title: input.name,\n      }),\n    onSuccess: () => {\n      queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n    },\n  });\n\n  const defaultValues = draft // TODO: VALIDATE DRAFT AND REFINE IT AND PASS IT ON\n    ? // TODO: PRINT ERRORS ON VALIDATION FAILURE\n      {\n        assigneeId: (draft.data.assigneeId as string) ?? \"\",\n        internalNotes: (draft.data.internalNotes as string) ?? undefined,\n        legalName: (draft.data.legalName as string) ?? undefined,\n        locations: draft.data.locations as\n          | { city: string; country: string }[]\n          | undefined,\n        logo: (draft.data.logo as string) ?? undefined,\n        name: (draft.data.name as string) ?? \"\",\n        slug: (draft.data.slug as string) ?? undefined,\n      }\n    : undefined;\n\n  return (\n    <Form\n      className=\"space-y-6\"\n      defaultValues={defaultValues}\n      onSubmit={(values) => createMutation.mutate(values)}\n      schema={Client_FormSchema}\n    >\n      <Field name=\"name\" />\n      <Field name=\"legalName\" />\n      <Field\n        name=\"logo\"\n        overrides={({ field }) => (\n          <LogoUpload\n            onChange={(url: string | null) => field.onChange(url)}\n            value={field.value}\n          />\n        )}\n      />\n      <SlugSync mode={mode} />\n      <Field name=\"slug\" />\n      <Field name=\"locations\" />\n      <Field name=\"internalNotes\" />\n      <Field\n        config={{\n          getOptionLabel: ({ name }) => name,\n          getOptionValue: ({ id }) => id,\n          options: bd_users?.items ?? [],\n        }}\n        name=\"assigneeId\"\n      />\n      <ClientFormActions\n        isPending={createMutation.isPending}\n        isSaveDraftPending={saveDraftMutation.isPending}\n        mode={mode}\n        onSaveDraft={(values) => saveDraftMutation.mutate(values)}\n      />\n    </Form>\n  );\n}\n\nfunction SlugSync({ mode }: { mode: \"create\" | \"edit\" }) {\n  const { watch, setValue } = useFormContext();\n\n  useEffect(() => {\n    if (mode === \"edit\") return;\n    const { unsubscribe } = watch((values, { name }) => {\n      if (name === \"name\" && typeof values.name === \"string\") {\n        setValue(\"slug\", slugify(values.name), { shouldValidate: true });\n      }\n    });\n    return unsubscribe;\n  }, [mode, watch, setValue]);\n\n  return null;\n}\n\nfunction ClientFormActions({\n  mode,\n  isPending,\n  onSaveDraft,\n  isSaveDraftPending,\n}: {\n  mode: \"create\" | \"edit\";\n  isPending: boolean;\n  onSaveDraft?: (values: ClientFormType) => void;\n  isSaveDraftPending?: boolean;\n}) {\n  const { watch, getValues } = useFormContext<ClientFormType>();\n  const name = watch(\"name\");\n  const assigneeId = watch(\"assigneeId\");\n\n  function handleSaveDraft() {\n    if (onSaveDraft) {\n      onSaveDraft(getValues());\n    }\n  }\n\n  return (\n    <div className=\"flex gap-3\">\n      <Button disabled={isPending || !name || !assigneeId} type=\"submit\">\n        {mode === \"create\" ? \"Create Client\" : \"Save Changes\"}\n      </Button>\n      {mode === \"create\" && onSaveDraft && (\n        <Button\n          disabled={isSaveDraftPending || !name}\n          onClick={handleSaveDraft}\n          type=\"button\"\n          variant=\"outline\"\n        >\n          {isSaveDraftPending ? \"Saving...\" : \"Save to Drafts\"}\n        </Button>\n      )}\n    </div>\n  );\n}\n```\n\n### `/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx`\n```tsx\nimport { useQuery } from \"@tanstack/react-query\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { PermissionsEditor } from \"@/components/permissions-editor\";\nimport { SupervisorCombobox } from \"@/components/supervisor-combobox\";\nimport { Button } from \"@/components/ui/button\";\nimport { Member_FormSchema } from \"@/lib/form-schemas/auth\";\nimport { rpc } from \"@/rpc/client\";\n\ntype MemberFormType = z.infer<typeof Member_FormSchema>;\n\nexport type RoleCode =\n  | \"admin\"\n  | \"bd\"\n  | \"caller\"\n  | \"custom\"\n  | \"qc\"\n  | \"rm\"\n  | \"sc\"\n  | \"tl\";\n\nexport function MemberForm({\n  mode,\n  onSubmit,\n  isPending,\n  defaultValues,\n}: {\n  mode: \"create\" | \"edit\";\n  onSubmit: (values: MemberFormType) => void;\n  isPending: boolean;\n  defaultValues?: Partial<MemberFormType>;\n}) {\n  const { data: users } = useQuery(\n    rpc.users.list.queryOptions({ input: { limit: 100 } }),\n  );\n\n  return (\n    <Form\n      className=\"space-y-6\"\n      defaultValues={defaultValues}\n      onSubmit={onSubmit}\n      schema={Member_FormSchema}\n    >\n      <Field name=\"name\" />\n      <Field name=\"email\" />\n      {mode === \"create\" && <Field name=\"password\" />}\n      <Field name=\"role\" />\n      <MemberSupervisorField\n        excludeUserId={defaultValues?.id}\n        users={users?.items ?? []}\n      />\n      <MemberPermissionsField />\n      <MemberFormActions isPending={isPending} mode={mode} />\n    </Form>\n  );\n}\n\nfunction MemberSupervisorField({\n  users,\n  excludeUserId,\n}: {\n  users: { id: string; name: string; email: string; role: string | null }[];\n  excludeUserId?: string;\n}) {\n  const { watch } = useFormContext();\n  const currentRole = watch(\"role\");\n  const isAdmin = currentRole === \"admin\";\n\n  return (\n    <Field\n      disabled={isAdmin}\n      name=\"supervisorId\"\n      overrides={({ field, disabled: fieldDisabled }) => (\n        <SupervisorCombobox\n          disabled={fieldDisabled}\n          excludeUserId={excludeUserId}\n          onChange={field.onChange}\n          required={!isAdmin}\n          users={users}\n          value={field.value}\n        />\n      )}\n    />\n  );\n}\n\nfunction MemberPermissionsField() {\n  const { watch } = useFormContext();\n  const currentRole = watch(\"role\");\n  const showPermissions = currentRole === \"custom\";\n\n  if (!showPermissions) return null;\n\n  return (\n    <Field\n      name=\"permissions\"\n      overrides={({ field }) => (\n        <PermissionsEditor\n          onChange={field.onChange}\n          value={field.value ?? {}}\n        />\n      )}\n    />\n  );\n}\n\nfunction MemberFormActions({\n  mode,\n  isPending,\n}: {\n  mode: \"create\" | \"edit\";\n  isPending: boolean;\n}) {\n  const { watch } = useFormContext();\n  const name = watch(\"name\");\n  const email = watch(\"email\");\n\n  return (\n    <div className=\"flex gap-3\">\n      <Button disabled={isPending || !name || !email} type=\"submit\">\n        {mode === \"create\" ? \"Add Member\" : \"Save Changes\"}\n      </Button>\n    </div>\n  );\n}\n```\n\n### `/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx`\n```tsx\nimport { useQuery } from \"@tanstack/react-query\";\nimport { useFormContext } from \"react-hook-form\";\nimport type { z } from \"zod\";\n\nimport { Field, Form } from \"#/forms\";\nimport { Button } from \"@/components/ui/button\";\nimport { ClientContract_FormSchema } from \"@/lib/form-schemas/client-contract\";\nimport { rpc } from \"@/rpc/client\";\n\ntype ClientContractType = z.infer<typeof ClientContract_FormSchema>;\n\nexport function ContractForm({\n  mode,\n  onSubmit,\n  isPending,\n  defaultValues,\n}: {\n  mode: \"create\" | \"edit\";\n  onSubmit: (values: ClientContractType) => void;\n  isPending: boolean;\n  defaultValues?: Partial<ClientContractType>;\n}) {\n  const { data: clients } = useQuery(\n    rpc.client.list.queryOptions({ input: { limit: 100 } }),\n  );\n\n  const { data: bd_users } = useQuery(\n    rpc.users.list.queryOptions({ input: { limit: 100, role: [\"bd\"] } }),\n  );\n\n  const { data: rm_users } = useQuery(\n    rpc.users.list.queryOptions({ input: { limit: 100, role: [\"rm\"] } }),\n  );\n\n  return (\n    <Form\n      className=\"space-y-6\"\n      defaultValues={defaultValues}\n      onSubmit={onSubmit}\n      schema={ClientContract_FormSchema}\n    >\n      <Field name=\"title\" />\n      <Field name=\"referenceNumber\" />\n      <Field name=\"description\" />\n      <Field\n        config={{\n          getOptionLabel: ({ name }) => name,\n          getOptionValue: ({ id }) => id,\n          options: clients?.items || [],\n          // placeholder: \"Search clients...\",\n        }}\n        name=\"clientId\"\n      />\n      <Field\n        config={{\n          getOptionLabel: ({ name }) => name,\n          getOptionValue: ({ id }) => id,\n          options: bd_users?.items,\n          // placeholder: \"Search BD users...\",\n        }}\n        name=\"assigneeId\"\n      />\n      <Field\n        config={{\n          getOptionLabel: ({ name }) => name,\n          getOptionValue: ({ id }) => id,\n          options: rm_users?.items,\n          // placeholder: \"Search RM users...\",\n        }}\n        name=\"rmId\"\n      />\n      <div className=\"grid grid-cols-3 gap-4\">\n        <Field name=\"startDate\" />\n        <Field name=\"endDate\" />\n        <Field name=\"signedDate\" />\n      </div>\n      <Field name=\"pdfLink\" />\n      <Field name=\"status\" />\n      <ContractFormActions isPending={isPending} mode={mode} />\n    </Form>\n  );\n}\n\nfunction ContractFormActions({\n  mode,\n  isPending,\n}: {\n  mode: \"create\" | \"edit\";\n  isPending: boolean;\n}) {\n  const { watch } = useFormContext();\n  const title = watch(\"title\");\n  const clientId = watch(\"clientId\");\n  const assigneeId = watch(\"assigneeId\");\n\n  return (\n    <div className=\"flex gap-3\">\n      <Button\n        disabled={isPending || !title || !clientId || !assigneeId}\n        type=\"submit\"\n      >\n        {mode === \"create\" ? \"Create Contract\" : \"Save Changes\"}\n      </Button>\n    </div>\n  );\n}\n```\n\n---\n\n## 5. `slugify` Utility from `src/lib/utils`\n\n**Found** at `/home/aditya/projects/alpauls-ats/src/lib/utils.ts`:\n```ts\nimport type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n\nexport function slugify(text: string): string {\n  return text\n    .toLowerCase()\n    .replace(/[^a-z0-9]+/g, \"-\")\n    .replace(/^-|-$/g, \"\");\n}\n```\n\n---\n\n## 6. `LogoUpload` Component\n\n**Found** at `/home/aditya/projects/alpauls-ats/src/components/logo-upload.tsx`:\n```tsx\nimport { ImagePlus, Loader2, Trash2 } from \"lucide-react\";\nimport { useRef, useState } from \"react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { client } from \"@/rpc/client\";\n\nconst ACCEPTED_TYPES = [\n  \"image/png\",\n  \"image/jpeg\",\n  \"image/svg+xml\",\n  \"image/webp\",\n];\nconst MAX_SIZE = 2 * 1024 * 1024;\n\ntype LogoUploadProps = {\n  value: string | null | undefined;\n  onChange: (url: string | null) => void;\n};\n\nexport function LogoUpload({ value, onChange }: LogoUploadProps) {\n  const inputRef = useRef<HTMLInputElement>(null);\n  const [isUploading, setIsUploading] = useState(false);\n  const [error, setError] = useState<string | null>(null);\n\n  async function handleFileSelect(file: File) {\n    setError(null);\n\n    if (!ACCEPTED_TYPES.includes(file.type)) {\n      setError(\"Invalid file type. Use PNG, JPEG, SVG, or WebP.\");\n      return;\n    }\n\n    if (file.size > MAX_SIZE) {\n      setError(\"File too large. Maximum 2MB.\");\n      return;\n    }\n\n    setIsUploading(true);\n    try {\n      const { url, publicUrl } = await client.client.getUploadUrl({\n        contentType: file.type,\n        filename: file.name,\n      });\n\n      const uploadRes = await fetch(url, {\n        body: file,\n        headers: { \"Content-Type\": file.type },\n        method: \"PUT\",\n      });\n\n      if (!uploadRes.ok) {\n        throw new Error(\"Upload failed\");\n      }\n\n      onChange(publicUrl);\n    } catch (err) {\n      setError(err instanceof Error ? err.message : \"Upload failed\");\n    } finally {\n      setIsUploading(false);\n    }\n  }\n\n  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {\n    const file = e.target.files?.[0];\n    if (file) handleFileSelect(file);\n    e.target.value = \"\";\n  }\n\n  function handleDrop(e: React.DragEvent) {\n    e.preventDefault();\n    const file = e.dataTransfer.files[0];\n    if (file) handleFileSelect(file);\n  }\n\n  function handleRemove() {\n    onChange(null);\n  }\n\n  function handleClick() {\n    inputRef.current?.click();\n  }\n\n  function handleKeyDown(e: React.KeyboardEvent) {\n    if (e.key === \"Enter\" || e.key === \" \") {\n      e.preventDefault();\n      inputRef.current?.click();\n    }\n  }\n\n  return (\n    <div className=\"space-y-2\">\n      {value ? (\n        <div className=\"flex items-center gap-3\">\n          <img\n            alt=\"Client logo\"\n            className=\"h-16 w-16 rounded-lg border object-contain p-1\"\n            src={value}\n          />\n          <Button onClick={handleRemove} size=\"sm\" variant=\"outline\">\n            <Trash2 className=\"h-3.5 w-3.5\" />\n            Remove\n          </Button>\n        </div>\n      ) : (\n        <button\n          className=\"flex h-24 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-muted-foreground/25 border-dashed transition-colors hover:border-muted-foreground/50 hover:bg-muted/50\"\n          onClick={handleClick}\n          onDragOver={(e) => e.preventDefault()}\n          onDrop={handleDrop}\n          onKeyDown={handleKeyDown}\n          type=\"button\"\n        >\n          {isUploading ? (\n            <Loader2 className=\"h-6 w-6 animate-spin text-muted-foreground\" />\n          ) : (\n            <ImagePlus className=\"h-6 w-6 text-muted-foreground\" />\n          )}\n          <p className=\"text-muted-foreground text-xs\">\n            {isUploading ? \"Uploading...\" : \"Click or drag to upload logo\"}\n          </p>\n        </button>\n      )}\n\n      {error && <p className=\"text-destructive text-xs\">{error}</p>}\n\n      <input\n        accept={ACCEPTED_TYPES.join(\",\")}\n        className=\"hidden\"\n        onChange={handleInputChange}\n        ref={inputRef}\n        type=\"file\"\n      />\n    </div>\n  );\n}\n```\n\n---\n\n## Summary of Findings\n\n| Item | File Path | Status |\n|------|-----------|--------|\n| `Form` component | `/home/aditya/projects/alpauls-ats/integrations/forms/form.tsx` | Found |\n| `Field` component | `/home/aditya/projects/alpauls-ats/integrations/forms/field.tsx` | Found |\n| Form context | `/home/aditya/projects/alpauls-ats/integrations/forms/context.ts` | Found |\n| Form utilities (`use-form.ts`) | `/home/aditya/projects/alpauls-ats/integrations/forms/use-form.ts` | Found |\n| Form barrel export | `/home/aditya/projects/alpauls-ats/integrations/forms/index.ts` | Found |\n| StringField | `/home/aditya/projects/alpauls-ats/integrations/forms/field-components/string-field.tsx` | Found |\n| NumberField | `/home/aditya/projects/alpauls-ats/integrations/forms/field-components/number-field.tsx` | Found |\n| BooleanField | `/home/aditya/projects/alpauls-ats/integrations/forms/field-components/boolean-field.tsx` | Found |\n| EnumField | `/home/aditya/projects/alpauls-ats/integrations/forms/field-components/enum-field.tsx` | Found |\n| ComboboxField | `/home/aditya/projects/alpauls-ats/integrations/forms/field-components/combobox-field.tsx` | Found |\n| FieldArray | `/home/aditya/projects/alpauls-ats/integrations/forms/field-components/field-array.tsx` | Found |\n| `Client_FormSchema` | `/home/aditya/projects/alpauls-ats/src/lib/form-schemas/client.ts` | Found |\n| `~utils.ts` (AddressSchema) | `/home/aditya/projects/alpauls-ats/src/lib/form-schemas/~utils.ts` | Found |\n| RPC client | `/home/aditya/projects/alpauls-ats/src/rpc/client.ts` | Found |\n| Router index (all signatures) | `/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts` | Found |\n| `client.create` procedure | `/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts` | Found |\n| `draft.*` procedures | `/home/aditya/projects/alpauls-ats/src/rpc/router/draft.ts` | Found |\n| `users.list` procedure | `/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts` | Found |\n| `client-form.tsx` | `/home/aditya/projects/alpauls-ats/src/components/forms/client-form.tsx` | Found |\n| `member-form.tsx` | `/home/aditya/projects/alpauls-ats/src/components/forms/member-form.tsx` | Found |\n| `contract-form.tsx` | `/home/aditya/projects/alpauls-ats/src/components/forms/contract-form.tsx` | Found |\n| `slugify` utility | `/home/aditya/projects/alpauls-ats/src/lib/utils.ts` | Found |\n| `LogoUpload` component | `/home/aditya/projects/alpauls-ats/src/components/logo-upload.tsx` | Found |\n\n**All requested files were found.** None are missing.\n\n### Notable Pattern Observations (for the audit)\n\n1. **Form structure pattern across all three forms**: Each form follows the same pattern -- top-level `<Form schema={...} onSubmit={...}>` with `<Field name=\"...\" />` for schema-driven auto-rendering, `<Field overrides={...}>` for custom widgets (LogoUpload, SupervisorCombobox, PermissionsEditor), and a co-located `*FormActions` component for the submit/draft buttons.\n\n2. **`client-form.tsx` vs the other two**: `ClientForm` owns its own mutations (createMutation, saveDraftMutation) internally, while `MemberForm` and `ContractForm` accept `onSubmit` and `isPending` as props. This is an inconsistency -- `ClientForm` is not reusable by callers who want different submit behavior.\n\n3. **Heavy use of `as any` casts** in `client-form.tsx` for RPC query options and mutation typing (lines 23-27, 33-37, 40-41, 58). The other forms use direct `rpc.*.queryOptions()` without casts.\n\n4. **`client-form.tsx` does not handle the `edit` mode** -- it passes `mode` prop but the `createMutation` always calls `rpc.client.create`, never `rpc.client.update`. There is no update mutation wired up despite the form supporting `\"edit\"` mode.\n\n5. **`LogoUpload` uses the raw `client` import** (`client.client.getUploadUrl`) while the `client-form.tsx` uses the TanStack Query-wrapped `rpc` import for everything else. Mixing the two client styles in the same form flow.\n\n6. **Zod import inconsistency**: `~utils.ts` imports from `zod/v4` while `client.ts` imports from `zod`. Given AGENTS.md states the project uses Zod v4, this may cause subtle incompatibilities.\n\n7. **TODO comments in `client-form.tsx`** (lines 68-69): Draft validation is explicitly deferred with TODOs, meaning draft data is passed to the form without schema validation first.\n\n8. **`id` is required in `Client_FormSchema`** but has no default -- this means the form always requires an `id: number` value, which is problematic for `mode: \"create\"` where the ID does not exist yet.",
+          "time": {
+            "start": 1779537942376,
+            "end": 1779538047388
+          },
+          "id": "prt_e54ba1768001Ao6OcwT7p95se2",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54ba0f8e001cn5hXzZDhjbE1W"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "8143707ea3f064fa7eb13f3ace5d94072f0bd764",
+          "type": "step-finish",
+          "tokens": {
+            "total": 37162,
+            "input": 3101,
+            "output": 12725,
+            "reasoning": 24,
+            "cache": {
+              "write": 0,
+              "read": 21312
+            }
+          },
+          "cost": 0,
+          "id": "prt_e54bbb1dd0017hbjkHvA22cbNe",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54ba0f8e001cn5hXzZDhjbE1W"
+        },
+        {
+          "type": "patch",
+          "hash": "ceb36377b2a81d5e169305091be4fa669bde0538",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/.zed/settings.json"
+          ],
+          "id": "prt_e54bbb201001UVnMZLyw2XvTo8",
+          "sessionID": "ses_1ab463f0fffelWPjOGeQ6J33dp",
+          "messageID": "msg_e54ba0f8e001cn5hXzZDhjbE1W"
+        }
+      ]
+    }
+  ]
+}
