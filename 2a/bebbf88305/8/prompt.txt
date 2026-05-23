@@ -1,0 +1,15 @@
+I need to understand the following about the codebase at /home/aditya/projects/alpauls-ats:
+
+1. Find the route files for job-mandates, contracts, and conversations. Look under `src/routes/(protected)/(app)/` for directories or files matching these names.
+
+2. For each of those routes, check if they support URL-based filter params (e.g., search params like `?filters=...` or `?clientId=...`). Look at how filters are implemented - are they in URL search params, state, etc.?
+
+3. Check what icons are commonly used for these entities (job mandates, contracts, conversations) - look at sidebar/nav components or route index files.
+
+4. Check if there's an existing pattern of "related entity" links on detail pages (e.g., on task detail pages linking to clients, etc.)
+
+Return:
+- The exact route paths for job-mandates, contracts, conversations
+- How each route accepts filters (search params format)
+- What icons are used for each entity
+- Any existing patterns for cross-entity navigation buttons
