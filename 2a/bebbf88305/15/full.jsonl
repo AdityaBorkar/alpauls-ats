@@ -1,0 +1,1366 @@
+{
+  "info": {
+    "id": "ses_1aafae88dffeomDuDyjo2J2JdV",
+    "slug": "hidden-comet",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "parentID": "ses_1ab0f689dffeiHEywzJAknA69a",
+    "title": "Find other domain list views (@explore subagent)",
+    "agent": "explore",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai",
+      "variant": "default"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 32282,
+      "output": 2581,
+      "reasoning": 991,
+      "cache": {
+        "read": 104064,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "todowrite",
+        "action": "deny",
+        "pattern": "*"
+      },
+      {
+        "permission": "task",
+        "action": "deny",
+        "pattern": "*"
+      }
+    ],
+    "time": {
+      "created": 1779542857586,
+      "updated": 1779542928258
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779542857601
+        },
+        "tools": {
+          "todowrite": false,
+          "task": false
+        },
+        "agent": "explore",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "Search the codebase for other list views or table views that might benefit from the same generic layout. Look in:\n1. src/routes/(protected)/(app)/ for pages that render data tables (prospects, tasks, etc.)\n2. Check if there's a prospect list view or similar components\n3. Look at src/components/ for any other *-list-view.tsx files\n4. Check how the tasks page renders its list\n\nReturn a list of all data-table-like views in the codebase and their locations.",
+          "id": "prt_e55051786001ff28U9H5NhPxap",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505177d001Brk0ZDcmKtOHEz"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 5345,
+          "input": 2200,
+          "output": 111,
+          "reasoning": 26,
+          "cache": {
+            "write": 0,
+            "read": 3008
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542857810,
+          "completed": 1779542860174
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55051852001VqOYN4eDbTYGCK",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e55051ca400106YQ8aGachMhGq",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to find all data-table-like views in the codebase. Let me search systematically across the specified directories.",
+          "time": {
+            "start": 1779542858919,
+            "end": 1779542859160
+          },
+          "id": "prt_e55051ca7001vT8d38OVPssmfX",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "text",
+          "text": "I'll search systematically across all the specified areas to find data-table-like views.",
+          "time": {
+            "start": 1779542859162,
+            "end": 1779542860091
+          },
+          "id": "prt_e55051d9a001KFtDRTrk0CpkBq",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_b984d70222f54d8ca771736b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/routes/(protected)/(app)/**/*.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/new.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-form.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/-view-config.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/-form.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/new.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/$reportId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/dashboard.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/$contractId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/analytics.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/audit-log.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/agents.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/whatsapp.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/email.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/voice.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/omnichannel.tsx",
+            "metadata": {
+              "count": 24,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779542859416,
+              "end": 1779542859458
+            }
+          },
+          "id": "prt_e55051e33001jYTwVKcJnk2AGb",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_2613d378d9f84b6ea3ed97fc",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/**/*list*.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx\n/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx\n/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx",
+            "metadata": {
+              "count": 3,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779542859541,
+              "end": 1779542859569
+            }
+          },
+          "id": "prt_e55051eaf001A0CYOureaCXcjz",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_8d542550050a4138bc253515",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/components/**/*table*.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx\n/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx\n/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx",
+            "metadata": {
+              "count": 5,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779542859952,
+              "end": 1779542860009
+            }
+          },
+          "id": "prt_e55051f330018XZXsn67GFGtuW",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_a78213df44ee459f955b33c2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "data-table|DataTable|useDataTable|dataTable",
+              "include": "*.tsx"
+            },
+            "output": "Found 36 matches\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 12: import { DataTableFilter } from \"@/components/data-table-filter\";\n\n  Line 13: import type { FiltersState } from \"@/components/data-table-filter/core/types\";\n\n  Line 14: import { useDataTableFilters } from \"@/components/data-table-filter/hooks/use-data-table-filters\";\n\n  Line 230:   } = useDataTableFilters({\n\n  Line 263:         <DataTableFilter\n\n\n/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx:\n  Line 14: import type { FiltersState } from \"@/components/data-table-filter/core/types\";\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx:\n  Line 10: import { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-value.tsx:\n  Line 41:   DataTableFilterActions,\n\n  Line 54:   actions: DataTableFilterActions;\n\n  Line 104:   actions: DataTableFilterActions;\n\n  Line 353:   actions: DataTableFilterActions;\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx:\n  Line 12:   DataTableFilterActions,\n\n  Line 29: export interface DataTableFiltersOptions<\n\n  Line 49: export function useDataTableFilters<\n\n  Line 62: }: DataTableFiltersOptions<TData, TColumns, TStrategy>) {\n\n  Line 126:   const actions: DataTableFilterActions = useMemo(\n\n  Line 214:           \"[data-table-filter] addFilterValue() is only supported for option columns\",\n\n  Line 290:           \"[data-table-filter] removeFilterValue() is only supported for option columns\",\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/index.tsx:\n  Line 1: export { DataTableFilter } from \"./components/data-table-filter\";\n\n  Line 2: export { useDataTableFilters } from \"./hooks/use-data-table-filters\";\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-selector.tsx:\n  Line 32:   DataTableFilterActions,\n\n  Line 44:   actions: DataTableFilterActions;\n\n  Line 226:   actions: DataTableFilterActions;\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-operator.tsx:\n  Line 29:   DataTableFilterActions,\n\n  Line 38:   actions: DataTableFilterActions;\n\n  Line 111:   actions: DataTableFilterActions;\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/active-filters.tsx:\n  Line 10:   DataTableFilterActions,\n\n  Line 24:   actions: DataTableFilterActions;\n\n  Line 64:   actions: DataTableFilterActions;\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx:\n  Line 7:   DataTableFilterActions,\n\n  Line 16: interface DataTableFilterProps<TData> {\n\n  Line 19:   actions: DataTableFilterActions;\n\n  Line 24: export function DataTableFilter<TData>({\n\n  Line 30: }: DataTableFilterProps<TData>) {\n\n\n/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/filter-actions.tsx:\n  Line 7: import type { DataTableFilterActions } from \"../core/types\";\n\n  Line 12:   actions?: DataTableFilterActions;\n",
+            "metadata": {
+              "matches": 36,
+              "truncated": false
+            },
+            "title": "data-table|DataTable|useDataTable|dataTable",
+            "time": {
+              "start": 1779542859965,
+              "end": 1779542859991
+            }
+          },
+          "id": "prt_e550520b30013HgG7km1J66xQB",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_2c2219cb724e44abbaf325a6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "list-view|ListView|listView",
+              "include": "*.tsx"
+            },
+            "output": "Found 14 matches\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 45: type ClientListViewProps = {\n\n  Line 148: export function ClientListView({\n\n  Line 151: }: ClientListViewProps) {\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx:\n  Line 10: import { ClientListView } from \"@/components/client-list-view\";\n\n  Line 37:       <ClientListView\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx:\n  Line 7: import { ProspectListView } from \"@/components/prospect-list-view\";\n\n  Line 45:       <ProspectListView\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx:\n  Line 9: import { TaskListView } from \"@/components/task-list-view\";\n\n  Line 77:         <TaskListView onTaskClick={handleTaskClick} refreshKey={refreshKey} />\n\n\n/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx:\n  Line 31: type TaskListViewProps = {\n\n  Line 36: export function TaskListView({ onTaskClick, refreshKey }: TaskListViewProps) {\n\n\n/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx:\n  Line 20: type ProspectListViewProps = {\n\n  Line 25: export function ProspectListView({\n\n  Line 28: }: ProspectListViewProps) {\n",
+            "metadata": {
+              "matches": 14,
+              "truncated": false
+            },
+            "title": "list-view|ListView|listView",
+            "time": {
+              "start": 1779542860088,
+              "end": 1779542860111
+            }
+          },
+          "id": "prt_e550520c1001TdR0wPCpnLw5v0",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 5345,
+            "input": 2200,
+            "output": 111,
+            "reasoning": 26,
+            "cache": {
+              "write": 0,
+              "read": 3008
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5505216c001pILraFlpDyeNUz",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55051852001VqOYN4eDbTYGCK"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 7537,
+          "input": 1950,
+          "output": 255,
+          "reasoning": 84,
+          "cache": {
+            "write": 0,
+            "read": 5248
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542860178,
+          "completed": 1779542867517
+        },
+        "finish": "tool-calls",
+        "id": "msg_e550521920012VRq55NtOMN1b6",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e550527d9001lNOAYji4P738Ut",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "reasoning",
+          "text": "Good, I've found several list views and table components. Let me now read the key files to understand their structure and patterns:\n1. The three *-list-view.tsx components\n2. The two tables in src/components/tables/\n3. The route pages that use these components\n4. The view-config files\n\nLet me also check for any other table-like rendering patterns in the remaining route pages.",
+          "time": {
+            "start": 1779542861788,
+            "end": 1779542862744
+          },
+          "id": "prt_e550527db001bgi171hH0EPg3o",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "text",
+          "text": "Found several candidates. Let me now read each list-view component and the table components, plus check the remaining route pages that might have table views.",
+          "time": {
+            "start": 1779542862746,
+            "end": 1779542867147
+          },
+          "id": "prt_e55052b9a0019Rr2pSxBxTcd6u",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_83d6a6781b904546b2a35ae8",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx</path>\n<type>file</type>\n<content>\n1: import { Archive, Search } from \"lucide-react\";\n2: import { useState } from \"react\";\n3: \n4: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Button } from \"@/components/ui/button\";\n7: import { Checkbox } from \"@/components/ui/checkbox\";\n8: import { Input } from \"@/components/ui/input\";\n9: import {\n10:   Select,\n11:   SelectContent,\n12:   SelectItem,\n13:   SelectTrigger,\n14:   SelectValue,\n15: } from \"@/components/ui/select\";\n16: import {\n17:   Table,\n18:   TableBody,\n19:   TableCell,\n20:   TableHead,\n21:   TableHeader,\n22:   TableRow,\n23: } from \"@/components/ui/table\";\n24: import { useORPCQuery } from \"@/hooks/use-orpc-query\";\n25: import { client } from \"@/rpc/client\";\n26: import type { TaskStatus } from \"@/services/task-service\";\n27: \n28: import type { TaskItem, TaskListResponse } from \"./tasks.types\";\n29: import { STATUS_COLORS, STATUS_LABELS } from \"./tasks.types\";\n30: \n31: type TaskListViewProps = {\n32:   onTaskClick: (task: TaskItem) => void;\n33:   refreshKey: number;\n34: };\n35: \n36: export function TaskListView({ onTaskClick, refreshKey }: TaskListViewProps) {\n37:   const [search, setSearch] = useState(\"\");\n38:   const [statusFilter, setStatusFilter] = useState<string>(\"all\");\n39:   const [showArchived, setShowArchived] = useState(false);\n40:   const [cursor, setCursor] = useState<string | undefined>();\n41: \n42:   const { data, isLoading } = useORPCQuery(\n43:     () =>\n44:       client.task.list({\n45:         archived: showArchived ? undefined : false,\n46:         cursor,\n47:         limit: 20,\n48:         search: search || undefined,\n49:         status:\n50:           statusFilter !== \"all\" ? [statusFilter as TaskStatus] : undefined,\n51:       }),\n52:     [refreshKey, cursor, search, statusFilter, showArchived],\n53:   );\n54: \n55:   const tasks = (data as TaskListResponse | undefined)?.items ?? [];\n56:   const nextCursor = (data as TaskListResponse | undefined)?.nextCursor;\n57: \n58:   return (\n59:     <div className=\"space-y-4\">\n60:       <div className=\"flex items-center gap-3\">\n61:         <div className=\"relative flex-1\">\n62:           <Search className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n63:           <Input\n64:             className=\"pl-8\"\n65:             onChange={(e) => {\n66:               setSearch(e.target.value);\n67:               setCursor(undefined);\n68:             }}\n69:             placeholder=\"Search tasks...\"\n70:             value={search}\n71:           />\n72:         </div>\n73:         <Select\n74:           onValueChange={(v: string | null) => {\n75:             setStatusFilter(v ?? \"\");\n76:             setCursor(undefined);\n77:           }}\n78:           value={statusFilter}\n79:         >\n80:           <SelectTrigger className=\"w-[140px]\">\n81:             <SelectValue placeholder=\"Status\" />\n82:           </SelectTrigger>\n83:           <SelectContent>\n84:             <SelectItem value=\"all\">All Statuses</SelectItem>\n85:             <SelectItem value=\"todo\">To Do</SelectItem>\n86:             <SelectItem value=\"in_progress\">In Progress</SelectItem>\n87:             <SelectItem value=\"done\">Done</SelectItem>\n88:           </SelectContent>\n89:         </Select>\n90:         <div className=\"flex items-center gap-2\">\n91:           <Checkbox\n92:             checked={showArchived}\n93:             id=\"archived\"\n94:             onCheckedChange={(v: boolean) => {\n95:               setShowArchived(!!v);\n96:               setCursor(undefined);\n97:             }}\n98:           />\n99:           <label className=\"text-muted-foreground text-sm\" htmlFor=\"archived\">\n100:             Show archived\n101:           </label>\n102:         </div>\n103:       </div>\n104: \n105:       <div className=\"rounded-lg border bg-card\">\n106:         <Table>\n107:           <TableHeader>\n108:             <TableRow>\n109:               <TableHead>Title</TableHead>\n110:               <TableHead>Status</TableHead>\n111:               <TableHead>Assignee</TableHead>\n112:               <TableHead>Deadline</TableHead>\n113:               <TableHead>Start</TableHead>\n114:             </TableRow>\n115:           </TableHeader>\n116:           <TableBody>\n117:             {isLoading && (\n118:               <TableRow>\n119:                 <TableCell\n120:                   className=\"text-center text-muted-foreground\"\n121:                   colSpan={5}\n122:                 >\n123:                   Loading...\n124:                 </TableCell>\n125:               </TableRow>\n126:             )}\n127:             {!isLoading && tasks.length === 0 && (\n128:               <TableRow>\n129:                 <TableCell\n130:                   className=\"text-center text-muted-foreground\"\n131:                   colSpan={5}\n132:                 >\n133:                   No tasks found\n134:                 </TableCell>\n135:               </TableRow>\n136:             )}\n137:             {tasks.map((task) => (\n138:               <TableRow\n139:                 className=\"cursor-pointer\"\n140:                 key={task.id}\n141:                 onClick={() => onTaskClick(task)}\n142:               >\n143:                 <TableCell className=\"font-medium\">\n144:                   <div className=\"flex items-center gap-2\">\n145:                     {task.title}\n146:                     {task.archived && (\n147:                       <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n148:                     )}\n149:                   </div>\n150:                 </TableCell>\n151:                 <TableCell>\n152:                   <Badge\n153:                     className={STATUS_COLORS[task.status]}\n154:                     variant=\"outline\"\n155:                   >\n156:                     {STATUS_LABELS[task.status]}\n157:                   </Badge>\n158:                 </TableCell>\n159:                 <TableCell>\n160:                   <div className=\"flex items-center gap-2\">\n161:                     <Avatar className=\"h-5 w-5\">\n162:                       <AvatarImage src={task.assignee.image ?? undefined} />\n163:                       <AvatarFallback>\n164:                         {task.assignee.name?.[0] ?? \"?\"}\n165:                       </AvatarFallback>\n166:                     </Avatar>\n167:                     <span className=\"text-sm\">{task.assignee.name}</span>\n168:                   </div>\n169:                 </TableCell>\n170:                 <TableCell>\n171:                   {task.deadline && (\n172:                     <span className=\"text-sm\">{task.deadline}</span>\n173:                   )}\n174:                 </TableCell>\n175:                 <TableCell>\n176:                   {task.startDate && (\n177:                     <span className=\"text-sm\">{task.startDate}</span>\n178:                   )}\n179:                 </TableCell>\n180:               </TableRow>\n181:             ))}\n182:           </TableBody>\n183:         </Table>\n184:       </div>\n185: \n186:       {nextCursor && (\n187:         <div className=\"flex justify-center\">\n188:           <Button\n189:             onClick={() => setCursor(nextCursor)}\n190:             size=\"sm\"\n191:             variant=\"outline\"\n192:           >\n193:             Load more\n194:           </Button>\n195:         </div>\n196:       )}\n197:     </div>\n198:   );\n199: }\n\n(End of file - total 199 lines)\n</content>",
+            "metadata": {
+              "preview": "import { Archive, Search } from \"lucide-react\";\nimport { useState } from \"react\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Select,\n  SelectContent,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/task-list-view.tsx",
+            "time": {
+              "start": 1779542865797,
+              "end": 1779542865832
+            }
+          },
+          "id": "prt_e550530d5001T04MCU61NkEDYv",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_92295c88880144c78debfd85",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx</path>\n<type>file</type>\n<content>\n1: import { useQuery } from \"@tanstack/react-query\";\n2: import {\n3:   flexRender,\n4:   getCoreRowModel,\n5:   useReactTable,\n6: } from \"@tanstack/react-table\";\n7: import { Archive, Search } from \"lucide-react\";\n8: import { parseAsJson, useQueryState } from \"nuqs\";\n9: import { useState } from \"react\";\n10: import { z } from \"zod\";\n11: \n12: import { DataTableFilter } from \"@/components/data-table-filter\";\n13: import type { FiltersState } from \"@/components/data-table-filter/core/types\";\n14: import { useDataTableFilters } from \"@/components/data-table-filter/hooks/use-data-table-filters\";\n15: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n16: import { Button } from \"@/components/ui/button\";\n17: import { Input } from \"@/components/ui/input\";\n18: import {\n19:   Table,\n20:   TableBody,\n21:   TableCell,\n22:   TableHead,\n23:   TableHeader,\n24:   TableRow,\n25: } from \"@/components/ui/table\";\n26: import type { FilterViewDisplay } from \"@/db-schemas\";\n27: import {\n28:   type ClientItem,\n29:   clientColumnDefs,\n30:   clientColumnsConfig,\n31: } from \"@/routes/(protected)/(app)/clients/-view-config\";\n32: import { rpc } from \"@/rpc/client\";\n33: \n34: type FilterViewRow = {\n35:   createdAt: Date | null;\n36:   display: FilterViewDisplay;\n37:   domain: string;\n38:   id: string;\n39:   isSystemCreated: boolean;\n40:   label: string;\n41:   refine: FiltersState;\n42:   updatedAt: Date | null;\n43: };\n44: \n45: type ClientListViewProps = {\n46:   activeViewId?: string;\n47:   onItemClick: (client: ClientItem) => void;\n48: };\n49: \n50: const filtersSchema = z.custom<FiltersState>((val): val is FiltersState =>\n51:   Array.isArray(val),\n52: );\n53: \n54: function filterKey(f: FiltersState[number]) {\n55:   return `${f.columnId}::${f.operator}`;\n56: }\n57: \n58: function filtersEqual(a: FiltersState[number], b: FiltersState[number]) {\n59:   return (\n60:     a.columnId === b.columnId &&\n61:     a.operator === b.operator &&\n62:     a.type === b.type &&\n63:     a.values.length === b.values.length &&\n64:     a.values.every((v, i) => v === b.values[i])\n65:   );\n66: }\n67: \n68: function mergeFilters(base: FiltersState, overrides: FiltersState) {\n69:   const overrideMap = new Map(overrides.map((o) => [filterKey(o), o]));\n70:   const result: FiltersState = [];\n71: \n72:   for (const b of base) {\n73:     const key = filterKey(b);\n74:     if (overrideMap.has(key)) {\n75:       const override = overrideMap.get(key);\n76:       if (override && !filtersEqual(b, override)) {\n77:         result.push(override);\n78:       }\n79:       overrideMap.delete(key);\n80:     } else {\n81:       result.push(b);\n82:     }\n83:   }\n84: \n85:   for (const o of overrideMap.values()) {\n86:     result.push(o);\n87:   }\n88: \n89:   return result;\n90: }\n91: \n92: function computeOverrides(base: FiltersState, effective: FiltersState) {\n93:   const overrides: FiltersState = [];\n94:   const baseMap = new Map(base.map((b) => [filterKey(b), b]));\n95: \n96:   for (const f of effective) {\n97:     const key = filterKey(f);\n98:     const baseFilter = baseMap.get(key);\n99:     if (!baseFilter || !filtersEqual(baseFilter, f)) {\n100:       overrides.push(f);\n101:     }\n102:   }\n103: \n104:   return overrides;\n105: }\n106: \n107: function filtersToRpcParams(filters: FiltersState) {\n108:   let search: string | undefined;\n109:   let archived: boolean | undefined;\n110:   let assigneeId: string[] | undefined;\n111: \n112:   for (const f of filters) {\n113:     if (f.columnId === \"name\" && f.type === \"text\") {\n114:       search = f.values[0];\n115:     }\n116:     if (f.columnId === \"archived\" && f.type === \"option\") {\n117:       archived = f.values[0] === \"true\";\n118:     }\n119:     if (f.columnId === \"assigneeId\" && f.type === \"option\") {\n120:       assigneeId = [...f.values];\n121:     }\n122:   }\n123: \n124:   return { archived, assigneeId, search };\n125: }\n126: \n127: function getSearchValue(filters: FiltersState): string {\n128:   for (const f of filters) {\n129:     if (f.columnId === \"name\" && f.type === \"text\") return f.values[0] ?? \"\";\n130:   }\n131:   return \"\";\n132: }\n133: \n134: function setSearchFilter(filters: FiltersState, value: string): FiltersState {\n135:   const rest = filters.filter((f) => f.columnId !== \"name\");\n136:   if (!value) return rest;\n137:   return [\n138:     ...rest,\n139:     {\n140:       columnId: \"name\",\n141:       operator: \"contains\",\n142:       type: \"text\" as const,\n143:       values: [value],\n144:     },\n145:   ];\n146: }\n147: \n148: export function ClientListView({\n149:   activeViewId,\n150:   onItemClick,\n151: }: ClientListViewProps) {\n152:   const [urlFilters, setUrlFilters] = useQueryState<FiltersState>(\n153:     \"filters\",\n154:     parseAsJson(filtersSchema.parse).withDefault([]),\n155:   );\n156: \n157:   const [cursor, setCursor] = useState<string | undefined>();\n158: \n159:   const { data: filterViewsData } = useQuery({\n160:     ...rpc.filterView.list.queryOptions({ input: { domain: \"clients\" } }),\n161:     enabled: !!activeViewId,\n162:   });\n163: \n164:   const filterViews = (filterViewsData ?? []) as FilterViewRow[];\n165:   const activeView = activeViewId\n166:     ? filterViews.find((v) => v.id === activeViewId)\n167:     : null;\n168:   const baseFilters = activeView?.refine ?? [];\n169: \n170:   const effectiveFilters = activeViewId\n171:     ? mergeFilters(baseFilters, urlFilters)\n172:     : urlFilters;\n173: \n174:   const updateFilters: React.Dispatch<React.SetStateAction<FiltersState>> = (\n175:     next,\n176:   ) => {\n177:     const resolved = typeof next === \"function\" ? next(effectiveFilters) : next;\n178: \n179:     if (activeViewId) {\n180:       const overrides = computeOverrides(baseFilters, resolved);\n181:       setUrlFilters(overrides.length > 0 ? overrides : null);\n182:     } else {\n183:       setUrlFilters(resolved);\n184:     }\n185:     setCursor(undefined);\n186:   };\n187: \n188:   const rpcParams = filtersToRpcParams(effectiveFilters);\n189: \n190:   const { data: clientsData, isLoading } = useQuery(\n191:     rpc.client.list.queryOptions({\n192:       input: {\n193:         archived: rpcParams.archived,\n194:         assigneeId: rpcParams.assigneeId,\n195:         cursor,\n196:         limit: 20,\n197:         search: rpcParams.search,\n198:       },\n199:     }),\n200:   );\n201: \n202:   const { data: usersData } = useQuery(\n203:     rpc.users.list.queryOptions({ input: { limit: 100 } }),\n204:   );\n205: \n206:   const clients = clientsData?.items ?? [];\n207:   const nextCursor = clientsData?.nextCursor;\n208: \n209:   const assigneeOptions = (usersData?.items ?? []).map((u) => ({\n210:     icon: (\n211:       <Avatar className=\"size-4\">\n212:         <AvatarImage src={u.image ?? undefined} />\n213:         <AvatarFallback>{u.name?.[0] ?? \"?\"}</AvatarFallback>\n214:       </Avatar>\n215:     ),\n216:     label: u.name ?? \"Unknown\",\n217:     value: u.id,\n218:   }));\n219: \n220:   const archivedOptions = [\n221:     { icon: <Archive className=\"size-4\" />, label: \"Archived\", value: \"true\" },\n222:     { label: \"Active\", value: \"false\" },\n223:   ];\n224: \n225:   const {\n226:     columns,\n227:     filters: filterState,\n228:     actions,\n229:     strategy,\n230:   } = useDataTableFilters({\n231:     columnsConfig: clientColumnsConfig,\n232:     data: clients,\n233:     filters: effectiveFilters,\n234:     onFiltersChange: updateFilters,\n235:     options: {\n236:       archived: archivedOptions,\n237:       assigneeId: assigneeOptions,\n238:     },\n239:     strategy: \"server\",\n240:   });\n241: \n242:   const table = useReactTable({\n243:     columns: clientColumnDefs,\n244:     data: clients,\n245:     getCoreRowModel: getCoreRowModel(),\n246:     getRowId: (row) => String(row.id),\n247:   });\n248: \n249:   return (\n250:     <div className=\"space-y-4\">\n251:       <div className=\"flex items-start gap-2\">\n252:         <div className=\"relative flex-1\">\n253:           <Search className=\"absolute top-2.5 left-2.5 size-4 text-muted-foreground\" />\n254:           <Input\n255:             className=\"pl-8\"\n256:             onChange={(e) =>\n257:               updateFilters(setSearchFilter(effectiveFilters, e.target.value))\n258:             }\n259:             placeholder=\"Search clients...\"\n260:             value={getSearchValue(effectiveFilters)}\n261:           />\n262:         </div>\n263:         <DataTableFilter\n264:           actions={actions}\n265:           columns={columns}\n266:           filters={filterState}\n267:           locale=\"en\"\n268:           strategy={strategy}\n269:         />\n270:       </div>\n271: \n272:       <div className=\"rounded-lg border bg-card\">\n273:         <Table>\n274:           <TableHeader>\n275:             {table.getHeaderGroups().map((headerGroup) => (\n276:               <TableRow key={headerGroup.id}>\n277:                 {headerGroup.headers.map((header) => (\n278:                   <TableHead key={header.id}>\n279:                     {header.isPlaceholder\n280:                       ? null\n281:                       : flexRender(\n282:                           header.column.columnDef.header,\n283:                           header.getContext(),\n284:                         )}\n285:                   </TableHead>\n286:                 ))}\n287:               </TableRow>\n288:             ))}\n289:           </TableHeader>\n290:           <TableBody>\n291:             {isLoading ? (\n292:               <TableRow>\n293:                 <TableCell\n294:                   className=\"text-center text-muted-foreground\"\n295:                   colSpan={clientColumnDefs.length}\n296:                 >\n297:                   Loading...\n298:                 </TableCell>\n299:               </TableRow>\n300:             ) : clients.length === 0 ? (\n301:               <TableRow>\n302:                 <TableCell\n303:                   className=\"text-center text-muted-foreground\"\n304:                   colSpan={clientColumnDefs.length}\n305:                 >\n306:                   No clients found\n307:                 </TableCell>\n308:               </TableRow>\n309:             ) : (\n310:               table.getRowModel().rows.map((row) => (\n311:                 <TableRow\n312:                   className=\"cursor-pointer\"\n313:                   key={row.id}\n314:                   onClick={() => onItemClick(row.original)}\n315:                 >\n316:                   {row.getVisibleCells().map((cell) => (\n317:                     <TableCell key={cell.id}>\n318:                       {flexRender(\n319:                         cell.column.columnDef.cell,\n320:                         cell.getContext(),\n321:                       )}\n322:                     </TableCell>\n323:                   ))}\n324:                 </TableRow>\n325:               ))\n326:             )}\n327:           </TableBody>\n328:         </Table>\n329:       </div>\n330: \n331:       {nextCursor && (\n332:         <div className=\"flex justify-center\">\n333:           <Button\n334:             onClick={() => setCursor(nextCursor)}\n335:             size=\"sm\"\n336:             variant=\"outline\"\n337:           >\n338:             Load more\n339:           </Button>\n340:         </div>\n341:       )}\n342:     </div>\n343:   );\n344: }\n\n(End of file - total 344 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useQuery } from \"@tanstack/react-query\";\nimport {\n  flexRender,\n  getCoreRowModel,\n  useReactTable,\n} from \"@tanstack/react-table\";\nimport { Archive, Search } from \"lucide-react\";\nimport { parseAsJson, useQueryState } from \"nuqs\";\nimport { useState } from \"react\";\nimport { z } from \"zod\";\n\nimport { DataTableFilter } from \"@/components/data-table-filter\";\nimport type { FiltersState } from \"@/components/data-table-filter/core/types\";\nimport { useDataTableFilters } from \"@/components/data-table-filter/hooks/use-data-table-filters\";\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Table,\n  TableBody,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/client-list-view.tsx",
+            "time": {
+              "start": 1779542865983,
+              "end": 1779542866019
+            }
+          },
+          "id": "prt_e5505379800152jglVCFNH77eR",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d8d97d7826c44f7b940deaab",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx</path>\n<type>file</type>\n<content>\n1: import { Archive, Search } from \"lucide-react\";\n2: import { useId, useState } from \"react\";\n3: \n4: import { Button } from \"@/components/ui/button\";\n5: import { Checkbox } from \"@/components/ui/checkbox\";\n6: import { Input } from \"@/components/ui/input\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: import { useORPCQuery } from \"@/hooks/use-orpc-query\";\n16: import { client } from \"@/rpc/client\";\n17: \n18: import type { ProspectItem, ProspectListResponse } from \"./prospect.types\";\n19: \n20: type ProspectListViewProps = {\n21:   onProspectClick: (prospect: ProspectItem) => void;\n22:   refreshKey: number;\n23: };\n24: \n25: export function ProspectListView({\n26:   onProspectClick,\n27:   refreshKey,\n28: }: ProspectListViewProps) {\n29:   const [search, setSearch] = useState(\"\");\n30:   const [showArchived, setShowArchived] = useState(false);\n31:   const [cursor, setCursor] = useState<string | undefined>();\n32:   const archivedId = useId();\n33: \n34:   const { data, isLoading } = useORPCQuery(\n35:     () =>\n36:       client.prospect.list({\n37:         archived: showArchived ? undefined : false,\n38:         cursor,\n39:         limit: 20,\n40:         search: search || undefined,\n41:       }),\n42:     [refreshKey, cursor, search, showArchived],\n43:   );\n44: \n45:   const prospects = (data as ProspectListResponse | undefined)?.items ?? [];\n46:   const nextCursor = (data as ProspectListResponse | undefined)?.nextCursor;\n47: \n48:   function formatDate(date: Date | null): string {\n49:     if (!date) return \"—\";\n50:     return new Date(date).toLocaleDateString();\n51:   }\n52: \n53:   return (\n54:     <div className=\"space-y-4\">\n55:       <div className=\"flex items-center gap-3\">\n56:         <div className=\"relative flex-1\">\n57:           <Search className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n58:           <Input\n59:             className=\"pl-8\"\n60:             onChange={(e) => {\n61:               setSearch(e.target.value);\n62:               setCursor(undefined);\n63:             }}\n64:             placeholder=\"Search prospects...\"\n65:             value={search}\n66:           />\n67:         </div>\n68:         <div className=\"flex items-center gap-2\">\n69:           <Checkbox\n70:             checked={showArchived}\n71:             id={archivedId}\n72:             onCheckedChange={(v: boolean) => {\n73:               setShowArchived(!!v);\n74:               setCursor(undefined);\n75:             }}\n76:           />\n77:           <label className=\"text-muted-foreground text-sm\" htmlFor={archivedId}>\n78:             Show archived\n79:           </label>\n80:         </div>\n81:       </div>\n82: \n83:       <div className=\"rounded-lg border bg-card\">\n84:         <Table>\n85:           <TableHeader>\n86:             <TableRow>\n87:               <TableHead>Name</TableHead>\n88:               <TableHead>Phone</TableHead>\n89:               <TableHead>Email</TableHead>\n90:               <TableHead>Description</TableHead>\n91:               <TableHead>Created</TableHead>\n92:             </TableRow>\n93:           </TableHeader>\n94:           <TableBody>\n95:             {isLoading && (\n96:               <TableRow>\n97:                 <TableCell\n98:                   className=\"text-center text-muted-foreground\"\n99:                   colSpan={5}\n100:                 >\n101:                   Loading...\n102:                 </TableCell>\n103:               </TableRow>\n104:             )}\n105:             {!isLoading && prospects.length === 0 && (\n106:               <TableRow>\n107:                 <TableCell\n108:                   className=\"text-center text-muted-foreground\"\n109:                   colSpan={5}\n110:                 >\n111:                   No prospects found\n112:                 </TableCell>\n113:               </TableRow>\n114:             )}\n115:             {prospects.map((prospect) => (\n116:               <TableRow\n117:                 className=\"cursor-pointer\"\n118:                 key={prospect.id}\n119:                 onClick={() => onProspectClick(prospect)}\n120:               >\n121:                 <TableCell className=\"font-medium\">\n122:                   <div className=\"flex items-center gap-2\">\n123:                     {prospect.name}\n124:                     {prospect.archived && (\n125:                       <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n126:                     )}\n127:                   </div>\n128:                 </TableCell>\n129:                 <TableCell>\n130:                   <span className=\"text-sm\">{prospect.phone}</span>\n131:                 </TableCell>\n132:                 <TableCell>\n133:                   <span className=\"text-sm\">{prospect.email ?? \"—\"}</span>\n134:                 </TableCell>\n135:                 <TableCell>\n136:                   {prospect.description ? (\n137:                     <span className=\"line-clamp-1 max-w-[200px] text-sm\">\n138:                       {prospect.description}\n139:                     </span>\n140:                   ) : (\n141:                     <span className=\"text-muted-foreground text-sm\">—</span>\n142:                   )}\n143:                 </TableCell>\n144:                 <TableCell>\n145:                   <span className=\"text-sm\">\n146:                     {formatDate(prospect.createdAt)}\n147:                   </span>\n148:                 </TableCell>\n149:               </TableRow>\n150:             ))}\n151:           </TableBody>\n152:         </Table>\n153:       </div>\n154: \n155:       {nextCursor && (\n156:         <div className=\"flex justify-center\">\n157:           <Button\n158:             onClick={() => setCursor(nextCursor)}\n159:             size=\"sm\"\n160:             variant=\"outline\"\n161:           >\n162:             Load more\n163:           </Button>\n164:         </div>\n165:       )}\n166:     </div>\n167:   );\n168: }\n\n(End of file - total 168 lines)\n</content>",
+            "metadata": {
+              "preview": "import { Archive, Search } from \"lucide-react\";\nimport { useId, useState } from \"react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Input } from \"@/components/ui/input\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\nimport { useORPCQuery } from \"@/hooks/use-orpc-query\";\nimport { client } from \"@/rpc/client\";\n\nimport type { ProspectItem, ProspectListResponse } from \"./prospect.types\";\n\ntype ProspectListViewProps = {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/prospect-list-view.tsx",
+            "time": {
+              "start": 1779542866164,
+              "end": 1779542866245
+            }
+          },
+          "id": "prt_e5505384e0016bXETd2o4XfGV3",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_bcb18d0fae184612ae9d17c4",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx</path>\n<type>file</type>\n<content>\n1: import { useNavigate } from \"@tanstack/react-router\";\n2: import { format } from \"date-fns\";\n3: \n4: import type { ContractItem } from \"@/components/types\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Skeleton } from \"@/components/ui/skeleton\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: \n16: type ContractsTableProps = {\n17:   contracts: ContractItem[];\n18:   isLoading: boolean;\n19:   search: string;\n20: };\n21: \n22: const STATUS_STYLES: Record<string, { label: string; className: string }> = {\n23:   active: {\n24:     className: \"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400\",\n25:     label: \"Active\",\n26:   },\n27:   inactive: {\n28:     className: \"bg-slate-500/10 text-slate-600 dark:text-slate-400\",\n29:     label: \"Inactive\",\n30:   },\n31: };\n32: \n33: function formatDate(date: string | null) {\n34:   if (!date) return \"—\";\n35:   try {\n36:     return format(new Date(date), \"MMM d, yyyy\");\n37:   } catch {\n38:     return date;\n39:   }\n40: }\n41: \n42: export function ContractsTable({\n43:   contracts,\n44:   isLoading,\n45:   search,\n46: }: ContractsTableProps) {\n47:   const navigate = useNavigate();\n48: \n49:   const filtered = search\n50:     ? contracts.filter(\n51:         (c) =>\n52:           c.title.toLowerCase().includes(search.toLowerCase()) ||\n53:           (c.referenceNumber ?? \"\")\n54:             .toLowerCase()\n55:             .includes(search.toLowerCase()) ||\n56:           (c.client?.name ?? \"\").toLowerCase().includes(search.toLowerCase()),\n57:       )\n58:     : contracts;\n59: \n60:   return (\n61:     <div className=\"rounded-lg border bg-card\">\n62:       <Table>\n63:         <TableHeader>\n64:           <TableRow>\n65:             <TableHead>Reference #</TableHead>\n66:             <TableHead>Client</TableHead>\n67:             <TableHead>BD Responsible</TableHead>\n68:             <TableHead>RM Responsible</TableHead>\n69:             <TableHead>Status</TableHead>\n70:             <TableHead>Start Date</TableHead>\n71:             <TableHead>End Date</TableHead>\n72:           </TableRow>\n73:         </TableHeader>\n74:         <TableBody>\n75:           {isLoading &&\n76:             Array.from({ length: 5 }).map((_, i) => (\n77:               // biome-ignore lint/suspicious/noArrayIndexKey: skeleton rows are static\n78:               <TableRow key={`skeleton-${i}`}>\n79:                 <TableCell>\n80:                   <Skeleton className=\"h-4 w-24\" />\n81:                 </TableCell>\n82:                 <TableCell>\n83:                   <Skeleton className=\"h-4 w-32\" />\n84:                 </TableCell>\n85:                 <TableCell>\n86:                   <Skeleton className=\"h-5 w-28\" />\n87:                 </TableCell>\n88:                 <TableCell>\n89:                   <Skeleton className=\"h-5 w-28\" />\n90:                 </TableCell>\n91:                 <TableCell>\n92:                   <Skeleton className=\"h-5 w-16\" />\n93:                 </TableCell>\n94:                 <TableCell>\n95:                   <Skeleton className=\"h-4 w-24\" />\n96:                 </TableCell>\n97:                 <TableCell>\n98:                   <Skeleton className=\"h-4 w-24\" />\n99:                 </TableCell>\n100:               </TableRow>\n101:             ))}\n102:           {!isLoading && filtered.length === 0 && (\n103:             <TableRow>\n104:               <TableCell\n105:                 className=\"text-center text-muted-foreground\"\n106:                 colSpan={7}\n107:               >\n108:                 {search ? \"No contracts match your search\" : \"No contracts yet\"}\n109:               </TableCell>\n110:             </TableRow>\n111:           )}\n112:           {!isLoading &&\n113:             filtered.map((contract) => {\n114:               const status = STATUS_STYLES[contract.status ?? \"active\"] ?? {\n115:                 className: \"\",\n116:                 label: contract.status ?? \"—\",\n117:               };\n118:               return (\n119:                 <TableRow\n120:                   className=\"cursor-pointer\"\n121:                   key={contract.id}\n122:                   onClick={() =>\n123:                     navigate({\n124:                       params: { contractId: String(contract.id) },\n125:                       to: \"/contracts/$contractId\",\n126:                     })\n127:                   }\n128:                 >\n129:                   <TableCell className=\"font-mono text-sm\">\n130:                     {contract.referenceNumber ?? \"—\"}\n131:                   </TableCell>\n132:                   <TableCell>\n133:                     <div>\n134:                       <div className=\"font-medium\">{contract.title}</div>\n135:                       {contract.client?.name && (\n136:                         <div className=\"text-muted-foreground text-sm\">\n137:                           {contract.client.name}\n138:                         </div>\n139:                       )}\n140:                     </div>\n141:                   </TableCell>\n142:                   <TableCell className=\"text-sm\">\n143:                     {contract.bd?.name ?? \"—\"}\n144:                   </TableCell>\n145:                   <TableCell className=\"text-sm\">\n146:                     {contract.rm?.name ?? \"—\"}\n147:                   </TableCell>\n148:                   <TableCell>\n149:                     <Badge className={status.className} variant=\"outline\">\n150:                       {status.label}\n151:                     </Badge>\n152:                   </TableCell>\n153:                   <TableCell className=\"text-muted-foreground text-sm\">\n154:                     {formatDate(contract.startDate)}\n155:                   </TableCell>\n156:                   <TableCell className=\"text-muted-foreground text-sm\">\n157:                     {formatDate(contract.endDate)}\n158:                   </TableCell>\n159:                 </TableRow>\n160:               );\n161:             })}\n162:         </TableBody>\n163:       </Table>\n164:     </div>\n165:   );\n166: }\n\n(End of file - total 166 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useNavigate } from \"@tanstack/react-router\";\nimport { format } from \"date-fns\";\n\nimport type { ContractItem } from \"@/components/types\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\n\ntype ContractsTableProps = {\n  contracts: ContractItem[];\n  isLoading: boolean;\n  search: string;\n};",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/tables/contracts-table.tsx",
+            "time": {
+              "start": 1779542866349,
+              "end": 1779542866407
+            }
+          },
+          "id": "prt_e55053913001TxZ7QxDp40Qj77",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_32973e105cbf42deb1e6c0a0",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx</path>\n<type>file</type>\n<content>\n1: import { useNavigate } from \"@tanstack/react-router\";\n2: import { format } from \"date-fns\";\n3: \n4: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Skeleton } from \"@/components/ui/skeleton\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: import type { PermissionSet } from \"@/lib/auth/access-control\";\n16: import { ROLE_DISPLAY_NAMES } from \"@/lib/constants\";\n17: \n18: type MemberItem = {\n19:   banExpires: Date | null;\n20:   banned: boolean | null;\n21:   banReason: string | null;\n22:   createdAt: Date | null;\n23:   permissions: PermissionSet | null;\n24:   email: string;\n25:   id: string;\n26:   image: string | null;\n27:   name: string;\n28:   role: string | null;\n29:   supervisorId: string | null;\n30:   supervisorName: string | null;\n31: };\n32: \n33: type MembersTableProps = {\n34:   members: MemberItem[];\n35:   isLoading: boolean;\n36:   search: string;\n37: };\n38: \n39: function getInitials(name: string) {\n40:   return name\n41:     .split(\" \")\n42:     .map((n) => n[0])\n43:     .join(\"\")\n44:     .toUpperCase()\n45:     .slice(0, 2);\n46: }\n47: \n48: export function MembersTable({\n49:   members,\n50:   isLoading,\n51:   search,\n52: }: MembersTableProps) {\n53:   const navigate = useNavigate();\n54: \n55:   const filtered = search\n56:     ? members.filter(\n57:         (m) =>\n58:           m.name.toLowerCase().includes(search.toLowerCase()) ||\n59:           m.email.toLowerCase().includes(search.toLowerCase()),\n60:       )\n61:     : members;\n62: \n63:   return (\n64:     <div className=\"rounded-lg border bg-card\">\n65:       <Table>\n66:         <TableHeader>\n67:           <TableRow>\n68:             <TableHead>Name</TableHead>\n69:             <TableHead>Role</TableHead>\n70:             <TableHead>Supervisor</TableHead>\n71:             <TableHead>Status</TableHead>\n72:             <TableHead>Added</TableHead>\n73:           </TableRow>\n74:         </TableHeader>\n75:         <TableBody>\n76:           {isLoading &&\n77:             Array.from({ length: 5 }).map((_, i) => (\n78:               <TableRow key={`skeleton-${i}`}>\n79:                 <TableCell>\n80:                   <div className=\"flex items-center gap-3\">\n81:                     <Skeleton className=\"h-8 w-8 rounded-full\" />\n82:                     <div className=\"space-y-1\">\n83:                       <Skeleton className=\"h-4 w-32\" />\n84:                       <Skeleton className=\"h-3 w-40\" />\n85:                     </div>\n86:                   </div>\n87:                 </TableCell>\n88:                 <TableCell>\n89:                   <Skeleton className=\"h-5 w-24\" />\n90:                 </TableCell>\n91:                 <TableCell>\n92:                   <Skeleton className=\"h-5 w-24\" />\n93:                 </TableCell>\n94:                 <TableCell>\n95:                   <Skeleton className=\"h-5 w-16\" />\n96:                 </TableCell>\n97:                 <TableCell>\n98:                   <Skeleton className=\"h-4 w-20\" />\n99:                 </TableCell>\n100:               </TableRow>\n101:             ))}\n102:           {!isLoading && filtered.length === 0 && (\n103:             <TableRow>\n104:               <TableCell\n105:                 className=\"text-center text-muted-foreground\"\n106:                 colSpan={5}\n107:               >\n108:                 {search ? \"No members match your search\" : \"No members yet\"}\n109:               </TableCell>\n110:             </TableRow>\n111:           )}\n112:           {!isLoading &&\n113:             filtered.map((member) => (\n114:               <TableRow\n115:                 className=\"cursor-pointer\"\n116:                 key={member.id}\n117:                 onClick={() =>\n118:                   navigate({\n119:                     params: { memberId: member.id },\n120:                     to: \"/settings/members/$memberId\",\n121:                   })\n122:                 }\n123:               >\n124:                 <TableCell>\n125:                   <div className=\"flex items-center gap-3\">\n126:                     <Avatar className=\"h-8 w-8\">\n127:                       {member.image && (\n128:                         <AvatarImage alt={member.name} src={member.image} />\n129:                       )}\n130:                       <AvatarFallback>\n131:                         {getInitials(member.name)}\n132:                       </AvatarFallback>\n133:                     </Avatar>\n134:                     <div>\n135:                       <div className=\"font-medium\">{member.name}</div>\n136:                       <div className=\"text-muted-foreground text-sm\">\n137:                         {member.email}\n138:                       </div>\n139:                     </div>\n140:                   </div>\n141:                 </TableCell>\n142:                 <TableCell>\n143:                   <Badge variant=\"outline\">\n144:                     {ROLE_DISPLAY_NAMES[\n145:                       member.role as keyof typeof ROLE_DISPLAY_NAMES\n146:                     ] ??\n147:                       member.role ??\n148:                       \"—\"}\n149:                   </Badge>\n150:                 </TableCell>\n151:                 <TableCell className=\"text-sm\">\n152:                   {member.supervisorName ?? \"—\"}\n153:                 </TableCell>\n154:                 <TableCell>\n155:                   {member.banned ? (\n156:                     <Badge variant=\"destructive\">Banned</Badge>\n157:                   ) : (\n158:                     <Badge\n159:                       className=\"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400\"\n160:                       variant=\"outline\"\n161:                     >\n162:                       Active\n163:                     </Badge>\n164:                   )}\n165:                 </TableCell>\n166:                 <TableCell className=\"text-muted-foreground text-sm\">\n167:                   {member.createdAt\n168:                     ? format(new Date(member.createdAt), \"MMM d, yyyy\")\n169:                     : \"—\"}\n170:                 </TableCell>\n171:               </TableRow>\n172:             ))}\n173:         </TableBody>\n174:       </Table>\n175:     </div>\n176:   );\n177: }\n178: \n179: export type { MemberItem };\n\n(End of file - total 179 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useNavigate } from \"@tanstack/react-router\";\nimport { format } from \"date-fns\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\nimport type { PermissionSet } from \"@/lib/auth/access-control\";\nimport { ROLE_DISPLAY_NAMES } from \"@/lib/constants\";\n\ntype MemberItem = {\n  banExpires: Date | null;\n  banned: boolean | null;",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/tables/members-table.tsx",
+            "time": {
+              "start": 1779542866516,
+              "end": 1779542866575
+            }
+          },
+          "id": "prt_e550539bd001ZhE9OsKdQntCor",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_921132a510d04db78e4ecbad",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx</path>\n<type>file</type>\n<content>\n1: import { createFileRoute } from \"@tanstack/react-router\";\n2: import { Calendar, Columns3, List, Plus } from \"lucide-react\";\n3: import { useCallback, useState } from \"react\";\n4: import { z } from \"zod\";\n5: \n6: import { TaskCalendarView } from \"@/components/task-calendar-view\";\n7: import { TaskDetailPanel } from \"@/components/task-detail-panel\";\n8: import { TaskKanbanView } from \"@/components/task-kanban-view\";\n9: import { TaskListView } from \"@/components/task-list-view\";\n10: import type { TaskItem } from \"@/components/tasks.types\";\n11: import { Button } from \"@/components/ui/button\";\n12: import { Tabs, TabsList, TabsTrigger } from \"@/components/ui/tabs\";\n13: \n14: const searchSchema = z.object({\n15:   view: z.enum([\"list\", \"kanban\", \"calendar\"]).default(\"list\"),\n16: });\n17: \n18: export const Route = createFileRoute(\"/(protected)/(app)/tasks/\")({\n19:   component: TasksPage,\n20:   validateSearch: searchSchema,\n21: });\n22: \n23: function TasksPage() {\n24:   const { view } = Route.useSearch();\n25:   const navigate = Route.useNavigate();\n26:   const [selectedTask, setSelectedTask] = useState<TaskItem | null>(null);\n27:   const [panelOpen, setPanelOpen] = useState(false);\n28:   const [panelMode, setPanelMode] = useState<\"view\" | \"create\">(\"view\");\n29:   const [refreshKey, setRefreshKey] = useState(0);\n30:   const onRefresh = useCallback(() => setRefreshKey((k) => k + 1), []);\n31: \n32:   function handleTaskClick(task: TaskItem) {\n33:     setSelectedTask(task);\n34:     setPanelMode(\"view\");\n35:     setPanelOpen(true);\n36:   }\n37: \n38:   function handleNewTask() {\n39:     setSelectedTask(null);\n40:     setPanelMode(\"create\");\n41:     setPanelOpen(true);\n42:   }\n43: \n44:   function setView(v: string) {\n45:     navigate({ search: { view: v as \"list\" | \"kanban\" | \"calendar\" } });\n46:   }\n47: \n48:   return (\n49:     <div className=\"page-wrap py-8\">\n50:       <div className=\"mb-6 flex items-center justify-between\">\n51:         <h1 className=\"display-title font-bold text-3xl\">Tasks</h1>\n52:         <div className=\"flex items-center gap-3\">\n53:           <Tabs onValueChange={setView} value={view}>\n54:             <TabsList>\n55:               <TabsTrigger value=\"list\">\n56:                 <List className=\"mr-1.5 h-4 w-4\" />\n57:                 List\n58:               </TabsTrigger>\n59:               <TabsTrigger value=\"kanban\">\n60:                 <Columns3 className=\"mr-1.5 h-4 w-4\" />\n61:                 Kanban\n62:               </TabsTrigger>\n63:               <TabsTrigger value=\"calendar\">\n64:                 <Calendar className=\"mr-1.5 h-4 w-4\" />\n65:                 Calendar\n66:               </TabsTrigger>\n67:             </TabsList>\n68:           </Tabs>\n69:           <Button onClick={handleNewTask}>\n70:             <Plus className=\"mr-1.5 h-4 w-4\" />\n71:             New Task\n72:           </Button>\n73:         </div>\n74:       </div>\n75: \n76:       {view === \"list\" && (\n77:         <TaskListView onTaskClick={handleTaskClick} refreshKey={refreshKey} />\n78:       )}\n79:       {view === \"kanban\" && (\n80:         <TaskKanbanView onTaskClick={handleTaskClick} refreshKey={refreshKey} />\n81:       )}\n82:       {view === \"calendar\" && (\n83:         <TaskCalendarView\n84:           onTaskClick={handleTaskClick}\n85:           refreshKey={refreshKey}\n86:         />\n87:       )}\n88: \n89:       <TaskDetailPanel\n90:         mode={panelMode}\n91:         onOpenChange={setPanelOpen}\n92:         onRefresh={onRefresh}\n93:         open={panelOpen}\n94:         task={selectedTask}\n95:       />\n96:     </div>\n97:   );\n98: }\n\n(End of file - total 98 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createFileRoute } from \"@tanstack/react-router\";\nimport { Calendar, Columns3, List, Plus } from \"lucide-react\";\nimport { useCallback, useState } from \"react\";\nimport { z } from \"zod\";\n\nimport { TaskCalendarView } from \"@/components/task-calendar-view\";\nimport { TaskDetailPanel } from \"@/components/task-detail-panel\";\nimport { TaskKanbanView } from \"@/components/task-kanban-view\";\nimport { TaskListView } from \"@/components/task-list-view\";\nimport type { TaskItem } from \"@/components/tasks.types\";\nimport { Button } from \"@/components/ui/button\";\nimport { Tabs, TabsList, TabsTrigger } from \"@/components/ui/tabs\";\n\nconst searchSchema = z.object({\n  view: z.enum([\"list\", \"kanban\", \"calendar\"]).default(\"list\"),\n});\n\nexport const Route = createFileRoute(\"/(protected)/(app)/tasks/\")({\n  component: TasksPage,\n  validateSearch: searchSchema,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/tasks/index.tsx",
+            "time": {
+              "start": 1779542866766,
+              "end": 1779542866836
+            }
+          },
+          "id": "prt_e55053a66001GdBm672bLC1ah3",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_11f8a25455fa4ecf9c619510",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx</path>\n<type>file</type>\n<content>\n1: import {\n2:   createFileRoute,\n3:   Link,\n4:   useNavigate,\n5:   useSearch,\n6: } from \"@tanstack/react-router\";\n7: import { Plus } from \"lucide-react\";\n8: import { z } from \"zod\";\n9: \n10: import { ClientListView } from \"@/components/client-list-view\";\n11: import { FilterViewTabs } from \"@/components/filter-view-tabs\";\n12: import NavLayout from \"@/components/layouts/nav-layout\";\n13: \n14: export const Route = createFileRoute(\"/(protected)/(app)/clients/\")({\n15:   component: ClientsPage,\n16:   validateSearch: z.object({\n17:     view: z.string().optional(),\n18:   }),\n19: });\n20: \n21: function ClientsPage() {\n22:   const navigate = useNavigate();\n23:   const { view } = useSearch({ from: Route.id });\n24: \n25:   return (\n26:     <NavLayout\n27:       baseUrl=\"/clients\"\n28:       label=\"Clients\"\n29:       leftItems={<FilterViewTabs domain=\"clients\" />}\n30:       rightItems={\n31:         <Link className=\"flex\" to=\"/clients/new\">\n32:           <Plus className=\"mr-1.5 h-4 w-4\" />\n33:           New Client\n34:         </Link>\n35:       }\n36:     >\n37:       <ClientListView\n38:         activeViewId={view}\n39:         onItemClick={(client) =>\n40:           navigate({\n41:             params: { clientId: String(client.id) },\n42:             to: \"/clients/$clientId\",\n43:           })\n44:         }\n45:       />\n46:     </NavLayout>\n47:   );\n48: }\n\n(End of file - total 48 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  createFileRoute,\n  Link,\n  useNavigate,\n  useSearch,\n} from \"@tanstack/react-router\";\nimport { Plus } from \"lucide-react\";\nimport { z } from \"zod\";\n\nimport { ClientListView } from \"@/components/client-list-view\";\nimport { FilterViewTabs } from \"@/components/filter-view-tabs\";\nimport NavLayout from \"@/components/layouts/nav-layout\";\n\nexport const Route = createFileRoute(\"/(protected)/(app)/clients/\")({\n  component: ClientsPage,\n  validateSearch: z.object({\n    view: z.string().optional(),\n  }),\n});\n",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/clients/index.tsx",
+            "time": {
+              "start": 1779542866964,
+              "end": 1779542867121
+            }
+          },
+          "id": "prt_e55053b5d001VnjyltPSVQUyzH",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_04273b7e3e494e01bfa8ad2c",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx</path>\n<type>file</type>\n<content>\n1: import { createFileRoute } from \"@tanstack/react-router\";\n2: import { Plus } from \"lucide-react\";\n3: import { useCallback, useState } from \"react\";\n4: \n5: import type { ProspectItem } from \"@/components/prospect.types\";\n6: import { ProspectDetailPanel } from \"@/components/prospect-detail-panel\";\n7: import { ProspectListView } from \"@/components/prospect-list-view\";\n8: import { Button } from \"@/components/ui/button\";\n9: \n10: export const Route = createFileRoute(\"/(protected)/(app)/prospects\")({\n11:   component: ProspectsPage,\n12: });\n13: \n14: function ProspectsPage() {\n15:   const [selectedProspect, setSelectedProspect] = useState<ProspectItem | null>(\n16:     null,\n17:   );\n18:   const [panelOpen, setPanelOpen] = useState(false);\n19:   const [panelMode, setPanelMode] = useState<\"view\" | \"create\">(\"view\");\n20:   const [refreshKey, setRefreshKey] = useState(0);\n21:   const onRefresh = useCallback(() => setRefreshKey((k) => k + 1), []);\n22: \n23:   function handleProspectClick(prospect: ProspectItem) {\n24:     setSelectedProspect(prospect);\n25:     setPanelMode(\"view\");\n26:     setPanelOpen(true);\n27:   }\n28: \n29:   function handleNewProspect() {\n30:     setSelectedProspect(null);\n31:     setPanelMode(\"create\");\n32:     setPanelOpen(true);\n33:   }\n34: \n35:   return (\n36:     <div className=\"page-wrap py-8\">\n37:       <div className=\"mb-6 flex items-center justify-between\">\n38:         <h1 className=\"display-title font-bold text-3xl\">Prospects</h1>\n39:         <Button onClick={handleNewProspect}>\n40:           <Plus className=\"mr-1.5 h-4 w-4\" />\n41:           New Prospect\n42:         </Button>\n43:       </div>\n44: \n45:       <ProspectListView\n46:         onProspectClick={handleProspectClick}\n47:         refreshKey={refreshKey}\n48:       />\n49: \n50:       <ProspectDetailPanel\n51:         mode={panelMode}\n52:         onOpenChange={setPanelOpen}\n53:         onRefresh={onRefresh}\n54:         open={panelOpen}\n55:         prospect={selectedProspect}\n56:       />\n57:     </div>\n58:   );\n59: }\n\n(End of file - total 59 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createFileRoute } from \"@tanstack/react-router\";\nimport { Plus } from \"lucide-react\";\nimport { useCallback, useState } from \"react\";\n\nimport type { ProspectItem } from \"@/components/prospect.types\";\nimport { ProspectDetailPanel } from \"@/components/prospect-detail-panel\";\nimport { ProspectListView } from \"@/components/prospect-list-view\";\nimport { Button } from \"@/components/ui/button\";\n\nexport const Route = createFileRoute(\"/(protected)/(app)/prospects\")({\n  component: ProspectsPage,\n});\n\nfunction ProspectsPage() {\n  const [selectedProspect, setSelectedProspect] = useState<ProspectItem | null>(\n    null,\n  );\n  const [panelOpen, setPanelOpen] = useState(false);\n  const [panelMode, setPanelMode] = useState<\"view\" | \"create\">(\"view\");\n  const [refreshKey, setRefreshKey] = useState(0);",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/prospects.tsx",
+            "time": {
+              "start": 1779542867143,
+              "end": 1779542867306
+            }
+          },
+          "id": "prt_e55053c23001AC5UQTf1nQ7zF7",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 7537,
+            "input": 1950,
+            "output": 255,
+            "reasoning": 84,
+            "cache": {
+              "write": 0,
+              "read": 5248
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55053dd3001dtCxqKCHSejbQt",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550521920012VRq55NtOMN1b6"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 19087,
+          "input": 17443,
+          "output": 188,
+          "reasoning": 48,
+          "cache": {
+            "write": 0,
+            "read": 1408
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542867526,
+          "completed": 1779542871531
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55053e46001dVXwExNwad3P8Z",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e55054627001J1oA0FmJm2i7el",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now let me also check the remaining route pages that might have table views: contracts/index.tsx, audit-log.tsx, drafts.tsx, job-mandates/index.tsx, and any settings pages that use the members-table.",
+          "time": {
+            "start": 1779542869545,
+            "end": 1779542869945
+          },
+          "id": "prt_e55054629001u9qpY6gLDc4FUa",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "text",
+          "text": "Now let me check the remaining routes that likely contain table views, plus any settings/admin pages that use the members table.",
+          "time": {
+            "start": 1779542869948,
+            "end": 1779542871304
+          },
+          "id": "prt_e550547bc001qr9mKMmq5mLbjR",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d33c9c813f4d47b4bec699a2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx</path>\n<type>file</type>\n<content>\n1: import { IconPlus, IconSearch } from \"@tabler/icons-react\";\n2: import { useQuery } from \"@tanstack/react-query\";\n3: import { createFileRoute } from \"@tanstack/react-router\";\n4: import { useState } from \"react\";\n5: \n6: import { ContractsTable } from \"@/components/tables/contracts-table\";\n7: import { Button } from \"@/components/ui/button\";\n8: import { Input } from \"@/components/ui/input\";\n9: import { rpc } from \"@/rpc/client\";\n10: \n11: export const Route = createFileRoute(\"/(protected)/(app)/contracts/\")({\n12:   component: ContractsPage,\n13: });\n14: \n15: function ContractsPage() {\n16:   const navigate = Route.useNavigate();\n17:   const [search, setSearch] = useState(\"\");\n18: \n19:   const { data, isLoading } = useQuery(\n20:     rpc.contract.list.queryOptions({ input: {} }),\n21:   );\n22: \n23:   return (\n24:     <div className=\"space-y-6 p-6\">\n25:       <div className=\"flex items-center justify-between\">\n26:         <div>\n27:           <h2 className=\"font-semibold text-lg\">Contracts</h2>\n28:           <p className=\"text-muted-foreground text-sm\">\n29:             Manage client contracts and agreements\n30:           </p>\n31:         </div>\n32:         <Button onClick={() => navigate({ to: \"/contracts/new\" })} size=\"sm\">\n33:           <IconPlus className=\"mr-1 h-4 w-4\" />\n34:           New Contract\n35:         </Button>\n36:       </div>\n37: \n38:       <div className=\"relative max-w-sm\">\n39:         <IconSearch className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n40:         <Input\n41:           className=\"pl-8\"\n42:           onChange={(e) => setSearch(e.target.value)}\n43:           placeholder=\"Search by title, reference, or client...\"\n44:           value={search}\n45:         />\n46:       </div>\n47: \n48:       <ContractsTable\n49:         contracts={data?.items ?? []}\n50:         isLoading={isLoading}\n51:         search={search}\n52:       />\n53:     </div>\n54:   );\n55: }\n\n(End of file - total 55 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconPlus, IconSearch } from \"@tabler/icons-react\";\nimport { useQuery } from \"@tanstack/react-query\";\nimport { createFileRoute } from \"@tanstack/react-router\";\nimport { useState } from \"react\";\n\nimport { ContractsTable } from \"@/components/tables/contracts-table\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { rpc } from \"@/rpc/client\";\n\nexport const Route = createFileRoute(\"/(protected)/(app)/contracts/\")({\n  component: ContractsPage,\n});\n\nfunction ContractsPage() {\n  const navigate = Route.useNavigate();\n  const [search, setSearch] = useState(\"\");\n\n  const { data, isLoading } = useQuery(\n    rpc.contract.list.queryOptions({ input: {} }),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/contracts/index.tsx",
+            "time": {
+              "start": 1779542870305,
+              "end": 1779542870339
+            }
+          },
+          "id": "prt_e5505487c001qFbXM3yMViUOnF",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_41ce1711c1ab45fd8627e622",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/audit-log.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/audit-log.tsx</path>\n<type>file</type>\n<content>\n1: import { createFileRoute } from \"@tanstack/react-router\";\n2: \n3: export const Route = createFileRoute(\"/(protected)/(app)/audit-log\")({\n4:   component: RouteComponent,\n5: });\n6: \n7: function RouteComponent() {\n8:   return (\n9:     <div className=\"flex h-full w-full items-center justify-center\">\n10:       PENDING\n11:     </div>\n12:   );\n13: }\n\n(End of file - total 13 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createFileRoute } from \"@tanstack/react-router\";\n\nexport const Route = createFileRoute(\"/(protected)/(app)/audit-log\")({\n  component: RouteComponent,\n});\n\nfunction RouteComponent() {\n  return (\n    <div className=\"flex h-full w-full items-center justify-center\">\n      PENDING\n    </div>\n  );\n}",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/audit-log.tsx",
+            "time": {
+              "start": 1779542870608,
+              "end": 1779542870632
+            }
+          },
+          "id": "prt_e5505492d001QDJ2UGZbnbtvKG",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_2ad0e9e340a347e68a9f4bb2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx</path>\n<type>file</type>\n<content>\n1: import { IconFilePencil, IconTrash } from \"@tabler/icons-react\";\n2: import { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\n3: import {\n4:   createFileRoute,\n5:   useNavigate,\n6:   useRouteContext,\n7: } from \"@tanstack/react-router\";\n8: \n9: import { Badge } from \"@/components/ui/badge\";\n10: import { Button } from \"@/components/ui/button\";\n11: import { Skeleton } from \"@/components/ui/skeleton\";\n12: import {\n13:   Table,\n14:   TableBody,\n15:   TableCell,\n16:   TableHead,\n17:   TableHeader,\n18:   TableRow,\n19: } from \"@/components/ui/table\";\n20: import { rpc } from \"@/rpc/client\";\n21: \n22: type DraftItem = {\n23:   createdAt: Date | null;\n24:   createdBy: string;\n25:   creator: { id: string; image: string | null; name: string | null };\n26:   data: Record<string, unknown>;\n27:   entityType: string;\n28:   id: number;\n29:   title: string;\n30:   updatedAt: Date | null;\n31: };\n32: \n33: const ENTITY_TYPE_STYLES: Record<string, { className: string; label: string }> =\n34:   {\n35:     client: {\n36:       className: \"bg-blue-500/10 text-blue-600 dark:text-blue-400\",\n37:       label: \"Client\",\n38:     },\n39:   };\n40: \n41: const DEFAULT_ENTITY_STYLE = {\n42:   className: \"bg-slate-500/10 text-slate-600 dark:text-slate-400\",\n43:   label: \"Unknown\",\n44: };\n45: \n46: function entityTypeStyle(type: string) {\n47:   return ENTITY_TYPE_STYLES[type] ?? DEFAULT_ENTITY_STYLE;\n48: }\n49: \n50: const RESUME_PATHS: Record<string, string> = {\n51:   client: \"/clients/new\",\n52: };\n53: \n54: export const Route = createFileRoute(\"/(protected)/(app)/drafts\")({\n55:   component: DraftsPage,\n56: });\n57: \n58: function DraftsPage() {\n59:   const queryClient = useQueryClient();\n60:   const { user } = useRouteContext({ from: \"/(protected)\" });\n61:   const navigate = useNavigate();\n62: \n63:   const { data, isLoading } = useQuery(\n64:     rpc.draft.list.queryOptions({ input: { limit: 50, sortOrder: \"desc\" } }),\n65:   );\n66: \n67:   const deleteMutation = useMutation({\n68:     mutationFn: (id: number) => rpc.draft.delete.call({ id }),\n69:     onSuccess: () => {\n70:       queryClient.invalidateQueries({ queryKey: [\"draft\"] });\n71:     },\n72:   });\n73: \n74:   const drafts = (data?.items ?? []) as DraftItem[];\n75: \n76:   function handleResume(draft: DraftItem) {\n77:     const basePath = RESUME_PATHS[draft.entityType] ?? \"/\";\n78:     navigate({ to: `${basePath}?draftId=${draft.id}` });\n79:   }\n80: \n81:   function handleDelete(id: number) {\n82:     deleteMutation.mutate(id);\n83:   }\n84: \n85:   return (\n86:     <div className=\"space-y-6 p-6\">\n87:       <div className=\"flex items-center justify-between\">\n88:         <div>\n89:           <h2 className=\"font-semibold text-lg\">Drafts</h2>\n90:           <p className=\"text-muted-foreground text-sm\">\n91:             Resume unfinished work or clean up old drafts\n92:           </p>\n93:         </div>\n94:       </div>\n95: \n96:       {isLoading ? (\n97:         <ExportedDraftsSkeleton />\n98:       ) : drafts.length === 0 ? (\n99:         <div className=\"flex flex-col items-center justify-center py-16 text-center\">\n100:           <IconFilePencil className=\"mb-3 size-10 text-muted-foreground/40\" />\n101:           <p className=\"text-muted-foreground text-sm\">No drafts yet</p>\n102:           <p className=\"text-muted-foreground/70 text-xs\">\n103:             Save a form as draft to continue later\n104:           </p>\n105:         </div>\n106:       ) : (\n107:         <div className=\"rounded-lg border bg-card\">\n108:           <Table>\n109:             <TableHeader>\n110:               <TableRow>\n111:                 <TableHead>Title</TableHead>\n112:                 <TableHead>Type</TableHead>\n113:                 <TableHead>Created By</TableHead>\n114:                 <TableHead>Last Updated</TableHead>\n115:                 <TableHead className=\"text-right\">Actions</TableHead>\n116:               </TableRow>\n117:             </TableHeader>\n118:             <TableBody>\n119:               {drafts.map((draft) => {\n120:                 const style = entityTypeStyle(draft.entityType);\n121:                 const canDelete =\n122:                   draft.createdBy === user.id || user.role === \"admin\";\n123: \n124:                 return (\n125:                   <TableRow key={draft.id}>\n126:                     <TableCell className=\"font-medium\">{draft.title}</TableCell>\n127:                     <TableCell>\n128:                       <Badge className={style.className} variant=\"outline\">\n129:                         {style.label}\n130:                       </Badge>\n131:                     </TableCell>\n132:                     <TableCell>\n133:                       <div className=\"flex items-center gap-2\">\n134:                         {draft.creator?.image && (\n135:                           <img\n136:                             alt={draft.creator.name ?? \"\"}\n137:                             className=\"size-5 rounded-full object-cover\"\n138:                             src={draft.creator.image}\n139:                           />\n140:                         )}\n141:                         <span className=\"text-sm\">\n142:                           {draft.creator?.name ?? \"Unknown\"}\n143:                         </span>\n144:                       </div>\n145:                     </TableCell>\n146:                     <TableCell className=\"text-muted-foreground text-sm\">\n147:                       {formatRelativeTime(draft.updatedAt ?? draft.createdAt)}\n148:                     </TableCell>\n149:                     <TableCell className=\"text-right\">\n150:                       <div className=\"flex justify-end gap-2\">\n151:                         <Button\n152:                           onClick={() => handleResume(draft)}\n153:                           size=\"sm\"\n154:                           variant=\"outline\"\n155:                         >\n156:                           Resume\n157:                         </Button>\n158:                         {canDelete && (\n159:                           <Button\n160:                             disabled={deleteMutation.isPending}\n161:                             onClick={() => handleDelete(draft.id)}\n162:                             size=\"icon\"\n163:                             variant=\"ghost\"\n164:                           >\n165:                             <IconTrash className=\"size-4\" />\n166:                           </Button>\n167:                         )}\n168:                       </div>\n169:                     </TableCell>\n170:                   </TableRow>\n171:                 );\n172:               })}\n173:             </TableBody>\n174:           </Table>\n175:         </div>\n176:       )}\n177:     </div>\n178:   );\n179: }\n180: \n181: export function ExportedDraftsSkeleton() {\n182:   const rows = [\n183:     { classes: \"h-4 w-32\" },\n184:     { classes: \"h-5 w-16\" },\n185:     { classes: \"h-4 w-24\" },\n186:     { classes: \"h-4 w-20\" },\n187:     { classes: \"ml-auto h-8 w-20\" },\n188:   ];\n189: \n190:   return (\n191:     <div className=\"rounded-lg border bg-card\">\n192:       <Table>\n193:         <TableHeader>\n194:           <TableRow>\n195:             <TableHead>Title</TableHead>\n196:             <TableHead>Type</TableHead>\n197:             <TableHead>Created By</TableHead>\n198:             <TableHead>Last Updated</TableHead>\n199:             <TableHead className=\"text-right\">Actions</TableHead>\n200:           </TableRow>\n201:         </TableHeader>\n202:         <TableBody>\n203:           {rows.map((r) => (\n204:             <TableRow key={`skel-${r.classes}`}>\n205:               <TableCell>\n206:                 <Skeleton className={r.classes} />\n207:               </TableCell>\n208:             </TableRow>\n209:           ))}\n210:         </TableBody>\n211:       </Table>\n212:     </div>\n213:   );\n214: }\n215: \n216: function formatRelativeTime(date: Date | null | undefined): string {\n217:   if (!date) return \"\";\n218:   const now = new Date();\n219:   const d = date instanceof Date ? date : new Date(date);\n220:   const diffMs = now.getTime() - d.getTime();\n221:   const diffSec = Math.floor(diffMs / 1000);\n222:   const diffMin = Math.floor(diffSec / 60);\n223:   const diffHr = Math.floor(diffMin / 60);\n224:   const diffDay = Math.floor(diffHr / 24);\n225: \n226:   if (diffSec < 60) return \"just now\";\n227:   if (diffMin < 60) return `${diffMin}m ago`;\n228:   if (diffHr < 24) return `${diffHr}h ago`;\n229:   if (diffDay < 7) return `${diffDay}d ago`;\n230:   return d.toLocaleDateString();\n231: }\n\n(End of file - total 231 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconFilePencil, IconTrash } from \"@tabler/icons-react\";\nimport { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport {\n  createFileRoute,\n  useNavigate,\n  useRouteContext,\n} from \"@tanstack/react-router\";\n\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\nimport { rpc } from \"@/rpc/client\";",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/drafts.tsx",
+            "time": {
+              "start": 1779542870838,
+              "end": 1779542870911
+            }
+          },
+          "id": "prt_e55054a53001PLCOp2yK4OzEmN",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_63d4deca97f843fc93dac1a4",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/index.tsx</path>\n<type>file</type>\n<content>\n1: import { createFileRoute } from \"@tanstack/react-router\";\n2: \n3: export const Route = createFileRoute(\"/(protected)/(app)/job-mandates/\")({\n4:   component: RouteComponent,\n5: });\n6: \n7: function RouteComponent() {\n8:   return <div className=\"flex h-full w-full items-center justify-center\"></div>;\n9: }\n\n(End of file - total 9 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createFileRoute } from \"@tanstack/react-router\";\n\nexport const Route = createFileRoute(\"/(protected)/(app)/job-mandates/\")({\n  component: RouteComponent,\n});\n\nfunction RouteComponent() {\n  return <div className=\"flex h-full w-full items-center justify-center\"></div>;\n}",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/job-mandates/index.tsx",
+            "time": {
+              "start": 1779542871045,
+              "end": 1779542871157
+            }
+          },
+          "id": "prt_e55054b44001Fh0nJgZHLGjzdE",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_3d217c961e1b442bbbfb3d1b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "MembersTable|members-table",
+              "include": "*.tsx"
+            },
+            "output": "Found 6 matches\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx:\n  Line 12: import { MembersTable } from \"@/components/tables/members-table\";\n\n  Line 84:         <MembersTable\n\n\n/home/aditya/projects/alpauls-ats/src/components/team-hierarchy-canvas.tsx:\n  Line 18: import type { MemberItem } from \"@/components/tables/members-table\";\n\n\n/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx:\n  Line 33: type MembersTableProps = {\n\n  Line 48: export function MembersTable({\n\n  Line 52: }: MembersTableProps) {\n",
+            "metadata": {
+              "matches": 6,
+              "truncated": false
+            },
+            "title": "MembersTable|members-table",
+            "time": {
+              "start": 1779542871148,
+              "end": 1779542871240
+            }
+          },
+          "id": "prt_e55054c10001zQ7ZOYotbb6eOn",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_ec6d711729b0443f895bbb2d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "ContractsTable|contracts-table",
+              "include": "*.tsx"
+            },
+            "output": "Found 5 matches\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx:\n  Line 6: import { ContractsTable } from \"@/components/tables/contracts-table\";\n\n  Line 48:       <ContractsTable\n\n\n/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx:\n  Line 16: type ContractsTableProps = {\n\n  Line 42: export function ContractsTable({\n\n  Line 46: }: ContractsTableProps) {\n",
+            "metadata": {
+              "matches": 5,
+              "truncated": false
+            },
+            "title": "ContractsTable|contracts-table",
+            "time": {
+              "start": 1779542871296,
+              "end": 1779542871382
+            }
+          },
+          "id": "prt_e55054c960011FeNjJcTUbyNfG",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 19087,
+            "input": 17443,
+            "output": 188,
+            "reasoning": 48,
+            "cache": {
+              "write": 0,
+              "read": 1408
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55054dab0026pPrzbmudRKjTd",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55053e46001dVXwExNwad3P8Z"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 22550,
+          "input": 3312,
+          "output": 136,
+          "reasoning": 30,
+          "cache": {
+            "write": 0,
+            "read": 19072
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542871544,
+          "completed": 1779542885258
+        },
+        "finish": "tool-calls",
+        "id": "msg_e55054df8001oYVsJtbD38ra3S",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e550553da001kQpExo1p1yfQUU",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "type": "reasoning",
+          "text": "Let me also check the settings/members page and the reports page, and look for any other table-like views in the settings or admin areas.",
+          "time": {
+            "start": 1779542873053,
+            "end": 1779542873409
+          },
+          "id": "prt_e550553dd0018kHkrxPjsoP51f",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "type": "text",
+          "text": "Let me check the settings/members page and a few more potential table views.",
+          "time": {
+            "start": 1779542873412,
+            "end": 1779542885164
+          },
+          "id": "prt_e55055544001Q2ZD7V4BsmD0e0",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_21058419d1b94993a99c8437",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx</path>\n<type>file</type>\n<content>\n1: import {\n2:   IconHierarchy,\n3:   IconPlus,\n4:   IconSearch,\n5:   IconTable,\n6: } from \"@tabler/icons-react\";\n7: import { useQuery } from \"@tanstack/react-query\";\n8: import { createFileRoute } from \"@tanstack/react-router\";\n9: import { useState } from \"react\";\n10: import { z } from \"zod\";\n11: \n12: import { MembersTable } from \"@/components/tables/members-table\";\n13: import { TeamHierarchyCanvas } from \"@/components/team-hierarchy-canvas\";\n14: import { Button } from \"@/components/ui/button\";\n15: import { Input } from \"@/components/ui/input\";\n16: import { Tabs, TabsList, TabsTrigger } from \"@/components/ui/tabs\";\n17: import { rpc } from \"@/rpc/client\";\n18: \n19: const searchSchema = z.object({\n20:   view: z.enum([\"table\", \"canvas\"]).default(\"table\"),\n21: });\n22: \n23: export const Route = createFileRoute(\"/(protected)/settings/members/\")({\n24:   component: MembersPage,\n25:   validateSearch: searchSchema,\n26: });\n27: \n28: function MembersPage() {\n29:   const navigate = Route.useNavigate();\n30:   const { view } = Route.useSearch();\n31:   const [search, setSearch] = useState(\"\");\n32: \n33:   const { data: members, isLoading } = useQuery(\n34:     rpc.admin.listUsers.queryOptions({ input: {} }),\n35:   );\n36: \n37:   function setView(v: string) {\n38:     navigate({ search: { view: v as \"table\" | \"canvas\" } });\n39:   }\n40: \n41:   return (\n42:     <div className=\"space-y-6 p-6\">\n43:       <div className=\"flex items-center justify-between\">\n44:         <div>\n45:           <h2 className=\"font-semibold text-lg\">Team Members</h2>\n46:           <p className=\"text-muted-foreground text-sm\">\n47:             Manage your team members and their roles\n48:           </p>\n49:         </div>\n50:         <div className=\"flex items-center gap-3\">\n51:           <Tabs onValueChange={setView} value={view}>\n52:             <TabsList>\n53:               <TabsTrigger value=\"table\">\n54:                 <IconTable className=\"mr-1.5 h-4 w-4\" />\n55:                 Table\n56:               </TabsTrigger>\n57:               <TabsTrigger value=\"canvas\">\n58:                 <IconHierarchy className=\"mr-1.5 h-4 w-4\" />\n59:                 Canvas\n60:               </TabsTrigger>\n61:             </TabsList>\n62:           </Tabs>\n63:           <Button\n64:             onClick={() => navigate({ to: \"/settings/members/new\" })}\n65:             size=\"sm\"\n66:           >\n67:             <IconPlus className=\"mr-1 h-4 w-4\" />\n68:             Add member\n69:           </Button>\n70:         </div>\n71:       </div>\n72: \n73:       <div className=\"relative max-w-sm\">\n74:         <IconSearch className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n75:         <Input\n76:           className=\"pl-8\"\n77:           onChange={(e) => setSearch(e.target.value)}\n78:           placeholder=\"Search by name or email...\"\n79:           value={search}\n80:         />\n81:       </div>\n82: \n83:       {view === \"table\" && (\n84:         <MembersTable\n85:           isLoading={isLoading}\n86:           members={members ?? []}\n87:           search={search}\n88:         />\n89:       )}\n90:       {view === \"canvas\" && <TeamHierarchyCanvas members={members ?? []} />}\n91:     </div>\n92:   );\n93: }\n\n(End of file - total 93 lines)\n</content>",
+            "metadata": {
+              "preview": "import {\n  IconHierarchy,\n  IconPlus,\n  IconSearch,\n  IconTable,\n} from \"@tabler/icons-react\";\nimport { useQuery } from \"@tanstack/react-query\";\nimport { createFileRoute } from \"@tanstack/react-router\";\nimport { useState } from \"react\";\nimport { z } from \"zod\";\n\nimport { MembersTable } from \"@/components/tables/members-table\";\nimport { TeamHierarchyCanvas } from \"@/components/team-hierarchy-canvas\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { Tabs, TabsList, TabsTrigger } from \"@/components/ui/tabs\";\nimport { rpc } from \"@/rpc/client\";\n\nconst searchSchema = z.object({\n  view: z.enum([\"table\", \"canvas\"]).default(\"table\"),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/settings/members/index.tsx",
+            "time": {
+              "start": 1779542873646,
+              "end": 1779542873669
+            }
+          },
+          "id": "prt_e550555aa001M8DgXe9iccAyUJ",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_01bf8230287c4a5b91f9ea0d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/index.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/index.tsx</path>\n<type>file</type>\n<content>\n1: import { IconPlus, IconSearch } from \"@tabler/icons-react\";\n2: import { createFileRoute } from \"@tanstack/react-router\";\n3: import { useState } from \"react\";\n4: import { z } from \"zod\";\n5: \n6: import { MOCK_REPORTS } from \"#/reports/mock-data\";\n7: import { ReportsTable } from \"#/reports/reports-table\";\n8: import { Button } from \"@/components/ui/button\";\n9: import { Input } from \"@/components/ui/input\";\n10: \n11: const searchSchema = z.object({\n12:   search: z.string().optional(),\n13: });\n14: \n15: export const Route = createFileRoute(\"/(protected)/(app)/reports/\")({\n16:   component: ReportsPage,\n17:   validateSearch: searchSchema,\n18: });\n19: \n20: function ReportsPage() {\n21:   const navigate = Route.useNavigate();\n22:   const { search: searchParam } = Route.useSearch();\n23:   const [search, setSearch] = useState(searchParam ?? \"\");\n24: \n25:   function handleSearchChange(value: string) {\n26:     setSearch(value);\n27:     navigate({ search: { search: value || undefined } });\n28:   }\n29: \n30:   return (\n31:     <div className=\"space-y-6 p-6\">\n32:       <div className=\"flex items-center justify-between\">\n33:         <div>\n34:           <h2 className=\"font-semibold text-lg\">Reports</h2>\n35:           <p className=\"text-muted-foreground text-sm\">\n36:             Manage scheduled reports and their recipients\n37:           </p>\n38:         </div>\n39:         <Button size=\"sm\">\n40:           <IconPlus className=\"mr-1 h-4 w-4\" />\n41:           New report\n42:         </Button>\n43:       </div>\n44: \n45:       <div className=\"relative max-w-sm\">\n46:         <IconSearch className=\"absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground\" />\n47:         <Input\n48:           className=\"pl-8\"\n49:           onChange={(e) => handleSearchChange(e.target.value)}\n50:           placeholder=\"Search reports...\"\n51:           value={search}\n52:         />\n53:       </div>\n54: \n55:       <ReportsTable isLoading={false} reports={MOCK_REPORTS} search={search} />\n56:     </div>\n57:   );\n58: }\n\n(End of file - total 58 lines)\n</content>",
+            "metadata": {
+              "preview": "import { IconPlus, IconSearch } from \"@tabler/icons-react\";\nimport { createFileRoute } from \"@tanstack/react-router\";\nimport { useState } from \"react\";\nimport { z } from \"zod\";\n\nimport { MOCK_REPORTS } from \"#/reports/mock-data\";\nimport { ReportsTable } from \"#/reports/reports-table\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\n\nconst searchSchema = z.object({\n  search: z.string().optional(),\n});\n\nexport const Route = createFileRoute(\"/(protected)/(app)/reports/\")({\n  component: ReportsPage,\n  validateSearch: searchSchema,\n});\n\nfunction ReportsPage() {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/reports/index.tsx",
+            "time": {
+              "start": 1779542873768,
+              "end": 1779542873841
+            }
+          },
+          "id": "prt_e55055632001O3exJeslClRwkc",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_bf791ce971d54fb5817f5e2d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/routes/(protected)/settings/**/*.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/new.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/$memberId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/profile.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/connections.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/sla.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/index.tsx",
+            "metadata": {
+              "count": 7,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779542873849,
+              "end": 1779542873966
+            }
+          },
+          "id": "prt_e550556c3001Xts1G0ggH5O4d1",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_7653eaa09068452eb43e1cdd",
+          "state": {
+            "status": "completed",
+            "input": {
+              "include": "*.tsx",
+              "pattern": "<Table>|<TableBody>|<TableHeader>",
+              "path": "/home/aditya/projects/alpauls-ats/src"
+            },
+            "output": "Found 21 matches\n/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx:\n  Line 273:         <Table>\n\n  Line 274:           <TableHeader>\n\n  Line 290:           <TableBody>\n\n\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx:\n  Line 108:           <Table>\n\n  Line 109:             <TableHeader>\n\n  Line 118:             <TableBody>\n\n  Line 192:       <Table>\n\n  Line 193:         <TableHeader>\n\n  Line 202:         <TableBody>\n\n\n/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx:\n  Line 106:         <Table>\n\n  Line 107:           <TableHeader>\n\n  Line 116:           <TableBody>\n\n\n/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx:\n  Line 84:         <Table>\n\n  Line 85:           <TableHeader>\n\n  Line 94:           <TableBody>\n\n\n/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx:\n  Line 62:       <Table>\n\n  Line 63:         <TableHeader>\n\n  Line 74:         <TableBody>\n\n\n/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx:\n  Line 65:       <Table>\n\n  Line 66:         <TableHeader>\n\n  Line 75:         <TableBody>\n",
+            "metadata": {
+              "matches": 21,
+              "truncated": false
+            },
+            "title": "<Table>|<TableBody>|<TableHeader>",
+            "time": {
+              "start": 1779542885161,
+              "end": 1779542885198
+            }
+          },
+          "id": "prt_e550557a1001PR8hZ37XW33zvB",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 22550,
+            "input": 3312,
+            "output": 136,
+            "reasoning": 30,
+            "cache": {
+              "write": 0,
+              "read": 19072
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5505836c0014INRLcjBQN0sXZ",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e55054df8001oYVsJtbD38ra3S"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 24717,
+          "input": 2038,
+          "output": 128,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 22528
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542885264,
+          "completed": 1779542888514
+        },
+        "finish": "tool-calls",
+        "id": "msg_e550583900013pBAgdAD3xa33r",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e55058b60001JLrBqnIEoItAy0",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "type": "reasoning",
+          "text": "Let me also check the ReportsTable from the integrations directory, and the job-mandates view-config.",
+          "time": {
+            "start": 1779542887266,
+            "end": 1779542887505
+          },
+          "id": "prt_e55058b62001PCezuIs5kNLqso",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "type": "text",
+          "text": "Let me check the reports table from the integrations directory and the job-mandates view config.",
+          "time": {
+            "start": 1779542887507,
+            "end": 1779542888370
+          },
+          "id": "prt_e55058c53001qxBsH6bRqxsJAP",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_74f5390d1fad44e1b3f6c377",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "integrations/reports/**/*.tsx"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/integrations/reports/reports-table.tsx\n/home/aditya/projects/alpauls-ats/integrations/reports/report-builder.tsx\n/home/aditya/projects/alpauls-ats/integrations/reports/report-viewer.tsx",
+            "metadata": {
+              "count": 3,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779542887858,
+              "end": 1779542887924
+            }
+          },
+          "id": "prt_e55058d1b002DXnbE8FwguQkQX",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_0d206c2149b44120bb412046",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/-view-config.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/-view-config.tsx</path>\n<type>file</type>\n<content>\n\n\n(End of file - total 0 lines)\n</content>",
+            "metadata": {
+              "preview": "",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/job-mandates/-view-config.tsx",
+            "time": {
+              "start": 1779542888072,
+              "end": 1779542888092
+            }
+          },
+          "id": "prt_e55058de1001zmLLq6rz2oUkJq",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_3e0d514e4305441d83104f1e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx</path>\n<type>file</type>\n<content>\n1: import type { ColumnDef } from \"@tanstack/react-table\";\n2: import {\n3:   Archive,\n4:   Building2,\n5:   Calendar,\n6:   Fingerprint,\n7:   UserCheck,\n8: } from \"lucide-react\";\n9: \n10: import { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\n11: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n12: import type { client } from \"@/rpc/client\";\n13: \n14: type ClientListOutput = Awaited<ReturnType<typeof client.client.list>>;\n15: export type ClientItem = ClientListOutput[\"items\"][number];\n16: \n17: const dtf = createColumnConfigHelper<ClientItem>();\n18: \n19: export const clientColumnsConfig = [\n20:   dtf\n21:     .text()\n22:     .id(\"name\")\n23:     .accessor((row) => row.name)\n24:     .displayName(\"Name\")\n25:     .icon(Building2)\n26:     .build(),\n27:   dtf\n28:     .text()\n29:     .id(\"legalName\")\n30:     .accessor((row) => row.legalName ?? \"\")\n31:     .displayName(\"Legal Name\")\n32:     .icon(Building2)\n33:     .build(),\n34:   dtf\n35:     .text()\n36:     .id(\"slug\")\n37:     .accessor((row) => row.slug)\n38:     .displayName(\"Slug\")\n39:     .icon(Fingerprint)\n40:     .build(),\n41:   dtf\n42:     .option()\n43:     .id(\"assigneeId\")\n44:     .accessor((row) => row.assigneeId)\n45:     .displayName(\"Assignee\")\n46:     .icon(UserCheck)\n47:     .build(),\n48:   dtf\n49:     .option()\n50:     .id(\"archived\")\n51:     .accessor((row) => String(row.archived))\n52:     .displayName(\"Archived\")\n53:     .icon(Archive)\n54:     .build(),\n55:   dtf\n56:     .date()\n57:     .id(\"createdAt\")\n58:     .accessor((row) => (row.createdAt ? new Date(row.createdAt) : new Date()))\n59:     .displayName(\"Created\")\n60:     .icon(Calendar)\n61:     .build(),\n62: ] as const;\n63: \n64: export const clientColumnDefs: ColumnDef<ClientItem>[] = [\n65:   {\n66:     accessorKey: \"name\",\n67:     cell: ({ row }) => (\n68:       <div className=\"flex items-center gap-2\">\n69:         {row.original.logo && (\n70:           <img\n71:             alt=\"\"\n72:             className=\"h-5 w-5 rounded object-contain\"\n73:             src={row.original.logo}\n74:           />\n75:         )}\n76:         <span className=\"font-medium\">{row.original.name}</span>\n77:         {row.original.archived && (\n78:           <Archive className=\"h-3.5 w-3.5 text-muted-foreground\" />\n79:         )}\n80:       </div>\n81:     ),\n82:     header: \"Nick Name\",\n83:     id: \"name\",\n84:   },\n85:   {\n86:     accessorKey: \"legalName\",\n87:     cell: ({ row }) =>\n88:       row.original.legalName ? (\n89:         <span className=\"text-sm\">{row.original.legalName}</span>\n90:       ) : null,\n91:     header: \"Legal Name\",\n92:     id: \"legalName\",\n93:   },\n94:   {\n95:     accessorKey: \"slug\",\n96:     cell: ({ row }) => (\n97:       <code className=\"rounded bg-muted px-1.5 py-0.5 text-xs\">\n98:         {row.original.slug}\n99:       </code>\n100:     ),\n101:     header: \"Slug\",\n102:     id: \"slug\",\n103:   },\n104:   {\n105:     accessorKey: \"assigneeId\",\n106:     cell: ({ row }) => (\n107:       <div className=\"flex items-center gap-2\">\n108:         <Avatar className=\"h-5 w-5\">\n109:           <AvatarImage src={row.original.assignee.image ?? undefined} />\n110:           <AvatarFallback>\n111:             {row.original.assignee.name?.[0] ?? \"?\"}\n112:           </AvatarFallback>\n113:         </Avatar>\n114:         <span className=\"text-sm\">{row.original.assignee.name}</span>\n115:       </div>\n116:     ),\n117:     enableColumnFilter: true,\n118:     header: \"Assignee\",\n119:     id: \"assigneeId\",\n120:   },\n121:   {\n122:     accessorKey: \"createdAt\",\n123:     cell: ({ row }) =>\n124:       row.original.createdAt ? (\n125:         <span className=\"text-muted-foreground text-sm\">\n126:           {new Date(row.original.createdAt).toLocaleDateString()}\n127:         </span>\n128:       ) : null,\n129:     header: \"Created\",\n130:     id: \"createdAt\",\n131:   },\n132: ];\n\n(End of file - total 132 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { ColumnDef } from \"@tanstack/react-table\";\nimport {\n  Archive,\n  Building2,\n  Calendar,\n  Fingerprint,\n  UserCheck,\n} from \"lucide-react\";\n\nimport { createColumnConfigHelper } from \"@/components/data-table-filter/core/filters\";\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport type { client } from \"@/rpc/client\";\n\ntype ClientListOutput = Awaited<ReturnType<typeof client.client.list>>;\nexport type ClientItem = ClientListOutput[\"items\"][number];\n\nconst dtf = createColumnConfigHelper<ClientItem>();\n\nexport const clientColumnsConfig = [\n  dtf",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/routes/(protected)/(app)/clients/-view-config.tsx",
+            "time": {
+              "start": 1779542888227,
+              "end": 1779542888262
+            }
+          },
+          "id": "prt_e55058e96001PSG6MKVm2DaoxY",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_82275772826c415ca85c66c9",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx</path>\n<type>file</type>\n<content>\n1: \"use client\";\n2: \n3: import {\n4:   IconCopy,\n5:   IconPencil,\n6:   IconSparkles,\n7:   IconTrash,\n8: } from \"@tabler/icons-react\";\n9: import { useQuery, useQueryClient } from \"@tanstack/react-query\";\n10: import { parseAsJson, parseAsString, useQueryState } from \"nuqs\";\n11: import { useState } from \"react\";\n12: import { z } from \"zod\";\n13: \n14: import type { FiltersState } from \"@/components/data-table-filter/core/types\";\n15: import { Button } from \"@/components/ui/button\";\n16: import {\n17:   ContextMenu,\n18:   ContextMenuContent,\n19:   ContextMenuItem,\n20:   ContextMenuSeparator,\n21:   ContextMenuTrigger,\n22: } from \"@/components/ui/context-menu\";\n23: import {\n24:   Dialog,\n25:   DialogClose,\n26:   DialogContent,\n27:   DialogDescription,\n28:   DialogFooter,\n29:   DialogHeader,\n30:   DialogTitle,\n31: } from \"@/components/ui/dialog\";\n32: import { Input } from \"@/components/ui/input\";\n33: import { rpc } from \"@/rpc/client\";\n34: \n35: type FilterViewTab = {\n36:   display: unknown;\n37:   domain: string;\n38:   id: string;\n39:   isSystemCreated: boolean;\n40:   label: string;\n41:   refine: FiltersState;\n42: };\n43: \n44: type FilterViewTabsProps = {\n45:   domain: string;\n46: };\n47: \n48: const filtersSchema = z.custom<FiltersState>((val): val is FiltersState =>\n49:   Array.isArray(val),\n50: );\n51: \n52: export function FilterViewTabs({ domain }: FilterViewTabsProps) {\n53:   const [view, setView] = useQueryState(\"view\", parseAsString.withDefault(\"\"));\n54:   const [, setFilters] = useQueryState<FiltersState>(\n55:     \"filters\",\n56:     parseAsJson(filtersSchema.parse).withDefault([]),\n57:   );\n58: \n59:   const queryClient = useQueryClient();\n60: \n61:   const { data: filterViews } = useQuery({\n62:     ...rpc.filterView.list.queryOptions({ input: { domain } }),\n63:     select: (data) => data as FilterViewTab[],\n64:   });\n65: \n66:   const [editDialogOpen, setEditDialogOpen] = useState(false);\n67:   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);\n68:   const [editingView, setEditingView] = useState<FilterViewTab | null>(null);\n69:   const [deletingView, setDeletingView] = useState<FilterViewTab | null>(null);\n70:   const [editLabel, setEditLabel] = useState(\"\");\n71: \n72:   const views = filterViews ?? [];\n73: \n74:   function handleTabClick(fv: FilterViewTab) {\n75:     setView(fv.id);\n76:     setFilters(null);\n77:   }\n78: \n79:   function handleEdit(fv: FilterViewTab) {\n80:     setEditingView(fv);\n81:     setEditLabel(fv.label);\n82:     setEditDialogOpen(true);\n83:   }\n84: \n85:   async function handleEditSubmit() {\n86:     if (!editingView || !editLabel.trim()) return;\n87:     await rpc.filterView.update.call({\n88:       id: editingView.id,\n89:       label: editLabel.trim(),\n90:     });\n91:     queryClient.invalidateQueries(\n92:       rpc.filterView.list.queryOptions({ input: { domain } }),\n93:     );\n94:     setEditDialogOpen(false);\n95:     setEditingView(null);\n96:   }\n97: \n98:   function handleCopyLink(fv: FilterViewTab) {\n99:     const url = new URL(window.location.href);\n100:     url.searchParams.set(\"view\", fv.id);\n101:     navigator.clipboard.writeText(url.toString());\n102:   }\n103: \n104:   function handleDelete(fv: FilterViewTab) {\n105:     setDeletingView(fv);\n106:     setDeleteDialogOpen(true);\n107:   }\n108: \n109:   async function handleDeleteConfirm() {\n110:     if (!deletingView) return;\n111:     await rpc.filterView.delete.call({ id: deletingView.id });\n112:     queryClient.invalidateQueries(\n113:       rpc.filterView.list.queryOptions({ input: { domain } }),\n114:     );\n115:     if (view === deletingView.id) {\n116:       setView(null);\n117:       setFilters(null);\n118:     }\n119:     setDeleteDialogOpen(false);\n120:     setDeletingView(null);\n121:   }\n122: \n123:   return (\n124:     <>\n125:       <div className=\"flex items-center gap-1\">\n126:         {views.map((fv) => {\n127:           const isActive = view === fv.id;\n128:           return (\n129:             <ContextMenu key={fv.id}>\n130:               <ContextMenuTrigger>\n131:                 <button\n132:                   className={`inline-flex h-7 items-center rounded-md px-2.5 font-medium text-sm transition-colors ${\n133:                     isActive\n134:                       ? \"bg-foreground text-background\"\n135:                       : \"text-muted-foreground hover:bg-muted hover:text-foreground\"\n136:                   }`}\n137:                   onClick={() => handleTabClick(fv)}\n138:                   type=\"button\"\n139:                 >\n140:                   {fv.label}\n141:                 </button>\n142:               </ContextMenuTrigger>\n143:               <ContextMenuContent>\n144:                 {!fv.isSystemCreated && (\n145:                   <>\n146:                     <ContextMenuItem onClick={() => handleEdit(fv)}>\n147:                       <IconPencil className=\"size-4\" />\n148:                       Edit\n149:                     </ContextMenuItem>\n150:                     <ContextMenuSeparator />\n151:                   </>\n152:                 )}\n153:                 <ContextMenuItem onClick={() => handleCopyLink(fv)}>\n154:                   <IconCopy className=\"size-4\" />\n155:                   Copy link\n156:                 </ContextMenuItem>\n157:                 {!fv.isSystemCreated && (\n158:                   <>\n159:                     <ContextMenuSeparator />\n160:                     <ContextMenuItem\n161:                       onClick={() => handleDelete(fv)}\n162:                       variant=\"destructive\"\n163:                     >\n164:                       <IconTrash className=\"size-4\" />\n165:                       Delete\n166:                     </ContextMenuItem>\n167:                   </>\n168:                 )}\n169:                 <ContextMenuSeparator />\n170:                 <ContextMenuItem disabled>\n171:                   <IconSparkles className=\"size-4\" />\n172:                   Ask AI\n173:                 </ContextMenuItem>\n174:               </ContextMenuContent>\n175:             </ContextMenu>\n176:           );\n177:         })}\n178:       </div>\n179: \n180:       <Dialog onOpenChange={setEditDialogOpen} open={editDialogOpen}>\n181:         <DialogContent>\n182:           <DialogHeader>\n183:             <DialogTitle>Edit filter view</DialogTitle>\n184:             <DialogDescription>\n185:               Rename this filter view. The filters themselves won&apos;t change.\n186:             </DialogDescription>\n187:           </DialogHeader>\n188:           <Input\n189:             onChange={(e) => setEditLabel(e.target.value)}\n190:             onKeyDown={(e) => {\n191:               if (e.key === \"Enter\") handleEditSubmit();\n192:             }}\n193:             value={editLabel}\n194:           />\n195:           <DialogFooter>\n196:             <DialogClose render={<Button variant=\"outline\" />}>\n197:               Cancel\n198:             </DialogClose>\n199:             <Button disabled={!editLabel.trim()} onClick={handleEditSubmit}>\n200:               Save\n201:             </Button>\n202:           </DialogFooter>\n203:         </DialogContent>\n204:       </Dialog>\n205: \n206:       <Dialog onOpenChange={setDeleteDialogOpen} open={deleteDialogOpen}>\n207:         <DialogContent>\n208:           <DialogHeader>\n209:             <DialogTitle>Delete filter view</DialogTitle>\n210:             <DialogDescription>\n211:               Are you sure you want to delete &ldquo;{deletingView?.label}\n212:               &rdquo;? This action cannot be undone.\n213:             </DialogDescription>\n214:           </DialogHeader>\n215:           <DialogFooter>\n216:             <DialogClose render={<Button variant=\"outline\" />}>\n217:               Cancel\n218:             </DialogClose>\n219:             <Button onClick={handleDeleteConfirm} variant=\"destructive\">\n220:               Delete\n221:             </Button>\n222:           </DialogFooter>\n223:         </DialogContent>\n224:       </Dialog>\n225:     </>\n226:   );\n227: }\n\n(End of file - total 227 lines)\n</content>",
+            "metadata": {
+              "preview": "\"use client\";\n\nimport {\n  IconCopy,\n  IconPencil,\n  IconSparkles,\n  IconTrash,\n} from \"@tabler/icons-react\";\nimport { useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { parseAsJson, parseAsString, useQueryState } from \"nuqs\";\nimport { useState } from \"react\";\nimport { z } from \"zod\";\n\nimport type { FiltersState } from \"@/components/data-table-filter/core/types\";\nimport { Button } from \"@/components/ui/button\";\nimport {\n  ContextMenu,\n  ContextMenuContent,\n  ContextMenuItem,\n  ContextMenuSeparator,",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/filter-view-tabs.tsx",
+            "time": {
+              "start": 1779542888365,
+              "end": 1779542888386
+            }
+          },
+          "id": "prt_e55058f300010K2R4uQvt25To8",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 24717,
+            "input": 2038,
+            "output": 128,
+            "reasoning": 23,
+            "cache": {
+              "write": 0,
+              "read": 22528
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55058ff6001qL23JzFufQXQ7Z",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e550583900013pBAgdAD3xa33r"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 28097,
+          "input": 3323,
+          "output": 56,
+          "reasoning": 14,
+          "cache": {
+            "write": 0,
+            "read": 24704
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542888527,
+          "completed": 1779542894060
+        },
+        "finish": "tool-calls",
+        "id": "msg_e5505904f001sSoA71jJMfKzND",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e5505a324001wJnGIfmGrDssCF",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505904f001sSoA71jJMfKzND"
+        },
+        {
+          "type": "reasoning",
+          "text": "Let me also check the reports table in the integrations directory.",
+          "time": {
+            "start": 1779542893351,
+            "end": 1779542893535
+          },
+          "id": "prt_e5505a327001G9mp09Idm72bL9",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505904f001sSoA71jJMfKzND"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_675eaf890b974868a9fd8cc5",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations/reports/reports-table.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations/reports/reports-table.tsx</path>\n<type>file</type>\n<content>\n1: import { useNavigate } from \"@tanstack/react-router\";\n2: import { format } from \"date-fns\";\n3: \n4: import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n5: import { Badge } from \"@/components/ui/badge\";\n6: import { Skeleton } from \"@/components/ui/skeleton\";\n7: import {\n8:   Table,\n9:   TableBody,\n10:   TableCell,\n11:   TableHead,\n12:   TableHeader,\n13:   TableRow,\n14: } from \"@/components/ui/table\";\n15: \n16: import type { ReportFrequency, ReportItem } from \"./types\";\n17: \n18: type ReportsTableProps = {\n19:   isLoading: boolean;\n20:   reports: ReportItem[];\n21:   search: string;\n22: };\n23: \n24: const FREQUENCY_STYLES: Record<\n25:   ReportFrequency,\n26:   { label: string; className: string }\n27: > = {\n28:   daily: {\n29:     className: \"bg-blue-500/10 text-blue-600 dark:text-blue-400\",\n30:     label: \"Daily\",\n31:   },\n32:   monthly: {\n33:     className: \"bg-amber-500/10 text-amber-600 dark:text-amber-400\",\n34:     label: \"Monthly\",\n35:   },\n36:   quarterly: {\n37:     className: \"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400\",\n38:     label: \"Quarterly\",\n39:   },\n40:   weekly: {\n41:     className: \"bg-slate-500/10 text-slate-600 dark:text-slate-400\",\n42:     label: \"Weekly\",\n43:   },\n44: };\n45: \n46: function getInitials(name: string) {\n47:   return name\n48:     .split(\" \")\n49:     .map((n) => n[0])\n50:     .join(\"\")\n51:     .toUpperCase()\n52:     .slice(0, 2);\n53: }\n54: \n55: export function ReportsTable({\n56:   isLoading,\n57:   reports,\n58:   search,\n59: }: ReportsTableProps) {\n60:   const navigate = useNavigate();\n61: \n62:   const filtered = search\n63:     ? reports.filter(\n64:         (r) =>\n65:           r.name.toLowerCase().includes(search.toLowerCase()) ||\n66:           (r.description ?? \"\").toLowerCase().includes(search.toLowerCase()),\n67:       )\n68:     : reports;\n69: \n70:   return (\n71:     <div className=\"rounded-lg border bg-card\">\n72:       <Table>\n73:         <TableHeader>\n74:           <TableRow>\n75:             <TableHead>Name</TableHead>\n76:             <TableHead>Frequency</TableHead>\n77:             <TableHead>Recipients</TableHead>\n78:             <TableHead>Status</TableHead>\n79:             <TableHead>Last updated</TableHead>\n80:           </TableRow>\n81:         </TableHeader>\n82:         <TableBody>\n83:           {isLoading &&\n84:             Array.from({ length: 5 }).map((_, i) => (\n85:               // biome-ignore lint/suspicious/noArrayIndexKey: skeleton rows are static and never reordered\n86:               <TableRow key={`report-skeleton-${i}`}>\n87:                 <TableCell>\n88:                   <div className=\"space-y-1\">\n89:                     <Skeleton className=\"h-4 w-40\" />\n90:                     <Skeleton className=\"h-3 w-56\" />\n91:                   </div>\n92:                 </TableCell>\n93:                 <TableCell>\n94:                   <Skeleton className=\"h-5 w-20\" />\n95:                 </TableCell>\n96:                 <TableCell>\n97:                   <div className=\"flex -space-x-2\">\n98:                     <Skeleton className=\"h-6 w-6 rounded-full\" />\n99:                     <Skeleton className=\"h-6 w-6 rounded-full\" />\n100:                   </div>\n101:                 </TableCell>\n102:                 <TableCell>\n103:                   <Skeleton className=\"h-5 w-16\" />\n104:                 </TableCell>\n105:                 <TableCell>\n106:                   <Skeleton className=\"h-4 w-24\" />\n107:                 </TableCell>\n108:               </TableRow>\n109:             ))}\n110:           {!isLoading && filtered.length === 0 && (\n111:             <TableRow>\n112:               <TableCell\n113:                 className=\"text-center text-muted-foreground\"\n114:                 colSpan={5}\n115:               >\n116:                 {search ? \"No reports match your search\" : \"No reports yet\"}\n117:               </TableCell>\n118:             </TableRow>\n119:           )}\n120:           {!isLoading &&\n121:             filtered.map((report) => {\n122:               const freq = FREQUENCY_STYLES[report.frequency];\n123:               return (\n124:                 <TableRow\n125:                   className=\"cursor-pointer\"\n126:                   key={report.id}\n127:                   onClick={() =>\n128:                     navigate({\n129:                       params: { reportId: report.id },\n130:                       to: \"/reports/$reportId\",\n131:                     })\n132:                   }\n133:                 >\n134:                   <TableCell>\n135:                     <div>\n136:                       <div className=\"font-medium\">{report.name}</div>\n137:                       {report.description && (\n138:                         <div className=\"max-w-xs truncate text-muted-foreground text-sm\">\n139:                           {report.description}\n140:                         </div>\n141:                       )}\n142:                     </div>\n143:                   </TableCell>\n144:                   <TableCell>\n145:                     <Badge className={freq.className} variant=\"outline\">\n146:                       {freq.label}\n147:                     </Badge>\n148:                   </TableCell>\n149:                   <TableCell>\n150:                     <div className=\"flex -space-x-2\">\n151:                       {report.recipients.slice(0, 3).map((r) => (\n152:                         <Avatar\n153:                           className=\"h-6 w-6 border-2 border-background\"\n154:                           key={r.id}\n155:                         >\n156:                           {r.image && (\n157:                             <AvatarImage alt={r.name} src={r.image} />\n158:                           )}\n159:                           <AvatarFallback className=\"text-[10px]\">\n160:                             {getInitials(r.name)}\n161:                           </AvatarFallback>\n162:                         </Avatar>\n163:                       ))}\n164:                       {report.recipients.length > 3 && (\n165:                         <div className=\"flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-muted font-medium text-[10px] text-muted-foreground\">\n166:                           +{report.recipients.length - 3}\n167:                         </div>\n168:                       )}\n169:                     </div>\n170:                   </TableCell>\n171:                   <TableCell>\n172:                     {report.archived ? (\n173:                       <Badge variant=\"destructive\">Archived</Badge>\n174:                     ) : (\n175:                       <Badge\n176:                         className=\"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400\"\n177:                         variant=\"outline\"\n178:                       >\n179:                         Active\n180:                       </Badge>\n181:                     )}\n182:                   </TableCell>\n183:                   <TableCell className=\"text-muted-foreground text-sm\">\n184:                     {format(new Date(report.updatedAt), \"MMM d, yyyy\")}\n185:                   </TableCell>\n186:                 </TableRow>\n187:               );\n188:             })}\n189:         </TableBody>\n190:       </Table>\n191:     </div>\n192:   );\n193: }\n\n(End of file - total 193 lines)\n</content>",
+            "metadata": {
+              "preview": "import { useNavigate } from \"@tanstack/react-router\";\nimport { format } from \"date-fns\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Badge } from \"@/components/ui/badge\";\nimport { Skeleton } from \"@/components/ui/skeleton\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\n\nimport type { ReportFrequency, ReportItem } from \"./types\";\n\ntype ReportsTableProps = {\n  isLoading: boolean;\n  reports: ReportItem[];",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations/reports/reports-table.tsx",
+            "time": {
+              "start": 1779542893686,
+              "end": 1779542893710
+            }
+          },
+          "id": "prt_e5505a3e6001h8ULyaPbebwnv4",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505904f001sSoA71jJMfKzND"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_a8258a7ce75b4505a4443546",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/components/layouts/nav-layout.tsx"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/components/layouts/nav-layout.tsx</path>\n<type>file</type>\n<content>\n1: import { Link } from \"@tanstack/react-router\";\n2: import { ChevronRight } from \"lucide-react\";\n3: \n4: export default function NavLayout({\n5:   children,\n6:   baseUrl,\n7:   label,\n8:   leftItems,\n9:   rightItems,\n10: }: {\n11:   children: React.ReactNode;\n12:   baseUrl: string;\n13:   label: string;\n14:   leftItems?: React.ReactNode;\n15:   rightItems?: React.ReactNode;\n16: }) {\n17:   return (\n18:     <div className=\"w-full\">\n19:       <div className=\"mb-6 flex h-12 flex-row items-center gap-1 border-neutral-300 border-b px-8\">\n20:         <Link to={baseUrl}>{label}</Link>\n21:         <ChevronRight className=\"mx-1 size-4.5\" />\n22:         {leftItems}\n23:         <div className=\"grow\" />\n24:         {rightItems}\n25:       </div>\n26:       <div className=\"px-8\">{children}</div>\n27:     </div>\n28:   );\n29: }\n\n(End of file - total 29 lines)\n</content>",
+            "metadata": {
+              "preview": "import { Link } from \"@tanstack/react-router\";\nimport { ChevronRight } from \"lucide-react\";\n\nexport default function NavLayout({\n  children,\n  baseUrl,\n  label,\n  leftItems,\n  rightItems,\n}: {\n  children: React.ReactNode;\n  baseUrl: string;\n  label: string;\n  leftItems?: React.ReactNode;\n  rightItems?: React.ReactNode;\n}) {\n  return (\n    <div className=\"w-full\">\n      <div className=\"mb-6 flex h-12 flex-row items-center gap-1 border-neutral-300 border-b px-8\">\n        <Link to={baseUrl}>{label}</Link>",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/components/layouts/nav-layout.tsx",
+            "time": {
+              "start": 1779542893872,
+              "end": 1779542893915
+            }
+          },
+          "id": "prt_e5505a4870011jzyD7969qiEV9",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505904f001sSoA71jJMfKzND"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 28097,
+            "input": 3323,
+            "output": 56,
+            "reasoning": 14,
+            "cache": {
+              "write": 0,
+              "read": 24704
+            }
+          },
+          "cost": 0,
+          "id": "prt_e5505a59f001rl0p0raiFjyH0q",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505904f001sSoA71jJMfKzND"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e5505177d001Brk0ZDcmKtOHEz",
+        "role": "assistant",
+        "mode": "explore",
+        "agent": "explore",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 32585,
+          "input": 2016,
+          "output": 1707,
+          "reasoning": 766,
+          "cache": {
+            "write": 0,
+            "read": 28096
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779542894076,
+          "completed": 1779542924559
+        },
+        "finish": "stop",
+        "id": "msg_e5505a5fc001HqXnpbyhPH1pP4",
+        "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV"
+      },
+      "parts": [
+        {
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-start",
+          "id": "prt_e5505d3e3001fOcwKXMOf3wSFX",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505a5fc001HqXnpbyhPH1pP4"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have a comprehensive view. Let me compile the findings. I have found all the data-table-like views in the codebase. Let me summarize them with their key characteristics.\n\nSummary of all data-table-like views:\n\n1. **TaskListView** - `src/components/task-list-view.tsx` (used by `src/routes/(protected)/(app)/tasks/index.tsx`)\n   - Simple table with search, status filter, archived checkbox\n   - Manual Table component usage\n   - No TanStack/react-table\n   - Cursor-based pagination with \"Load more\"\n   - Custom filter controls (search input + Select + Checkbox)\n\n2. **ClientListView** - `src/components/client-list-view.tsx` (used by `src/routes/(protected)/(app)/clients/index.tsx`)\n   - Uses TanStack/react-table (`useReactTable`)\n   - Uses DataTableFilter component\n   - Uses FilterViewTabs (saved filter views)\n   - URL-synced filters via nuqs\n   - Cursor-based pagination with \"Load more\"\n   - Wrapped in NavLayout\n   - Most sophisticated of the list views\n\n3. **ProspectListView** - `src/components/prospect-list-view.tsx` (used by `src/routes/(protected)/(app)/prospects.tsx`)\n   - Simple table with search, archived checkbox\n   - Manual Table component usage\n   - No TanStack/react-table\n   - Cursor-based pagination with \"Load more\"\n   - Similar pattern to TaskListView\n\n4. **ContractsTable** - `src/components/tables/contracts-table.tsx` (used by `src/routes/(protected)/(app)/contracts/index.tsx`)\n   - Receives data, isLoading, search as props\n   - Client-side filtering via search prop\n   - Skeleton loading states\n   - Navigation via useNavigate on row click\n   - No pagination\n\n5. **MembersTable** - `src/components/tables/members-table.tsx` (used by `src/routes/(protected)/settings/members/index.tsx`)\n   - Receives data, isLoading, search as props\n   - Client-side filtering via search prop\n   - Skeleton loading states\n   - Navigation via useNavigate on row click\n   - No pagination\n\n6. **ReportsTable** - `integrations/reports/reports-table.tsx` (used by `src/routes/(protected)/(app)/reports/index.tsx`)\n   - Receives data, isLoading, search as props\n   - Client-side filtering via search prop\n   - Skeleton loading states\n   - Navigation via useNavigate on row click\n   - No pagination\n\n7. **DraftsPage** (inline table) - `src/routes/(protected)/(app)/drafts.tsx`\n   - Table rendered directly in the route page (no extracted component)\n   - Has Resume/Delete actions per row\n   - Client-side data, no pagination\n   - Skeleton loading states via ExportedDraftsSkeleton\n\nNow let me note the patterns and how they differ:\n\n**Pattern A: \"List View\" components** (TaskListView, ClientListView, ProspectListView)\n- Self-contained: fetch their own data\n- Handle search/filtering internally\n- Cursor-based server-side pagination\n- Search bar + filters in component\n- Used in pages with detail panel pattern\n\n**Pattern B: \"Table\" components** (ContractsTable, MembersTable, ReportsTable)\n- Receive data as props (parent fetches data)\n- Client-side search filtering\n- Skeleton loading states\n- No pagination\n- Used in pages with simpler layout (header + search + table)\n\n**Pattern C: Inline table** (Drafts page)\n- Table JSX directly in route page\n- Not extracted to a component\n- Has row-level actions (Resume/Delete)",
+          "time": {
+            "start": 1779542905830,
+            "end": 1779542911231
+          },
+          "id": "prt_e5505d3e6001R4DbBL9klNri4Q",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505a5fc001HqXnpbyhPH1pP4"
+        },
+        {
+          "type": "text",
+          "text": "Here is a comprehensive inventory of all data-table-like views in the codebase, organized by their structural pattern.\n\n---\n\n## All Data-Table-Like Views\n\n### Pattern A: Self-Contained \"List View\" Components\nThese components fetch their own data, manage filters/search internally, and handle cursor-based pagination.\n\n| # | Component | File | Route Page | Key Characteristics |\n|---|-----------|------|------------|---------------------|\n| 1 | `TaskListView` | `/home/aditya/projects/alpauls-ats/src/components/task-list-view.tsx` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx` | Simple `<Table>` (no TanStack/react-table). Search input + status `Select` + archived `Checkbox`. Uses `useORPCQuery`. Cursor pagination with \"Load more\". |\n| 2 | `ClientListView` | `/home/aditya/projects/alpauls-ats/src/components/client-list-view.tsx` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx` | **Most sophisticated** -- uses `useReactTable` (TanStack/react-table), `DataTableFilter` component, `FilterViewTabs` (saved filter views), URL-synced filters via `nuqs`. Cursor pagination with \"Load more\". Wrapped in `NavLayout`. |\n| 3 | `ProspectListView` | `/home/aditya/projects/alpauls-ats/src/components/prospect-list-view.tsx` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects.tsx` | Nearly identical structure to `TaskListView` -- simple `<Table>`, search input + archived `Checkbox`. Uses `useORPCQuery`. Cursor pagination with \"Load more\". |\n\n**Common layout structure for Pattern A:**\n```\n<div className=\"space-y-4\">\n  <div className=\"flex items-center gap-3\">  ← search + filters\n    <Search icon + Input /> + filters\n  </div>\n  <div className=\"rounded-lg border bg-card\">  ← table wrapper\n    <Table>...</Table>\n  </div>\n  {nextCursor && <LoadMoreButton />}  ← pagination\n</div>\n```\n\n---\n\n### Pattern B: Data-Receiving \"Table\" Components\nThese receive pre-fetched data as props, do client-side search filtering, and have no pagination.\n\n| # | Component | File | Route Page | Key Characteristics |\n|---|-----------|------|------------|---------------------|\n| 4 | `ContractsTable` | `/home/aditya/projects/alpauls-ats/src/components/tables/contracts-table.tsx` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx` | Props: `contracts`, `isLoading`, `search`. Skeleton loading. Row click navigates. Client-side search filter. No pagination. |\n| 5 | `MembersTable` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx` (imports from) `/home/aditya/projects/alpauls-ats/src/components/tables/members-table.tsx` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx` | Props: `members`, `isLoading`, `search`. Skeleton loading. Row click navigates. Client-side search filter. No pagination. |\n| 6 | `ReportsTable` | `/home/aditya/projects/alpauls-ats/integrations/reports/reports-table.tsx` | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/index.tsx` | Props: `reports`, `isLoading`, `search`. Skeleton loading. Row click navigates. Client-side search filter. Uses mock data. No pagination. |\n\n**Common layout structure for Pattern B:**\n```\n<div className=\"rounded-lg border bg-card\">\n  <Table>\n    <TableHeader>...</TableHeader>\n    <TableBody>\n      {isLoading && <SkeletonRows />}\n      {!isLoading && empty && <EmptyRow />}\n      {!isLoading && data.map(row => <ClickableRow />)}\n    </TableBody>\n  </Table>\n</div>\n```\nThe parent page handles: header, search input, and \"New X\" button.\n\n---\n\n### Pattern C: Inline Table (not extracted)\n\n| # | View | File | Key Characteristics |\n|---|------|------|---------------------|\n| 7 | Drafts table (inline) | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx` | Table JSX rendered directly in the route page -- no extracted component. Has row-level actions (Resume/Delete buttons). Skeleton helper `ExportedDraftsSkeleton`. Client-side data, no pagination. |\n\n---\n\n### Stub/Empty Pages (no table yet)\n\n| # | Page | File | Status |\n|---|------|------|--------|\n| 8 | Audit Log | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/audit-log.tsx` | Placeholder (\"PENDING\") -- will likely need a table view |\n| 9 | Job Mandates | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/index.tsx` | Empty page -- `-view-config.tsx` file exists but is empty (0 bytes) |\n\n---\n\n### Supporting Infrastructure\n\n| Component | File | Purpose |\n|-----------|------|---------|\n| `DataTableFilter` | `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/components/data-table-filter.tsx` | Advanced filter UI (only used by `ClientListView` currently) |\n| `useDataTableFilters` | `/home/aditya/projects/alpauls-ats/src/components/data-table-filter/hooks/use-data-table-filters.tsx` | Hook for managing filter state (only used by `ClientListView` currently) |\n| `FilterViewTabs` | `/home/aditya/projects/alpauls-ats/src/components/filter-view-tabs.tsx` | Saved filter view tabs (only used by Clients page currently) |\n| `NavLayout` | `/home/aditya/projects/alpauls-ats/src/components/layouts/nav-layout.tsx` | Reusable page layout with nav bar (only used by Clients page currently) |\n| Client view config | `/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx` | Column defs + filter config for TanStack/react-table + DataTableFilter |\n| UI `<Table>` primitives | `/home/aditya/projects/alpauls-ats/src/components/ui/table.tsx` | Base shadcn table components (used by all views) |\n\n---\n\n### Summary of Duplication / Generic Layout Opportunities\n\n**All 7 active table views share this common skeleton:**\n1. A search bar (with Search icon + Input)\n2. Optional filter controls (status select, archived checkbox, or `DataTableFilter`)\n3. A `rounded-lg border bg-card` wrapper around `<Table>`\n4. Loading state (skeleton rows or \"Loading...\" text)\n5. Empty state row (\"No X found\")\n6. Clickable rows with `cursor-pointer`\n7. Optional \"Load more\" pagination button\n\n**Views that would benefit most from a generic list-page layout:**\n\n- **TaskListView, ProspectListView** -- these are near-clones of each other (search + archived checkbox + table + load-more). The only differences are column definitions and the RPC endpoint.\n- **ContractsTable, MembersTable, ReportsTable** -- these follow the same \"dumb table\" pattern (receive props, client-side search, skeleton loading, clickable rows). They differ in columns and row actions.\n- **DraftsPage** -- the inline table could be extracted to follow the same pattern as ContractsTable/MembersTable.\n- **Audit Log** and **Job Mandates** -- when implemented, they will likely follow one of these patterns too.",
+          "time": {
+            "start": 1779542911233,
+            "end": 1779542924490
+          },
+          "id": "prt_e5505e901001uUXSBC4hraKbpV",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505a5fc001HqXnpbyhPH1pP4"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "e652fab00e5d8ffcb7fc6a5c091f1f8e922cf763",
+          "type": "step-finish",
+          "tokens": {
+            "total": 32585,
+            "input": 2016,
+            "output": 1707,
+            "reasoning": 766,
+            "cache": {
+              "write": 0,
+              "read": 28096
+            }
+          },
+          "cost": 0,
+          "id": "prt_e55061cee001jh6RFjcoQajrgV",
+          "sessionID": "ses_1aafae88dffeomDuDyjo2J2JdV",
+          "messageID": "msg_e5505a5fc001HqXnpbyhPH1pP4"
+        }
+      ]
+    }
+  ]
+}

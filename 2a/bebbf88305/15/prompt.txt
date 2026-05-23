@@ -1,0 +1,7 @@
+Search the codebase for other list views or table views that might benefit from the same generic layout. Look in:
+1. src/routes/(protected)/(app)/ for pages that render data tables (prospects, tasks, etc.)
+2. Check if there's a prospect list view or similar components
+3. Look at src/components/ for any other *-list-view.tsx files
+4. Check how the tasks page renders its list
+
+Return a list of all data-table-like views in the codebase and their locations.
