@@ -1,0 +1,12 @@
+Research task — do NOT write any code. I need to understand the codebase architecture around filters and data views. Find and report back:
+
+1. What files exist under `src/components/data-table-filter/`? List the directory structure.
+2. What does `src/components/data-table-filter/core/types.ts` export? Specifically the `FiltersState` type and any utility functions.
+3. Read `src/components/filter-view-tabs.tsx` — what does it do, what props does it take?
+4. Find all callers of `DataViewLayout` — search for imports/usage of DataViewLayout across the codebase. For each caller, report: what file, what props they pass (especially `usersData`, `columnsConfig`, `domain`, `filtersToInput`).
+5. Check if there's a `FilterViewRow` type defined anywhere else in the codebase (db-schemas, rpc, etc.).
+6. Read `src/db-schemas/filter-view.ts` or whichever file defines the FilterView schema.
+7. Read `src/rpc/client.ts` to understand the rpc.filterView.list return type.
+8. Check if there are any existing utility files for filter manipulation (merge, compute, etc.) anywhere in the codebase.
+
+Return all findings with file paths and relevant code snippets.
