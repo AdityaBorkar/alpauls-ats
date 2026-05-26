@@ -1,0 +1,77 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "933ac22aed9f",
+  "session_id": "ses_19bd1a5d3ffewmKwerPDA5QP28",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T13:24:06.234786658Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "TODO.md",
+    "docker-compose.yml",
+    "images/postgres/Dockerfile",
+    "infra/app.ts",
+    "infra/db.ts",
+    "infra/docker/images.ts",
+    "infra/index.ts",
+    "package.json"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "03e2e3ad182b",
+  "token_usage": {
+    "input_tokens": 13325,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 51968,
+    "output_tokens": 2869,
+    "api_call_count": 6
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T13:24:06.210128376Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 4286,
+    "human_modified": 399,
+    "human_removed": 0,
+    "total_committed": 4303,
+    "total_lines_changed": 4686,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 496,
+      "user_lines_removed": 393,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "Dockerfile": 19,
+        "TODO.md": 18,
+        "docker-compose.prod.yml": 63,
+        "docker-compose.yml": 8,
+        "infra/docker/images.ts": 187,
+        "infra/index.ts": 10,
+        "infra/leo/instance.ts": 134,
+        "package.json": 3,
+        "scripts/deploy.ts": 54
+      },
+      "user_removed_per_file": {
+        "infra/app.ts": 208,
+        "infra/db.ts": 148,
+        "infra/index.ts": 35,
+        "package.json": 2
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 500,
+      "agent_lines_removed": 389
+    }
+  ]
+}
