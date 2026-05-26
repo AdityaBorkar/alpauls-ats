@@ -1,0 +1,19 @@
+I need to understand the codebase patterns for implementing an Audit Log page. Please research the following thoroughly (very thorough level):
+
+1. **Task Events (audit trail)**: Find the task event schema in `src/db-schemas/`, the task-event-service in `src/services/`, and any existing task event RPC procedures. I need to understand what fields exist (eventType, userId, timestamp, details, etc.) and how they're structured.
+
+2. **Client Events**: Check if there's a client-event schema and service similar to task events. Also check prospect-event-service.
+
+3. **Data Table patterns**: Find existing data table implementations (likely in `src/components/` or `src/routes/`). Look for how tables are built - do they use @tanstack/react-table? What patterns exist for column definitions, row rendering, etc.?
+
+4. **Filter patterns**: Find existing filter implementations. Look for `data-table-filter` components, filter views, and how filters are applied. Check `src/components/data-table-filter/` directory.
+
+5. **Pagination patterns**: Find how pagination is implemented in existing pages. Check for cursor-based or offset pagination in the oRPC procedures.
+
+6. **oRPC router**: Find the router in `src/rpc/router/index.ts` and understand how procedures are organized. Check if there's already an audit-log or event namespace.
+
+7. **Existing page patterns**: Look at other pages in `src/routes/(protected)/(app)/` to understand the page layout pattern (headers, content areas, etc.).
+
+8. **Permissions**: Check `src/lib/auth/access-control.ts` for relevant resources and actions that might apply to audit logs.
+
+Return all the relevant file paths, code snippets, and patterns you find. Be very thorough.

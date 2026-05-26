@@ -1,0 +1,73 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "d2e73af2b3f9",
+  "session_id": "ses_1aa2669c3ffeJ17zHrUJpPiBk1",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T11:22:44.62129636Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "TODO.md",
+    "src/components/layouts/data-view-layout.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "5120ecd9a8af",
+  "token_usage": {
+    "input_tokens": 75847,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 521344,
+    "output_tokens": 6885,
+    "api_call_count": 14
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T11:22:44.596345094Z",
+    "agent_lines": 0,
+    "agent_removed": 10,
+    "human_added": 1156,
+    "human_modified": 313,
+    "human_removed": 0,
+    "total_committed": 1232,
+    "total_lines_changed": 1669,
+    "agent_percentage": 0.5991611743559018,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 297,
+      "user_lines_removed": 311,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "src/components/layouts/data-view-layout.tsx": 171,
+        "src/hooks/use-filter-view-state.ts": 50,
+        "src/lib/filter-merge.ts": 54,
+        "src/routes/(protected)/(app)/clients/index.tsx": 22
+      },
+      "user_removed_per_file": {
+        "src/components/layouts/data-view-layout.tsx": 116,
+        "src/routes/(protected)/(app)/clients/index.tsx": 195
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 3,
+      "user_lines_removed": 2,
+      "agent_lines_added": 322,
+      "agent_lines_removed": 324,
+      "user_added_per_file": {
+        "TODO.md": 2,
+        "src/components/layouts/data-view-layout.tsx": 1
+      },
+      "user_removed_per_file": {
+        "TODO.md": 1,
+        "src/components/layouts/data-view-layout.tsx": 1
+      }
+    }
+  ]
+}

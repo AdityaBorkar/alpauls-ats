@@ -3,7 +3,7 @@
   "checkpoint_id": "d2e73af2b3f9",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 10,
+  "checkpoints_count": 11,
   "files_touched": [
     "AGENTS.md",
     "Pulumi.dev.yaml",
@@ -62,13 +62,19 @@
       "transcript": "/d2/e73af2b3f9/4/full.jsonl",
       "content_hash": "/d2/e73af2b3f9/4/content_hash.txt",
       "prompt": "/d2/e73af2b3f9/4/prompt.txt"
+    },
+    {
+      "metadata": "/d2/e73af2b3f9/5/metadata.json",
+      "transcript": "/d2/e73af2b3f9/5/full.jsonl",
+      "content_hash": "/d2/e73af2b3f9/5/content_hash.txt",
+      "prompt": "/d2/e73af2b3f9/5/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 351028,
+    "input_tokens": 426875,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 4076544,
-    "output_tokens": 26730,
-    "api_call_count": 100
+    "cache_read_tokens": 4597888,
+    "output_tokens": 33615,
+    "api_call_count": 114
   }
 }
