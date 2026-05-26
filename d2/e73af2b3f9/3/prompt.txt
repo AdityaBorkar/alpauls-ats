@@ -1,0 +1,205 @@
+@src/services/audit-log-service.ts listAuditLogs replace the DB query with drizzle queries instead of querying a view. Remove the @scripts/create-audit-log-view.ts script. Remove Views and use Queries instead.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/services/audit-log-service.ts"}
+<path>/home/aditya/projects/alpauls-ats/src/services/audit-log-service.ts</path>
+<type>file</type>
+<content>
+1: import { and, desc, eq, gte, ilike, lt, lte, or } from "drizzle-orm";
+2: 
+3: import { auditLogView } from "@/db-schemas/audit-log";
+4: import { db } from "@/lib/db/server";
+5: 
+6: type ListAuditLogsInput = {
+7:   changedBy?: string;
+8:   cursor?: string;
+9:   dateFrom?: Date;
+10:   dateTo?: Date;
+11:   entityType?: "client" | "contract" | "prospect" | "task";
+12:   field?: string;
+13:   limit?: number;
+14:   search?: string;
+15: };
+16: 
+17: export async function listAuditLogs(input: ListAuditLogsInput) {
+18:   const {
+19:     changedBy,
+20:     cursor,
+21:     dateFrom,
+22:     dateTo,
+23:     entityType,
+24:     field,
+25:     limit = 50,
+26:     search,
+27:   } = input;
+28: 
+29:   const conditions = [];
+30: 
+31:   if (entityType) {
+32:     conditions.push(eq(auditLogView.entityType, entityType));
+33:   }
+34:   if (changedBy) {
+35:     conditions.push(eq(auditLogView.changedBy, changedBy));
+36:   }
+37:   if (field) {
+38:     conditions.push(eq(auditLogView.field, field));
+39:   }
+40:   if (dateFrom) {
+41:     conditions.push(gte(auditLogView.changedAt, dateFrom));
+42:   }
+43:   if (dateTo) {
+44:     conditions.push(lte(auditLogView.changedAt, dateTo));
+45:   }
+46:   if (search) {
+47:     const searchFilter = or(
+48:       ilike(auditLogView.changedByName, `%${search}%`),
+49:       ilike(auditLogView.field, `%${search}%`),
+50:     );
+51:     if (searchFilter) conditions.push(searchFilter);
+52:   }
+53: 
+54:   // Cursor-based pagination: since we order by changedAt DESC, id DESC,
+55:   // the cursor encodes the last item's changedAt and id to skip past it.
+56:   if (cursor) {
+57:     try {
+58:       const [timestampStr, idStr] = cursor.split("::");
+59:       const cursorTime = new Date(timestampStr);
+60:       const cursorId = Number.parseInt(idStr, 10);
+61:       if (!Number.isNaN(cursorId) && !Number.isNaN(cursorTime.getTime())) {
+62:         const cursorFilter = or(
+63:           lt(auditLogView.changedAt, cursorTime),
+64:           and(
+65:             eq(auditLogView.changedAt, cursorTime),
+66:             lt(auditLogView.id, cursorId),
+67:           ),
+68:         );
+69:         if (cursorFilter) conditions.push(cursorFilter);
+70:       }
+71:     } catch {
+72:       // Invalid cursor format, skip cursor filter
+73:     }
+74:   }
+75: 
+76:   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+77: 
+78:   const rows = await db
+79:     .select()
+80:     .from(auditLogView)
+81:     .where(whereClause)
+82:     .orderBy(desc(auditLogView.changedAt), desc(auditLogView.id))
+83:     .limit(limit + 1);
+84: 
+85:   const hasMore = rows.length > limit;
+86:   const items = hasMore ? rows.slice(0, limit) : rows;
+87: 
+88:   const lastItem = items[items.length - 1];
+89:   const nextCursor =
+90:     hasMore && lastItem?.changedAt && lastItem?.id != null
+91:       ? `${new Date(lastItem.changedAt).toISOString()}::${lastItem.id}`
+92:       : null;
+93: 
+94:   return {
+95:     items,
+96:     nextCursor,
+97:   };
+98: }
+
+(End of file - total 98 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/scripts/create-audit-log-view.ts"}
+<path>/home/aditya/projects/alpauls-ats/scripts/create-audit-log-view.ts</path>
+<type>file</type>
+<content>
+1: import { config } from "dotenv";
+2: 
+3: config({ path: [".env.local", ".env"] });
+4: 
+5: import { sql } from "drizzle-orm";
+6: 
+7: import { db } from "@/lib/db/server";
+8: 
+9: async function main() {
+10:   await db.execute(sql`DROP VIEW IF EXISTS audit_log CASCADE`);
+11: 
+12:   await db.execute(sql`
+13:     CREATE OR REPLACE VIEW audit_log AS
+14:       SELECT
+15:         te.id,
+16:         'task'::text AS entity_type,
+17:         te.task_id::text AS entity_id,
+18:         te.field,
+19:         te.old_value,
+20:         te.new_value,
+21:         te.changed_by,
+22:         te.changed_at,
+23:         u.name AS changed_by_name,
+24:         u.email AS changed_by_email,
+25:         u.image AS changed_by_image,
+26:         u.phone_number AS changed_by_phone
+27:       FROM task_events te
+28:       LEFT JOIN "user" u ON te.changed_by = u.id
+29: 
+30:       UNION ALL
+31: 
+32:       SELECT
+33:         (ce.id + 1000000) AS id,
+34:         'client'::text AS entity_type,
+35:         ce.client_id::text AS entity_id,
+36:         ce.field,
+37:         ce.old_value,
+38:         ce.new_value,
+39:         ce.changed_by,
+40:         ce.changed_at,
+41:         u.name AS changed_by_name,
+42:         u.email AS changed_by_email,
+43:         u.image AS changed_by_image,
+44:         u.phone_number AS changed_by_phone
+45:       FROM client_events ce
+46:       LEFT JOIN "user" u ON ce.changed_by = u.id
+47: 
+48:       UNION ALL
+49: 
+50:       SELECT
+51:         (pe.id + 2000000) AS id,
+52:         'prospect'::text AS entity_type,
+53:         pe.prospect_id::text AS entity_id,
+54:         pe.field,
+55:         pe.old_value,
+56:         pe.new_value,
+57:         pe.changed_by,
+58:         pe.changed_at,
+59:         u.name AS changed_by_name,
+60:         u.email AS changed_by_email,
+61:         u.image AS changed_by_image,
+62:         u.phone_number AS changed_by_phone
+63:       FROM prospect_events pe
+64:       LEFT JOIN "user" u ON pe.changed_by = u.id
+65: 
+66:       UNION ALL
+67: 
+68:       SELECT
+69:         (coe.id + 3000000) AS id,
+70:         'contract'::text AS entity_type,
+71:         coe.contract_id::text AS entity_id,
+72:         coe.field,
+73:         coe.old_value,
+74:         coe.new_value,
+75:         coe.changed_by,
+76:         coe.changed_at,
+77:         u.name AS changed_by_name,
+78:         u.email AS changed_by_email,
+79:         u.image AS changed_by_image,
+80:         u.phone_number AS changed_by_phone
+81:       FROM contract_events coe
+82:       LEFT JOIN "user" u ON coe.changed_by = u.id
+83:   `);
+84: 
+85:   console.log("Created audit_log view");
+86:   process.exit(0);
+87: }
+88: 
+89: main().catch((err) => {
+90:   console.error(err);
+91:   process.exit(1);
+92: });
+
+(End of file - total 92 lines)
+</content>
