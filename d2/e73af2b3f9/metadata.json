@@ -1,0 +1,39 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "d2e73af2b3f9",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "AGENTS.md",
+    "TODO.md",
+    "bun.lock",
+    "infra/index.ts",
+    "package.json",
+    "src/components/filter-view-tabs.tsx",
+    "src/components/layouts/data-view-layout.tsx",
+    "src/db-schemas/filter-view.ts",
+    "src/lib/auth/access-control.ts",
+    "src/routeTree.gen.ts",
+    "src/routes/(protected)/(app)/audit-log.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/prospects.tsx",
+    "src/routes/__root.tsx",
+    "src/rpc/router/index.ts"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d2/e73af2b3f9/0/metadata.json",
+      "transcript": "/d2/e73af2b3f9/0/full.jsonl",
+      "content_hash": "/d2/e73af2b3f9/0/content_hash.txt",
+      "prompt": "/d2/e73af2b3f9/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 82358,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1576320,
+    "output_tokens": 9131,
+    "api_call_count": 31
+  }
+}

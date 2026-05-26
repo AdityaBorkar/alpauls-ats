@@ -1,0 +1,10 @@
+Write pulumi code to deploy the application on OCI Ampere VM with 2GB RAM and 1vCPU. Deploy the database separately on Ampere VM with 4GB RAM and 1vCPU. Connect both services in a VPC. @infra/ 
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/infra/"}
+<path>/home/aditya/projects/alpauls-ats/infra/</path>
+<type>directory</type>
+<entries>
+docker/
+index.ts
+
+(2 entries)
+</entries>
