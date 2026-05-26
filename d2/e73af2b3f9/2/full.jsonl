@@ -1,0 +1,2037 @@
+{
+  "info": {
+    "id": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+    "slug": "lucky-sailor",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "title": "OCI Ampere VM deployment with Pulumi",
+    "agent": "plan",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 131,
+      "deletions": 166,
+      "files": 5
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 40886,
+      "output": 2621,
+      "reasoning": 2952,
+      "cache": {
+        "read": 547520,
+        "write": 0
+      }
+    },
+    "time": {
+      "created": 1779777553883,
+      "updated": 1779777925306
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779777553938
+        },
+        "agent": "plan",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "AGENTS.md",
+              "patch": "Index: AGENTS.md\n===================================================================\n--- AGENTS.md\t\n+++ AGENTS.md\t\n@@ -1,103 +1,103 @@\n # AGENTS.md\n \n ## Stack\n - **Runtime**: Bun — always use `bun --bun run` for scripts\n - **Framework**: TanStack Start (React, SSR)\n - **Routing**: TanStack Router, file-based (`src/routes/`)\n - **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`\n - **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`\n - **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session\n - **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)\n - **Linting/Formatting**: Biome (`biome.json`)\n - **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)\n - **Validation**: Zod v4 (different API from Zod 3)\n - **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)\n - **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n \n ## Key Commands\n ```bash\n-bun --bun run dev              # Dev server (port 3020)\n+bun --bun run dev              # Dev server (port 3020, strict)\n bun --bun run build            # Production build\n bun --bun run preview          # Preview production build\n bun --bun run test             # bun vitest run\n bun --bun run check:lint       # Biome check --fix\n bun --bun run check:types      # tsgo --noEmit\n-bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)\n+bun --bun run db:push          # Drizzle push schema + seed filter views\n bun --bun run db:studio        # Drizzle Studio\n bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\n bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\n bun --bun run deploy:staging   # Wrangler upload to staging\n bun --bun run deploy:prod      # Wrangler upload to production\n ```\n \n For other Biome operations, invoke directly:\n ```bash\n bunx --bun @biomejs/biome lint --fix\n bunx --bun @biomejs/biome format --write\n ```\n \n ## Setup\n 1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n 2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n-5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)\n+5. `bun --bun run db:push` — sync schema to DB (also creates audit-log view + seeds filter views)\n 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n 7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n \n ## Architecture\n - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n-- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`\n+- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task`, `client`, `contract`, `draft`, `filterView`, `reminder`, `notification`, `users`, `auditLog`, `prospect`\n - **oRPC procedure chain** (`src/rpc/middleware.ts`):\n-  - `base` — raw context (headers only), defined in `src/rpc/context.ts`\n+  - `base` — raw context (`{ headers }`), defined in `src/rpc/context.ts`\n   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n-- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.\n-- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)\n-- **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n+- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Non-admin users need the exact `resource:action` string in their resolved permissions array. Admin role has all permissions so always passes.\n+- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service, audit-log-service)\n+- **Access control**: `src/lib/auth/access-control.ts` — defines resources (`audit_logs`, `client_contracts`, `clients`, `drafts`, `filter_views`, `job_mandates`, `notification`, `prospects`, `reminders`, `tasks`, `team_members`), actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n-- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`\n+- **Integrations dir**: `integrations/` (agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp) — app-level providers/clients aliased via `#/*`\n - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n \n ## Testing\n - **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n - **Pattern**: `src/**/*.test.ts` (co-located in `__tests__/` dirs)\n - **DB**: PGlite (in-memory Postgres) — no Docker needed for tests\n - **Setup**: `tests/setup.ts` mocks `@/lib/db/server` via `vi.mock`; test files call `setTestDb()` from setup before each test. Helpers in `tests/db.ts`: `createTestDb`, `resetDb`, `seedUser`\n - **Caveat**: `vitest.config.ts` only resolves `@/*` and `#tests/*` aliases; `#/*` is NOT available in tests\n - **Service tests**: `src/services/__tests__/` cover task, task-event, task-link, client-contract, supervisor-hierarchy, and reminder services\n - **Biome relaxes rules in `__tests__/`**: `noExplicitAny: off`, `noNonNullAssertion: off`\n - **Biome also relaxes in `src/components/forms/**`**: `useComponentExportOnlyModules: off`, `noExplicitAny: off`\n \n ## Domain Constraints\n - Self-registration is **disabled** — only admins can create users (enforced in `databaseHooks` in auth config)\n - Auth uses phone-number + OTP; email/password login is off\n - Tasks cannot be deleted — only archived (boolean flag)\n - Every task change produces an immutable Task Event (audit trail)\n - Relative reminders are only valid when the task has a deadline\n - See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology\n \n ## Design Rules\n - **Do not use Card Design** — avoid wrapping content in `<Card>` components or card-like containers with borders/shadows. Prefer flat layouts, subtle dividers, and whitespace for visual separation.\n \n ## Style Notes\n - Biome: 2-space indent, double quotes, `organizeImports: on`\n - Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`\n - Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)\n - Biome disables ALL lint rules in `src/components/ui/**` and `src/components/data-table-filter/**` (shadcn/vendored — set `recommended: false`)\n \n ## Gotchas\n - `bunfig.toml` sets `install.auto = \"disable\"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.\n - Drizzle uses `db:push` only (no `generate`/`migrate` scripts) — schema is pushed directly to DB\n - `bunfig.toml` sets `test.onlyFailures = true` and `test.randomize = true` for Vitest\n - Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)\n - Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: \"PUBLIC_\"` and `src/env.ts` `clientPrefix: \"PUBLIC_\"`\n - `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)\n - `src/routes/api/-auth.ts` uses TanStack Router `-` prefix convention (dash-prefixed files are non-route helpers, not URL segments)\n \n ## Animation Notes\n - No bounce\n - Durations at the lower end (100-160ms for press, 150-200ms for collapse)\n - ease-out curves that start fast and settle\n",
+              "additions": 9,
+              "deletions": 9,
+              "status": "modified"
+            },
+            {
+              "file": "package.json",
+              "patch": "Index: package.json\n===================================================================\n--- package.json\t\n+++ package.json\t\n@@ -1,99 +1,99 @@\n {\n   \"dependencies\": {\n     \"@aws-sdk/client-s3\": \"^3.1048.0\",\n     \"@aws-sdk/s3-request-presigner\": \"^3.1048.0\",\n     \"@base-ui/react\": \"^1.5.0\",\n     \"@dagrejs/dagre\": \"^3.0.0\",\n     \"@fontsource-variable/inter\": \"^5.2.8\",\n     \"@hookform/resolvers\": \"^5.2.2\",\n     \"@iconify-react/lets-icons\": \"^1.0.2\",\n     \"@orpc/client\": \"^1.14.3\",\n     \"@orpc/server\": \"^1.14.3\",\n     \"@orpc/tanstack-query\": \"^1.14.3\",\n     \"@orpc/zod\": \"^1.14.3\",\n     \"@posthog/react\": \"^1.9.0\",\n     \"@t3-oss/env-core\": \"^0.13.11\",\n     \"@tabler/icons-react\": \"^3.44.0\",\n     \"@tailwindcss/vite\": \"^4.3.0\",\n     \"@tanstack/react-devtools\": \"^0.10.5\",\n     \"@tanstack/react-query\": \"^5.100.11\",\n     \"@tanstack/react-query-devtools\": \"^5.100.11\",\n     \"@tanstack/react-router\": \"^1.170.5\",\n     \"@tanstack/react-router-devtools\": \"^1.167.0\",\n     \"@tanstack/react-router-ssr-query\": \"^1.167.0\",\n     \"@tanstack/react-start\": \"^1.168.7\",\n     \"@tanstack/react-table\": \"^8.21.3\",\n     \"@tanstack/router-plugin\": \"^1.168.7\",\n     \"@typescript/native-preview\": \"^7.0.0-dev.20260519.1\",\n     \"@xyflow/react\": \"^12.10.2\",\n     \"better-auth\": \"^1.6.11\",\n     \"class-variance-authority\": \"^0.7.1\",\n     \"clsx\": \"^2.1.1\",\n     \"cmdk\": \"^1.1.1\",\n     \"date-fns\": \"^4.2.1\",\n     \"drizzle-kit\": \"^0.31.10\",\n     \"drizzle-orm\": \"^0.45.2\",\n     \"lucide-react\": \"^1.16.0\",\n     \"nitro\": \"npm:nitro-nightly@^3.0.260429-beta\",\n     \"pg\": \"^8.21.0\",\n     \"posthog-js\": \"^1.374.3\",\n     \"pulumi\": \"^3.243.0\",\n     \"react\": \"^19.2.6\",\n     \"react-day-picker\": \"^10.0.1\",\n     \"react-dom\": \"^19.2.6\",\n     \"react-hook-form\": \"^7.76.0\",\n     \"recharts\": \"3.8.1\",\n     \"tailwind-merge\": \"^3.6.0\",\n     \"tw-animate-css\": \"^1.4.0\",\n     \"vaul\": \"^1.1.2\",\n     \"zod\": \"^4.4.3\"\n   },\n   \"devDependencies\": {\n     \"@ai-hero/sandcastle\": \"^0.5.11\",\n     \"@biomejs/biome\": \"2.4.15\",\n     \"@cloudflare/vite-plugin\": \"^1.37.1\",\n     \"@electric-sql/pglite\": \"^0.4.5\",\n     \"@tailwindcss/typography\": \"^0.5.19\",\n     \"@tanstack/devtools-vite\": \"^0.7.0\",\n     \"@testing-library/dom\": \"^10.4.1\",\n     \"@testing-library/react\": \"^16.3.2\",\n     \"@types/node\": \"^25.9.1\",\n     \"@types/pg\": \"^8.20.0\",\n     \"@types/react\": \"^19.2.15\",\n     \"@types/react-dom\": \"^19.2.3\",\n     \"@vitejs/plugin-react\": \"^6.0.2\",\n     \"dotenv\": \"^17.4.2\",\n     \"jsdom\": \"^29.1.1\",\n     \"react-grab\": \"^0.1.37\",\n     \"tailwindcss\": \"^4.3.0\",\n     \"taze\": \"^19.13.0\",\n     \"tsx\": \"^4.22.3\",\n     \"vite\": \"^8.0.13\",\n     \"vitest\": \"^4.1.7\",\n     \"wrangler\": \"^4.92.0\"\n   },\n   \"name\": \"alpauls-ats\",\n   \"overrides\": {\n     \"@tanstack/query-core\": \"5.100.11\"\n   },\n   \"pnpm\": {\n     \"onlyBuiltDependencies\": [\"esbuild\", \"lightningcss\"]\n   },\n   \"private\": true,\n   \"scripts\": {\n     \"build\": \"vite build\",\n     \"check:lint\": \"biome check --fix\",\n     \"check:types\": \"tsgo --noEmit\",\n-    \"db:push\": \"drizzle-kit push && bun ./scripts/create-audit-log-view.ts && bun ./scripts/seed-filter-views.ts\",\n+    \"db:push\": \"drizzle-kit push && bun ./scripts/seed-filter-views.ts\",\n     \"db:studio\": \"drizzle-kit studio\",\n     \"deploy:prod\": \"wrangler versions upload --env production --preview-alias production\",\n     \"deploy:staging\": \"wrangler versions upload --env staging --preview-alias staging\",\n     \"dev\": \"vite dev\",\n     \"gen:auth-schema\": \"bunx auth generate -y --output ./src/db-schemas/auth.ts --config ./src/lib/auth/server.ts\",\n     \"gen:cf-types\": \"wrangler types\",\n     \"preview\": \"vite preview\",\n     \"test\": \"bun vitest run\",\n     \"update:deps\": \"bun taze -w --maturity-period 3\"\n   },\n   \"type\": \"module\"\n }\n",
+              "additions": 1,
+              "deletions": 1,
+              "status": "modified"
+            },
+            {
+              "file": "scripts/create-audit-log-view.ts",
+              "patch": "Index: scripts/create-audit-log-view.ts\n===================================================================\n--- scripts/create-audit-log-view.ts\t\n+++ scripts/create-audit-log-view.ts\t\n@@ -1,92 +0,0 @@\n-import { config } from \"dotenv\";\n-\n-config({ path: [\".env.local\", \".env\"] });\n-\n-import { sql } from \"drizzle-orm\";\n-\n-import { db } from \"@/lib/db/server\";\n-\n-async function main() {\n-  await db.execute(sql`DROP VIEW IF EXISTS audit_log CASCADE`);\n-\n-  await db.execute(sql`\n-    CREATE OR REPLACE VIEW audit_log AS\n-      SELECT\n-        te.id,\n-        'task'::text AS entity_type,\n-        te.task_id::text AS entity_id,\n-        te.field,\n-        te.old_value,\n-        te.new_value,\n-        te.changed_by,\n-        te.changed_at,\n-        u.name AS changed_by_name,\n-        u.email AS changed_by_email,\n-        u.image AS changed_by_image,\n-        u.phone_number AS changed_by_phone\n-      FROM task_events te\n-      LEFT JOIN \"user\" u ON te.changed_by = u.id\n-\n-      UNION ALL\n-\n-      SELECT\n-        (ce.id + 1000000) AS id,\n-        'client'::text AS entity_type,\n-        ce.client_id::text AS entity_id,\n-        ce.field,\n-        ce.old_value,\n-        ce.new_value,\n-        ce.changed_by,\n-        ce.changed_at,\n-        u.name AS changed_by_name,\n-        u.email AS changed_by_email,\n-        u.image AS changed_by_image,\n-        u.phone_number AS changed_by_phone\n-      FROM client_events ce\n-      LEFT JOIN \"user\" u ON ce.changed_by = u.id\n-\n-      UNION ALL\n-\n-      SELECT\n-        (pe.id + 2000000) AS id,\n-        'prospect'::text AS entity_type,\n-        pe.prospect_id::text AS entity_id,\n-        pe.field,\n-        pe.old_value,\n-        pe.new_value,\n-        pe.changed_by,\n-        pe.changed_at,\n-        u.name AS changed_by_name,\n-        u.email AS changed_by_email,\n-        u.image AS changed_by_image,\n-        u.phone_number AS changed_by_phone\n-      FROM prospect_events pe\n-      LEFT JOIN \"user\" u ON pe.changed_by = u.id\n-\n-      UNION ALL\n-\n-      SELECT\n-        (coe.id + 3000000) AS id,\n-        'contract'::text AS entity_type,\n-        coe.contract_id::text AS entity_id,\n-        coe.field,\n-        coe.old_value,\n-        coe.new_value,\n-        coe.changed_by,\n-        coe.changed_at,\n-        u.name AS changed_by_name,\n-        u.email AS changed_by_email,\n-        u.image AS changed_by_image,\n-        u.phone_number AS changed_by_phone\n-      FROM contract_events coe\n-      LEFT JOIN \"user\" u ON coe.changed_by = u.id\n-  `);\n-\n-  console.log(\"Created audit_log view\");\n-  process.exit(0);\n-}\n-\n-main().catch((err) => {\n-  console.error(err);\n-  process.exit(1);\n-});\n",
+              "additions": 0,
+              "deletions": 92,
+              "status": "deleted"
+            },
+            {
+              "file": "src/db-schemas/audit-log.ts",
+              "patch": "Index: src/db-schemas/audit-log.ts\n===================================================================\n--- src/db-schemas/audit-log.ts\t\n+++ src/db-schemas/audit-log.ts\t\n@@ -1,18 +0,0 @@\n-import { integer, pgView, text, timestamp } from \"drizzle-orm/pg-core\";\n-\n-export const auditLogView = pgView(\"audit_log\", {\n-  changedAt: timestamp(\"changed_at\"),\n-  changedBy: text(\"changed_by\").notNull(),\n-  changedByEmail: text(\"changed_by_email\"),\n-  changedByImage: text(\"changed_by_image\"),\n-  changedByName: text(\"changed_by_name\"),\n-  changedByPhone: text(\"changed_by_phone\"),\n-  entityId: text(\"entity_id\").notNull(),\n-  entityType: text(\"entity_type\").notNull(),\n-  field: text(\"field\").notNull(),\n-  id: integer(\"id\").notNull(),\n-  newValue: text(\"new_value\"),\n-  oldValue: text(\"old_value\"),\n-}).existing();\n-\n-export type AuditLogEntry = typeof auditLogView.$inferSelect;\n",
+              "additions": 0,
+              "deletions": 18,
+              "status": "deleted"
+            },
+            {
+              "file": "src/services/audit-log-service.ts",
+              "patch": "Index: src/services/audit-log-service.ts\n===================================================================\n--- src/services/audit-log-service.ts\t\n+++ src/services/audit-log-service.ts\t\n@@ -1,98 +1,173 @@\n-import { and, desc, eq, gte, ilike, lt, lte, or } from \"drizzle-orm\";\n+import { and, desc, eq, gte, ilike, lt, lte, or, sql } from \"drizzle-orm\";\n \n-import { auditLogView } from \"@/db-schemas/audit-log\";\n+import { user } from \"@/db-schemas/auth\";\n+import { clientEvents } from \"@/db-schemas/client\";\n+import { contractEvents } from \"@/db-schemas/client-contract\";\n+import { prospectEvents } from \"@/db-schemas/prospect\";\n+import { taskEvents } from \"@/db-schemas/task\";\n import { db } from \"@/lib/db/server\";\n \n+export type AuditLogEntry = {\n+  changedAt: Date | null;\n+  changedBy: string | null;\n+  changedByEmail: string | null;\n+  changedByImage: string | null;\n+  changedByName: string | null;\n+  changedByPhone: string | null;\n+  entityId: string;\n+  entityType: \"client\" | \"contract\" | \"prospect\" | \"task\";\n+  field: string;\n+  id: number;\n+  newValue: string | null;\n+  oldValue: string | null;\n+};\n+\n type ListAuditLogsInput = {\n   changedBy?: string;\n   cursor?: string;\n   dateFrom?: Date;\n   dateTo?: Date;\n   entityType?: \"client\" | \"contract\" | \"prospect\" | \"task\";\n   field?: string;\n   limit?: number;\n   search?: string;\n };\n \n-export async function listAuditLogs(input: ListAuditLogsInput) {\n-  const {\n-    changedBy,\n-    cursor,\n-    dateFrom,\n-    dateTo,\n-    entityType,\n-    field,\n-    limit = 50,\n-    search,\n-  } = input;\n+type EventTable =\n+  | typeof taskEvents\n+  | typeof clientEvents\n+  | typeof prospectEvents\n+  | typeof contractEvents;\n \n+function buildWhereClause(\n+  table: EventTable,\n+  input: ListAuditLogsInput,\n+  entityType: string,\n+  cursor?: string,\n+) {\n   const conditions = [];\n \n-  if (entityType) {\n-    conditions.push(eq(auditLogView.entityType, entityType));\n+  if (input.changedBy) {\n+    conditions.push(eq(table.changedBy, input.changedBy));\n   }\n-  if (changedBy) {\n-    conditions.push(eq(auditLogView.changedBy, changedBy));\n+  if (input.field) {\n+    conditions.push(eq(table.field, input.field));\n   }\n-  if (field) {\n-    conditions.push(eq(auditLogView.field, field));\n+  if (input.dateFrom) {\n+    conditions.push(gte(table.changedAt, input.dateFrom));\n   }\n-  if (dateFrom) {\n-    conditions.push(gte(auditLogView.changedAt, dateFrom));\n+  if (input.dateTo) {\n+    conditions.push(lte(table.changedAt, input.dateTo));\n   }\n-  if (dateTo) {\n-    conditions.push(lte(auditLogView.changedAt, dateTo));\n-  }\n-  if (search) {\n+  if (input.search) {\n     const searchFilter = or(\n-      ilike(auditLogView.changedByName, `%${search}%`),\n-      ilike(auditLogView.field, `%${search}%`),\n+      ilike(user.name, `%${input.search}%`),\n+      ilike(table.field, `%${input.search}%`),\n     );\n     if (searchFilter) conditions.push(searchFilter);\n   }\n \n-  // Cursor-based pagination: since we order by changedAt DESC, id DESC,\n-  // the cursor encodes the last item's changedAt and id to skip past it.\n   if (cursor) {\n     try {\n-      const [timestampStr, idStr] = cursor.split(\"::\");\n+      const [timestampStr, idStr, cursorEntityType] = cursor.split(\"::\");\n       const cursorTime = new Date(timestampStr);\n       const cursorId = Number.parseInt(idStr, 10);\n-      if (!Number.isNaN(cursorId) && !Number.isNaN(cursorTime.getTime())) {\n+      if (\n+        !Number.isNaN(cursorId) &&\n+        !Number.isNaN(cursorTime.getTime()) &&\n+        cursorEntityType === entityType\n+      ) {\n         const cursorFilter = or(\n-          lt(auditLogView.changedAt, cursorTime),\n-          and(\n-            eq(auditLogView.changedAt, cursorTime),\n-            lt(auditLogView.id, cursorId),\n-          ),\n+          lt(table.changedAt, cursorTime),\n+          and(eq(table.changedAt, cursorTime), lt(table.id, cursorId)),\n         );\n         if (cursorFilter) conditions.push(cursorFilter);\n       }\n     } catch {\n       // Invalid cursor format, skip cursor filter\n     }\n   }\n \n-  const whereClause = conditions.length > 0 ? and(...conditions) : undefined;\n+  return conditions.length > 0 ? and(...conditions) : undefined;\n+}\n \n-  const rows = await db\n-    .select()\n-    .from(auditLogView)\n-    .where(whereClause)\n-    .orderBy(desc(auditLogView.changedAt), desc(auditLogView.id))\n-    .limit(limit + 1);\n+export async function listAuditLogs(input: ListAuditLogsInput) {\n+  const { cursor, entityType, limit = 50 } = input;\n \n-  const hasMore = rows.length > limit;\n-  const items = hasMore ? rows.slice(0, limit) : rows;\n+  const eventTypes = entityType\n+    ? [entityType]\n+    : ([\"task\", \"client\", \"prospect\", \"contract\"] as const);\n \n+  const allRows: AuditLogEntry[] = [];\n+\n+  for (const type of eventTypes) {\n+    const table: EventTable =\n+      type === \"task\"\n+        ? taskEvents\n+        : type === \"client\"\n+          ? clientEvents\n+          : type === \"prospect\"\n+            ? prospectEvents\n+            : contractEvents;\n+\n+    const entityIdExpr =\n+      type === \"task\"\n+        ? sql<string>`${taskEvents.taskId}::text`\n+        : type === \"client\"\n+          ? sql<string>`${clientEvents.clientId}::text`\n+          : type === \"prospect\"\n+            ? sql<string>`${prospectEvents.prospectId}::text`\n+            : sql<string>`${contractEvents.contractId}::text`;\n+\n+    const whereClause = buildWhereClause(table, input, type, cursor);\n+\n+    const rows = await db\n+      .select({\n+        changedAt: table.changedAt,\n+        changedBy: table.changedBy,\n+        changedByEmail: user.email,\n+        changedByImage: user.image,\n+        changedByName: user.name,\n+        changedByPhone: user.phoneNumber,\n+        entityId: entityIdExpr,\n+        field: table.field,\n+        id: table.id,\n+        newValue: table.newValue,\n+        oldValue: table.oldValue,\n+      })\n+      .from(table)\n+      .leftJoin(user, eq(table.changedBy, user.id))\n+      .where(whereClause)\n+      .orderBy(desc(table.changedAt), desc(table.id))\n+      .limit(limit + 1);\n+\n+    for (const row of rows) {\n+      allRows.push({\n+        ...row,\n+        entityType: type,\n+      });\n+    }\n+  }\n+\n+  allRows.sort((a, b) => {\n+    const aTime = a.changedAt?.getTime() ?? 0;\n+    const bTime = b.changedAt?.getTime() ?? 0;\n+    if (bTime !== aTime) return bTime - aTime;\n+    return b.id - a.id;\n+  });\n+\n+  const sliced = allRows.slice(0, limit + 1);\n+  const hasMore = sliced.length > limit;\n+  const items = hasMore ? sliced.slice(0, limit) : sliced;\n+\n   const lastItem = items[items.length - 1];\n   const nextCursor =\n     hasMore && lastItem?.changedAt && lastItem?.id != null\n-      ? `${new Date(lastItem.changedAt).toISOString()}::${lastItem.id}`\n+      ? `${new Date(lastItem.changedAt).toISOString()}::${lastItem.id}::${lastItem.entityType}`\n       : null;\n \n   return {\n     items,\n     nextCursor,\n   };\n }\n",
+              "additions": 121,
+              "deletions": 46,
+              "status": "modified"
+            }
+          ]
+        },
+        "id": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "@infra/index.ts Write pulumi code to deploy the application on OCI Ampere VM with 2GB RAM and 1vCPU. Deploy the database separately on Ampere VM with 4GB RAM and 1vCPU. Connect both services in a VPC.",
+          "id": "prt_e630245ff002bmZ3IqGWmjv0Cc",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630245ff001wDpR3XdkXGoLhO"
+        },
+        {
+          "type": "file",
+          "mime": "text/plain",
+          "filename": "infra/index.ts",
+          "url": "file:///home/aditya/projects/alpauls-ats/infra/index.ts",
+          "source": {
+            "text": {
+              "value": "@infra/index.ts",
+              "start": 0,
+              "end": 15
+            },
+            "type": "file",
+            "path": "infra/index.ts"
+          },
+          "id": "prt_e630245ff003zz6OISe6tb4y4W",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630245ff001wDpR3XdkXGoLhO"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "Called the Read tool with the following input: {\"filePath\":\"/home/aditya/projects/alpauls-ats/infra/index.ts\"}",
+          "id": "prt_e630246210012ZGLRJyhcR0Tv1",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630245ff001wDpR3XdkXGoLhO"
+        },
+        {
+          "type": "text",
+          "synthetic": true,
+          "text": "<path>/home/aditya/projects/alpauls-ats/infra/index.ts</path>\n<type>file</type>\n<content>\n\n\n(End of file - total 0 lines)\n</content>",
+          "id": "prt_e63024621002kHH45mAYZjw0Uw",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630245ff001wDpR3XdkXGoLhO"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 29356,
+          "input": 359,
+          "output": 93,
+          "reasoning": 168,
+          "cache": {
+            "write": 0,
+            "read": 28736
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777554199,
+          "completed": 1779777560661
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630247170027T4m7nlnoFHl7X",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302563f001QVMQtPFLBFOeAh",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to write Pulumi code to deploy their application on OCI (Oracle Cloud Infrastructure) using Ampere VMs. Let me first understand the project structure and then plan the Pulumi infrastructure code.\n\nLet me explore the project to understand:\n1. What the application looks like (it's a TanStack Start app that deploys to Cloudflare currently)\n2. The existing infra directory\n3. Any existing Pulumi configuration\n\nSince I'm in plan mode, I need to research and create a plan, not make edits.\n\nKey requirements:\n- App VM: OCI Ampere, 2GB RAM, 1 vCPU\n- DB VM: OCI Ampere, 4GB RAM, 1 vCPU\n- Both in a VPC\n- Database deployed separately\n\nLet me explore the project structure first.",
+          "time": {
+            "start": 1779777558081,
+            "end": 1779777559799
+          },
+          "id": "prt_e63025641001Bufa9uuKB7Htcq",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "type": "text",
+          "text": "Let me explore the project structure and understand the current deployment setup before planning.",
+          "time": {
+            "start": 1779777559802,
+            "end": 1779777560538
+          },
+          "id": "prt_e63025cfa001CZXSkmp4yNakjo",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_0091ad8768b643ddbde28fb3",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/infra"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/infra</path>\n<type>directory</type>\n<entries>\ndocker/\nindex.ts\n\n(2 entries)\n</entries>",
+            "metadata": {
+              "preview": "docker/\nindex.ts",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "infra",
+            "time": {
+              "start": 1779777560131,
+              "end": 1779777560149
+            }
+          },
+          "id": "prt_e63025dac001rHahpTLqZxk7Ye",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_cc0fc3c3eef642aa960c1a6e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "infra/**/*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/infra/index.ts\n/home/aditya/projects/alpauls-ats/infra/docker/services.ts\n/home/aditya/projects/alpauls-ats/infra/docker/images.ts",
+            "metadata": {
+              "count": 3,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777560240,
+              "end": 1779777560278
+            }
+          },
+          "id": "prt_e63025e77001sS8w5p1yE1XZy8",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d6a8809c1eb445b58c9bf92e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/package.json"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/package.json</path>\n<type>file</type>\n<content>\n1: {\n2:   \"dependencies\": {\n3:     \"@aws-sdk/client-s3\": \"^3.1048.0\",\n4:     \"@aws-sdk/s3-request-presigner\": \"^3.1048.0\",\n5:     \"@base-ui/react\": \"^1.5.0\",\n6:     \"@dagrejs/dagre\": \"^3.0.0\",\n7:     \"@fontsource-variable/inter\": \"^5.2.8\",\n8:     \"@hookform/resolvers\": \"^5.2.2\",\n9:     \"@iconify-react/lets-icons\": \"^1.0.2\",\n10:     \"@orpc/client\": \"^1.14.3\",\n11:     \"@orpc/server\": \"^1.14.3\",\n12:     \"@orpc/tanstack-query\": \"^1.14.3\",\n13:     \"@orpc/zod\": \"^1.14.3\",\n14:     \"@posthog/react\": \"^1.9.0\",\n15:     \"@t3-oss/env-core\": \"^0.13.11\",\n16:     \"@tabler/icons-react\": \"^3.44.0\",\n17:     \"@tailwindcss/vite\": \"^4.3.0\",\n18:     \"@tanstack/react-devtools\": \"^0.10.5\",\n19:     \"@tanstack/react-query\": \"^5.100.11\",\n20:     \"@tanstack/react-query-devtools\": \"^5.100.11\",\n21:     \"@tanstack/react-router\": \"^1.170.5\",\n22:     \"@tanstack/react-router-devtools\": \"^1.167.0\",\n23:     \"@tanstack/react-router-ssr-query\": \"^1.167.0\",\n24:     \"@tanstack/react-start\": \"^1.168.7\",\n25:     \"@tanstack/react-table\": \"^8.21.3\",\n26:     \"@tanstack/router-plugin\": \"^1.168.7\",\n27:     \"@typescript/native-preview\": \"^7.0.0-dev.20260519.1\",\n28:     \"@xyflow/react\": \"^12.10.2\",\n29:     \"better-auth\": \"^1.6.11\",\n30:     \"class-variance-authority\": \"^0.7.1\",\n31:     \"clsx\": \"^2.1.1\",\n32:     \"cmdk\": \"^1.1.1\",\n33:     \"date-fns\": \"^4.2.1\",\n34:     \"drizzle-kit\": \"^0.31.10\",\n35:     \"drizzle-orm\": \"^0.45.2\",\n36:     \"lucide-react\": \"^1.16.0\",\n37:     \"nitro\": \"npm:nitro-nightly@^3.0.260429-beta\",\n38:     \"pg\": \"^8.21.0\",\n39:     \"posthog-js\": \"^1.374.3\",\n40:     \"pulumi\": \"^3.243.0\",\n41:     \"react\": \"^19.2.6\",\n42:     \"react-day-picker\": \"^10.0.1\",\n43:     \"react-dom\": \"^19.2.6\",\n44:     \"react-hook-form\": \"^7.76.0\",\n45:     \"recharts\": \"3.8.1\",\n46:     \"tailwind-merge\": \"^3.6.0\",\n47:     \"tw-animate-css\": \"^1.4.0\",\n48:     \"vaul\": \"^1.1.2\",\n49:     \"zod\": \"^4.4.3\"\n50:   },\n51:   \"devDependencies\": {\n52:     \"@ai-hero/sandcastle\": \"^0.5.11\",\n53:     \"@biomejs/biome\": \"2.4.15\",\n54:     \"@cloudflare/vite-plugin\": \"^1.37.1\",\n55:     \"@electric-sql/pglite\": \"^0.4.5\",\n56:     \"@tailwindcss/typography\": \"^0.5.19\",\n57:     \"@tanstack/devtools-vite\": \"^0.7.0\",\n58:     \"@testing-library/dom\": \"^10.4.1\",\n59:     \"@testing-library/react\": \"^16.3.2\",\n60:     \"@types/node\": \"^25.9.1\",\n61:     \"@types/pg\": \"^8.20.0\",\n62:     \"@types/react\": \"^19.2.15\",\n63:     \"@types/react-dom\": \"^19.2.3\",\n64:     \"@vitejs/plugin-react\": \"^6.0.2\",\n65:     \"dotenv\": \"^17.4.2\",\n66:     \"jsdom\": \"^29.1.1\",\n67:     \"react-grab\": \"^0.1.37\",\n68:     \"tailwindcss\": \"^4.3.0\",\n69:     \"taze\": \"^19.13.0\",\n70:     \"tsx\": \"^4.22.3\",\n71:     \"vite\": \"^8.0.13\",\n72:     \"vitest\": \"^4.1.7\",\n73:     \"wrangler\": \"^4.92.0\"\n74:   },\n75:   \"name\": \"alpauls-ats\",\n76:   \"overrides\": {\n77:     \"@tanstack/query-core\": \"5.100.11\"\n78:   },\n79:   \"pnpm\": {\n80:     \"onlyBuiltDependencies\": [\"esbuild\", \"lightningcss\"]\n81:   },\n82:   \"private\": true,\n83:   \"scripts\": {\n84:     \"build\": \"vite build\",\n85:     \"check:lint\": \"biome check --fix\",\n86:     \"check:types\": \"tsgo --noEmit\",\n87:     \"db:push\": \"drizzle-kit push && bun ./scripts/create-audit-log-view.ts && bun ./scripts/seed-filter-views.ts\",\n88:     \"db:studio\": \"drizzle-kit studio\",\n89:     \"deploy:prod\": \"wrangler versions upload --env production --preview-alias production\",\n90:     \"deploy:staging\": \"wrangler versions upload --env staging --preview-alias staging\",\n91:     \"dev\": \"vite dev\",\n92:     \"gen:auth-schema\": \"bunx auth generate -y --output ./src/db-schemas/auth.ts --config ./src/lib/auth/server.ts\",\n93:     \"gen:cf-types\": \"wrangler types\",\n94:     \"preview\": \"vite preview\",\n95:     \"test\": \"bun vitest run\",\n96:     \"update:deps\": \"bun taze -w --maturity-period 3\"\n97:   },\n98:   \"type\": \"module\"\n99: }\n\n(End of file - total 99 lines)\n</content>",
+            "metadata": {
+              "preview": "{\n  \"dependencies\": {\n    \"@aws-sdk/client-s3\": \"^3.1048.0\",\n    \"@aws-sdk/s3-request-presigner\": \"^3.1048.0\",\n    \"@base-ui/react\": \"^1.5.0\",\n    \"@dagrejs/dagre\": \"^3.0.0\",\n    \"@fontsource-variable/inter\": \"^5.2.8\",\n    \"@hookform/resolvers\": \"^5.2.2\",\n    \"@iconify-react/lets-icons\": \"^1.0.2\",\n    \"@orpc/client\": \"^1.14.3\",\n    \"@orpc/server\": \"^1.14.3\",\n    \"@orpc/tanstack-query\": \"^1.14.3\",\n    \"@orpc/zod\": \"^1.14.3\",\n    \"@posthog/react\": \"^1.9.0\",\n    \"@t3-oss/env-core\": \"^0.13.11\",\n    \"@tabler/icons-react\": \"^3.44.0\",\n    \"@tailwindcss/vite\": \"^4.3.0\",\n    \"@tanstack/react-devtools\": \"^0.10.5\",\n    \"@tanstack/react-query\": \"^5.100.11\",\n    \"@tanstack/react-query-devtools\": \"^5.100.11\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "package.json",
+            "time": {
+              "start": 1779777560374,
+              "end": 1779777560408
+            }
+          },
+          "id": "prt_e63025ece001FdK5GA0DYMXK83",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_5b173709951649d5819a1299",
+          "state": {
+            "status": "error",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/wrangler.toml"
+            },
+            "error": "File not found: /home/aditya/projects/alpauls-ats/wrangler.toml",
+            "time": {
+              "start": 1779777560532,
+              "end": 1779777560562
+            }
+          },
+          "id": "prt_e63025f47001lZLOUuEjv92jlN",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 29356,
+            "input": 359,
+            "output": 93,
+            "reasoning": 168,
+            "cache": {
+              "write": 0,
+              "read": 28736
+            }
+          },
+          "cost": 0,
+          "id": "prt_e63026027001vxGzKA2pEvDgsi",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630247170027T4m7nlnoFHl7X"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31058,
+          "input": 1669,
+          "output": 76,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 29312
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777560668,
+          "completed": 1779777563084
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302605c002d1Xd0bH6LH1p3q",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e630267f2001HQMkWFGZ6Yzb3X",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302605c002d1Xd0bH6LH1p3q"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_139b8111afe24722af56e2d8",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/infra/docker/services.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/infra/docker/services.ts</path>\n<type>file</type>\n<content>\n\n\n(End of file - total 0 lines)\n</content>",
+            "metadata": {
+              "preview": "",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "infra/docker/services.ts",
+            "time": {
+              "start": 1779777562727,
+              "end": 1779777562749
+            }
+          },
+          "id": "prt_e630268000017PyeunP9trCBxH",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302605c002d1Xd0bH6LH1p3q"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_6546ad67ea484c5795e0d38a",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/infra/docker/images.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/infra/docker/images.ts</path>\n<type>file</type>\n<content>\n\n\n(End of file - total 0 lines)\n</content>",
+            "metadata": {
+              "preview": "",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "infra/docker/images.ts",
+            "time": {
+              "start": 1779777562851,
+              "end": 1779777562866
+            }
+          },
+          "id": "prt_e630268db001U1mg9fP17xdMlP",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302605c002d1Xd0bH6LH1p3q"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_56d87d5240f145b28129885d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/Dockerfile*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/images/postgres/Dockerfile",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777562914,
+              "end": 1779777562954
+            }
+          },
+          "id": "prt_e630268e9001pUIN1T3PlpNP5A",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302605c002d1Xd0bH6LH1p3q"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_e687669e41884ed59dc0541a",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/docker-compose*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/docker-compose.yml",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777562982,
+              "end": 1779777563014
+            }
+          },
+          "id": "prt_e6302692f001AE0hjyzDtJSEXw",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302605c002d1Xd0bH6LH1p3q"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31058,
+            "input": 1669,
+            "output": 76,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 29312
+            }
+          },
+          "cost": 0,
+          "id": "prt_e630269ac001hly86XURZcd7AK",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302605c002d1Xd0bH6LH1p3q"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31261,
+          "input": 147,
+          "output": 73,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 31040
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777563091,
+          "completed": 1779777581304
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630269d30021r4ak4cuPby2am",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e63027bdd001HjZpVyacGuD1wq",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630269d30021r4ak4cuPby2am"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_bcbe50757c8d416d813035ed",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/images/postgres/Dockerfile"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/images/postgres/Dockerfile</path>\n<type>file</type>\n<content>\n\n\n(End of file - total 0 lines)\n</content>",
+            "metadata": {
+              "preview": "",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "images/postgres/Dockerfile",
+            "time": {
+              "start": 1779777580641,
+              "end": 1779777580725
+            }
+          },
+          "id": "prt_e6302ada20014s7ZydQxVN1EhA",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630269d30021r4ak4cuPby2am"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_5ee967a46d084536b24b6a45",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/docker-compose.yml"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/docker-compose.yml</path>\n<type>file</type>\n<content>\n1: name: alpauls-ats\n2: \n3: services:\n4:   db:\n5:     image: postgres:18-alpine\n6:     ports:\n7:       - \"5432:5432\"\n8:     environment:\n9:       POSTGRES_USER: postgres\n10:       POSTGRES_PASSWORD: postgres\n11:       POSTGRES_DB: mydb\n12:     volumes:\n13:       - ./.local/postgres:/var/lib/postgresql/18/data\n14:     healthcheck:\n15:       test: [\"CMD-SHELL\", \"pg_isready -U postgres\"]\n16:       interval: 5s\n17:       timeout: 5s\n18:       retries: 5\n\n(End of file - total 18 lines)\n</content>",
+            "metadata": {
+              "preview": "name: alpauls-ats\n\nservices:\n  db:\n    image: postgres:18-alpine\n    ports:\n      - \"5432:5432\"\n    environment:\n      POSTGRES_USER: postgres\n      POSTGRES_PASSWORD: postgres\n      POSTGRES_DB: mydb\n    volumes:\n      - ./.local/postgres:/var/lib/postgresql/18/data\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U postgres\"]\n      interval: 5s\n      timeout: 5s\n      retries: 5",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "docker-compose.yml",
+            "time": {
+              "start": 1779777580787,
+              "end": 1779777580826
+            }
+          },
+          "id": "prt_e6302ae78001npoN9cXfy7o0oa",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630269d30021r4ak4cuPby2am"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_42f9ebe9a46f454091f6f2ae",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/Pulumi.*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/Pulumi.yaml\n/home/aditya/projects/alpauls-ats/Pulumi.dev.yaml",
+            "metadata": {
+              "count": 2,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777580896,
+              "end": 1779777580939
+            }
+          },
+          "id": "prt_e6302af07001Y92Nk9R3VAKQhL",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630269d30021r4ak4cuPby2am"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_7d40cd82b74145feacaf726f",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "**/.env*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/.env",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777581018,
+              "end": 1779777581120
+            }
+          },
+          "id": "prt_e6302af76001iciRzDBMtVdA1z",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630269d30021r4ak4cuPby2am"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31261,
+            "input": 147,
+            "output": 73,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 31040
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302b0cc001HbcZAX7dGXqhSm",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630269d30021r4ak4cuPby2am"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 31627,
+          "input": 327,
+          "output": 67,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 31232
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777581313,
+          "completed": 1779777586219
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302b101001WC2plPfuRX9hGO",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302bcf6001uPn4qY0xKMC5x6",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302b101001WC2plPfuRX9hGO"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_143ec98129494646972238ff",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/Pulumi.yaml"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/Pulumi.yaml</path>\n<type>file</type>\n<content>\n1: name: alpauls-ats\n2: runtime: nodejs\n3: main: ./infra/index.ts\n\n(End of file - total 3 lines)\n</content>",
+            "metadata": {
+              "preview": "name: alpauls-ats\nruntime: nodejs\nmain: ./infra/index.ts",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "Pulumi.yaml",
+            "time": {
+              "start": 1779777584521,
+              "end": 1779777584591
+            }
+          },
+          "id": "prt_e6302bcfc001SlyCah99ai25Cy",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302b101001WC2plPfuRX9hGO"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_2cfec691d4404c71bf6bb92e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/Pulumi.dev.yaml"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/Pulumi.dev.yaml</path>\n<type>file</type>\n<content>\n\n\n(End of file - total 0 lines)\n</content>",
+            "metadata": {
+              "preview": "",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "Pulumi.dev.yaml",
+            "time": {
+              "start": 1779777584694,
+              "end": 1779777584756
+            }
+          },
+          "id": "prt_e6302bdb9001g9dzF6inKiEs18",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302b101001WC2plPfuRX9hGO"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d048c39737b141718c80e597",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/.env"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/.env</path>\n<type>file</type>\n<content>\n1: # Database URL for PostgreSQL\n2: DATABASE_URL=\"REDACTED\"\n3: \n4: # Better Auth configuration\n5: BETTER_AUTH_URL=http://localhost:3020\n6: REDACTED\n7: \n8: # Cloudflare R2 configuration\n9: R2_ACCOUNT_ID=A\n10: R2_ACCESS_KEY_ID=A\n11: R2_SECRET_ACCESS_KEY=A\n12: REDACTED\n13: PUBLIC_R2_PUBLIC_URL=https://pub-placeholder.r2.dev\n14: \n15: # VITE_POSTHOG_KEY=phc_xxx\n16: # VITE_POSTHOG_HOST=https://us.i.posthog.com\n\n(End of file - total 16 lines)\n</content>",
+            "metadata": {
+              "preview": "# Database URL for PostgreSQL\nDATABASE_URL=\"REDACTED\"\n\n# Better Auth configuration\nBETTER_AUTH_URL=http://localhost:3020\nREDACTED\n\n# Cloudflare R2 configuration\nR2_ACCOUNT_ID=A\nR2_ACCESS_KEY_ID=A\nR2_SECRET_ACCESS_KEY=A\nREDACTED\nPUBLIC_R2_PUBLIC_URL=https://pub-placeholder.r2.dev\n\n# VITE_POSTHOG_KEY=phc_xxx\n# VITE_POSTHOG_HOST=https://us.i.posthog.com",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": ".env",
+            "time": {
+              "start": 1779777584821,
+              "end": 1779777585931
+            }
+          },
+          "id": "prt_e6302be59001S8wPK9sBQ1RTog",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302b101001WC2plPfuRX9hGO"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 31627,
+            "input": 327,
+            "output": 67,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 31232
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302c3bb0010rYDdJyhsZoIMu",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302b101001WC2plPfuRX9hGO"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 32641,
+          "input": 374,
+          "output": 35,
+          "reasoning": 616,
+          "cache": {
+            "write": 0,
+            "read": 31616
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777586244,
+          "completed": 1779777596639
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302c44400165l41N7RZtMZHj",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302ce49001EbUHDG9XKe8nWZ",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302c44400165l41N7RZtMZHj"
+        },
+        {
+          "type": "reasoning",
+          "text": "Now I have a good picture of the project. Let me plan the Pulumi infrastructure code for OCI.\n\nKey observations:\n1. The project already has a `Pulumi.yaml` pointing to `./infra/index.ts` and Pulumi is already a dependency\n2. The app is a TanStack Start app (Node.js/Bun server) that currently deploys to Cloudflare\n3. It uses PostgreSQL for the database\n4. The existing `infra/index.ts` is empty\n5. The `infra/docker/` directory has empty files for images and services\n6. Docker compose shows the DB setup: postgres:18-alpine with user/password/db\n\nFor OCI deployment, I need to plan:\n\n1. **OCI Ampere VMs** - These are ARM-based instances. The relevant shapes are:\n   - App: Ampere A1 with 1 OCPU and 2GB RAM → `VM.Standard.A1.Flex` shape with `memoryInGBs: 2` and `ocpus: 1`\n   - DB: Ampere A1 with 1 OCPU and 4GB RAM → `VM.Standard.A1.Flex` shape with `memoryInGBs: 4` and `ocpus: 1`\n\n2. **VPC** - In OCI this is a VCN (Virtual Cloud Network) with:\n   - VCN\n   - Subnets (private for DB, public for app, or both private with a load balancer)\n   - Internet Gateway for public access\n   - Security Lists / Network Security Groups\n   - Route Tables\n\n3. **Pulumi OCI provider** - `@pulumi/oci`\n\nLet me think about the architecture:\n\n**Network:**\n- VCN (10.0.0.0/16)\n- Public Subnet (10.0.1.0/24) - for the app VM\n- Private Subnet (10.0.2.0/24) - for the DB VM\n- Internet Gateway - for public subnet\n- NAT Gateway + Service Gateway - for private subnet to reach internet (for package installs etc.)\n- Route tables for both subnets\n- Security Lists:\n  - Public: Allow inbound 80/443 from anywhere, allow all outbound, allow SSH from anywhere (or restricted)\n  - Private: Allow inbound 5432 from public subnet only, allow all outbound\n\n**App VM:**\n- VM.Standard.A1.Flex with 1 OCPU, 2GB RAM\n- Ubuntu/Oracle Linux ARM image\n- Cloud-init to install Bun, clone repo, build and run the app\n- Public IP for internet access\n\n**DB VM:**\n- VM.Standard.A1.Flex with 1 OCPU, 4GB RAM\n- Ubuntu/Oracle Linux ARM image\n- Cloud-init to install PostgreSQL\n- No public IP (private subnet)\n- Block volume for persistent storage\n\nLet me also check if there's a Dockerfile for the app itself.",
+          "time": {
+            "start": 1779777588812,
+            "end": 1779777595910
+          },
+          "id": "prt_e6302ce4c001ana5MpyZ5nbljL",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302c44400165l41N7RZtMZHj"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_e680e019fbcf4dc4af68df2d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "Dockerfile*"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/images/postgres/Dockerfile",
+            "metadata": {
+              "count": 1,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777595946,
+              "end": 1779777595977
+            }
+          },
+          "id": "prt_e6302ea1a001J0AbcR1tHBv5sa",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302c44400165l41N7RZtMZHj"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_0443f537fcb94d89a7c325dc",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/env.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/env.ts</path>\n<type>file</type>\n<content>\n1: import { createEnv } from \"@t3-oss/env-core\";\n2: import { z } from \"zod\";\n3: \n4: export const env = createEnv({\n5:   client: {\n6:     PUBLIC_POSTHOG_HOST: z.url().optional(),\n7:     PUBLIC_POSTHOG_KEY: z.string().min(1).optional(),\n8:     PUBLIC_R2_PUBLIC_URL: z.url(),\n9:   },\n10:   clientPrefix: \"PUBLIC_\",\n11:   emptyStringAsUndefined: true,\n12:   runtimeEnv: typeof window === \"undefined\" ? process.env : import.meta.env,\n13:   server: {\n14:     BETTER_AUTH_SECRET: z.string().min(1),\n15:     BETTER_AUTH_URL: z.url(),\n16:     DATABASE_URL: z.url(),\n17:     R2_ACCESS_KEY_ID: z.string().min(1),\n18:     R2_ACCOUNT_ID: z.string().min(1),\n19:     R2_BUCKET_NAME: z.string().min(1),\n20:     R2_SECRET_ACCESS_KEY: z.string().min(1),\n21:   },\n22: });\n\n(End of file - total 22 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createEnv } from \"@t3-oss/env-core\";\nimport { z } from \"zod\";\n\nexport const env = createEnv({\n  client: {\n    PUBLIC_POSTHOG_HOST: z.url().optional(),\n    PUBLIC_POSTHOG_KEY: z.string().min(1).optional(),\n    PUBLIC_R2_PUBLIC_URL: z.url(),\n  },\n  clientPrefix: \"PUBLIC_\",\n  emptyStringAsUndefined: true,\n  runtimeEnv: typeof window === \"undefined\" ? process.env : import.meta.env,\n  server: {\n    BETTER_AUTH_SECRET: z.string().min(1),\n    BETTER_AUTH_URL: z.url(),\n    DATABASE_URL: z.url(),\n    R2_ACCESS_KEY_ID: z.string().min(1),\n    R2_ACCOUNT_ID: z.string().min(1),\n    R2_BUCKET_NAME: z.string().min(1),\n    R2_SECRET_ACCESS_KEY: z.string().min(1),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/env.ts",
+            "time": {
+              "start": 1779777596114,
+              "end": 1779777596217
+            }
+          },
+          "id": "prt_e6302ea30001QA4E3nh3a0x4qv",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302c44400165l41N7RZtMZHj"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 32641,
+            "input": 374,
+            "output": 35,
+            "reasoning": 616,
+            "cache": {
+              "write": 0,
+              "read": 31616
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302ec29001lFNWWrszqQnIxI",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302c44400165l41N7RZtMZHj"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 33956,
+          "input": 309,
+          "output": 89,
+          "reasoning": 918,
+          "cache": {
+            "write": 0,
+            "read": 32640
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777596653,
+          "completed": 1779777614143
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302eced002qTOl0welPHNcom",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302f644001clyvgLD0iZwBCB",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        },
+        {
+          "type": "reasoning",
+          "text": "Good. Now I have a comprehensive picture. Let me plan the Pulumi code.\n\nThe architecture:\n\n1. **VCN** (Virtual Cloud Network) - 10.0.0.0/16\n2. **Public Subnet** (10.0.1.0/24) - App VM\n3. **Private Subnet** (10.0.2.0/24) - DB VM\n4. **Internet Gateway** - attached to VCN for public subnet\n5. **NAT Gateway** - for private subnet outbound access\n6. **Route Tables** - public subnet routes 0.0.0.0/0 to IGW, private subnet routes 0.0.0.0/0 to NAT GW\n7. **Security Lists / NSGs**:\n   - Public: ingress 22 (SSH), 80, 443 from 0.0.0.0/0; egress all\n   - Private: ingress 22 from VCN, 5432 from public subnet; egress all\n8. **App Instance** - VM.Standard.A1.Flex, 1 OCPU, 2GB, public IP, cloud-init\n9. **DB Instance** - VM.Standard.A1.Flex, 1 OCPU, 4GB, no public IP, cloud-init with PostgreSQL setup\n10. **Block Volumes** - for DB persistent storage\n\nFor cloud-init:\n- App: Install Bun, set up the app, run it as a systemd service\n- DB: Install PostgreSQL, configure it, set up persistent data on block volume\n\nLet me think about the Pulumi code structure. Since the user pointed to `infra/index.ts`, I should write everything in that file or organize it modularly.\n\nI'll propose a plan with modular structure:\n- `infra/index.ts` - Main entry, stack reference\n- `infra/vcn.ts` - VCN, subnets, gateways, route tables, security lists\n- `infra/app-instance.ts` - App compute instance\n- `infra/db-instance.ts` - DB compute instance + block volume\n- `infra/cloud-init.ts` - Cloud-init scripts\n\nActually, looking at the project, the existing infra directory only has `index.ts` (empty) and `docker/` subdirectory. The user said \"Write pulumi code to deploy the application on OCI Ampere VM\" — they want me to write it at `infra/index.ts`. Let me think about whether to keep it all in one file or split it.\n\nGiven the complexity, I think a modular structure makes more sense. Let me plan:\n\n```\ninfra/\n  index.ts          - Main stack: creates all resources\n  config.ts         - Stack configuration constants\n  vcn.ts            - VCN, subnets, gateways, security\n  app-instance.ts   - Application compute instance\n  db-instance.ts    - Database compute instance + volume\n  cloud-init/\n    app.yaml        - Cloud-init for app server\n    db.yaml         - Cloud-init for db server\n```\n\nOr, since this is TypeScript and Pulumi, I could use component resources. Let me think about what's most practical...\n\nActually, the user specifically said `@infra/index.ts` — they want the code in that file. But writing everything in one file would be very long. Let me plan a modular approach and note that the main orchestration happens in `index.ts`.\n\nLet me now create a detailed plan. I should also consider:\n\n1. The app currently runs on Bun — so cloud-init needs to install Bun and run the app\n2. The app needs env vars: DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL, R2_*, etc.\n3. The DB needs PostgreSQL installed with the right user/password/db\n4. Need to pass DB private IP to the app's DATABASE_URL\n5. The app builds with `vite build` and presumably serves with a Node/Bun server\n\nLet me also think about OCI-specific details:\n- OCI compartment OCID is needed\n- OCI availability domain is needed\n- OCI image OCID for ARM64 Oracle Linux or Ubuntu\n- SSH public key for instance access\n\nLet me check the Pulumi OCI provider docs to make sure I get the API right.\n\nActually, for the plan, I should outline the key decisions and structure, then the user can approve before I implement.\n\nLet me create the plan now.",
+          "time": {
+            "start": 1779777599048,
+            "end": 1779777611531
+          },
+          "id": "prt_e6302f647001ssJ22qw9vSnFN6",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        },
+        {
+          "type": "text",
+          "text": "Now let me look at what OCI Pulumi provider APIs are available:",
+          "time": {
+            "start": 1779777611540,
+            "end": 1779777612966
+          },
+          "id": "prt_e630327140010jGMcMpAjX1UoR",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        },
+        {
+          "type": "tool",
+          "tool": "bash",
+          "callID": "call_8851933280a149e985885b63",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "rtk ls /home/aditya/projects/alpauls-ats/node_modules/@pulumi/oci 2>/dev/null | head -5",
+              "description": "Check if OCI Pulumi provider is installed"
+            },
+            "output": "(no output)",
+            "metadata": {
+              "output": "(no output)",
+              "exit": 0,
+              "description": "Check if OCI Pulumi provider is installed",
+              "truncated": false
+            },
+            "title": "Check if OCI Pulumi provider is installed",
+            "time": {
+              "start": 1779777613313,
+              "end": 1779777613708
+            }
+          },
+          "id": "prt_e630328ea001NJ4INqEMejrZ3B",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_327288b93f8e4d45913c6459",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/db/server.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/db/server.ts</path>\n<type>file</type>\n<content>\n1: import { drizzle } from \"drizzle-orm/node-postgres\";\n2: \n3: import * as schema from \"@/db-schemas\";\n4: \n5: export const db = drizzle(process.env.DATABASE_URL || \"\", { schema });\n\n(End of file - total 5 lines)\n</content>",
+            "metadata": {
+              "preview": "import { drizzle } from \"drizzle-orm/node-postgres\";\n\nimport * as schema from \"@/db-schemas\";\n\nexport const db = drizzle(process.env.DATABASE_URL || \"\", { schema });",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/db/server.ts",
+            "time": {
+              "start": 1779777612960,
+              "end": 1779777613402
+            }
+          },
+          "id": "prt_e63032c80001bHFw3Y8Ed0keSM",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-finish",
+          "tokens": {
+            "total": 33956,
+            "input": 309,
+            "output": 89,
+            "reasoning": 918,
+            "cache": {
+              "write": 0,
+              "read": 32640
+            }
+          },
+          "cost": 0,
+          "id": "prt_e630330c9001nY0Di9g60nJ6oU",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        },
+        {
+          "type": "patch",
+          "hash": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/src/services/audit-log-service.ts"
+          ],
+          "id": "prt_e6303313b001H5aPgysEJtX0XN",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6302eced002qTOl0welPHNcom"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 34108,
+          "input": 208,
+          "output": 43,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 33856
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777614175,
+          "completed": 1779777623169
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6303315f00246s3aEtu3qFCOW",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-start",
+          "id": "prt_e6303473e001zhku04C6btrsVZ",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303315f00246s3aEtu3qFCOW"
+        },
+        {
+          "type": "tool",
+          "tool": "context7_resolve-library-id",
+          "callID": "call_452582a08de4460ea0a74dbe",
+          "state": {
+            "status": "completed",
+            "input": {
+              "libraryName": "pulumi oci",
+              "query": "Pulumi OCI provider for Oracle Cloud Infrastructure - creating VCN, compute instances, subnets, security lists"
+            },
+            "output": "Available Libraries:\n\n- Title: Pulumi\n- Context7-compatible library ID: /pulumi/docs\n- Description: This repository hosts the hand-crafted documentation, guides, tutorials, blogs, and landing pages for the Pulumi website, including generated documentation for the Pulumi CLI and language SDKs.\n- Code Snippets: 22261\n- Source Reputation: High\n- Benchmark Score: 80.2\n----------\n- Title: Pulumi\n- Context7-compatible library ID: /pulumi/pulumi\n- Description: Pulumi is an infrastructure as code tool that allows you to build and deploy cloud infrastructure using familiar programming languages.\n- Code Snippets: 4477\n- Source Reputation: High\n- Benchmark Score: 49.75\n----------\n- Title: Pulumi\n- Context7-compatible library ID: /websites/pulumi\n- Description: Pulumi is an open-source platform for automating, securing, and managing cloud infrastructure and resources using familiar programming languages. It provides Infrastructure as Code (IaC), secrets management, and developer workflows across various cloud providers.\n- Code Snippets: 1530\n- Source Reputation: High\n- Benchmark Score: 75.5\n----------\n- Title: Pulumi\n- Context7-compatible library ID: /llmstxt/pulumi_llms_txt\n- Description: Pulumi is an open-source infrastructure as code platform that lets you build, deploy, and manage cloud infrastructure using real programming languages like TypeScript, Python, Go, C#, and Java, with integrated AI assistance, secrets management, and governance.\n- Code Snippets: 4750\n- Source Reputation: High\n----------\n- Title: Pulumi Examples\n- Context7-compatible library ID: /pulumi/examples\n- Description: This repository contains examples of using Pulumi to build and deploy cloud applications and infrastructure across major programming languages, categorized by cloud provider and language.\n- Code Snippets: 1667\n- Source Reputation: High\n- Benchmark Score: 36",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777620857,
+              "end": 1779777623047
+            }
+          },
+          "id": "prt_e63034a3e001lxkFMpyGg07KtN",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303315f00246s3aEtu3qFCOW"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-finish",
+          "tokens": {
+            "total": 34108,
+            "input": 208,
+            "output": 43,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 33856
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6303544d0013Ty3hvcCRuMhnh",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303315f00246s3aEtu3qFCOW"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 34584,
+          "input": 475,
+          "output": 60,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 34048
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777623181,
+          "completed": 1779777628538
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6303548d002dsHdPfl3ubie0I",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-start",
+          "id": "prt_e63035d6f001akqd1M0Th0cfa0",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303548d002dsHdPfl3ubie0I"
+        },
+        {
+          "type": "tool",
+          "tool": "context7_query-docs",
+          "callID": "call_79217cf87db046409ec1762c",
+          "state": {
+            "status": "completed",
+            "input": {
+              "libraryId": "/pulumi/docs",
+              "query": "OCI Oracle Cloud Infrastructure provider TypeScript - create VCN, subnet, compute instance VM.Standard.A1.Flex Ampere, internet gateway, NAT gateway, security list, route table, block volume"
+            },
+            "output": "### Create VPC, Subnet, and Security Group (TypeScript)\n\nSource: https://github.com/pulumi/docs/blob/master/content/blog/run-deepseek-on-aws-ec2-using-pulumi/index.md\n\nSets up the AWS network infrastructure including a VPC, a public subnet, an internet gateway, and a route table. Configures a security group to allow inbound traffic on ports 22, 3000, and 11434.\n\n```typescript\nconst vpc = new aws.ec2.Vpc(\"deepseek-ollama-vpc\", {\n\tcidrBlock: \"10.0.0.0/16\",\n\tenableDnsSupport: true,\n\tenableDnsHostnames: true,\n\ttags: {\n\t\tName: \"deepseek-ollama-vpc\",\n\t},\n});\n\nconst subnet = new aws.ec2.Subnet(\"deepseek-ollama-subnet\", {\n\tvpcId: vpc.id,\n\tcidrBlock: \"10.0.1.0/24\",\n\tmapPublicIpOnLaunch: true,\n\ttags: {\n\t\tName: \"deepseek-ollama-subnet\",\n\t},\n});\n\nconst igw = new aws.ec2.InternetGateway(\"deepseek-ollama-igw\", {\n\tvpcId: vpc.id,\n});\n\nconst routeTable = new aws.ec2.RouteTable(\"deepseek-ollama-route-table\", {\n\tvpcId: vpc.id,\n\troutes: [\n\t\t{\n\t\t\tcidrBlock: \"0.0.0.0/0\",\n\t\t\tgatewayId: igw.id,\n\t\t},\n\t],\n});\n\nnew aws.ec2.RouteTableAssociation(\"deepseek-ollama-route-table-assoc\", {\n\tsubnetId: subnet.id,\n\trouteTableId: routeTable.id,\n});\n\nconst securityGroup = new aws.ec2.SecurityGroup(\"deepseek-ollama-sg\", {\n\tvpcId: vpc.id,\n\tdescription: \"Allow SSH, Ollama API, and Open WebUI access\",\n\tingress: [\n\t\t{\n\t\t\tprotocol: \"tcp\",\n\t\t\tfromPort: 22,\n\t\t\ttoPort: 22,\n\t\t\tcidrBlocks: [\"0.0.0.0/0\"],\n\t\t},\n\t\t{\n\t\t\tprotocol: \"tcp\",\n\t\t\tfromPort: 11434,\n\t\t\ttoPort: 11434,\n\t\t\tcidrBlocks: [\"0.0.0.0/0\"],\n\t\t},\n\t\t{\n\t\t\tprotocol: \"tcp\",\n\t\t\tfromPort: 3000,\n\t\t\ttoPort: 3000,\n\t\t\tcidrBlocks: [\"0.0.0.0/0\"],\n\t\t},\n\t],\n\tegress: [\n\t\t{\n\t\t\tprotocol: \"tcp\",\n\t\t\tfromPort: 0,\n\t\t\ttoPort: 0,\n\t\t\tcidrBlocks: [\"0.0.0.0/0\"],\n\t\t},\n\t],\n});\n\n```\n\n--------------------------------\n\n### Create AWS VPC, Subnet, Security Group, and EC2 Instance (TypeScript)\n\nSource: https://github.com/pulumi/docs/blob/master/content/docs/iac/get-started/terraform/convert-hcl.md\n\nThis TypeScript code defines AWS infrastructure including a VPC, public subnet, internet gateway, route table, security group, and an EC2 instance. It uses Pulumi and the AWS provider. The instance is configured with user data to set up a basic web server.\n\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as aws from \"@pulumi/aws\";\n\n// Create configuration\nconst config = new pulumi.Config();\nconst awsRegion = config.get(\"awsRegion\") || \"us-west-2\";\nconst instanceType = config.get(\"instanceType\") || \"t3.micro\";\n\n// Data source for Amazon Linux AMI\nconst amazonLinux = aws.ec2.getAmiOutput({\n    mostRecent: true,\n    owners: [\"amazon\"],\n    filters: [{\n        name: \"name\",\n        values: [\"amzn2-ami-hvm-*-x86_64-gp2\"],\n    }],\n});\n\n// Create VPC\nconst main = new aws.ec2.Vpc(\"main\", {\n    cidrBlock: \"10.0.0.0/16\",\n    enableDnsHostnames: true,\n    enableDnsSupport: true,\n    tags: {\n        Name: \"main-vpc\",\n    },\n});\n\n// Create public subnet\nconst publicSubnet = new aws.ec2.Subnet(\"public\", {\n    vpcId: main.id,\n    cidrBlock: \"10.0.1.0/24\",\n    availabilityZone: \"us-west-2a\",\n    mapPublicIpOnLaunch: true,\n    tags: {\n        Name: \"public-subnet\",\n    },\n});\n\n// Create internet gateway\nconst mainIgw = new aws.ec2.InternetGateway(\"main\", {\n    vpcId: main.id,\n    tags: {\n        Name: \"main-igw\",\n    },\n});\n\n// Create route table\nconst publicRt = new aws.ec2.RouteTable(\"public\", {\n    vpcId: main.id,\n    routes: [{\n        cidrBlock: \"0.0.0.0/0\",\n        gatewayId: mainIgw.id,\n    }],\n    tags: {\n        Name: \"public-rt\",\n    },\n});\n\n// Associate route table with subnet\nconst publicRtAssociation = new aws.ec2.RouteTableAssociation(\"public\", {\n    subnetId: publicSubnet.id,\n    routeTableId: publicRt.id,\n});\n\n// Create security group\nconst webSg = new aws.ec2.SecurityGroup(\"web\", {\n    name: \"web-sg\",\n    description: \"Security group for web servers\",\n    vpcId: main.id,\n    ingress: [\n        {\n            description: \"HTTP\",\n            fromPort: 80,\n            toPort: 80,\n            protocol: \"tcp\",\n            cidrBlocks: [\"0.0.0.0/0\"],\n        },\n        {\n            description: \"SSH\",\n            fromPort: 22,\n            toPort: 22,\n            protocol: \"tcp\",\n            cidrBlocks: [\"0.0.0.0/0\"],\n        },\n    ],\n    egress: [{\n        fromPort: 0,\n        toPort: 0,\n        protocol: \"-1\",\n        cidrBlocks: [\"0.0.0.0/0\"],\n    }],\n    tags: {\n        Name: \"web-sg\",\n    },\n});\n\n// Create EC2 instance\nconst webInstance = new aws.ec2.Instance(\"web\", {\n    ami: amazonLinux.id,\n    instanceType: instanceType,\n    subnetId: publicSubnet.id,\n    vpcSecurityGroupIds: [webSg.id],\n    userData: `#!/bin/bash\n    yum update -y\n    yum install -y httpd\n    systemctl start httpd\n    systemctl enable httpd\n    echo \"<h1>Hello from Pulumi converted infrastructure!</h1>\" > /var/www/html/index.html\n    `,\n    tags: {\n        Name: \"web-server\",\n    },\n});\n\n// Outputs\nexport const vpcId = main.id;\nexport const publicIp = webInstance.publicIp;\nexport const websiteUrl = pulumi.interpolate`http://${webInstance.publicIp}`;\n\n```\n\n--------------------------------\n\n### Create VPC, Subnet, and Security Group (Go)\n\nSource: https://github.com/pulumi/docs/blob/master/content/blog/run-deepseek-on-aws-ec2-using-pulumi/index.md\n\nSets up the AWS network infrastructure including a VPC, a public subnet, an internet gateway, and a route table. Configures a security group to allow inbound traffic on ports 22, 3000, and 11434.\n\n```go\nvpc, err := ec2.NewVpc(ctx, \"deepseek-ollama-vpc\", &ec2.VpcArgs{\n\tCidrBlock: pulumi.String(\"10.0.0.0/16\"),\n\tEnableDnsSupport: pulumi.Bool(true),\n\tEnableDnsHostnames: pulumi.Bool(true),\n\tTags: pulumi.Map{\n\t\t\"Name\": pulumi.String(\"deepseek-ollama-vpc\"),\n\t},\n})\nif err != nil {\n\treturn err\n}\n\nsubnet, err := ec2.NewSubnet(ctx, \"deepseek-ollama-subnet\", &ec2.SubnetArgs{\n\tVpcId: vpc.ID(),\n\tCidrBlock: pulumi.String(\"10.0.1.0/24\"),\n\tMapPublicIpOnLaunch: pulumi.Bool(true),\n\tTags: pulumi.Map{\n\t\t\"Name\": pulumi.String(\"deepseek-ollama-subnet\"),\n\t},\n})\nif err != nil {\n\treturn err\n}\n\nigw, err := ec2.NewInternetGateway(ctx, \"deepseek-ollama-igw\", &ec2.InternetGatewayArgs{\n\tVpcId: vpc.ID(),\n})\nif err != nil {\n\treturn err\n}\n\nrouteTable, err := ec2.NewRouteTable(ctx, \"deepseek-ollama-route-table\", &ec2.RouteTableArgs{\n\tVpcId: vpc.ID(),\n\tRoutes: ec2.RouteTableRouteArray{\n\t\tec2.RouteTableRouteArgs{\n\t\t\tCidrBlock: pulumi.String(\"0.0.0.0/0\"),\n\t\t\tGatewayId: igw.ID(),\n\t\t},\n\t},\n})\nif err != nil {\n\treturn err\n}\n\n_, err = ec2.NewRouteTableAssociation(ctx, \"deepseek-ollama-route-table-assoc\", &ec2.RouteTableAssociationArgs{\n\tSubnetId: subnet.ID(),\n\tRouteTableId: routeTable.ID(),\n})\nif err != nil {\n\treturn err\n}\n\nsecurityGroup, err := ec2.NewSecurityGroup(ctx, \"deepseek-ollama-sg\", &ec2.SecurityGroupArgs{\n\tVpcId: vpc.ID(),\n\tDescription: pulumi.String(\"Allow SSH, Ollama API, and Open WebUI access\"),\n\tIngress: ec2.SecurityGroupIngressArray{\n\t\tec2.SecurityGroupIngressArgs{\n\t\t\tProtocol: pulumi.String(\"tcp\"),\n\t\t\tFromPort: pulumi.Int(22),\n\t\t\tToPort: pulumi.Int(22),\n\t\t\tCidrBlocks: pulumi.StringArray{\n\t\t\t\tpulumi.String(\"0.0.0.0/0\"),\n\t\t\t},\n\t\t},\n\t\tec2.SecurityGroupIngressArgs{\n\t\t\tProtocol: pulumi.String(\"tcp\"),\n\t\t\tFromPort: pulumi.Int(11434),\n\t\t\tToPort: pulumi.Int(11434),\n\t\t\tCidrBlocks: pulumi.StringArray{\n\t\t\t\tpulumi.String(\"0.0.0.0/0\"),\n\t\t\t},\n\t\t},\n\t\tec2.SecurityGroupIngressArgs{\n\t\t\tProtocol: pulumi.String(\"tcp\"),\n\t\t\tFromPort: pulumi.Int(3000),\n\t\t\tToPort: pulumi.Int(3000),\n\t\t\tCidrBlocks: pulumi.StringArray{\n\t\t\t\tpulumi.String(\"0.0.0.0/0\"),\n\t\t\t},\n\t\t},\n\t},\n\tEgress: ec2.SecurityGroupEgressArray{\n\t\tec2.SecurityGroupEgressArgs{\n\t\t\tProtocol: pulumi.String(\"tcp\"),\n\t\t\tFromPort: pulumi.Int(0),\n\t\t\tToPort: pulumi.Int(0),\n\t\t\tCidrBlocks: pulumi.StringArray{\n\t\t\t\tpulumi.String(\"0.0.0.0/0\"),\n\t\t\t},\n\t\t},\n\t},\n})\nif err != nil {\n\treturn err\n}\n\nreturn nil\n}\n\n```\n\n```go\n// omitted for brevity\n\n```\n\n```go\nreturn nil\n}\n\n```\n\n--------------------------------\n\n### Create VPC, Subnet, and Security Group (Python)\n\nSource: https://github.com/pulumi/docs/blob/master/content/blog/run-deepseek-on-aws-ec2-using-pulumi/index.md\n\nSets up the AWS network infrastructure including a VPC, a public subnet, an internet gateway, and a route table. Configures a security group to allow inbound traffic on ports 22, 3000, and 11434.\n\n```python\nvpc = aws.ec2.Vpc(\"deepseek-ollama-vpc\",\n    cidr_block=\"10.0.0.0/16\",\n    enable_dns_support=True,\n    enable_dns_hostnames=True,\n    tags={\n        \"Name\": \"deepseek-ollama-vpc\",\n    },\n)\n\nsubnet = aws.ec2.Subnet(\"deepseek-ollama-subnet\",\n    vpc_id=vpc.id,\n    cidr_block=\"10.0.1.0/24\",\n    map_public_ip_on_launch=True,\n    tags={\n        \"Name\": \"deepseek-ollama-subnet\",\n    },\n)\n\nigw = aws.ec2.InternetGateway(\"deepseek-ollama-igw\",\n    vpc_id=vpc.id,\n)\n\nroute_table = aws.ec2.RouteTable(\"deepseek-ollama-route-table\",\n    vpc_id=vpc.id,\n    routes=[\n        aws.ec2.RouteTableRouteArgs(\n            cidr_block=\"0.0.0.0/0\",\n            gateway_id=igw.id,\n        ),\n    ],\n)\n\naws.ec2.RouteTableAssociation(\"deepseek-ollama-route-table-assoc\",\n    subnet_id=subnet.id,\n    route_table_id=route_table.id,\n)\n\nsecurity_group = aws.ec2.SecurityGroup(\"deepseek-ollama-sg\",\n    vpc_id=vpc.id,\n    description=\"Allow SSH, Ollama API, and Open WebUI access\",\n    ingress=[\n        aws.ec2.SecurityGroupIngressArgs(\n            protocol=\"tcp\",\n            from_port=22,\n            to_port=22,\n            cidr_blocks=[\"0.0.0.0/0\"],\n        ),\n        aws.ec2.SecurityGroupIngressArgs(\n            protocol=\"tcp\",\n            from_port=11434,\n            to_port=11434,\n            cidr_blocks=[\"0.0.0.0/0\"],\n        ),\n        aws.ec2.SecurityGroupIngressArgs(\n            protocol=\"tcp\",\n            from_port=3000,\n            to_port=3000,\n            cidr_blocks=[\"0.0.0.0/0\"],\n        ),\n    ],\n    egress=[\n        aws.ec2.SecurityGroupEgressArgs(\n            protocol=\"tcp\",\n            from_port=0,\n            to_port=0,\n            cidr_blocks=[\"0.0.0.0/0\"],\n        ),\n    ],\n)\n\n```\n\n--------------------------------\n\n### Instantiate VPC Module in TypeScript\n\nSource: https://github.com/pulumi/docs/blob/master/content/blog/announcing-direct-tf-modules/index.md\n\nThis snippet shows how to import and instantiate the vpcmod module in TypeScript to create a VPC with specified subnets and NAT gateway configurations. It exports the public and private subnet IDs.\n\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as vpcmod from '@pulumi/vpcmod';\n\nconst vpc = new vpcmod.Module(\"test-vpc\", {\n    azs: [\"us-west-2a\", \"us-west-2b\"],\n    name: `test-vpc-${pulumi.getStack()}`,\n    cidr: \"10.0.0.0/16\",\n    public_subnets: [\n        \"10.0.1.0/24\",\n        \"10.0.2.0/24\",\n    ],\n    private_subnets: [\n        \"10.0.3.0/24\",\n        \"10.0.4.0/24\",\n    ],\n    enable_nat_gateway: true,\n    single_nat_gateway: true,\n});\n\nexport const publicSubnets = vpc.public_subnets;\nexport const privateSubnets = vpc.private_subnets;\n```",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777626075,
+              "end": 1779777628420
+            }
+          },
+          "id": "prt_e63035dbc001fZllPsS72S1Ndh",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303548d002dsHdPfl3ubie0I"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-finish",
+          "tokens": {
+            "total": 34584,
+            "input": 475,
+            "output": 60,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 34048
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6303694e0011mN0yM1Y39gaNn",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303548d002dsHdPfl3ubie0I"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 37943,
+          "input": 3302,
+          "output": 58,
+          "reasoning": 23,
+          "cache": {
+            "write": 0,
+            "read": 34560
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777628550,
+          "completed": 1779777635302
+        },
+        "finish": "tool-calls",
+        "id": "msg_e63036986002oc11k9PxHx06wz",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-start",
+          "id": "prt_e630371ff0018zBJpMJFYzmaTN",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63036986002oc11k9PxHx06wz"
+        },
+        {
+          "type": "reasoning",
+          "text": "The context7 docs returned AWS examples, not OCI. Let me search specifically for OCI Pulumi provider documentation.",
+          "time": {
+            "start": 1779777630722,
+            "end": 1779777632165
+          },
+          "id": "prt_e63037202001mlmJqDbkxfR2hK",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63036986002oc11k9PxHx06wz"
+        },
+        {
+          "type": "tool",
+          "tool": "context7_query-docs",
+          "callID": "call_3489b38b739e4b8aaf4a82dc",
+          "state": {
+            "status": "completed",
+            "input": {
+              "libraryId": "/pulumi/docs",
+              "query": "OCI Oracle Cloud Infrastructure provider - oci.Core.Vcn, oci.Core.Instance, oci.Core.Subnet, oci.Identity.Compartment, oci.Core.InternetGateway, oci.Core.NatGateway"
+            },
+            "output": "### Provision Oracle Cloud Infrastructure with Pulumi Java\n\nSource: https://github.com/pulumi/docs/blob/master/content/blog/java-1-0/index.md\n\nThis example demonstrates how to use the Pulumi Java SDK to configure and deploy Oracle Cloud resources, including virtual networks, subnets, and compute instances using the builder pattern.\n\n```java\nvar config = ctx.config();\nvar compartmentId =  config.require(\"compartmentId\");\nvar availabilityDomain =  config.require(\"availabilityDomain\");\nvar ubuntuId =  config.require(\"ubuntuId\");\n\nvar vcn = new VirtualNetwork(\"virtualNetworkResource\", VirtualNetworkArgs.builder()\n        .compartmentId(compartmentId)\n        .cidrBlock(\"10.0.0.0/16\")\n        .build());\n\nvar subnet = new Subnet(\"testSubnet\", SubnetArgs.builder()\n        .cidrBlock(\"10.0.0.0/24\")\n        .compartmentId(compartmentId)\n        .vcnId(vcn.id())\n        .availabilityDomain(availabilityDomain)\n        .build());\n\nvar vnicDetails = InstanceCreateVnicDetailsArgs.builder()\n        .subnetId(subnet.id())\n        .assignPublicIp(\"true\")\n        .build();\n\nvar sourceDetails = InstanceSourceDetailsArgs.builder()\n        .sourceType(\"image\")\n        .sourceId(ubuntuId)\n        .build();\n\nvar instance = new Instance(\"instanceResource\", InstanceArgs.builder()\n        .availabilityDomain(availabilityDomain)\n        .compartmentId(compartmentId)\n        .shape(\"VM.Standard.E2.1.Micro\")\n        .preserveBootVolume(false)\n        .createVnicDetails(vnicDetails)\n        .sourceDetails(sourceDetails)\n        .build());\n```\n\n--------------------------------\n\n### Constructor: new InternetGateway\n\nSource: https://github.com/pulumi/docs/blob/master/static-prebuilt/docs/reference/pkg/nodejs/pulumi/awsx/classes/classic.ec2.InternetGateway.html\n\nCreates a new InternetGateway resource associated with a VPC.\n\n```APIDOC\n## Constructor: new InternetGateway\n\n### Description\nCreates a new instance of an InternetGateway within a specified VPC.\n\n### Parameters\n#### Path Parameters\n- **name** (string) - Required - The name of the resource.\n- **vpc** (Vpc) - Required - The VPC to associate with the gateway.\n- **args** (InternetGatewayArgs | ExistingInternetGatewayArgs) - Required - Configuration arguments for the gateway.\n- **opts** (any) - Optional - Pulumi resource options.\n```\n\n--------------------------------\n\n### NatGateway Properties\n\nSource: https://github.com/pulumi/docs/blob/master/static-prebuilt/docs/reference/pkg/nodejs/pulumi/awsx/classes/classic.ec2.NatGateway.html\n\nProvides access to the properties of a NatGateway instance, including its associated Elastic IP, the underlying NatGateway resource, its name, and the VPC it belongs to.\n\n```APIDOC\n## Properties\n\n### `readonly elasticIP: any`\n\nThe Elastic IP address associated with the NatGateway.\n\n### `readonly natGateway: NatGateway`\n\nThe underlying AWS NatGateway resource.\n\n### `readonly natGatewayName: string`\n\nThe name of the NatGateway.\n\n### `readonly vpc: Vpc`\n\nThe VPC that the NatGateway belongs to.\n\n### Method\n\nN/A (Properties)\n\n### Endpoint\n\nN/A (Properties)\n\n### Request Body\n\nN/A\n\n### Response\n\nN/A\n\n```\n\n### PulumiUP Workshop Series > Getting Started with Infrastructure as Code on Oracle Cloud\n\nSource: https://github.com/pulumi/docs/blob/master/content/blog/pulumiup-workshop-series/index.md\n\nNow that we have a brand new integration with [Oracle Cloud Infrastructure (OCI)](https://www.pulumi.com/registry/packages/oci) the team is preparing a new workshop to help you to get the most out of the new provider. Laura Santamaria (Pulumi) and Gaurav Jain (Oracle) will show you how to define, deploy and manage OCI resources using your favorite programming languages.\n\n--------------------------------\n\n### Cloud Scanners > OCI\n\nSource: https://github.com/pulumi/docs/blob/master/content/docs/insights/discovery/accounts.md\n\nThe OCI scanner for Pulumi Cloud needs access to your Oracle Cloud account. This is granted by creating an ESC environment that provides valid credentials for the Pulumi OCI provider. API Key authentication requires OCI_TENANCY_OCID, OCI_USER_OCID, OCI_PRIVATE_KEY_PASSWORD (optional), OCI_FINGERPRINT, OCI_REGION, and OCI_PRIVATE_KEY_PATH.",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777632688,
+              "end": 1779777635202
+            }
+          },
+          "id": "prt_e630377aa001ZZOCGuF72AiZdc",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63036986002oc11k9PxHx06wz"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-finish",
+          "tokens": {
+            "total": 37943,
+            "input": 3302,
+            "output": 58,
+            "reasoning": 23,
+            "cache": {
+              "write": 0,
+              "read": 34560
+            }
+          },
+          "cost": 0,
+          "id": "prt_e630383ad001k2ML71kL4jxmXe",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63036986002oc11k9PxHx06wz"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 38987,
+          "input": 983,
+          "output": 81,
+          "reasoning": 35,
+          "cache": {
+            "write": 0,
+            "read": 37888
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777635315,
+          "completed": 1779777650128
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630383f30025trUrF5X4Dm9E4",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "type": "step-start",
+          "id": "prt_e6303927b001byaBpChU0Zh0kk",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630383f30025trUrF5X4Dm9E4"
+        },
+        {
+          "type": "reasoning",
+          "text": "Good, I got some useful OCI-specific info. Let me now search for the specific OCI Pulumi TypeScript API to make sure I get the right resource types and properties.",
+          "time": {
+            "start": 1779777639039,
+            "end": 1779777639479
+          },
+          "id": "prt_e6303927f001H7zsVWn6KHaOJI",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630383f30025trUrF5X4Dm9E4"
+        },
+        {
+          "type": "tool",
+          "tool": "GitHits_search",
+          "callID": "call_00e46462772d403aa4839984",
+          "state": {
+            "status": "completed",
+            "input": {
+              "query": "VM.Standard.A1.Flex Ampere instance shape memoryInGBs ocpus cloud-init",
+              "target": "pypi:pulumi-oci",
+              "limit": 10
+            },
+            "output": "search | 0 hits | query=\"VM.Standard.A1.Flex Ampere instance shape memoryInGBs ocpus cloud-init\"\n\nNo hits.\n\nwarnings:\n  - Source 'docs' for pypi:pulumi-oci@4.13.0a1779695196: Package version cannot be resolved to a repository ref\n  - Source 'code' for pypi:pulumi-oci@4.13.0a1779695196: Package version cannot be resolved to a repository ref (UNRESOLVABLE)\nsource notes:\n  - docs (pypi:pulumi-oci@4.13.0a1779695196) | Package version cannot be resolved to a repository ref\n  - code (pypi:pulumi-oci@4.13.0a1779695196) | Package version cannot be resolved to a repository ref (UNRESOLVABLE)",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777639859,
+              "end": 1779777648353
+            }
+          },
+          "id": "prt_e63039471001m5Tq0zY3NXL0aS",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630383f30025trUrF5X4Dm9E4"
+        },
+        {
+          "type": "tool",
+          "tool": "GitHits_code_grep",
+          "callID": "call_0632a03da4984bf09cf12895",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "VM.Standard.A1",
+              "target": "pypi:pulumi-oci",
+              "max_matches": 10
+            },
+            "output": "{\"error\":\"Package pypi/pulumi-oci was found but indexing could not be triggered. Please try again shortly.\",\"code\":\"BACKEND_ERROR\",\"retryable\":false,\"details\":{\"graphqlCode\":\"UNKNOWN_ERROR\"}}",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777640133,
+              "end": 1779777649918
+            }
+          },
+          "id": "prt_e630395e0001hqfy9f0hrrBs1Y",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630383f30025trUrF5X4Dm9E4"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "ef5b2166787800f87b38f236c0aba00fd094ca03",
+          "type": "step-finish",
+          "tokens": {
+            "total": 38987,
+            "input": 983,
+            "output": 81,
+            "reasoning": 35,
+            "cache": {
+              "write": 0,
+              "read": 37888
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6303bd54001N2wt2ceuTj9004",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630383f30025trUrF5X4Dm9E4"
+        },
+        {
+          "type": "patch",
+          "hash": "c06cd70b1b3880a785f06e2a9ee51402bbd2767d",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/AGENTS.md",
+            "/home/aditya/projects/alpauls-ats/src/services/audit-log-service.ts"
+          ],
+          "id": "prt_e6303bdcb001fvEqY9STPrrLNR",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630383f30025trUrF5X4Dm9E4"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39332,
+          "input": 10614,
+          "output": 45,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 28672
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777650147,
+          "completed": 1779777681057
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6303bde3002gGezRJCt92Ye14",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "ef5b2166787800f87b38f236c0aba00fd094ca03",
+          "type": "step-start",
+          "id": "prt_e6303d3dd001VJPi1QahDJ0qqR",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303bde3002gGezRJCt92Ye14"
+        },
+        {
+          "type": "tool",
+          "tool": "GitHits_search",
+          "callID": "call_4bcfce2427bf4cd4b8558b89",
+          "state": {
+            "status": "completed",
+            "input": {
+              "limit": 10,
+              "query": "Instance shape VM.Standard.A1.Flex shapeConfig memoryInGBs ocpus",
+              "target": "npm:@pulumi/oci"
+            },
+            "output": "search | 0 partial | query=\"Instance shape VM.Standard.A1.Flex shapeConfig memoryInGBs ocpus\" | REDACTED\n\nNo hits yet - indexing.\n\nIndexing in progress. Call search_status with REDACTED to follow up.",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777656231,
+              "end": 1779777680950
+            }
+          },
+          "id": "prt_e6303d437001MSJMqI45vkrtCp",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303bde3002gGezRJCt92Ye14"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39332,
+            "input": 10614,
+            "output": 45,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 28672
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6304366a001YzZKh76UL17tys",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303bde3002gGezRJCt92Ye14"
+        },
+        {
+          "type": "patch",
+          "hash": "ef5b2166787800f87b38f236c0aba00fd094ca03",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/AGENTS.md",
+            "/home/aditya/projects/alpauls-ats/package.json",
+            "/home/aditya/projects/alpauls-ats/scripts/create-audit-log-view.ts",
+            "/home/aditya/projects/alpauls-ats/src/db-schemas/audit-log.ts"
+          ],
+          "id": "prt_e6304369b001hxY0uufzZOvZ6P",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6303bde3002gGezRJCt92Ye14"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39441,
+          "input": 14132,
+          "output": 28,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 25280
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777681067,
+          "completed": 1779777684790
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630436ab0029hLfdROYN53ZGb",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-start",
+          "id": "prt_e63044106001lOqRLDEcVDsjk2",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630436ab0029hLfdROYN53ZGb"
+        },
+        {
+          "type": "tool",
+          "tool": "GitHits_search_status",
+          "callID": "call_2a24862c45344a65810af04c",
+          "state": {
+            "status": "completed",
+            "input": {
+              "search_ref": "iM2txJilJD4zySsXIWhgvQ"
+            },
+            "output": "search_status | indexing | REDACTED\nprogress: INDEXING, 0/1 targets ready, 23853ms elapsed; next: search_status search_ref=\"iM2txJilJD4zySsXIWhgvQ\"\nprogress targets:\n  - requested=npm:@pulumi/oci@4.12.0 | fresh=851093990b17370f7e926a812a1dcbb04452bb4c | state=indexing fresh target | intent=OMITTED_VERSION | indexingRef=3815cc7e-7361-4630-8833-a9188e6b04c3 | indexing fresh target | requested=npm:@pulumi/oci | fresh=npm:@pulumi/oci@4.12.0 | indexingRef=3815cc7e-7361-4630-8833-a9188e6b04c3 (latest_version_indexing)\nwarnings:\n  - indexing fresh target | requested=npm:@pulumi/oci | fresh=npm:@pulumi/oci@4.12.0 | indexingRef=3815cc7e-7361-4630-8833-a9188e6b04c3 (latest_version_indexing)\nnext: call search_status search_ref=\"iM2txJilJD4zySsXIWhgvQ\"",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777683990,
+              "end": 1779777684608
+            }
+          },
+          "id": "prt_e630441120012g1AXmhX0jCO8m",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630436ab0029hLfdROYN53ZGb"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39441,
+            "input": 14132,
+            "output": 28,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 25280
+            }
+          },
+          "cost": 0,
+          "id": "prt_e630444ba001jT1MeOCKFuZH2L",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630436ab0029hLfdROYN53ZGb"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 39822,
+          "input": 339,
+          "output": 28,
+          "reasoning": 31,
+          "cache": {
+            "write": 0,
+            "read": 39424
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777684820,
+          "completed": 1779777688227
+        },
+        "finish": "tool-calls",
+        "id": "msg_e63044554002G75OpAbl1DPyGS",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-start",
+          "id": "prt_e63044e3a0012fdUxoOSIB70WJ",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63044554002G75OpAbl1DPyGS"
+        },
+        {
+          "type": "reasoning",
+          "text": "The indexing is still in progress. Let me try to search for the Pulumi OCI TypeScript documentation directly, or look at the npm package for reference.",
+          "time": {
+            "start": 1779777687101,
+            "end": 1779777687497
+          },
+          "id": "prt_e63044e3d001IwQny2KFd0ReoO",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63044554002G75OpAbl1DPyGS"
+        },
+        {
+          "type": "tool",
+          "tool": "GitHits_search_status",
+          "callID": "call_e58056a10abb490ca34f6995",
+          "state": {
+            "status": "completed",
+            "input": {
+              "search_ref": "iM2txJilJD4zySsXIWhgvQ"
+            },
+            "output": "search_status | indexing | REDACTED\nprogress: INDEXING, 0/1 targets ready, 27639ms elapsed; next: search_status search_ref=\"iM2txJilJD4zySsXIWhgvQ\"\nprogress targets:\n  - requested=npm:@pulumi/oci@4.12.0 | fresh=851093990b17370f7e926a812a1dcbb04452bb4c | state=indexing fresh target | intent=OMITTED_VERSION | indexingRef=3815cc7e-7361-4630-8833-a9188e6b04c3 | indexing fresh target | requested=npm:@pulumi/oci | fresh=npm:@pulumi/oci@4.12.0 | indexingRef=3815cc7e-7361-4630-8833-a9188e6b04c3 (latest_version_indexing)\nwarnings:\n  - indexing fresh target | requested=npm:@pulumi/oci | fresh=npm:@pulumi/oci@4.12.0 | indexingRef=3815cc7e-7361-4630-8833-a9188e6b04c3 (latest_version_indexing)\nnext: call search_status search_ref=\"iM2txJilJD4zySsXIWhgvQ\"",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777687629,
+              "end": 1779777688162
+            }
+          },
+          "id": "prt_e63044fcc001pjG7NQkQxCRNWb",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63044554002G75OpAbl1DPyGS"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 39822,
+            "input": 339,
+            "output": 28,
+            "reasoning": 31,
+            "cache": {
+              "write": 0,
+              "read": 39424
+            }
+          },
+          "cost": 0,
+          "id": "prt_e63045274001UJtWo1JUxLhkdK",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e63044554002G75OpAbl1DPyGS"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 40196,
+          "input": 336,
+          "output": 51,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 39808
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777688235,
+          "completed": 1779777705652
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630452ab002B0t6kbYPlhRoP9",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-start",
+          "id": "prt_e63045af1001xZNTZO7qX4z2VA",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630452ab002B0t6kbYPlhRoP9"
+        },
+        {
+          "type": "tool",
+          "tool": "tavily_tavily_search",
+          "callID": "call_29b423a43c114239bcf05b3c",
+          "state": {
+            "status": "completed",
+            "input": {
+              "query": "pulumi oci typescript VM.Standard.A1.Flex instance shapeConfig memoryInGBs ocpus example",
+              "search_depth": "advanced",
+              "max_results": 10
+            },
+            "output": "Detailed Results:\n\nTitle: Changing the Shape of an Instance\nURL: https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/resizinginstances.htm\nContent: + VM.Standard1 series\n  + VM.Standard.B1 series\n  + VM.Standard2 series\n  + VM.Standard3.Flex\n  + VM.Standard4.Ax.Flex\n  + VM.Standard.E2 series\n  + VM.Standard.E3.Flex\n  + VM.Standard.E4.Flex\n  + VM.Standard.E5.Flex\n  + VM.Standard.E6.Flex\n  + VM.Standard.E6.Ax.Flex\n  + VM.Optimized3.Flex\n  + VM.Standard.A1.Flex\n  + VM.Standard.A2.Flex\n  + VM.Standard.A4.Flex\n  + VM.Standard.A4.Ax.Flex\n\n  For both Linux and Windows images, you can change the number of OCPUs and the amount of memory allocated to a flexible shape. You can also change a standard shape in one series to a standard shape in another series. For example, you can change a fixed shape to a flexible shape. [...] + Number of OCPUs: Select the number of OCPUs that you want to allocate.\n     + Amount of memory (GB): Select the amount of memory that you want to allocate to this instance. The amount of memory allowed is based on the number of OCPUs selected.\n  5. Select Save changes.\n\n     If the instance is running, it's rebooted. Confirm when prompted.\n Use the instance update command and required parameters to update an instance:\n\n  ```\n  oci compute instance update --from-json  \n  ```\n\n  is the path to a JSON file that defines the instance details. For information about how to generate an example of the JSON file, see Advanced JSON Options. [...] + AMD: (Flexible) Standard shapes that use current-generation AMD processors. AMD shapes are flexible shapes.\n     + Intel: (Flexible) Standard and optimized shapes that use current-generation Intel processors. Intel shapes are flexible shapes.\n     + Ampere: (Flexible) The OCI Ampere A1 Compute and OCI Ampere A2 Compute shapes use Arm-based processors. The Arm-based shapes are flexible shapes. The `VM.Standard.A1.Flex` shape is an Always Free shape. These shapes are not supported for Windows.\n     + Specialty and previous generation: Standard shapes with previous generation Intel and AMD processors, the Always Free `VM.Standard.E2.1.Micro` shape, Dense I/O shapes, GPU shapes, and HPC shapes.\n\n     Edit the shape options which vary depending upon the shape:\n\nTitle: ModelDeploymentInstanceShapeConfigDetails | Oracle Cloud Infrastructure SDK for TypeScript and JavaScript API Reference - 2.132.0\nURL: https://docs.oracle.com/en-us/iaas/tools/typescript/2.95.0/modules/_datascience_lib_model_model_deployment_instance_shape_config_details_.modeldeploymentinstanceshapeconfigdetails.html\nContent: ### Optional memoryInGBs\n\nmemoryInGBs: undefined | number\n\nA model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. Note: Numbers greater than Number.MAX\\_SAFE\\_INTEGER will result in rounding issues.\n\n### Optional ocpus\n\nocpus: undefined | number\n\nA model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the ocpu count to be specified with in the range of 1 to 64 ocpu. VM.Standard3.Flex OCPU range is between 1 to 32 ocpu and for VM.Optimized3.Flex OCPU range is 1 to 18 ocpu. Note: Numbers greater than Number.MAX\\_SAFE\\_INTEGER will result in rounding issues. [...] ### Optional cpuBaseline\n\ncpuBaseline: CpuBaseline\n\nThe baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to {@code BASELINE\\_1\\_1}. The following values are supported: BASELINE\\_1\\_8 - baseline usage is 1/8 of an OCPU. BASELINE\\_1\\_2 - baseline usage is 1/2 of an OCPU. BASELINE\\_1\\_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.\n\n### Optional memoryInGBs\n\nmemoryInGBs: undefined | number [...] Preparing search index...\n The search index is not available\n\nOracle Cloud Infrastructure SDK for TypeScript and JavaScript API Reference - 2.132.0\n\nOptions\n\nAll\n\n Public\n Public/Protected\n All\n\nMenu\n\n datascience/lib/model/model-deployment-instance-shape-config-details\n ModelDeploymentInstanceShapeConfigDetails\n\n# Namespace ModelDeploymentInstanceShapeConfigDetails\n\nDetails for the model-deployment instance shape configuration.\n\n### Enumerations\n\n CpuBaseline\n\n### Properties\n\n cpuBaseline\n memoryInGBs\n ocpus\n\n### Functions\n\n getDeserializedJsonObj\n getJsonObj\n\n## Properties\n\n### Optional cpuBaseline\n\ncpuBaseline: CpuBaseline\n\nTitle: Resolving Oracle Cloud “Out of Capacity” issue and getting free VPS with 4 ARM cores / 24GB of memory (using OCI CLI) – Tom's Development Blog\nURL: https://tpmullan.com/2023/02/02/resolving-oracle-cloud-out-of-capacity-issue-and-getting-free-vps-with-4-arm-cores-24gb-of-memory-using-oci-cli\nContent: $AD \\ --compartment-id $COMPARTMENT \\ --image-id $IMAGE \\ --display-name $DISPLAY_NAME \\ --metadata \"{ \\\"hostclass\\\": \\\"$HC\\\" }\" \\ --subnet-id $SUBNET --shape-config \"{ \\\"memoryInGBs\\\": 24.0, \\\"ocpus\\\": 4.0 }\" \\ --ssh-authorized-keys-file $SSH_PUB_KEY_FILE \\ ) if ; then echo \"Failed to deploy\" exit 1 fi echo $OCI_INFO > $INSTANCE_INFO_FILE INSTANCE_ID=$($JQ -r '.data.id' < $INSTANCE_INFO_FILE) if ; then echo \"Faild to read instance info from the file\" exit 1 fi while ; do echo \"Waiting 10s for the ip to be availible\" sleep 10s INSTANCE_IP=$($OCI_CLI $AUTH_PARAMS compute instance list-vnics --instance-id $INSTANCE_ID | $JQ -r '.data[].\"public-ip\"') done if ; then echo \"Updating the SSH config to include $DISPLAY_NAME\" cat >> ~/.ssh/config.d/custom < $FLAG_FILE [...] false }, \"ipxe-script\": null, \"launch-mode\": \"PARAVIRTUALIZED\", \"launch-options\": { \"boot-volume-type\": \"PARAVIRTUALIZED\", \"firmware\": \"UEFI_64\", \"is-consistent-volume-naming-enabled\": true, \"is-pv-encryption-in-transit-enabled\": false, \"network-type\": \"PARAVIRTUALIZED\", \"remote-data-volume-type\": \"PARAVIRTUALIZED\" }, \"lifecycle-state\": \"PROVISIONING\", \"metadata\": { \"hostclass\": \"Your-Hostclass\", \"ssh_authorized_keys\": \"ssh-rsa AAAAB3123432412343241234324123432412343241234324123432412343241234324123432412343241234324123432412343241234324123432412343241234324123432412343241234324/71ctthb1Ek= your-ssh-key\" }, \"platform-config\": null, \"preemptible-instance-config\": null, \"region\": \"iad\", \"shape\": \"VM.Standard.A1.Flex\", \"shape-config\": { \"baseline-ocpu-utilization\": null, \"gpu-description\": [...] ```\nEach tenancy gets the first 3,000 OCPU hours and 18,000 GB hours per month for free to create Ampere A1 Compute instances using the VM.Standard.A1.Flex shape (equivalent to 4 OCPUs and 24 GB of memory).\n```\n\nStarting from Oracle Cloud Infrastructure (OCI) CLI installation.\n\n## Quickstart\n\n### The installer script automatically installs the CLI and its dependencies, Python and virtualenv. Before running the…\n\ndocs.oracle.com\n\nOn a Mac Computer you can also install the OCI cli with Brew.\n\n```\nbrew install oci-cli jq\n```\n\n# Generating API key\n\nAfter logging in to OCI Console, click profile icon and then “User Settings”\n\nGo to Resources -> API keys, click “Add API Key” button\n\nAdd API Key\n\nTitle: cloud - OCI A1.Flex Free Tier Limit Exceeded - Stack Overflow\nURL: https://stackoverflow.com/questions/72439600/oci-a1-flex-free-tier-limit-exceeded\nContent: This is the code I'm running every 5 minutes:\n\n```\n--availability-domain fczk:SA-SAOPAULO-1-AD-1 \\ --compartment-id {mycompartment} \\ --shape VM.Standard.A1.Flex \\ --subnet-id {mysubnet} \\ --assign-private-dns-record true \\ --availability-config {myconfigfile} \\ --display-name {chosenname} \\ --image-id ocid1.image.oc1.sa-saopaulo-1.aaaaaaaawohyyavvqh2xxi44dwsu2ysqamht2yj54hynxv2bdhltdby6i7xq \\ --instance-options {myoptionsfile} \\ --shape-config {myshapefile} \\ --ssh-authorized-keys-file {mypubkey} \\ --boot-volume-size-in-gbs 100 \n```\n\nFiles:\n\n availability-config: {\"recoveryAction\": \"RESTORE\\_INSTANCE\"}\n instance-options: { \"areLegacyImdsEndpointsDisabled\": false}\n shape-config: {\"ocpus\": 4, \"memoryInGBs\": 24} [...] Oracle Cloud always free allows the creation of a 4CPU/24GB instance. I had one up and decided to put it down and start a fresh one. Then I got the famous \"Out of Host Capacity\". I understand that they can't guarantee that there is enough resources, so I decided to keep trying both on CLI and on GUI. Sometimes in the middle of the \"Out of Host Capacity\" I get the \"Limit Exceeded\" error, does it means that when there is some host capacity they have tried to create this instance and fail because I was over the limit or is it just a bug? Because I have no A1.Flex up. Looking up some similar issues, I reviewed some things, it isn't trying to create a new VCN or subnet and I have more than enough boot volume available. Also I've tried to put up a 3CPU/18GB and also got the \"Limit Exceeded\" [...] Ask Question\n\nAsked\n\nModified 3 years, 5 months ago\n\nViewed 13k times\n\n1\n\nTitle: oci.Core.Instance | Pulumi Registry\nURL: https://www.pulumi.com/registry/packages/oci/api-docs/core/instance\nContent: false  isMeasuredBootEnabled: false  isMemoryEncryptionEnabled: false  isSecureBootEnabled: false  isSymmetricMultiThreadingEnabled: false  isTrustedPlatformModuleEnabled: false  numaNodesPerSocket: string  percentageOfCoresEnabled: 0  type: string  preemptibleInstanceConfig:  preemptionAction:  preserveBootVolume: false  type: string  preserveBootVolume: false  preserveDataVolumesCreatedAtLaunch: false  securityAttributes:  string: string  shape: string  shapeConfig:  baselineOcpuUtilization: string  gpuDescription: string  gpus: 0  localDiskDescription: string  localDisks: 0  localDisksTotalSizeInGbs: 0  maxVnicAttachments: 0  memoryInGbs: 0  networkingBandwidthInGbps: 0  nvmes: 0  ocpus: 0  processorDescription: string  resourceManagement: string  vcpus: 0  sourceDetails: [...] pulumi.Bool(false),  SecurityAttributes: pulumi.StringMap{  \"string\": pulumi.String(\"string\"),  },  Shape: pulumi.String(\"string\"),  ShapeConfig: &core.InstanceShapeConfigArgs{  BaselineOcpuUtilization: pulumi.String(\"string\"),  GpuDescription: pulumi.String(\"string\"),  Gpus: pulumi.Int(0),  LocalDiskDescription: pulumi.String(\"string\"),  LocalDisks: pulumi.Int(0),  LocalDisksTotalSizeInGbs: pulumi.Float64(0),  MaxVnicAttachments: pulumi.Int(0),  MemoryInGbs: pulumi.Float64(0),  NetworkingBandwidthInGbps: pulumi.Float64(0),  Nvmes: pulumi.Int(0),  Ocpus: pulumi.Float64(0),  ProcessorDescription: pulumi.String(\"string\"),  ResourceManagement: pulumi.String(\"string\"),  Vcpus: pulumi.Int(0),  },  SourceDetails: &core.InstanceSourceDetailsArgs{  SourceType: pulumi.String(\"string\"), [...] isAiEnterpriseEnabled: false,  securityAttributes: {  string: \"string\",  },  shape: \"string\",  shapeConfig: {  baselineOcpuUtilization: \"string\",  gpuDescription: \"string\",  gpus: 0,  localDiskDescription: \"string\",  localDisks: 0,  localDisksTotalSizeInGbs: 0,  maxVnicAttachments: 0,  memoryInGbs: 0,  networkingBandwidthInGbps: 0,  nvmes: 0,  ocpus: 0,  processorDescription: \"string\",  resourceManagement: \"string\",  vcpus: 0,  },  sourceDetails: {  sourceType: \"string\",  bootVolumeSizeInGbs: \"string\",  bootVolumeVpusPerGb: \"string\",  instanceSourceImageFilterDetails: {  compartmentId: \"string\",  definedTagsFilter: {  string: \"string\",  },  operatingSystem: \"string\",  operatingSystemVersion: \"string\",  },  isPreserveBootVolumeEnabled: false,  kmsKeyId: \"string\",  sourceId: \"string\",  },\n\nTitle: oci.ContainerEngine.ContainerInstance | Pulumi Registry\nURL: https://www.pulumi.com/registry/packages/oci/api-docs/containerengine/containerinstance\nContent: runAsUser: ${containerInstanceContainersSecurityContextRunAsUser}  securityContextType: ${containerInstanceContainersSecurityContextSecurityContextType}  volumeMounts:  - mountPath: ${containerInstanceContainersVolumeMountsMountPath}  volumeName: ${containerInstanceContainersVolumeMountsVolumeName}  isReadOnly: ${containerInstanceContainersVolumeMountsIsReadOnly}  partition: ${containerInstanceContainersVolumeMountsPartition}  subPath: ${containerInstanceContainersVolumeMountsSubPath}  workingDirectory: ${containerInstanceContainersWorkingDirectory}  shape: ${containerInstanceShape}  shapeConfig:  ocpus: ${containerInstanceShapeConfigOcpus}  memoryInGbs: ${containerInstanceShapeConfigMemoryInGbs}  vnics:  - subnetId: ${testSubnet.id}  definedTags: ${containerInstanceVnicsDefinedTags} [...] \"string\",  State = \"string\",  SystemTags =  {  { \"string\", \"string\" },  },  TimeCreated = \"string\",  TimeTerminated = \"string\",  TimeUpdated = \"string\",  VolumeMounts = new[]  {  new Oci.ContainerEngine.Inputs.ContainerInstanceContainerVolumeMountArgs  {  MountPath = \"string\",  VolumeName = \"string\",  IsReadOnly = false,  Partition = 0,  SubPath = \"string\",  },  },  WorkingDirectory = \"string\",  },  },  AvailabilityDomain = \"string\",  ShapeConfig = new Oci.ContainerEngine.Inputs.ContainerInstanceShapeConfigArgs  {  Ocpus = 0,  MemoryInGbs = 0,  NetworkingBandwidthInGbps = 0,  ProcessorDescription = \"string\",  },  DefinedTags =  {  { \"string\", \"string\" },  },  FaultDomain = \"string\",  FreeformTags =  {  { \"string\", \"string\" },  },  GracefulShutdownTimeoutInSeconds = \"string\", [...] MemoryLimitInGbs: pulumi.Float64(0),  VcpusLimit: pulumi.Float64(0),  },  AvailabilityDomain: pulumi.String(\"string\"),  State: pulumi.String(\"string\"),  SystemTags: pulumi.StringMap{  \"string\": pulumi.String(\"string\"),  },  TimeCreated: pulumi.String(\"string\"),  TimeTerminated: pulumi.String(\"string\"),  TimeUpdated: pulumi.String(\"string\"),  VolumeMounts: containerengine.ContainerInstanceContainerVolumeMountArray{  &containerengine.ContainerInstanceContainerVolumeMountArgs{  MountPath: pulumi.String(\"string\"),  VolumeName: pulumi.String(\"string\"),  IsReadOnly: pulumi.Bool(false),  Partition: pulumi.Int(0),  SubPath: pulumi.String(\"string\"),  },  },  WorkingDirectory: pulumi.String(\"string\"),  },  },  AvailabilityDomain: pulumi.String(\"string\"),  ShapeConfig:\n\nTitle: oci.Database.getFlexComponents (v2) | Pulumi Registry\nURL: https://www.pulumi.com/registry/packages/oci@2.x/api-docs/database/getflexcomponents\nContent: shape String\n:   A filter to return only resources that belong to the entire shape name given. The match is not case sensitive.\n\navailableCoreCount number\n:   The maximum number of CPU cores that can ben enabled on the DB Server for this Flex Component.\n\navailableDbStorageInGbs number\n:   The maximum storage that can be enabled on the Storage Server for this Flex Component.\n\navailableLocalStorageInGbs number\n:   The maximum local storage that can be enabled on the DB Server for this Flex Component.\n\navailableMemoryInGbs number\n:   The maximum memory size that can be enabled on the DB Server for this Flex Component.\n\ncomputeModel string\n:   The compute model of the DB Server for this Flex Component.\n\ndescriptionSummary string\n:   The description summary for this Flex Component. [...] availableMemoryInGbs Number\n:   The maximum memory size that can be enabled on the DB Server for this Flex Component.\n\ncomputeModel String\n:   The compute model of the DB Server for this Flex Component.\n\ndescriptionSummary String\n:   The description summary for this Flex Component.\n\nhardwareType String\n:   The hardware type of the DB (Compute) or Storage (Cell) Server for this Flex Component.\n\nminimumCoreCount Number\n:   The minimum number of CPU cores that can be enabled on the DB Server for this Flex Component.\n\nname String\n:   A filter to return only resources that match the entire name given. The match is not case sensitive.\n\nruntimeMinimumCoreCount Number\n:   The runtime minimum number of CPU cores that can be enabled for this Flex Component. [...] name str\n:   A filter to return only resources that match the entire name given. The match is not case sensitive.\n\nruntime\\_minimum\\_core\\_count int\n:   The runtime minimum number of CPU cores that can be enabled for this Flex Component.\n\nshape str\n:   A filter to return only resources that belong to the entire shape name given. The match is not case sensitive.\n\navailableCoreCount Number\n:   The maximum number of CPU cores that can ben enabled on the DB Server for this Flex Component.\n\navailableDbStorageInGbs Number\n:   The maximum storage that can be enabled on the Storage Server for this Flex Component.\n\navailableLocalStorageInGbs Number\n:   The maximum local storage that can be enabled on the DB Server for this Flex Component.\n\nTitle: Terraform OCI Provider Tells me shape_config is invalid - Terraform Providers - HashiCorp Discuss\nURL: https://discuss.hashicorp.com/t/terraform-oci-provider-tells-me-shape-config-is-invalid/26166\nContent: Image 3\n\ntwmcelroy\n\nJun 2021\n\nI have tested this in Phoenix and in Frankfurt and it has worked for me.\n\n```auto\nresource \"oci_core_instance\" \"testserver\" {\n  availability_domain = \"xxxx:EU-FRANKFURT-1-AD-1\"\n  compartment_id = var.compartment_ocid\n  display_name = \"testserver\"\n  shape = \"VM.Standard.A1.Flex\"\n  shape_config {\n    memory_in_gbs = 6\n    ocpus = 1\n  }\n\n  create_vnic_details {\n    subnet_id        = \"ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabj...\"\n    display_name     = \"primaryvnic\"\n    assign_public_ip = true\n    hostname_label   = \"testserver\"\n  }\n\n  source_details {\n    source_type = \"image\"\n    source_id   = \"ocid1.image.oc1.eu-frankfurt-1.REDACTED\"\n  }\n}``` [...] You have selected 0 posts.\n\nselect all\n\ncancel selecting\n\nJun 2021\n\n 1 / 2 \n\n Jun 2021 \n\nJun 2021\n\n## post by rtznprmpftl on Jun 30, 2021\n\nImage 2\n\nrtznprmpftl\n\n1\n\nJun 2021\n\nHello everyone,\n\ni am currently toying around with the oracle cloud and Terraform (1.0.1).\n\nMy issue is, that this resource description:\n\n```auto\nresource \"oci_core_instance\" \"testserver\" {\n  availability_domain = data.oci_identity_availability_domain.ad.name\n  compartment_id = var.compartment_ocid\n  display_name = \"testserver\"\n  shape = \"VM.Standard.A1.Flex\"\n  shape_config {\n    memory_in_gbs = 6\n    ocpus = 1\n  }\n\n  create_vnic_details {\n    subnet_id        = oci_core_subnet.publicsubnet.id\n    display_name     = \"primaryvnic\"\n    assign_public_ip = true\n    hostname_label   = \"testserver\"\n  } [...] ​ \n\n ​ \n\nReply\n\n### Related topics\n\nTopic list, column headers with buttons are sortable.\n| Topic | Replies | Views | Activity |\n ---  --- |\n| How to use shape_config for flex cpus Packer | 0 | 336 | Nov 2022 |\n| OCI Error Message: AvailabilityDomain could not be inferred from the Request Terraform Providers | 1 | 2.9k | Nov 2021 |\n| Using Terraform to create custom linux image on OCI Terraform Providers | 1 | 302 | Jan 2025 |\n| Getting Error while creating web server for POC through Terrafrom Terraform | 1 | 517 | Sep 2019 |\n| Oracle Integration Cloud (ICS)provisioning using OCI Terraform Terraform | 1 | 871 | Jun 2021 |\n\n Invalid date  Invalid date\n\nTitle: GitHub - pulumi/pulumi-oci: An Oracle Cloud (OCI) Pulumi resource package, providing multi-language access to OCI\nURL: https://github.com/pulumi/pulumi-oci\nContent: | .devcontainer | .devcontainer | Update GitHub Actions workflows. ( This PR was automatically generated by the update-workflows-ecosystem-providers workflow in the pulumi/ci-mgmt repo, from commit 16d6357b115512b7bf916a73a75b78fa24fef858. Co-authored-by: Pulumi Bot <bot@pulumi.com>\")#985) This PR was automatically generated by the update-workflows-ecosystem-providers workflow in the pulumi/ci-mgmt repo, from commit 16d6357b115512b7bf916a73a75b78fa24fef858. Co-authored-by: Pulumi Bot <bot@pulumi.com>\") | Jan 16, 2026 | [...] | .gitignore | .gitignore | Update GitHub Actions workflows. ( This PR was automatically generated by the update-workflows-ecosystem-providers workflow in the pulumi/ci-mgmt repo, from commit 82fcef3d6976121efda7924d4b9fd9c93af7a257. Co-authored-by: Pulumi Bot <bot@pulumi.com>\")#986) This PR was automatically generated by the update-workflows-ecosystem-providers workflow in the pulumi/ci-mgmt repo, from commit 82fcef3d6976121efda7924d4b9fd9c93af7a257. Co-authored-by: Pulumi Bot <bot@pulumi.com>\") | Jan 21, 2026 | [...] | devbox.json | devbox.json | Update GitHub Actions workflows. ( This PR was automatically generated by the update-workflows-ecosystem-providers workflow in the pulumi/ci-mgmt repo, from commit 6f5f171fa0446a7d4a5ae4e07adc6f8cc5f994c7.\")#733) This PR was automatically generated by the update-workflows-ecosystem-providers workflow in the pulumi/ci-mgmt repo, from commit 6f5f171fa0446a7d4a5ae4e07adc6f8cc5f994c7.\") | Feb 27, 2025 |\n\nTitle: Oracle cloud, a1.flex \"Out of capacity\" ERROR FİXED!! DEFINITELY TRY IT! : r/oraclecloud\nURL: https://www.reddit.com/r/oraclecloud/comments/1oobbq1/oracle_cloud_a1flex_out_of_capacity_error_fixed\nContent: # Oracle cloud, a1.flex \"Out of capacity\" ERROR FİXED!! DEFINITELY TRY IT! : r/oraclecloud\nSkip to main contentOracle cloud, a1.flex \"Out of capacity\" ERROR FİXED!! DEFINITELY TRY IT! : r/oraclecloud\n\nOpen menu Open navigation using this command, and it WORKED! I succeeded on my first try! Everyone who couldn't do it should try it. I'll leave the command here.\n\n`oci compute instance update --instance-id your-instance-ocid --shape VM.Standard.A1.Flex --shape-config \"{\\\"ocpus\\\": 4, \\\"memory-in-gbs\\\": 24}\"`\n\nAfter much effort, I achieved my goal thanks to this command. Everyone should give it a try. Share your experiences here.\n\nImage 2: r/oraclecloud - Oracle cloud, a1.flex \"Out of capacity\" ERROR FİXED!! DEFINITELY TRY IT!\n\n Share [...] Share \n\nNew to Reddit? \nCreate your account and connect with a world of communities.\n\n Continue with Email \n\n Continue With Phone Number \n\nBy continuing, you agree to ourUser Agreementand acknowledge that you understand thePrivacy Policy. \n\n# Related Answers Section\n\n Related Answers \n\nFix for Oracle Cloud 'Out of capacity' error\n\nOracle Cloud A1 flex server specifications\n\nOracle Cloud always free tier limits\n\nBoot volume options in Oracle Cloud\n\nRegions available in OCI free tier\n\n Public \n\nAnyone can view, post, and comment to this community\n\n0 0\n\nReddit RulesPrivacy PolicyUser AgreementYour Privacy ChoicesAccessibilityReddit, Inc. © 2026. All rights reserved.\n\nExpand Navigation Collapse Navigation\n\n   &nbsp; \n   &nbsp; \n   &nbsp; \n\n  \n\n  \n\n   RESOURCES [...] &nbsp; \n   &nbsp; \n   &nbsp; \n\n  \n\n  \n\n   RESOURCES \n\n   About Reddit\n   Advertise\n   Developer Platform\n   Reddit Pro BETA\n   Help\n   Blog\n   Careers\n   Press\n\n  \n\n   Best of Reddit\n\n  \n\n   Reddit Rules\n   Privacy Policy\n   User Agreement\n   Your Privacy Choices\n   Accessibility\n\nReddit, Inc. © 2026. All rights reserved.\n\nImage 3\n\nTitle: Infrastructure as Code for OCI. Accelerate Deployments with Pulumi\nURL: https://medium.com/@kicsipixel/infrastructure-as-code-for-oci-dbe9e43eb58a\nContent: Pulumi is a modern Infrastructure as Code (IaC) platform that enables developers to define, deploy, and manage cloud infrastructure using\n\nTitle: Oracle Cloud Infrastructure | Pulumi Registry\nURL: https://www.pulumi.com/registry/packages/oci\nContent: ``` [...] ``` [...] ```\n\nTitle: Out of capacity for shape VM.Standard.A1.Flex : r/oraclecloud\nURL: https://www.reddit.com/r/oraclecloud/comments/zf0tje/out_of_capacity_for_shape_vmstandarda1flex\nContent: `Out of capacity for shape VM.Standard.A1.Flex in availability domain AD-1. Create the instance in a different availability domain or try again later. If you specified a fault domain, try creating the instance without specifying a fault domain, otherwise try creating the instance in a different availability domain. If that doesn’t work, please try again later.``Learn more about host capacity.` [...] # Out of capacity for shape VM.Standard.A1.Flex : r/oraclecloud\nSkip to main contentOut of capacity for shape VM.Standard.A1.Flex : r/oraclecloud\n\nOpen menu Open navigation[]( to Reddit Home\n\nSign UpSign up for RedditLog InLog in to Reddit\n\nExpand user menu Open settings menu\n\nImage 1 Go to oraclecloud\n\nr/oraclecloud•4y ago\n\nJet_Reddit\n\n# Out of capacity for shape VM.Standard.A1.Flex\n\nIm getting the following message when trying to create and instance. I did some googling but ended up always in some sketchy places with bypassing and needing to becarefull not to get you github account banned and so on. [...] I am wondering if there is a limit on often i need to try to click that create button. Is it ones an hour i should be tryining to create a server. Should I be trying it ones per day. Is it actually worth trying to create a server since some other said it is no use and will takes months. Or is the only option to go that scetchy way over some API stuff. Sry not too talented what computer and software is concered i mainly just to folow a instruction to set up a minecraft server for a friend and myself.\n\nShare\n\n# Related Answers Section\n\n Related Answers \n\nSolutions for Oracle Cloud capacity issues\n\nOracle A1 shape recommendations\n\nOracle free tier capacity limitations\n\nTop Oracle Cloud features for developers\n\nCommon challenges in Oracle Cloud migration\n\n Public\n\nTitle: oci.Provider | Pulumi Registry\nURL: https://www.pulumi.com/registry/packages/oci/api-docs/provider\nContent: Pulumi home\n Pricing\n Blog\n Events & workshops\n\nDocs  Registry  Pulumi Neo  Slack  25.2K Contact us Sign in Dashboard Get started\n\n1. Packages\n2. Packages\n3. Oracle Cloud Infrastructure\n4. API Docs\n5. Provider\n\nViewing docs for Oracle Cloud Infrastructure v4.12.0  \npublished on Thursday, May 21, 2026 by Pulumi\n\nSchema (JSON)\n\npulumi/pulumi-oci\n\n# oci.Provider\n\nExplain this resource Get a detailed overview of this resource  Show real-world scenarios List the top 5 use cases for this resource  Provision a new instance Build a program using oci.Provider\n\noci logo\n\nViewing docs for Oracle Cloud Infrastructure v4.12.0  \npublished on Thursday, May 21, 2026 by Pulumi\n\nSchema (JSON)\n\npulumi/pulumi-oci\n\n Request a Change) [...] License\n:   Apache-2.0\n\nNotes\n:   This Pulumi package is based on the `oci` Terraform Provider.\n\noci logo\n\nViewing docs for Oracle Cloud Infrastructure v4.12.0  \npublished on Thursday, May 21, 2026 by Pulumi\n\nSchema (JSON)\n\npulumi/pulumi-oci\n\n Request a Change)\n\n#### Try Pulumi Cloud free. Your team will thank you.\n\nStart free trial [...] Schema (JSON)\n\npulumi/pulumi-oci\n\n Request a Change)\n\nThe provider type for the oci package. By default, resources use package-wide configuration settings, however an explicit `Provider` instance may be created and passed during resource construction to achieve fine-grained programmatic control over provider settings. See the documentation for more information.\n\n## Create Provider Resource\n\nResources are created with functions called constructors. To learn more about declaring and configuring resources, see Resources.\n\n### Constructor syntax\n\n```\nnew Provider(name: string, args?: ProviderArgs, opts?: CustomResourceOptions);\n```\n\nImages:\n\n[1] URL: https://blogs.oracle.com/wp-content/uploads/sites/83/2025/10/Pulumi_AD_Output.png\n\n[2] URL: https://preview.redd.it/oracle-cloud-out-of-capacity-error-fixed-definitely-try-it-v0-ceh8ef0hl9zf1.png?width=692&format=png&auto=webp&s=3f88897642dc2bd7ebbb237d6f62cadc1b2d1a2f\n\n[3] URL: https://www.dbi-services.com/blog/wp-content/uploads/sites/2/2026/03/oci_setup_1-1.png\n\n[4] URL: https://blogs.oracle.com/wp-content/uploads/sites/83/2025/10/PulumiOCI.png\n\n[5] URL: https://www.dbi-services.com/blog/wp-content/uploads/sites/2/2026/03/Screenshot-2026-02-23-at-17.53.09-1024x396.png",
+            "metadata": {
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777690754,
+              "end": 1779777705491
+            }
+          },
+          "id": "prt_e63045b230014cHdYcFsL2KuqE",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630452ab002B0t6kbYPlhRoP9"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 40196,
+            "input": 336,
+            "output": 51,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 39808
+            }
+          },
+          "cost": 0,
+          "id": "prt_e630496510010sd56As54bV9B4",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630452ab002B0t6kbYPlhRoP9"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 49244,
+          "input": 7200,
+          "output": 1012,
+          "reasoning": 840,
+          "cache": {
+            "write": 0,
+            "read": 40192
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777705670,
+          "completed": 1779777925191
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630496c6002R1vQr4Aaya2y2N",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "type": "step-start",
+          "id": "prt_e6304a118001n85FZQmr6pXR64",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630496c6002R1vQr4Aaya2y2N"
+        },
+        {
+          "type": "reasoning",
+          "text": "Good, I now have a clear picture of the Pulumi OCI API. The key property names are:\n- `shapeConfig.memoryInGbs` (not memoryInGBs - note lowercase 'b' for bits... wait, looking at the Pulumi registry docs, it says `MemoryInGbs` in the schema but in TypeScript it would be `memoryInGbs`)\n- `shapeConfig.ocpus`\n\nFor the `oci.Core.Instance`:\n- `availabilityDomain` - the AD name\n- `compartmentId` - the compartment OCID\n- `displayName` - instance name\n- `shape` - \"VM.Standard.A1.Flex\"\n- `shapeConfig` - with `memoryInGbs` and `ocpus`\n- `createVnicDetails` - with `subnetId`, `assignPublicIp`, `hostnameLabel`\n- `sourceDetails` - with `sourceType` and `sourceId` (image OCID)\n- `metadata` - for SSH keys and cloud-init (`user_data`)\n\nNow let me also check how Pulumi OCI handles VCN resources. From the Pulumi registry, the resources would be:\n- `oci.Core.Vcn` - Virtual Cloud Network\n- `oci.Core.Subnet` - Subnet\n- `oci.Core.InternetGateway` - Internet Gateway\n- `oci.Core.NatGateway` - NAT Gateway\n- `oci.Core.RouteTable` - Route Table\n- `oci.Core.RouteTableAttachment` / association\n- `oci.Core.SecurityList` - Security List\n- `oci.Core.Instance` - Compute Instance\n- `oci.Core.Volume` - Block Volume\n- `oci.Core.VolumeAttachment` - Attach volume to instance\n- `oci.Identity.Compartment` - Compartment (optional)\n\nLet me now create a comprehensive plan. I have enough information to do so.\n\nFor the plan, I need to address:\n1. The `@pulumi/oci` package needs to be installed (it's not currently in package.json)\n2. The Pulumi.yaml already exists and points to `./infra/index.ts`\n3. Need OCI config values (compartment OCID, availability domain, region, etc.)\n4. Need SSH public key for instance access\n5. Need to find the right Oracle Linux ARM image OCID (or use a data source)\n\nArchitecture:\n```\nVCN (10.0.0.0/16)\n├── Public Subnet (10.0.1.0/24)\n│   ├── Internet Gateway\n│   ├── App VM (VM.Standard.A1.Flex, 1 OCPU, 2GB)\n│   │   ├── Public IP\n│   │   └── Cloud-init: install Bun, clone app, build, run\n│   └── Security List: allow 22, 80, 443 inbound; all outbound\n├── Private Subnet (10.0.2.0/24)\n│   ├── NAT Gateway (for outbound internet)\n│   ├── DB VM (VM.Standard.A1.Flex, 1 OCPU, 4GB)\n│   │   ├── No public IP\n│   │   ├── Block Volume (50GB for PostgreSQL data)\n│   │   └── Cloud-init: install PostgreSQL, configure\n│   └── Security List: allow 5432 from public subnet, 22 from VCN; all outbound\n└── Service Gateway (for OCI services)\n```\n\nCloud-init for App VM:\n- Install Bun\n- Install Node.js (for build tools)\n- Clone the repo (or copy the built artifact)\n- Actually, better to build locally and use a custom image, OR use cloud-init to install bun and run the app\n- Set up systemd service for the app\n- Environment variables need to be passed\n\nCloud-init for DB VM:\n- Install PostgreSQL\n- Configure postgresql.conf and pg_hba.conf\n- Create database and user\n- Mount block volume for data\n\nLet me now formulate the plan and ask the user a few clarifying questions.",
+          "time": {
+            "start": 1779777708315,
+            "end": 1779777719337
+          },
+          "id": "prt_e6304a11b001Y444uQvjZKG4de",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630496c6002R1vQr4Aaya2y2N"
+        },
+        {
+          "type": "text",
+          "text": "I have enough context now. Here's my plan with a few questions:\n\n## Plan: Pulumi OCI Infrastructure for alpauls-ats\n\n### Architecture\n\n```\nVCN (10.0.0.0/16)\n├── Public Subnet (10.0.1.0/24)\n│   ├── Internet Gateway → route 0.0.0.0/0\n│   ├── App VM (VM.Standard.A1.Flex: 1 OCPU, 2GB RAM)\n│   │   ├── Public IP\n│   │   └── Cloud-init: Bun + app setup as systemd service\n│   └── Security List: 22/80/443 inbound, all outbound\n├── Private Subnet (10.0.2.0/24)\n│   ├── NAT Gateway → route 0.0.0.0/0 (outbound only)\n│   ├── Service Gateway (OCI services)\n│   ├── DB VM (VM.Standard.A1.Flex: 1 OCPU, 4GB RAM)\n│   │   ├── No public IP\n│   │   ├── 50GB block volume for PG data\n│   │   └── Cloud-init: PostgreSQL 18, create user/db\n│   └── Security List: 5432 from public subnet only, 22 from VCN, all outbound\n```\n\n### File Structure\n\n```\ninfra/\n  index.ts           ← Main stack (orchestrates everything)\n  config.ts          ← Stack config (compartment, AD, region, SSH key, image OCIDs)\n  vcn.ts             ← VCN, subnets, gateways, route tables, security lists\n  app-instance.ts    ← App compute instance + cloud-init\n  db-instance.ts     ← DB compute instance + block volume + cloud-init\n```\n\n### Stack Config (Pulumi config values needed)\n- `oci:compartmentId` — your OCI compartment OCID\n- `oci:availabilityDomain` — e.g. `Uocm:PHX-AD-1`\n- `oci:region` — e.g. `us-phoenix-1`\n- `sshPublicKey` — your SSH public key\n- `appImageOcid` — Oracle Linux 8/9 ARM image OCID (or we use a data source to look it up)\n\n### Key Decisions\n1. **App deployment method**: Cloud-init will install Bun, clone your git repo, build, and run as a systemd service. Alternative: build locally + bake a custom image. Cloud-init is simpler for a first pass.\n2. **PostgreSQL on raw VM** vs **OCI managed DB**: Raw VM (as you requested Ampere VM) — cheaper, but you manage backups/updates.\n3. **App port**: The app runs on 3020 in dev. We'll proxy via Caddy/Nginx on 80/443 or expose 3020 directly.\n4. **HTTPS**: Self-signed via Caddy, or you provide a domain for Let's Encrypt auto-TLS.",
+          "time": {
+            "start": 1779777719340,
+            "end": 1779777747149
+          },
+          "id": "prt_e6304cc2c001a5V0M9dGGrmXgO",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630496c6002R1vQr4Aaya2y2N"
+        },
+        {
+          "type": "tool",
+          "tool": "question",
+          "callID": "call_6d283522c863402c8f14529b",
+          "state": {
+            "status": "completed",
+            "input": {
+              "questions": [
+                {
+                  "question": "How should the app be reached from the outside?",
+                  "header": "App access",
+                  "options": [
+                    {
+                      "label": "Caddy reverse proxy (Recommended)",
+                      "description": "Caddy on the app VM auto-proxies 80/443 → app:3020. Supports automatic HTTPS with Let's Encrypt if you have a domain."
+                    },
+                    {
+                      "label": "Direct port 3020",
+                      "description": "Expose the app directly on port 3020. Simpler but no HTTPS, non-standard port."
+                    },
+                    {
+                      "label": "Nginx reverse proxy",
+                      "description": "Nginx on port 80/443 proxying to app:3020. Manual TLS config needed."
+                    }
+                  ],
+                  "multiple": false
+                },
+                {
+                  "question": "Do you have a domain name to point to the app VM for HTTPS?",
+                  "header": "Domain",
+                  "options": [
+                    {
+                      "label": "Yes, I have a domain",
+                      "description": "We'll configure DNS A record + Caddy auto-TLS via Let's Encrypt"
+                    },
+                    {
+                      "label": "No, IP-only for now",
+                      "description": "We'll use Caddy with self-signed TLS or plain HTTP on port 80"
+                    }
+                  ],
+                  "multiple": false
+                },
+                {
+                  "question": "How should the app code get onto the VM?",
+                  "header": "App deploy",
+                  "options": [
+                    {
+                      "label": "Git clone on boot (Recommended)",
+                      "description": "Cloud-init clones your git repo, installs Bun, builds, runs. Simple but slower boot (~2-3 min)."
+                    },
+                    {
+                      "label": "Bake custom OCI image",
+                      "description": "Pre-build a custom image with app + Bun baked in. Faster boot but requires Packer/custom image pipeline."
+                    }
+                  ],
+                  "multiple": false
+                }
+              ]
+            },
+            "output": "User has answered your questions: \"How should the app be reached from the outside?\"=\"Caddy reverse proxy (Recommended)\", \"Do you have a domain name to point to the app VM for HTTPS?\"=\"Yes, I have a domain\", \"How should the app code get onto the VM?\"=\"Git clone on boot (Recommended)\". You can now continue with the user's answers in mind.",
+            "metadata": {
+              "answers": [
+                [
+                  "Caddy reverse proxy (Recommended)"
+                ],
+                [
+                  "Yes, I have a domain"
+                ],
+                [
+                  "Git clone on boot (Recommended)"
+                ]
+              ],
+              "truncated": false
+            },
+            "title": "Asked 3 questions",
+            "time": {
+              "start": 1779777747117,
+              "end": 1779777925129
+            }
+          },
+          "id": "prt_e630529ea001zov3xfAuSOemLH",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630496c6002R1vQr4Aaya2y2N"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "f8070c5c3958c8bbe571ffc87f807fed6c1b538d",
+          "type": "step-finish",
+          "tokens": {
+            "total": 49244,
+            "input": 7200,
+            "output": 1012,
+            "reasoning": 840,
+            "cache": {
+              "write": 0,
+              "read": 40192
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6307f0200010Se3Bl0T5stPZS",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630496c6002R1vQr4Aaya2y2N"
+        },
+        {
+          "type": "patch",
+          "hash": "0fc6bc98c940afaf1d4a34f400383c7227aea2fc",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/src/services/audit-log-service.ts"
+          ],
+          "id": "prt_e6307f044001Ll50NsxjgjtbdJ",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e630496c6002R1vQr4Aaya2y2N"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e630245ff001wDpR3XdkXGoLhO",
+        "role": "assistant",
+        "mode": "plan",
+        "agent": "plan",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 50423,
+          "input": 112,
+          "output": 782,
+          "reasoning": 313,
+          "cache": {
+            "write": 0,
+            "read": 49216
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777925200,
+          "completed": 1779777947321
+        },
+        "finish": "stop",
+        "id": "msg_e6307f050002YE2NqeyWB1QoeW",
+        "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR"
+      },
+      "parts": [
+        {
+          "snapshot": "f8070c5c3958c8bbe571ffc87f807fed6c1b538d",
+          "type": "step-start",
+          "id": "prt_e63081a34001ctpyMYcJCcWbSC",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6307f050002YE2NqeyWB1QoeW"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user chose:\n1. Caddy reverse proxy\n2. Has a domain (for Let's Encrypt HTTPS)\n3. Git clone on boot\n\nNow let me finalize the detailed plan. I need to think about:\n\n1. The app VM cloud-init will:\n   - Install Bun\n   - Install Caddy\n   - Clone the git repo\n   - Build the app\n   - Set up systemd services for the app and Caddy\n   - Caddy will reverse proxy 80/443 → localhost:3020\n   - Auto-TLS via Let's Encrypt\n\n2. The DB VM cloud-init will:\n   - Install PostgreSQL 18\n   - Configure it to listen on private IP\n   - Create the database, user, password\n   - Mount block volume for data\n   - Set up pg_hba.conf to allow connections from the app subnet\n\n3. Need a Pulumi config for:\n   - `domain` - the domain name for Caddy\n   - `gitRepoUrl` - the git repo to clone\n   - `dbPassword` - PostgreSQL password (as a secret)\n\nLet me now write the full plan and the code structure.\n\nActually, I'm in plan mode - I should present the full plan and not write code yet. Let me create a comprehensive plan.\n\nOne more thing - I need to check if `@pulumi/oci` is installed. It's not in the package.json dependencies, so it will need to be installed.\n\nLet me now present the final plan.",
+          "time": {
+            "start": 1779777935927,
+            "end": 1779777939411
+          },
+          "id": "prt_e63081a37001RmEMCfZJxIZm8I",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6307f050002YE2NqeyWB1QoeW"
+        },
+        {
+          "type": "text",
+          "text": "Here's the finalized plan:\n\n## Final Plan: Pulumi OCI Infrastructure\n\n### Architecture Recap\n- **App VM**: Ampere A1 Flex (1 OCPU, 2GB) in public subnet, public IP, Caddy reverse proxy with Let's Encrypt\n- **DB VM**: Ampere A1 Flex (1 OCPU, 4GB) in private subnet, 50GB block volume for PG data\n- **VCN**: 10.0.0.0/16 with public/private subnets, IGW, NAT GW, Service GW\n\n### Files to Create\n\n| File | Purpose |\n|---|---|\n| `infra/config.ts` | Stack config: compartment, AD, region, SSH key, domain, git repo, DB password |\n| `infra/vcn.ts` | VCN, subnets, IGW, NAT GW, Service GW, route tables, security lists |\n| `infra/app-instance.ts` | App VM + cloud-init (Bun, Caddy, git clone, build, systemd) |\n| `infra/db-instance.ts` | DB VM + block volume + cloud-init (PostgreSQL 18, user/db setup) |\n| `infra/index.ts` | Main stack orchestrating all components + stack outputs |\n\n### Required `pulumi config set` Values\n```\noci:region                    # e.g. us-phoenix-1\noci:compartmentId             # compartment OCID\navailabilityDomain            # e.g. Uocm:PHX-AD-1\nsshPublicKey                  # your SSH public key string\ndomain                        # e.g. ats.example.com\ngitRepoUrl                    # git repo URL for cloning\ndbPassword                    # PostgreSQL password (use --secret)\n```\n\n### Cloud-init: App VM\n1. Install Bun, Caddy, git\n2. Clone repo, `bun install`, `bun --bun run build`\n3. Write Caddyfile (reverse proxy :80/:443 → localhost:3020, auto HTTPS)\n4. Create systemd units: `alpauls-ats.service` (app) + `caddy.service`\n5. App env vars: `DATABASE_URL` (derived from DB private IP), `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, R2 vars\n\n### Cloud-init: DB VM\n1. Install PostgreSQL 18, mount block volume to `/mnt/pgdata`\n2. Configure `postgresql.conf` (data_directory, listen_addresses)\n3. Configure `pg_hba.conf` (allow from app subnet 10.0.1.0/24)\n4. Create user + database matching current docker-compose setup\n\n### Network Security\n- **Public SL**: Inbound 22 (SSH), 80, 443 from 0.0.0.0/0; all outbound\n- **Private SL**: Inbound 5432 from 10.0.1.0/24, 22 from 10.0.0.0/16; all outbound\n\n### Prerequisites (before `pulumi up`)\n1. `bun install @pulumi/oci` (not currently in deps)\n2. `pulumi config set` all required values above\n3. DNS A record pointing domain → app VM public IP (after first deploy, or use dynamic DNS)\n4. OCI API key auth configured (~/.oci/config or env vars `OCI_TENANCY_OCID`, `OCI_USER_OCID`, `OCI_FINGERPRINT`, `OCI_PRIVATE_KEY_PATH`, `OCI_REGION`)\n\n### Stack Outputs\n- `appPublicIp` — app VM public IP\n- `dbPrivateIp` — DB VM private IP\n- `appUrl` — `https://{domain}`\n\nShall I proceed with implementation?",
+          "time": {
+            "start": 1779777939414,
+            "end": 1779777947251
+          },
+          "id": "prt_e630827d5001Vz7yCxGl3xZ4an",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6307f050002YE2NqeyWB1QoeW"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "f8070c5c3958c8bbe571ffc87f807fed6c1b538d",
+          "type": "step-finish",
+          "tokens": {
+            "total": 50423,
+            "input": 112,
+            "output": 782,
+            "reasoning": 313,
+            "cache": {
+              "write": 0,
+              "read": 49216
+            }
+          },
+          "cost": 0,
+          "id": "prt_e63084697001NTLD211O7d09mf",
+          "sessionID": "ses_19cfdba24ffeoV1hT6DbCbXDRR",
+          "messageID": "msg_e6307f050002YE2NqeyWB1QoeW"
+        }
+      ]
+    }
+  ]
+}

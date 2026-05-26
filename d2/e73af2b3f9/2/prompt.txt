@@ -1,0 +1,9 @@
+@infra/index.ts Write pulumi code to deploy the application on OCI Ampere VM with 2GB RAM and 1vCPU. Deploy the database separately on Ampere VM with 4GB RAM and 1vCPU. Connect both services in a VPC.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/infra/index.ts"}
+<path>/home/aditya/projects/alpauls-ats/infra/index.ts</path>
+<type>file</type>
+<content>
+
+
+(End of file - total 0 lines)
+</content>
