@@ -3,22 +3,32 @@
   "checkpoint_id": "d2e73af2b3f9",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 6,
+  "checkpoints_count": 10,
   "files_touched": [
     "AGENTS.md",
+    "Pulumi.dev.yaml",
+    "Pulumi.yaml",
     "TODO.md",
     "bun.lock",
+    "infra/docker/images.ts",
+    "infra/docker/services.ts",
     "infra/index.ts",
     "package.json",
     "src/components/filter-view-tabs.tsx",
     "src/components/layouts/data-view-layout.tsx",
     "src/db-schemas/filter-view.ts",
+    "src/hooks/use-filter-view-state.ts",
     "src/lib/auth/access-control.ts",
+    "src/lib/filter-merge.ts",
     "src/routeTree.gen.ts",
     "src/routes/(protected)/(app)/audit-log.tsx",
+    "src/routes/(protected)/(app)/audit-log/-view-config.tsx",
+    "src/routes/(protected)/(app)/audit-log/index.tsx",
     "src/routes/(protected)/(app)/clients/index.tsx",
     "src/routes/(protected)/(app)/prospects.tsx",
+    "src/routes/(protected)/(app)/prospects/index.tsx",
     "src/routes/__root.tsx",
+    "src/rpc/router/audit-log.ts",
     "src/rpc/router/index.ts",
     "src/services/audit-log-service.ts"
   ],
@@ -46,13 +56,19 @@
       "transcript": "/d2/e73af2b3f9/3/full.jsonl",
       "content_hash": "/d2/e73af2b3f9/3/content_hash.txt",
       "prompt": "/d2/e73af2b3f9/3/prompt.txt"
+    },
+    {
+      "metadata": "/d2/e73af2b3f9/4/metadata.json",
+      "transcript": "/d2/e73af2b3f9/4/full.jsonl",
+      "content_hash": "/d2/e73af2b3f9/4/content_hash.txt",
+      "prompt": "/d2/e73af2b3f9/4/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 284778,
+    "input_tokens": 351028,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 3884160,
-    "output_tokens": 24698,
-    "api_call_count": 91
+    "cache_read_tokens": 4076544,
+    "output_tokens": 26730,
+    "api_call_count": 100
   }
 }

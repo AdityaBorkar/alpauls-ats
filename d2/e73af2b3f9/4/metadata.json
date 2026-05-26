@@ -1,0 +1,136 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "d2e73af2b3f9",
+  "session_id": "ses_19d142f64ffe4K1hwbvlgUVvsE",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T11:22:42.542836076Z",
+  "branch": "main",
+  "checkpoints_count": 4,
+  "files_touched": [
+    "Pulumi.dev.yaml",
+    "Pulumi.yaml",
+    "TODO.md",
+    "bun.lock",
+    "infra/docker/images.ts",
+    "infra/docker/services.ts",
+    "infra/index.ts",
+    "package.json",
+    "src/components/filter-view-tabs.tsx",
+    "src/components/layouts/data-view-layout.tsx",
+    "src/db-schemas/filter-view.ts",
+    "src/hooks/use-filter-view-state.ts",
+    "src/lib/auth/access-control.ts",
+    "src/lib/filter-merge.ts",
+    "src/routeTree.gen.ts",
+    "src/routes/(protected)/(app)/audit-log.tsx",
+    "src/routes/(protected)/(app)/audit-log/-view-config.tsx",
+    "src/routes/(protected)/(app)/audit-log/index.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/prospects.tsx",
+    "src/routes/(protected)/(app)/prospects/index.tsx",
+    "src/routes/__root.tsx",
+    "src/rpc/router/audit-log.ts",
+    "src/rpc/router/index.ts",
+    "src/services/audit-log-service.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "655b912907ac",
+  "token_usage": {
+    "input_tokens": 66250,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 192384,
+    "output_tokens": 2032,
+    "api_call_count": 9
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T11:22:42.519593155Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 528,
+    "human_removed": 98,
+    "total_committed": 404,
+    "total_lines_changed": 628,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 959,
+      "user_lines_removed": 467,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "Pulumi.yaml": 3,
+        "TODO.md": 3,
+        "bun.lock": 4,
+        "infra/index.ts": 9,
+        "package.json": 2,
+        "scripts/create-audit-log-view.ts": 92,
+        "src/components/filter-view-tabs.tsx": 30,
+        "src/components/layouts/data-view-layout.tsx": 164,
+        "src/db-schemas/audit-log.ts": 18,
+        "src/db-schemas/filter-view.ts": 1,
+        "src/hooks/use-filter-view-state.ts": 66,
+        "src/lib/auth/access-control.ts": 2,
+        "src/lib/filter-merge.ts": 54,
+        "src/routeTree.gen.ts": 22,
+        "src/routes/(protected)/(app)/audit-log.tsx": 94,
+        "src/routes/(protected)/(app)/audit-log/-view-config.tsx": 155,
+        "src/routes/(protected)/(app)/clients/index.tsx": 53,
+        "src/routes/(protected)/(app)/prospects/index.tsx": 59,
+        "src/routes/__root.tsx": 4,
+        "src/rpc/router/audit-log.ts": 22,
+        "src/rpc/router/index.ts": 4,
+        "src/services/audit-log-service.ts": 98
+      },
+      "user_removed_per_file": {
+        "TODO.md": 2,
+        "bun.lock": 14,
+        "package.json": 2,
+        "src/components/filter-view-tabs.tsx": 33,
+        "src/components/layouts/data-view-layout.tsx": 115,
+        "src/db-schemas/filter-view.ts": 1,
+        "src/routeTree.gen.ts": 21,
+        "src/routes/(protected)/(app)/audit-log.tsx": 6,
+        "src/routes/(protected)/(app)/clients/index.tsx": 207,
+        "src/routes/(protected)/(app)/prospects.tsx": 59,
+        "src/routes/__root.tsx": 7
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 959,
+      "agent_lines_removed": 467
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 123,
+      "user_lines_removed": 122,
+      "agent_lines_added": 959,
+      "agent_lines_removed": 467,
+      "user_added_per_file": {
+        "src/routeTree.gen.ts": 22,
+        "src/routes/(protected)/(app)/audit-log/index.tsx": 101
+      },
+      "user_removed_per_file": {
+        "src/routeTree.gen.ts": 21,
+        "src/routes/(protected)/(app)/audit-log.tsx": 101
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}

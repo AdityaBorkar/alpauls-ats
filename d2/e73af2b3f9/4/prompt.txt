@@ -1,0 +1,17 @@
+@infra/index.ts Write pulumi code to deploy the application on OCI Ampere VM with 2GB RAM and 1vCPU. Deploy the database separately on Ampere VM with 4GB RAM and 1vCPU. Connect both services in a VPC.
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/infra/index.ts"}
+<path>/home/aditya/projects/alpauls-ats/infra/index.ts</path>
+<type>file</type>
+<content>
+1: import * as aws from "@pulumi/aws";
+2: import * as awsx from "@pulumi/awsx";
+3: import * as pulumi from "@pulumi/pulumi";
+4: 
+5: // Create an AWS resource (S3 Bucket)
+6: const bucket = new aws.s3.Bucket("my-bucket");
+7: 
+8: // Export the name of the bucket
+9: export const bucketName = bucket.id;
+
+(End of file - total 9 lines)
+</content>
