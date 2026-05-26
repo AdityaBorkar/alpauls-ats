@@ -1,0 +1,95 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "d2e73af2b3f9",
+  "session_id": "ses_19cfd5218ffenIGPvFULsmbsY0",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T11:22:41.600150205Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "AGENTS.md",
+    "TODO.md",
+    "bun.lock",
+    "package.json",
+    "src/components/filter-view-tabs.tsx",
+    "src/components/layouts/data-view-layout.tsx",
+    "src/db-schemas/filter-view.ts",
+    "src/lib/auth/access-control.ts",
+    "src/routeTree.gen.ts",
+    "src/routes/(protected)/(app)/audit-log.tsx",
+    "src/routes/(protected)/(app)/clients/index.tsx",
+    "src/routes/(protected)/(app)/prospects.tsx",
+    "src/routes/__root.tsx",
+    "src/rpc/router/index.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "2c85fd0d847f",
+  "token_usage": {
+    "input_tokens": 65680,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 219200,
+    "output_tokens": 5704,
+    "api_call_count": 7
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T11:22:41.585845306Z",
+    "agent_lines": 4,
+    "agent_removed": 26,
+    "human_added": 0,
+    "human_modified": 486,
+    "human_removed": 8,
+    "total_committed": 490,
+    "total_lines_changed": 526,
+    "agent_percentage": 5.7034220532319395,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 977,
+      "user_lines_removed": 494,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "Pulumi.yaml": 3,
+        "TODO.md": 1,
+        "bun.lock": 4,
+        "package.json": 2,
+        "scripts/create-audit-log-view.ts": 92,
+        "src/components/filter-view-tabs.tsx": 30,
+        "src/components/layouts/data-view-layout.tsx": 164,
+        "src/db-schemas/audit-log.ts": 18,
+        "src/db-schemas/filter-view.ts": 1,
+        "src/hooks/use-filter-view-state.ts": 66,
+        "src/lib/auth/access-control.ts": 2,
+        "src/lib/filter-merge.ts": 54,
+        "src/routeTree.gen.ts": 44,
+        "src/routes/(protected)/(app)/audit-log/-view-config.tsx": 155,
+        "src/routes/(protected)/(app)/audit-log/index.tsx": 101,
+        "src/routes/(protected)/(app)/clients/index.tsx": 53,
+        "src/routes/(protected)/(app)/prospects/index.tsx": 59,
+        "src/routes/__root.tsx": 4,
+        "src/rpc/router/audit-log.ts": 22,
+        "src/rpc/router/index.ts": 4,
+        "src/services/audit-log-service.ts": 98
+      },
+      "user_removed_per_file": {
+        "TODO.md": 1,
+        "bun.lock": 14,
+        "package.json": 2,
+        "src/components/filter-view-tabs.tsx": 33,
+        "src/components/layouts/data-view-layout.tsx": 115,
+        "src/db-schemas/filter-view.ts": 1,
+        "src/routeTree.gen.ts": 42,
+        "src/routes/(protected)/(app)/audit-log.tsx": 13,
+        "src/routes/(protected)/(app)/clients/index.tsx": 207,
+        "src/routes/(protected)/(app)/prospects.tsx": 59,
+        "src/routes/__root.tsx": 7
+      }
+    }
+  ]
+}

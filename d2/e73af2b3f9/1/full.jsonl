@@ -1,0 +1,2207 @@
+{
+  "info": {
+    "id": "ses_19cfd5218ffenIGPvFULsmbsY0",
+    "slug": "curious-panda",
+    "projectID": "046575e7d4f70fa788b139a1fd8f959b20715a69",
+    "directory": "/home/aditya/projects/alpauls-ats",
+    "path": "",
+    "title": "Create AGENTS.md for alpauls-ats",
+    "agent": "build",
+    "model": {
+      "id": "GLM-5.1",
+      "providerID": "wafer.ai"
+    },
+    "version": "1.15.10",
+    "summary": {
+      "additions": 141,
+      "deletions": 53,
+      "files": 2
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 65680,
+      "output": 5704,
+      "reasoning": 74,
+      "cache": {
+        "read": 219200,
+        "write": 0
+      }
+    },
+    "time": {
+      "created": 1779777580519,
+      "updated": 1779777650072
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1779777580577
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "wafer.ai",
+          "modelID": "GLM-5.1"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "AGENTS.md",
+              "patch": "Index: AGENTS.md\n===================================================================\n--- AGENTS.md\t\n+++ AGENTS.md\t\n@@ -1,103 +1,103 @@\n # AGENTS.md\n \n ## Stack\n - **Runtime**: Bun — always use `bun --bun run` for scripts\n - **Framework**: TanStack Start (React, SSR)\n - **Routing**: TanStack Router, file-based (`src/routes/`)\n - **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`\n - **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`\n - **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session\n - **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)\n - **Linting/Formatting**: Biome (`biome.json`)\n - **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)\n - **Validation**: Zod v4 (different API from Zod 3)\n - **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)\n - **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n \n ## Key Commands\n ```bash\n-bun --bun run dev              # Dev server (port 3020)\n+bun --bun run dev              # Dev server (port 3020, strict)\n bun --bun run build            # Production build\n bun --bun run preview          # Preview production build\n bun --bun run test             # bun vitest run\n bun --bun run check:lint       # Biome check --fix\n bun --bun run check:types      # tsgo --noEmit\n-bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)\n+bun --bun run db:push          # Drizzle push schema + create audit-log view + seed filter views\n bun --bun run db:studio        # Drizzle Studio\n bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\n bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\n bun --bun run deploy:staging   # Wrangler upload to staging\n bun --bun run deploy:prod      # Wrangler upload to production\n ```\n \n For other Biome operations, invoke directly:\n ```bash\n bunx --bun @biomejs/biome lint --fix\n bunx --bun @biomejs/biome format --write\n ```\n \n ## Setup\n 1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n 2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n-5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)\n+5. `bun --bun run db:push` — sync schema to DB (also creates audit-log view + seeds filter views)\n 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n 7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n \n ## Architecture\n - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n-- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`\n+- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task`, `client`, `contract`, `draft`, `filterView`, `reminder`, `notification`, `users`, `auditLog`, `prospect`\n - **oRPC procedure chain** (`src/rpc/middleware.ts`):\n-  - `base` — raw context (headers only), defined in `src/rpc/context.ts`\n+  - `base` — raw context (`{ headers }`), defined in `src/rpc/context.ts`\n   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n-- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.\n-- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)\n-- **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n+- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Non-admin users need the exact `resource:action` string in their resolved permissions array. Admin role has all permissions so always passes.\n+- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service, audit-log-service)\n+- **Access control**: `src/lib/auth/access-control.ts` — defines resources (`audit_logs`, `client_contracts`, `clients`, `drafts`, `filter_views`, `job_mandates`, `notification`, `prospects`, `reminders`, `tasks`, `team_members`), actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n-- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`\n+- **Integrations dir**: `integrations/` (agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp) — app-level providers/clients aliased via `#/*`\n - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n \n ## Testing\n - **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n - **Pattern**: `src/**/*.test.ts` (co-located in `__tests__/` dirs)\n - **DB**: PGlite (in-memory Postgres) — no Docker needed for tests\n - **Setup**: `tests/setup.ts` mocks `@/lib/db/server` via `vi.mock`; test files call `setTestDb()` from setup before each test. Helpers in `tests/db.ts`: `createTestDb`, `resetDb`, `seedUser`\n - **Caveat**: `vitest.config.ts` only resolves `@/*` and `#tests/*` aliases; `#/*` is NOT available in tests\n - **Service tests**: `src/services/__tests__/` cover task, task-event, task-link, client-contract, supervisor-hierarchy, and reminder services\n - **Biome relaxes rules in `__tests__/`**: `noExplicitAny: off`, `noNonNullAssertion: off`\n - **Biome also relaxes in `src/components/forms/**`**: `useComponentExportOnlyModules: off`, `noExplicitAny: off`\n \n ## Domain Constraints\n - Self-registration is **disabled** — only admins can create users (enforced in `databaseHooks` in auth config)\n - Auth uses phone-number + OTP; email/password login is off\n - Tasks cannot be deleted — only archived (boolean flag)\n - Every task change produces an immutable Task Event (audit trail)\n - Relative reminders are only valid when the task has a deadline\n - See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology\n \n ## Design Rules\n - **Do not use Card Design** — avoid wrapping content in `<Card>` components or card-like containers with borders/shadows. Prefer flat layouts, subtle dividers, and whitespace for visual separation.\n \n ## Style Notes\n - Biome: 2-space indent, double quotes, `organizeImports: on`\n - Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`\n - Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)\n - Biome disables ALL lint rules in `src/components/ui/**` and `src/components/data-table-filter/**` (shadcn/vendored — set `recommended: false`)\n \n ## Gotchas\n - `bunfig.toml` sets `install.auto = \"disable\"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.\n - Drizzle uses `db:push` only (no `generate`/`migrate` scripts) — schema is pushed directly to DB\n - `bunfig.toml` sets `test.onlyFailures = true` and `test.randomize = true` for Vitest\n - Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)\n - Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: \"PUBLIC_\"` and `src/env.ts` `clientPrefix: \"PUBLIC_\"`\n - `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)\n - `src/routes/api/-auth.ts` uses TanStack Router `-` prefix convention (dash-prefixed files are non-route helpers, not URL segments)\n \n ## Animation Notes\n - No bounce\n - Durations at the lower end (100-160ms for press, 150-200ms for collapse)\n - ease-out curves that start fast and settle\n",
+              "additions": 9,
+              "deletions": 9,
+              "status": "modified"
+            },
+            {
+              "file": "src/services/audit-log-service.ts",
+              "patch": "Index: src/services/audit-log-service.ts\n===================================================================\n--- src/services/audit-log-service.ts\t\n+++ src/services/audit-log-service.ts\t\n@@ -1,98 +1,186 @@\n-import { and, desc, eq, gte, ilike, lt, lte, or } from \"drizzle-orm\";\n+import {\n+  and,\n+  desc,\n+  eq,\n+  gte,\n+  ilike,\n+  lt,\n+  lte,\n+  or,\n+  sql,\n+} from \"drizzle-orm\";\n \n-import { auditLogView } from \"@/db-schemas/audit-log\";\n+import { user } from \"@/db-schemas/auth\";\n+import { clientEvents } from \"@/db-schemas/client\";\n+import { contractEvents } from \"@/db-schemas/client-contract\";\n+import { prospectEvents } from \"@/db-schemas/prospect\";\n+import { taskEvents } from \"@/db-schemas/task\";\n import { db } from \"@/lib/db/server\";\n \n+export type AuditLogEntry = {\n+  changedAt: Date | null;\n+  changedBy: string | null;\n+  changedByEmail: string | null;\n+  changedByImage: string | null;\n+  changedByName: string | null;\n+  changedByPhone: string | null;\n+  entityId: string;\n+  entityType: \"client\" | \"contract\" | \"prospect\" | \"task\";\n+  field: string;\n+  id: number;\n+  newValue: string | null;\n+  oldValue: string | null;\n+};\n+\n type ListAuditLogsInput = {\n   changedBy?: string;\n   cursor?: string;\n   dateFrom?: Date;\n   dateTo?: Date;\n   entityType?: \"client\" | \"contract\" | \"prospect\" | \"task\";\n   field?: string;\n   limit?: number;\n   search?: string;\n };\n \n-export async function listAuditLogs(input: ListAuditLogsInput) {\n-  const {\n-    changedBy,\n-    cursor,\n-    dateFrom,\n-    dateTo,\n-    entityType,\n-    field,\n-    limit = 50,\n-    search,\n-  } = input;\n+type EventTable =\n+  | typeof taskEvents\n+  | typeof clientEvents\n+  | typeof prospectEvents\n+  | typeof contractEvents;\n \n+function buildWhereClause(\n+  table: EventTable,\n+  input: ListAuditLogsInput,\n+  entityType: string,\n+  cursor?: string,\n+) {\n   const conditions = [];\n \n-  if (entityType) {\n-    conditions.push(eq(auditLogView.entityType, entityType));\n+  if (input.changedBy) {\n+    conditions.push(eq(table.changedBy, input.changedBy));\n   }\n-  if (changedBy) {\n-    conditions.push(eq(auditLogView.changedBy, changedBy));\n+  if (input.field) {\n+    conditions.push(eq(table.field, input.field));\n   }\n-  if (field) {\n-    conditions.push(eq(auditLogView.field, field));\n+  if (input.dateFrom) {\n+    conditions.push(gte(table.changedAt, input.dateFrom));\n   }\n-  if (dateFrom) {\n-    conditions.push(gte(auditLogView.changedAt, dateFrom));\n+  if (input.dateTo) {\n+    conditions.push(lte(table.changedAt, input.dateTo));\n   }\n-  if (dateTo) {\n-    conditions.push(lte(auditLogView.changedAt, dateTo));\n-  }\n-  if (search) {\n+  if (input.search) {\n     const searchFilter = or(\n-      ilike(auditLogView.changedByName, `%${search}%`),\n-      ilike(auditLogView.field, `%${search}%`),\n+      ilike(user.name, `%${input.search}%`),\n+      ilike(table.field, `%${input.search}%`),\n     );\n     if (searchFilter) conditions.push(searchFilter);\n   }\n \n-  // Cursor-based pagination: since we order by changedAt DESC, id DESC,\n-  // the cursor encodes the last item's changedAt and id to skip past it.\n   if (cursor) {\n     try {\n-      const [timestampStr, idStr] = cursor.split(\"::\");\n+      const [timestampStr, idStr, cursorEntityType] = cursor.split(\"::\");\n       const cursorTime = new Date(timestampStr);\n       const cursorId = Number.parseInt(idStr, 10);\n-      if (!Number.isNaN(cursorId) && !Number.isNaN(cursorTime.getTime())) {\n+      if (\n+        !Number.isNaN(cursorId) &&\n+        !Number.isNaN(cursorTime.getTime()) &&\n+        cursorEntityType === entityType\n+      ) {\n         const cursorFilter = or(\n-          lt(auditLogView.changedAt, cursorTime),\n+          lt(table.changedAt, cursorTime),\n           and(\n-            eq(auditLogView.changedAt, cursorTime),\n-            lt(auditLogView.id, cursorId),\n+            eq(table.changedAt, cursorTime),\n+            lt(table.id, cursorId),\n           ),\n         );\n         if (cursorFilter) conditions.push(cursorFilter);\n       }\n     } catch {\n       // Invalid cursor format, skip cursor filter\n     }\n   }\n \n-  const whereClause = conditions.length > 0 ? and(...conditions) : undefined;\n+  return conditions.length > 0 ? and(...conditions) : undefined;\n+}\n \n-  const rows = await db\n-    .select()\n-    .from(auditLogView)\n-    .where(whereClause)\n-    .orderBy(desc(auditLogView.changedAt), desc(auditLogView.id))\n-    .limit(limit + 1);\n+export async function listAuditLogs(input: ListAuditLogsInput) {\n+  const { cursor, entityType, limit = 50 } = input;\n \n-  const hasMore = rows.length > limit;\n-  const items = hasMore ? rows.slice(0, limit) : rows;\n+  const eventTypes = entityType\n+    ? [entityType]\n+    : ([\"task\", \"client\", \"prospect\", \"contract\"] as const);\n \n+  const allRows: AuditLogEntry[] = [];\n+\n+  for (const type of eventTypes) {\n+    const table: EventTable =\n+      type === \"task\"\n+        ? taskEvents\n+        : type === \"client\"\n+          ? clientEvents\n+          : type === \"prospect\"\n+            ? prospectEvents\n+            : contractEvents;\n+\n+    const entityIdExpr =\n+      type === \"task\"\n+        ? sql<string>`${taskEvents.taskId}::text`\n+        : type === \"client\"\n+          ? sql<string>`${clientEvents.clientId}::text`\n+          : type === \"prospect\"\n+            ? sql<string>`${prospectEvents.prospectId}::text`\n+            : sql<string>`${contractEvents.contractId}::text`;\n+\n+    const whereClause = buildWhereClause(table, input, type, cursor);\n+\n+    const rows = await db\n+      .select({\n+        changedAt: table.changedAt,\n+        changedBy: table.changedBy,\n+        changedByEmail: user.email,\n+        changedByImage: user.image,\n+        changedByName: user.name,\n+        changedByPhone: user.phoneNumber,\n+        entityId: entityIdExpr,\n+        field: table.field,\n+        id: table.id,\n+        newValue: table.newValue,\n+        oldValue: table.oldValue,\n+      })\n+      .from(table)\n+      .leftJoin(user, eq(table.changedBy, user.id))\n+      .where(whereClause)\n+      .orderBy(desc(table.changedAt), desc(table.id))\n+      .limit(limit + 1);\n+\n+    for (const row of rows) {\n+      allRows.push({\n+        ...row,\n+        entityType: type,\n+      });\n+    }\n+  }\n+\n+  allRows.sort((a, b) => {\n+    const aTime = a.changedAt?.getTime() ?? 0;\n+    const bTime = b.changedAt?.getTime() ?? 0;\n+    if (bTime !== aTime) return bTime - aTime;\n+    return b.id - a.id;\n+  });\n+\n+  const sliced = allRows.slice(0, limit + 1);\n+  const hasMore = sliced.length > limit;\n+  const items = hasMore ? sliced.slice(0, limit) : sliced;\n+\n   const lastItem = items[items.length - 1];\n   const nextCursor =\n     hasMore && lastItem?.changedAt && lastItem?.id != null\n-      ? `${new Date(lastItem.changedAt).toISOString()}::${lastItem.id}`\n+      ? `${new Date(lastItem.changedAt).toISOString()}::${lastItem.id}::${lastItem.entityType}`\n       : null;\n \n   return {\n     items,\n     nextCursor,\n   };\n }\n",
+              "additions": 132,
+              "deletions": 44,
+              "status": "modified"
+            }
+          ]
+        },
+        "id": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "Create or update `AGENTS.md` for this repository.\n\nThe goal is a compact instruction file that helps future OpenCode sessions avoid mistakes and ramp up quickly. Every line should answer: \"Would an agent likely miss this without help?\" If not, leave it out.\n\nUser-provided focus or constraints (honor these):\n\n\n## How to investigate\n\nRead the highest-value sources first:\n- `README*`, root manifests, workspace config, lockfiles\n- build, test, lint, formatter, typecheck, and codegen config\n- CI workflows and pre-commit / task runner config\n- existing instruction files (`AGENTS.md`, `CLAUDE.md`, `.cursor/rules/`, `.cursorrules`, `.github/copilot-instructions.md`)\n- repo-local OpenCode config such as `opencode.json`\n\nIf architecture is still unclear after reading config and docs, inspect a small number of representative code files to find the real entrypoints, package boundaries, and execution flow. Prefer reading the files that explain how the system is wired together over random leaf files.\n\nPrefer executable sources of truth over prose. If docs conflict with config or scripts, trust the executable source and only keep what you can verify.\n\n## What to extract\n\nLook for the highest-signal facts for an agent working in this repo:\n- exact developer commands, especially non-obvious ones\n- how to run a single test, a single package, or a focused verification step\n- required command order when it matters, such as `lint -> typecheck -> test`\n- monorepo or multi-package boundaries, ownership of major directories, and the real app/library entrypoints\n- framework or toolchain quirks: generated code, migrations, codegen, build artifacts, special env loading, dev servers, infra deploy flow\n- repo-specific style or workflow conventions that differ from defaults\n- testing quirks: fixtures, integration test prerequisites, snapshot workflows, required services, flaky or expensive suites\n- important constraints from existing instruction files worth preserving\n\nGood `AGENTS.md` content is usually hard-earned context that took reading multiple files to infer.\n\n## Questions\n\nOnly ask the user questions if the repo cannot answer something important. Use the `question` tool for one short batch at most.\n\nGood questions:\n- undocumented team conventions\n- branch / PR / release expectations\n- missing setup or test prerequisites that are known but not written down\n\nDo not ask about anything the repo already makes clear.\n\n## Writing rules\n\nInclude only high-signal, repo-specific guidance such as:\n- exact commands and shortcuts the agent would otherwise guess wrong\n- architecture notes that are not obvious from filenames\n- conventions that differ from language or framework defaults\n- setup requirements, environment quirks, and operational gotchas\n- references to existing instruction sources that matter\n\nExclude:\n- generic software advice\n- long tutorials or exhaustive file trees\n- obvious language conventions\n- speculative claims or anything you could not verify\n- content better stored in another file referenced via `opencode.json` `instructions`\n\nWhen in doubt, omit.\n\nPrefer short sections and bullets. If the repo is simple, keep the file simple. If the repo is large, summarize the few structural facts that actually change how an agent should work.\n\nIf `AGENTS.md` already exists at `/home/aditya/projects/alpauls-ats`, improve it in place rather than rewriting blindly. Preserve verified useful guidance, delete fluff or stale claims, and reconcile it with the current codebase.",
+          "id": "prt_e6302ae23001C7nDSR0Zc4ALs6",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302adf8001TZcRG2swqBgXtn"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 29658,
+          "input": 778,
+          "output": 204,
+          "reasoning": 68,
+          "cache": {
+            "write": 0,
+            "read": 28608
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777580906,
+          "completed": 1779777586969
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302af6a001mVHj7orCWOA1hd",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302bd00001qH8y6hO6nJ4rYS",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to create or update the `AGENTS.md` file for this repository. I already have an existing `AGENTS.md` file (it was provided in the system prompt). Let me investigate the repository to verify and improve the existing content.\n\nLet me start by reading the key configuration files and understanding the project structure.",
+          "time": {
+            "start": 1779777584395,
+            "end": 1779777584967
+          },
+          "id": "prt_e6302bd0b0010bvOtWZ6Ptt749",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "text",
+          "text": "I'll investigate the repo to verify and improve the existing `AGENTS.md`. Let me read the key sources in parallel.",
+          "time": {
+            "start": 1779777584973,
+            "end": 1779777586509
+          },
+          "id": "prt_e6302bf4d001ztlNcpelhFy14h",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_cf03ce2927094cdfb858ca5e",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats</path>\n<type>directory</type>\n<entries>\n.agents/\n.cgcignore\n.codegraphcontext/\n.entire/\n.env\n.git/\n.gitignore\n.local/\n.opencode/\n.output/\n.sandcastle/\n.tanstack/\n.vscode/\n.wrangler/\n.zed/\n~legacy.wrangler.jsonc\nAGENTS.md\nbiome.json\nbun.lock\nbunfig.toml\ncomponents.json\nCONTEXT.md\ndocker-compose.yml\ndocs/\ndrizzle.config.ts\nimages/\ninfra/\nintegrations/\nnode_modules/\npackage.json\npublic/\nPulumi.dev.yaml\nPulumi.yaml\nscripts/\nskills-lock.json\nsrc/\ntests/\nTODO.md\ntsconfig.json\nUBIQUITOUS_LANGUAGE.md\nvite.config.ts\nvitest.config.ts\n\n(42 entries)\n</entries>",
+            "metadata": {
+              "preview": ".agents/\n.cgcignore\n.codegraphcontext/\n.entire/\n.env\n.git/\n.gitignore\n.local/\n.opencode/\n.output/\n.sandcastle/\n.tanstack/\n.vscode/\n.wrangler/\n.zed/\n~legacy.wrangler.jsonc\nAGENTS.md\nbiome.json\nbun.lock\nbunfig.toml",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "",
+            "time": {
+              "start": 1779777585235,
+              "end": 1779777585260
+            }
+          },
+          "id": "prt_e6302bfe9001IyPUWir0j5gkuw",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_197c6653fd654e5e92a5673a",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/package.json"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/package.json</path>\n<type>file</type>\n<content>\n1: {\n2:   \"dependencies\": {\n3:     \"@aws-sdk/client-s3\": \"^3.1048.0\",\n4:     \"@aws-sdk/s3-request-presigner\": \"^3.1048.0\",\n5:     \"@base-ui/react\": \"^1.5.0\",\n6:     \"@dagrejs/dagre\": \"^3.0.0\",\n7:     \"@fontsource-variable/inter\": \"^5.2.8\",\n8:     \"@hookform/resolvers\": \"^5.2.2\",\n9:     \"@iconify-react/lets-icons\": \"^1.0.2\",\n10:     \"@orpc/client\": \"^1.14.3\",\n11:     \"@orpc/server\": \"^1.14.3\",\n12:     \"@orpc/tanstack-query\": \"^1.14.3\",\n13:     \"@orpc/zod\": \"^1.14.3\",\n14:     \"@posthog/react\": \"^1.9.0\",\n15:     \"@t3-oss/env-core\": \"^0.13.11\",\n16:     \"@tabler/icons-react\": \"^3.44.0\",\n17:     \"@tailwindcss/vite\": \"^4.3.0\",\n18:     \"@tanstack/react-devtools\": \"^0.10.5\",\n19:     \"@tanstack/react-query\": \"^5.100.11\",\n20:     \"@tanstack/react-query-devtools\": \"^5.100.11\",\n21:     \"@tanstack/react-router\": \"^1.170.5\",\n22:     \"@tanstack/react-router-devtools\": \"^1.167.0\",\n23:     \"@tanstack/react-router-ssr-query\": \"^1.167.0\",\n24:     \"@tanstack/react-start\": \"^1.168.7\",\n25:     \"@tanstack/react-table\": \"^8.21.3\",\n26:     \"@tanstack/router-plugin\": \"^1.168.7\",\n27:     \"@typescript/native-preview\": \"^7.0.0-dev.20260519.1\",\n28:     \"@xyflow/react\": \"^12.10.2\",\n29:     \"better-auth\": \"^1.6.11\",\n30:     \"class-variance-authority\": \"^0.7.1\",\n31:     \"clsx\": \"^2.1.1\",\n32:     \"cmdk\": \"^1.1.1\",\n33:     \"date-fns\": \"^4.2.1\",\n34:     \"drizzle-kit\": \"^0.31.10\",\n35:     \"drizzle-orm\": \"^0.45.2\",\n36:     \"lucide-react\": \"^1.16.0\",\n37:     \"nitro\": \"npm:nitro-nightly@^3.0.260429-beta\",\n38:     \"pg\": \"^8.21.0\",\n39:     \"posthog-js\": \"^1.374.3\",\n40:     \"pulumi\": \"^3.243.0\",\n41:     \"react\": \"^19.2.6\",\n42:     \"react-day-picker\": \"^10.0.1\",\n43:     \"react-dom\": \"^19.2.6\",\n44:     \"react-hook-form\": \"^7.76.0\",\n45:     \"recharts\": \"3.8.1\",\n46:     \"tailwind-merge\": \"^3.6.0\",\n47:     \"tw-animate-css\": \"^1.4.0\",\n48:     \"vaul\": \"^1.1.2\",\n49:     \"zod\": \"^4.4.3\"\n50:   },\n51:   \"devDependencies\": {\n52:     \"@ai-hero/sandcastle\": \"^0.5.11\",\n53:     \"@biomejs/biome\": \"2.4.15\",\n54:     \"@cloudflare/vite-plugin\": \"^1.37.1\",\n55:     \"@electric-sql/pglite\": \"^0.4.5\",\n56:     \"@tailwindcss/typography\": \"^0.5.19\",\n57:     \"@tanstack/devtools-vite\": \"^0.7.0\",\n58:     \"@testing-library/dom\": \"^10.4.1\",\n59:     \"@testing-library/react\": \"^16.3.2\",\n60:     \"@types/node\": \"^25.9.1\",\n61:     \"@types/pg\": \"^8.20.0\",\n62:     \"@types/react\": \"^19.2.15\",\n63:     \"@types/react-dom\": \"^19.2.3\",\n64:     \"@vitejs/plugin-react\": \"^6.0.2\",\n65:     \"dotenv\": \"^17.4.2\",\n66:     \"jsdom\": \"^29.1.1\",\n67:     \"react-grab\": \"^0.1.37\",\n68:     \"tailwindcss\": \"^4.3.0\",\n69:     \"taze\": \"^19.13.0\",\n70:     \"tsx\": \"^4.22.3\",\n71:     \"vite\": \"^8.0.13\",\n72:     \"vitest\": \"^4.1.7\",\n73:     \"wrangler\": \"^4.92.0\"\n74:   },\n75:   \"name\": \"alpauls-ats\",\n76:   \"overrides\": {\n77:     \"@tanstack/query-core\": \"5.100.11\"\n78:   },\n79:   \"pnpm\": {\n80:     \"onlyBuiltDependencies\": [\"esbuild\", \"lightningcss\"]\n81:   },\n82:   \"private\": true,\n83:   \"scripts\": {\n84:     \"build\": \"vite build\",\n85:     \"check:lint\": \"biome check --fix\",\n86:     \"check:types\": \"tsgo --noEmit\",\n87:     \"db:push\": \"drizzle-kit push && bun ./scripts/create-audit-log-view.ts && bun ./scripts/seed-filter-views.ts\",\n88:     \"db:studio\": \"drizzle-kit studio\",\n89:     \"deploy:prod\": \"wrangler versions upload --env production --preview-alias production\",\n90:     \"deploy:staging\": \"wrangler versions upload --env staging --preview-alias staging\",\n91:     \"dev\": \"vite dev\",\n92:     \"gen:auth-schema\": \"bunx auth generate -y --output ./src/db-schemas/auth.ts --config ./src/lib/auth/server.ts\",\n93:     \"gen:cf-types\": \"wrangler types\",\n94:     \"preview\": \"vite preview\",\n95:     \"test\": \"bun vitest run\",\n96:     \"update:deps\": \"bun taze -w --maturity-period 3\"\n97:   },\n98:   \"type\": \"module\"\n99: }\n\n(End of file - total 99 lines)\n</content>",
+            "metadata": {
+              "preview": "{\n  \"dependencies\": {\n    \"@aws-sdk/client-s3\": \"^3.1048.0\",\n    \"@aws-sdk/s3-request-presigner\": \"^3.1048.0\",\n    \"@base-ui/react\": \"^1.5.0\",\n    \"@dagrejs/dagre\": \"^3.0.0\",\n    \"@fontsource-variable/inter\": \"^5.2.8\",\n    \"@hookform/resolvers\": \"^5.2.2\",\n    \"@iconify-react/lets-icons\": \"^1.0.2\",\n    \"@orpc/client\": \"^1.14.3\",\n    \"@orpc/server\": \"^1.14.3\",\n    \"@orpc/tanstack-query\": \"^1.14.3\",\n    \"@orpc/zod\": \"^1.14.3\",\n    \"@posthog/react\": \"^1.9.0\",\n    \"@t3-oss/env-core\": \"^0.13.11\",\n    \"@tabler/icons-react\": \"^3.44.0\",\n    \"@tailwindcss/vite\": \"^4.3.0\",\n    \"@tanstack/react-devtools\": \"^0.10.5\",\n    \"@tanstack/react-query\": \"^5.100.11\",\n    \"@tanstack/react-query-devtools\": \"^5.100.11\",",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "package.json",
+            "time": {
+              "start": 1779777585367,
+              "end": 1779777585397
+            }
+          },
+          "id": "prt_e6302c0c7001w9QZpUeKxabUNQ",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_6f7083636a46486fa694bea6",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/AGENTS.md"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/AGENTS.md</path>\n<type>file</type>\n<content>\n1: # AGENTS.md\n2: \n3: ## Stack\n4: - **Runtime**: Bun — always use `bun --bun run` for scripts\n5: - **Framework**: TanStack Start (React, SSR)\n6: - **Routing**: TanStack Router, file-based (`src/routes/`)\n7: - **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`\n8: - **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`\n9: - **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session\n10: - **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)\n11: - **Linting/Formatting**: Biome (`biome.json`)\n12: - **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)\n13: - **Validation**: Zod v4 (different API from Zod 3)\n14: - **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)\n15: - **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n16: \n17: ## Key Commands\n18: ```bash\n19: bun --bun run dev              # Dev server (port 3020)\n20: bun --bun run build            # Production build\n21: bun --bun run preview          # Preview production build\n22: bun --bun run test             # bun vitest run\n23: bun --bun run check:lint       # Biome check --fix\n24: bun --bun run check:types      # tsgo --noEmit\n25: bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)\n26: bun --bun run db:studio        # Drizzle Studio\n27: bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\n28: bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\n29: bun --bun run deploy:staging   # Wrangler upload to staging\n30: bun --bun run deploy:prod      # Wrangler upload to production\n31: ```\n32: \n33: For other Biome operations, invoke directly:\n34: ```bash\n35: bunx --bun @biomejs/biome lint --fix\n36: bunx --bun @biomejs/biome format --write\n37: ```\n38: \n39: ## Setup\n40: 1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n41: 2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n42: 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n43: 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n44: 5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)\n45: 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n46: 7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n47: \n48: ## Architecture\n49: - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n50: - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n51: - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n52: - **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`\n53: - **oRPC procedure chain** (`src/rpc/middleware.ts`):\n54:   - `base` — raw context (headers only), defined in `src/rpc/context.ts`\n55:   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n56: - **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.\n57: - **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)\n58: - **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n59: - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n60: - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n61: - **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`\n62: - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n63: \n64: ## Testing\n65: - **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n66: - **Pattern**: `src/**/*.test.ts` (co-located in `__tests__/` dirs)\n67: - **DB**: PGlite (in-memory Postgres) — no Docker needed for tests\n68: - **Setup**: `tests/setup.ts` mocks `@/lib/db/server` via `vi.mock`; test files call `setTestDb()` from setup before each test. Helpers in `tests/db.ts`: `createTestDb`, `resetDb`, `seedUser`\n69: - **Caveat**: `vitest.config.ts` only resolves `@/*` and `#tests/*` aliases; `#/*` is NOT available in tests\n70: - **Service tests**: `src/services/__tests__/` cover task, task-event, task-link, client-contract, supervisor-hierarchy, and reminder services\n71: - **Biome relaxes rules in `__tests__/`**: `noExplicitAny: off`, `noNonNullAssertion: off`\n72: - **Biome also relaxes in `src/components/forms/**`**: `useComponentExportOnlyModules: off`, `noExplicitAny: off`\n73: \n74: ## Domain Constraints\n75: - Self-registration is **disabled** — only admins can create users (enforced in `databaseHooks` in auth config)\n76: - Auth uses phone-number + OTP; email/password login is off\n77: - Tasks cannot be deleted — only archived (boolean flag)\n78: - Every task change produces an immutable Task Event (audit trail)\n79: - Relative reminders are only valid when the task has a deadline\n80: - See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology\n81: \n82: ## Design Rules\n83: - **Do not use Card Design** — avoid wrapping content in `<Card>` components or card-like containers with borders/shadows. Prefer flat layouts, subtle dividers, and whitespace for visual separation.\n84: \n85: ## Style Notes\n86: - Biome: 2-space indent, double quotes, `organizeImports: on`\n87: - Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`\n88: - Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)\n89: - Biome disables ALL lint rules in `src/components/ui/**` and `src/components/data-table-filter/**` (shadcn/vendored — set `recommended: false`)\n90: \n91: ## Gotchas\n92: - `bunfig.toml` sets `install.auto = \"disable\"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.\n93: - Drizzle uses `db:push` only (no `generate`/`migrate` scripts) — schema is pushed directly to DB\n94: - `bunfig.toml` sets `test.onlyFailures = true` and `test.randomize = true` for Vitest\n95: - Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)\n96: - Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: \"PUBLIC_\"` and `src/env.ts` `clientPrefix: \"PUBLIC_\"`\n97: - `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)\n98: - `src/routes/api/-auth.ts` uses TanStack Router `-` prefix convention (dash-prefixed files are non-route helpers, not URL segments)\n99: \n100: ## Animation Notes\n101: - No bounce\n102: - Durations at the lower end (100-160ms for press, 150-200ms for collapse)\n103: - ease-out curves that start fast and settle\n\n(End of file - total 103 lines)\n</content>",
+            "metadata": {
+              "preview": "# AGENTS.md\n\n## Stack\n- **Runtime**: Bun — always use `bun --bun run` for scripts\n- **Framework**: TanStack Start (React, SSR)\n- **Routing**: TanStack Router, file-based (`src/routes/`)\n- **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`\n- **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`\n- **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session\n- **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)\n- **Linting/Formatting**: Biome (`biome.json`)\n- **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)\n- **Validation**: Zod v4 (different API from Zod 3)\n- **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)\n- **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n\n## Key Commands\n```bash\nbun --bun run dev              # Dev server (port 3020)\nbun --bun run build            # Production build",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "AGENTS.md",
+            "time": {
+              "start": 1779777585618,
+              "end": 1779777585655
+            }
+          },
+          "id": "prt_e6302c0de001swMB7J3Hr8ztIP",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_0f07cdd0ea55480593acb946",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/biome.json"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/biome.json</path>\n<type>file</type>\n<content>\n1: {\n2:   \"$schema\": \"./node_modules/@biomejs/biome/configuration_schema.json\",\n3:   \"assist\": {\n4:     \"actions\": {\n5:       \"source\": {\n6:         \"organizeImports\": {\n7:           \"level\": \"on\",\n8:           \"options\": {\n9:             \"groups\": [\n10:               \":URL:\",\n11:               \":BLANK_LINE:\",\n12:               [\":NODE:\", \":BUN:\", \"^@plasmo/(.*)$\", \"^@plasmohq/(.*)$\"],\n13:               \":BLANK_LINE:\",\n14:               [\":PACKAGE:\", \":PACKAGE_WITH_PROTOCOL:\"],\n15:               \":BLANK_LINE:\",\n16:               [\":ALIAS:\"],\n17:               \":BLANK_LINE:\",\n18:               [\":PATH:\"]\n19:             ]\n20:           }\n21:         },\n22:         \"useSortedAttributes\": \"on\",\n23:         \"useSortedKeys\": \"on\",\n24:         \"useSortedProperties\": \"on\"\n25:       }\n26:     }\n27:   },\n28:   \"css\": {\n29:     \"parser\": {\n30:       \"cssModules\": true,\n31:       \"tailwindDirectives\": true\n32:     }\n33:   },\n34:   \"files\": {\n35:     \"ignoreUnknown\": true,\n36:     \"includes\": [\"**\"]\n37:   },\n38:   \"formatter\": {\n39:     \"attributePosition\": \"auto\",\n40:     \"bracketSameLine\": false,\n41:     \"bracketSpacing\": true,\n42:     \"enabled\": true,\n43:     \"expand\": \"auto\",\n44:     \"formatWithErrors\": false,\n45:     \"indentStyle\": \"space\",\n46:     \"indentWidth\": 2,\n47:     \"lineEnding\": \"lf\",\n48:     \"lineWidth\": 80,\n49:     \"useEditorconfig\": true\n50:   },\n51:   \"html\": {\n52:     \"experimentalFullSupportEnabled\": false,\n53:     \"formatter\": {\n54:       \"selfCloseVoidElements\": \"always\"\n55:     }\n56:   },\n57:   \"javascript\": {\n58:     \"formatter\": {\n59:       \"arrowParentheses\": \"always\",\n60:       \"jsxQuoteStyle\": \"double\",\n61:       \"quoteProperties\": \"asNeeded\",\n62:       \"quoteStyle\": \"double\"\n63:     }\n64:   },\n65:   \"linter\": {\n66:     \"domains\": {\n67:       \"react\": \"all\",\n68:       \"tailwind\": \"all\",\n69:       \"types\": \"all\"\n70:     },\n71:     \"enabled\": true,\n72:     \"rules\": {\n73:       \"nursery\": {\n74:         \"useSortedClasses\": {\n75:           \"fix\": \"safe\",\n76:           \"level\": \"error\",\n77:           \"options\": {\n78:             \"attributes\": [\"classList\"],\n79:             \"functions\": [\"clsx\", \"cva\", \"tw\", \"tw.*\"]\n80:           }\n81:         }\n82:       },\n83:       \"recommended\": true\n84:     }\n85:   },\n86:   \"overrides\": [\n87:     {\n88:       \"includes\": [\n89:         \"./src/components/ui/**\",\n90:         \"./src/components/data-table-filter/**\"\n91:       ],\n92:       \"linter\": {\n93:         \"rules\": {\n94:           \"recommended\": false\n95:         }\n96:       }\n97:     },\n98:     {\n99:       \"includes\": [\"**/__tests__/**\"],\n100:       \"linter\": {\n101:         \"rules\": {\n102:           \"style\": {\n103:             \"noNonNullAssertion\": \"off\"\n104:           },\n105:           \"suspicious\": {\n106:             \"noExplicitAny\": \"off\"\n107:           }\n108:         }\n109:       }\n110:     },\n111:     {\n112:       \"includes\": [\"./src/components/forms/**\"],\n113:       \"linter\": {\n114:         \"rules\": {\n115:           \"style\": {\n116:             \"useComponentExportOnlyModules\": \"off\"\n117:           },\n118:           \"suspicious\": {\n119:             \"noExplicitAny\": \"off\"\n120:           }\n121:         }\n122:       }\n123:     }\n124:   ],\n125:   \"vcs\": {\n126:     \"clientKind\": \"git\",\n127:     \"enabled\": true,\n128:     \"useIgnoreFile\": true\n129:   }\n130: }\n\n(End of file - total 130 lines)\n</content>",
+            "metadata": {
+              "preview": "{\n  \"$schema\": \"./node_modules/@biomejs/biome/configuration_schema.json\",\n  \"assist\": {\n    \"actions\": {\n      \"source\": {\n        \"organizeImports\": {\n          \"level\": \"on\",\n          \"options\": {\n            \"groups\": [\n              \":URL:\",\n              \":BLANK_LINE:\",\n              [\":NODE:\", \":BUN:\", \"^@plasmo/(.*)$\", \"^@plasmohq/(.*)$\"],\n              \":BLANK_LINE:\",\n              [\":PACKAGE:\", \":PACKAGE_WITH_PROTOCOL:\"],\n              \":BLANK_LINE:\",\n              [\":ALIAS:\"],\n              \":BLANK_LINE:\",\n              [\":PATH:\"]\n            ]\n          }",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "biome.json",
+            "time": {
+              "start": 1779777585825,
+              "end": 1779777585865
+            }
+          },
+          "id": "prt_e6302c1ec001nsGW0gzkr065tX",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_849e29c2317a40849b2ab5ff",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/vite.config.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/vite.config.ts</path>\n<type>file</type>\n<content>\n1: import tailwindcss from \"@tailwindcss/vite\";\n2: import { devtools } from \"@tanstack/devtools-vite\";\n3: import { tanstackStart } from \"@tanstack/react-start/plugin/vite\";\n4: import viteReact from \"@vitejs/plugin-react\";\n5: import { nitro } from \"nitro/vite\";\n6: import { defineConfig } from \"vite\";\n7: \n8: export default defineConfig({\n9:   build: {\n10:     outDir: \".output\",\n11:   },\n12:   envPrefix: \"PUBLIC_\",\n13:   plugins: [\n14:     devtools(),\n15:     // cloudflare({ viteEnvironment: { name: \"ssr\" } }),\n16:     nitro({\n17:       rollupConfig: {\n18:         external: [/^@sentry\\//],\n19:       },\n20:     }),\n21:     tailwindcss(),\n22:     tanstackStart(),\n23:     viteReact(),\n24:   ],\n25:   resolve: {\n26:     tsconfigPaths: true,\n27:   },\n28:   server: {\n29:     port: 3020,\n30:     strictPort: true,\n31:     watch: {\n32:       ignored: [\n33:         \"**/.codegraphcontext/**\",\n34:         \"**/.opencode/**\",\n35:         \"**/.sandcastle/**\",\n36:         \"**/.agents/**\",\n37:       ],\n38:     },\n39:   },\n40: });\n\n(End of file - total 40 lines)\n</content>",
+            "metadata": {
+              "preview": "import tailwindcss from \"@tailwindcss/vite\";\nimport { devtools } from \"@tanstack/devtools-vite\";\nimport { tanstackStart } from \"@tanstack/react-start/plugin/vite\";\nimport viteReact from \"@vitejs/plugin-react\";\nimport { nitro } from \"nitro/vite\";\nimport { defineConfig } from \"vite\";\n\nexport default defineConfig({\n  build: {\n    outDir: \".output\",\n  },\n  envPrefix: \"PUBLIC_\",\n  plugins: [\n    devtools(),\n    // cloudflare({ viteEnvironment: { name: \"ssr\" } }),\n    nitro({\n      rollupConfig: {\n        external: [/^@sentry\\//],\n      },\n    }),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "vite.config.ts",
+            "time": {
+              "start": 1779777586044,
+              "end": 1779777586143
+            }
+          },
+          "id": "prt_e6302c2a4001Um7QUmGCmn33UZ",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_cf89f698391344afaad0a392",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/tsconfig.json"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/tsconfig.json</path>\n<type>file</type>\n<content>\n1: {\n2:   \"compilerOptions\": {\n3:     \"allowImportingTsExtensions\": true,\n4:     \"jsx\": \"react-jsx\",\n5:     \"lib\": [\"ES2022\", \"DOM\", \"DOM.Iterable\"],\n6:     \"module\": \"ESNext\",\n7: \n8:     /* Bundler mode */\n9:     \"moduleResolution\": \"bundler\",\n10:     \"noEmit\": true,\n11:     \"noFallthroughCasesInSwitch\": true,\n12:     \"noUncheckedSideEffectImports\": true,\n13:     \"noUnusedLocals\": true,\n14:     \"noUnusedParameters\": true,\n15:     \"paths\": {\n16:       \"@/*\": [\"./src/*\"],\n17:       \"#/*\": [\"./integrations/*\"],\n18:       \"#tests/*\": [\"./tests/*\"]\n19:     },\n20: \n21:     /* Linting */\n22:     \"skipLibCheck\": true,\n23:     \"strict\": true,\n24:     \"target\": \"ES2022\",\n25:     \"types\": [\"vite/client\"],\n26:     \"verbatimModuleSyntax\": true\n27:   },\n28:   \"include\": [\"**/*.ts\", \"**/*.tsx\"]\n29: }\n\n(End of file - total 29 lines)\n</content>",
+            "metadata": {
+              "preview": "{\n  \"compilerOptions\": {\n    \"allowImportingTsExtensions\": true,\n    \"jsx\": \"react-jsx\",\n    \"lib\": [\"ES2022\", \"DOM\", \"DOM.Iterable\"],\n    \"module\": \"ESNext\",\n\n    /* Bundler mode */\n    \"moduleResolution\": \"bundler\",\n    \"noEmit\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"noUncheckedSideEffectImports\": true,\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n    \"paths\": {\n      \"@/*\": [\"./src/*\"],\n      \"#/*\": [\"./integrations/*\"],\n      \"#tests/*\": [\"./tests/*\"]\n    },\n",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "tsconfig.json",
+            "time": {
+              "start": 1779777586161,
+              "end": 1779777586423
+            }
+          },
+          "id": "prt_e6302c384001bmIOgYK8mny09o",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_e792d054e701478f9ab7146d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/bunfig.toml"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/bunfig.toml</path>\n<type>file</type>\n<content>\n1: telemetry = false\n2: logLevel = \"warn\"\n3: \n4: [console]\n5: depth = 10\n6: \n7: [run]\n8: bun = true\n9: silent = false\n10: \n11: [install]\n12: auto = \"disable\"\n13: minimumReleaseAge = 259200\n14: minimumReleaseAgeExcludes = [\"@types/node\", \"typescript\", \"bun-types\"]\n15: \n16: [install.lockfile]\n17: save = true\n18: \n19: [test]\n20: # coverage = true\n21: # coverageThreshold = 0.8\n22: # coverageSkipTestFiles = true\n23: # coverageReporter = [\"text\", \"lcov\"]\n24: # coverageDir = \"coverage\"\n25: # pathIgnorePatterns = [\n26: #   \"node_modules/**\",\n27: #   \"dist/**\",\n28: #   \"build/**\",\n29: #   \".next/**\",\n30: #   \"coverage/**\",\n31: #   \"fixtures/**\"\n32: # ]\n33: randomize = true\n34: onlyFailures = true\n35: \n36: # [test.reporter]\n37: # junit = \"test-results.xml\"\n\n(End of file - total 37 lines)\n</content>",
+            "metadata": {
+              "preview": "telemetry = false\nlogLevel = \"warn\"\n\n[console]\ndepth = 10\n\n[run]\nbun = true\nsilent = false\n\n[install]\nauto = \"disable\"\nminimumReleaseAge = 259200\nminimumReleaseAgeExcludes = [\"@types/node\", \"typescript\", \"bun-types\"]\n\n[install.lockfile]\nsave = true\n\n[test]\n# coverage = true",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "bunfig.toml",
+            "time": {
+              "start": 1779777586382,
+              "end": 1779777586522
+            }
+          },
+          "id": "prt_e6302c3fd001rZJ5x0XCPwkAVK",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_33f2d9e8574944ca82a59a9f",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/drizzle.config.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/drizzle.config.ts</path>\n<type>file</type>\n<content>\n1: import { config } from \"dotenv\";\n2: import { defineConfig } from \"drizzle-kit\";\n3: \n4: config({ path: [\".env.local\", \".env\"] });\n5: \n6: export default defineConfig({\n7:   dbCredentials: {\n8:     url: process.env.DATABASE_URL || \"\",\n9:   },\n10:   dialect: \"postgresql\",\n11:   out: \"./drizzle\",\n12:   schema: \"./src/db-schemas\",\n13: });\n\n(End of file - total 13 lines)\n</content>",
+            "metadata": {
+              "preview": "import { config } from \"dotenv\";\nimport { defineConfig } from \"drizzle-kit\";\n\nconfig({ path: [\".env.local\", \".env\"] });\n\nexport default defineConfig({\n  dbCredentials: {\n    url: process.env.DATABASE_URL || \"\",\n  },\n  dialect: \"postgresql\",\n  out: \"./drizzle\",\n  schema: \"./src/db-schemas\",\n});",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "drizzle.config.ts",
+            "time": {
+              "start": 1779777586495,
+              "end": 1779777586589
+            }
+          },
+          "id": "prt_e6302c4e0001S3lM4gN0MGUKKC",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 29658,
+            "input": 778,
+            "output": 204,
+            "reasoning": 68,
+            "cache": {
+              "write": 0,
+              "read": 28608
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302c6db0014ie68fTLdaui9L",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302af6a001mVHj7orCWOA1hd"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 36122,
+          "input": 6310,
+          "output": 179,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 29632
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777586979,
+          "completed": 1779777591445
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302c723001XVBFjhTwvUTK8L",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302d0fc001cgwmUe70yYo2zE",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "text",
+          "text": "Now let me check some more key files to verify details:",
+          "time": {
+            "start": 1779777589533,
+            "end": 1779777591258
+          },
+          "id": "prt_e6302d11d0013tA5Bum74cGf40",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_ba8ba23aa147448e9356d454",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/vitest.config.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/vitest.config.ts</path>\n<type>file</type>\n<content>\n1: import path from \"node:path\";\n2: \n3: import { defineConfig } from \"vitest/config\";\n4: \n5: export default defineConfig({\n6:   resolve: {\n7:     alias: {\n8:       \"@\": path.resolve(__dirname, \"./src\"),\n9:       \"#tests\": path.resolve(__dirname, \"./tests\"),\n10:     },\n11:   },\n12:   test: {\n13:     include: [\"src/**/*.test.ts\"],\n14:     setupFiles: [\"tests/setup.ts\"],\n15:   },\n16: });\n\n(End of file - total 16 lines)\n</content>",
+            "metadata": {
+              "preview": "import path from \"node:path\";\n\nimport { defineConfig } from \"vitest/config\";\n\nexport default defineConfig({\n  resolve: {\n    alias: {\n      \"@\": path.resolve(__dirname, \"./src\"),\n      \"#tests\": path.resolve(__dirname, \"./tests\"),\n    },\n  },\n  test: {\n    include: [\"src/**/*.test.ts\"],\n    setupFiles: [\"tests/setup.ts\"],\n  },\n});",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "vitest.config.ts",
+            "time": {
+              "start": 1779777589865,
+              "end": 1779777589937
+            }
+          },
+          "id": "prt_e6302d1c6001NzTOsuYZkD3xnF",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_8551eb77071d42c89f0ef623",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/env.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/env.ts</path>\n<type>file</type>\n<content>\n1: import { createEnv } from \"@t3-oss/env-core\";\n2: import { z } from \"zod\";\n3: \n4: export const env = createEnv({\n5:   client: {\n6:     PUBLIC_POSTHOG_HOST: z.url().optional(),\n7:     PUBLIC_POSTHOG_KEY: z.string().min(1).optional(),\n8:     PUBLIC_R2_PUBLIC_URL: z.url(),\n9:   },\n10:   clientPrefix: \"PUBLIC_\",\n11:   emptyStringAsUndefined: true,\n12:   runtimeEnv: typeof window === \"undefined\" ? process.env : import.meta.env,\n13:   server: {\n14:     BETTER_AUTH_SECRET: z.string().min(1),\n15:     BETTER_AUTH_URL: z.url(),\n16:     DATABASE_URL: z.url(),\n17:     R2_ACCESS_KEY_ID: z.string().min(1),\n18:     R2_ACCOUNT_ID: z.string().min(1),\n19:     R2_BUCKET_NAME: z.string().min(1),\n20:     R2_SECRET_ACCESS_KEY: z.string().min(1),\n21:   },\n22: });\n\n(End of file - total 22 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createEnv } from \"@t3-oss/env-core\";\nimport { z } from \"zod\";\n\nexport const env = createEnv({\n  client: {\n    PUBLIC_POSTHOG_HOST: z.url().optional(),\n    PUBLIC_POSTHOG_KEY: z.string().min(1).optional(),\n    PUBLIC_R2_PUBLIC_URL: z.url(),\n  },\n  clientPrefix: \"PUBLIC_\",\n  emptyStringAsUndefined: true,\n  runtimeEnv: typeof window === \"undefined\" ? process.env : import.meta.env,\n  server: {\n    BETTER_AUTH_SECRET: z.string().min(1),\n    BETTER_AUTH_URL: z.url(),\n    DATABASE_URL: z.url(),\n    R2_ACCESS_KEY_ID: z.string().min(1),\n    R2_ACCOUNT_ID: z.string().min(1),\n    R2_BUCKET_NAME: z.string().min(1),\n    R2_SECRET_ACCESS_KEY: z.string().min(1),",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/env.ts",
+            "time": {
+              "start": 1779777590082,
+              "end": 1779777590181
+            }
+          },
+          "id": "prt_e6302d27c001veAAfIRb7qVcmB",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_bfcb2287491a442286c046db",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc</path>\n<type>directory</type>\n<entries>\nclient.ts\ncontext.ts\nmiddleware.ts\nrouter/\n\n(4 entries)\n</entries>",
+            "metadata": {
+              "preview": "client.ts\ncontext.ts\nmiddleware.ts\nrouter/",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc",
+            "time": {
+              "start": 1779777590307,
+              "end": 1779777590335
+            }
+          },
+          "id": "prt_e6302d34d001zhyCFAayekzmF0",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_24e6b9cd711641f8bdf41f2a",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/docker-compose.yml"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/docker-compose.yml</path>\n<type>file</type>\n<content>\n1: name: alpauls-ats\n2: \n3: services:\n4:   db:\n5:     image: postgres:18-alpine\n6:     ports:\n7:       - \"5432:5432\"\n8:     environment:\n9:       POSTGRES_USER: postgres\n10:       POSTGRES_PASSWORD: postgres\n11:       POSTGRES_DB: mydb\n12:     volumes:\n13:       - ./.local/postgres:/var/lib/postgresql/18/data\n14:     healthcheck:\n15:       test: [\"CMD-SHELL\", \"pg_isready -U postgres\"]\n16:       interval: 5s\n17:       timeout: 5s\n18:       retries: 5\n\n(End of file - total 18 lines)\n</content>",
+            "metadata": {
+              "preview": "name: alpauls-ats\n\nservices:\n  db:\n    image: postgres:18-alpine\n    ports:\n      - \"5432:5432\"\n    environment:\n      POSTGRES_USER: postgres\n      POSTGRES_PASSWORD: postgres\n      POSTGRES_DB: mydb\n    volumes:\n      - ./.local/postgres:/var/lib/postgresql/18/data\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U postgres\"]\n      interval: 5s\n      timeout: 5s\n      retries: 5",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "docker-compose.yml",
+            "time": {
+              "start": 1779777590432,
+              "end": 1779777590532
+            }
+          },
+          "id": "prt_e6302d42d001fgCerfOQqHPkBL",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_ca06c713e3854ecbbf7c76a2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/.gitignore"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/.gitignore</path>\n<type>file</type>\n<content>\n1: node_modules\n2: .env*\n3: \n4: .local\n5: .output\n6: .tanstack\n7: .wrangler\n8: \n9: .DS_Store\n10: \n11: .agents\n12: .codegraphcontext\n13: .expect\n14: .opencode\n15: .sandcastle\n16: \n17: src/routeTree.gen.ts\n18: worker-configuration.d.ts\n\n(End of file - total 18 lines)\n</content>",
+            "metadata": {
+              "preview": "node_modules\n.env*\n\n.local\n.output\n.tanstack\n.wrangler\n\n.DS_Store\n\n.agents\n.codegraphcontext\n.expect\n.opencode\n.sandcastle\n\nsrc/routeTree.gen.ts\nworker-configuration.d.ts",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": ".gitignore",
+            "time": {
+              "start": 1779777590648,
+              "end": 1779777590712
+            }
+          },
+          "id": "prt_e6302d4ac001z0vM7eJjej74zQ",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_3e46076f8a38472b8deeaba1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/scripts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/scripts</path>\n<type>directory</type>\n<entries>\ncreate-audit-log-view.ts\nseed-admin.ts\nseed-filter-views.ts\n\n(3 entries)\n</entries>",
+            "metadata": {
+              "preview": "create-audit-log-view.ts\nseed-admin.ts\nseed-filter-views.ts",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "scripts",
+            "time": {
+              "start": 1779777590807,
+              "end": 1779777590859
+            }
+          },
+          "id": "prt_e6302d5800019jRoYCdm6oQHpz",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_ef4852a81f92464b8aad4d9d",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/rpc/router/**/*.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/audit-log.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/client-contract.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/filter-view.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/client.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/draft.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/admin.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/users.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/notification.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/reminder.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/prospect.ts\n/home/aditya/projects/alpauls-ats/src/rpc/router/task.ts",
+            "metadata": {
+              "count": 12,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777591084,
+              "end": 1779777591193
+            }
+          },
+          "id": "prt_e6302d626001av0PtWx7hcww1r",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_f98e1b7ad4c1433992dedc71",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/services"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/services</path>\n<type>directory</type>\n<entries>\n__tests__/\naudit-log-service.ts\nclient-event-service.ts\nclient-service.ts\ndraft-service.ts\nnotification-service.ts\nprospect-event-service.ts\nprospect-service.ts\nreminder-service.ts\nsupervisor-hierarchy-service.ts\ntask-event-service.ts\ntask-link-service.ts\ntask-service.ts\n\n(13 entries)\n</entries>",
+            "metadata": {
+              "preview": "__tests__/\naudit-log-service.ts\nclient-event-service.ts\nclient-service.ts\ndraft-service.ts\nnotification-service.ts\nprospect-event-service.ts\nprospect-service.ts\nreminder-service.ts\nsupervisor-hierarchy-service.ts\ntask-event-service.ts\ntask-link-service.ts\ntask-service.ts",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/services",
+            "time": {
+              "start": 1779777591247,
+              "end": 1779777591274
+            }
+          },
+          "id": "prt_e6302d739001AqGQ3xuWZFI5X7",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 36122,
+            "input": 6310,
+            "output": 179,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 29632
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302d856001xAY6EKHAq0u0Yw",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302c723001XVBFjhTwvUTK8L"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 37505,
+          "input": 1245,
+          "output": 163,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 36096
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777591453,
+          "completed": 1779777594937
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302d89d001WGI3sl4aTJGV43",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302df34001vwFgGmBOBhb66J",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "text",
+          "text": "Let me check a few more things to verify the existing AGENTS.md claims:",
+          "time": {
+            "start": 1779777593166,
+            "end": 1779777594483
+          },
+          "id": "prt_e6302df4e001XMxsRWP0qtjLQa",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_498d98446bca46658126f9cf",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts</path>\n<type>file</type>\n<content>\n1: import * as admin from \"./admin\";\n2: import { auditLogList } from \"./audit-log\";\n3: import {\n4:   clientArchive,\n5:   clientCreate,\n6:   clientGetById,\n7:   clientGetUploadUrl,\n8:   clientList,\n9:   clientListEvents,\n10:   clientUpdate,\n11: } from \"./client\";\n12: import {\n13:   contractArchive,\n14:   contractCreate,\n15:   contractGetById,\n16:   contractList,\n17:   contractListEvents,\n18:   contractUpdate,\n19: } from \"./client-contract\";\n20: import {\n21:   draftCreate,\n22:   draftDelete,\n23:   draftGetById,\n24:   draftList,\n25:   draftUpdate,\n26: } from \"./draft\";\n27: import {\n28:   filterViewCreate,\n29:   filterViewDelete,\n30:   filterViewList,\n31:   filterViewUpdate,\n32: } from \"./filter-view\";\n33: import {\n34:   notificationList,\n35:   notificationMarkAllRead,\n36:   notificationMarkRead,\n37: } from \"./notification\";\n38: import { reminderArchive, reminderCreate, reminderList } from \"./reminder\";\n39: import {\n40:   taskAddLink,\n41:   taskArchive,\n42:   taskCreate,\n43:   taskGetById,\n44:   taskList,\n45:   taskListEvents,\n46:   taskRemoveLink,\n47:   taskStats,\n48:   taskUpdate,\n49: } from \"./task\";\n50: import { usersList } from \"./users\";\n51: \n52: export const router = {\n53:   admin,\n54:   auditLog: {\n55:     list: auditLogList,\n56:   },\n57:   client: {\n58:     archive: clientArchive,\n59:     create: clientCreate,\n60:     getById: clientGetById,\n61:     getUploadUrl: clientGetUploadUrl,\n62:     list: clientList,\n63:     listEvents: clientListEvents,\n64:     update: clientUpdate,\n65:   },\n66:   contract: {\n67:     archive: contractArchive,\n68:     create: contractCreate,\n69:     getById: contractGetById,\n70:     list: contractList,\n71:     listEvents: contractListEvents,\n72:     update: contractUpdate,\n73:   },\n74:   draft: {\n75:     create: draftCreate,\n76:     delete: draftDelete,\n77:     getById: draftGetById,\n78:     list: draftList,\n79:     update: draftUpdate,\n80:   },\n81:   filterView: {\n82:     create: filterViewCreate,\n83:     delete: filterViewDelete,\n84:     list: filterViewList,\n85:     update: filterViewUpdate,\n86:   },\n87:   notification: {\n88:     list: notificationList,\n89:     markAllRead: notificationMarkAllRead,\n90:     markRead: notificationMarkRead,\n91:   },\n92:   reminder: {\n93:     archive: reminderArchive,\n94:     create: reminderCreate,\n95:     list: reminderList,\n96:   },\n97:   task: {\n98:     addLink: taskAddLink,\n99:     archive: taskArchive,\n100:     create: taskCreate,\n101:     getById: taskGetById,\n102:     list: taskList,\n103:     listEvents: taskListEvents,\n104:     removeLink: taskRemoveLink,\n105:     stats: taskStats,\n106:     update: taskUpdate,\n107:   },\n108:   users: {\n109:     list: usersList,\n110:   },\n111: };\n\n(End of file - total 111 lines)\n</content>",
+            "metadata": {
+              "preview": "import * as admin from \"./admin\";\nimport { auditLogList } from \"./audit-log\";\nimport {\n  clientArchive,\n  clientCreate,\n  clientGetById,\n  clientGetUploadUrl,\n  clientList,\n  clientListEvents,\n  clientUpdate,\n} from \"./client\";\nimport {\n  contractArchive,\n  contractCreate,\n  contractGetById,\n  contractList,\n  contractListEvents,\n  contractUpdate,\n} from \"./client-contract\";\nimport {",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/router/index.ts",
+            "time": {
+              "start": 1779777593502,
+              "end": 1779777593633
+            }
+          },
+          "id": "prt_e6302e011002rD2rxKpgt7nbxc",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_29b0aa4780cc42a3af726b12",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/middleware.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/middleware.ts</path>\n<type>file</type>\n<content>\n1: import { ORPCError } from \"@orpc/server\";\n2: \n3: import type { Action, Resource } from \"@/lib/auth/access-control\";\n4: import { auth } from \"@/lib/auth/server\";\n5: import type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n6: \n7: import { type AuthContext, base } from \"./context\";\n8: \n9: type PermissionMeta = {\n10:   permission?: { resource: Resource; action: Action };\n11: };\n12: \n13: const baseWithMeta = base.$meta<PermissionMeta>({});\n14: \n15: export const authMiddleware = baseWithMeta.middleware(\n16:   async ({ context, next }) => {\n17:     const sessionData = await auth.api.getSession({\n18:       headers: context.headers || {},\n19:     });\n20: \n21:     if (!sessionData?.session || !sessionData?.user) {\n22:       throw new ORPCError(\"UNAUTHORIZED\", {\n23:         message: \"You must be signed in\",\n24:       });\n25:     }\n26: \n27:     const { session, user } = sessionData;\n28:     const subordinateCache: SubordinateCache = new Map();\n29:     return next({\n30:       context: { session, subordinateCache, user } satisfies AuthContext,\n31:     });\n32:   },\n33: );\n34: \n35: export const protectedProcedure = baseWithMeta\n36:   .use(authMiddleware)\n37:   .use(async ({ context, next, procedure }) => {\n38:     const required = procedure[\"~orpc\"].meta.permission;\n39:     if (!required) return next();\n40:     if (\n41:       context.user.permissions.includes(\n42:         `${required.resource}:${required.action}`,\n43:       )\n44:     ) {\n45:       return next();\n46:     }\n47: \n48:     throw new ORPCError(\"FORBIDDEN\", {\n49:       data: { requiredPermission: required },\n50:       message: `Missing permission: ${required.resource}:${required.action}`,\n51:     });\n52:   });\n\n(End of file - total 52 lines)\n</content>",
+            "metadata": {
+              "preview": "import { ORPCError } from \"@orpc/server\";\n\nimport type { Action, Resource } from \"@/lib/auth/access-control\";\nimport { auth } from \"@/lib/auth/server\";\nimport type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n\nimport { type AuthContext, base } from \"./context\";\n\ntype PermissionMeta = {\n  permission?: { resource: Resource; action: Action };\n};\n\nconst baseWithMeta = base.$meta<PermissionMeta>({});\n\nexport const authMiddleware = baseWithMeta.middleware(\n  async ({ context, next }) => {\n    const sessionData = await auth.api.getSession({\n      headers: context.headers || {},\n    });\n",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/middleware.ts",
+            "time": {
+              "start": 1779777593728,
+              "end": 1779777593917
+            }
+          },
+          "id": "prt_e6302e0b1001k0fW5Z1UG3xTLY",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d47878831dcc4525b465b6c2",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/auth"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/auth</path>\n<type>directory</type>\n<entries>\naccess-control.ts\nclient.ts\nserver.ts\n\n(3 entries)\n</entries>",
+            "metadata": {
+              "preview": "access-control.ts\nclient.ts\nserver.ts",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/auth",
+            "time": {
+              "start": 1779777593852,
+              "end": 1779777593875
+            }
+          },
+          "id": "prt_e6302e18f001dqcQNfG9D8PMoH",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_a854933211dc4588a20f1bd9",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/tests/setup.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/tests/setup.ts</path>\n<type>file</type>\n<content>\n1: import type { PgliteDatabase } from \"drizzle-orm/pglite\";\n2: import { vi } from \"vitest\";\n3: \n4: import type * as schema from \"@/db-schemas\";\n5: \n6: vi.mock(\"@/lib/db/server\", () => ({\n7:   get db() {\n8:     return _testDb;\n9:   },\n10: }));\n11: \n12: let _testDb: PgliteDatabase<typeof schema>;\n13: \n14: export function setTestDb(db: PgliteDatabase<typeof schema>) {\n15:   _testDb = db;\n16: }\n\n(End of file - total 16 lines)\n</content>",
+            "metadata": {
+              "preview": "import type { PgliteDatabase } from \"drizzle-orm/pglite\";\nimport { vi } from \"vitest\";\n\nimport type * as schema from \"@/db-schemas\";\n\nvi.mock(\"@/lib/db/server\", () => ({\n  get db() {\n    return _testDb;\n  },\n}));\n\nlet _testDb: PgliteDatabase<typeof schema>;\n\nexport function setTestDb(db: PgliteDatabase<typeof schema>) {\n  _testDb = db;\n}",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "tests/setup.ts",
+            "time": {
+              "start": 1779777594156,
+              "end": 1779777594205
+            }
+          },
+          "id": "prt_e6302e20b001x1p6xSxXtrxCQB",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_d4aa98220232423a97a05027",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/tests/db.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/tests/db.ts</path>\n<type>file</type>\n<content>\n1: import { PGlite } from \"@electric-sql/pglite\";\n2: import { drizzle } from \"drizzle-orm/pglite\";\n3: \n4: import * as schema from \"@/db-schemas\";\n5: \n6: const SCHEMA_SQL = `\n7: CREATE TYPE \"task_status\" AS ENUM ('todo', 'in_progress', 'done');\n8: CREATE TYPE \"contract_status\" AS ENUM ('active', 'inactive');\n9: CREATE TYPE \"prospect_stage\" AS ENUM ('prospect', 'applicant', 'candidate', 'hired', 'rejected');\n10: CREATE TYPE \"mandate_status\" AS ENUM ('open', 'in_progress', 'hired', 'completed', 'cancelled');\n11: CREATE TYPE \"notification_type\" AS ENUM (\n12:   'task_assigned',\n13:   'task_status_changed',\n14:   'task_deadline_approaching',\n15:   'reminder_triggered',\n16:   'mandate_assigned',\n17:   'mandate_completed',\n18:   'mandate_stage_changed',\n19:   'prospect_stage_changed',\n20:   'prospect_hired',\n21:   'client_created',\n22:   'contract_created',\n23:   'contract_assigned',\n24:   'system'\n25: );\n26: \n27: CREATE TABLE \"user\" (\n28:   \"id\" text PRIMARY KEY NOT NULL,\n29:   \"name\" text NOT NULL,\n30:   \"email\" text NOT NULL,\n31:   \"email_verified\" boolean DEFAULT false,\n32:   \"image\" text,\n33:   \"role\" text DEFAULT 'user' NOT NULL,\n34:   \"banned\" boolean DEFAULT false,\n35:   \"ban_reason\" text,\n36:   \"ban_expires\" timestamp,\n37:   \"custom_permissions\" jsonb,\n38:   \"permissions\" jsonb,\n39:   \"phone_number\" text,\n40:   \"phone_number_verified\" boolean,\n41:   \"supervisor_id\" text REFERENCES \"user\"(\"id\") ON DELETE SET NULL,\n42:   \"created_at\" timestamp DEFAULT now(),\n43:   \"updated_at\" timestamp DEFAULT now(),\n44:   CONSTRAINT \"user_email_unique\" UNIQUE(\"email\")\n45: );\n46: \n47: CREATE TABLE \"clients\" (\n48:   \"id\" serial PRIMARY KEY NOT NULL,\n49:   \"name\" text NOT NULL,\n50:   \"description\" text,\n51:   \"assignee_id\" text NOT NULL REFERENCES \"user\"(\"id\"),\n52:   \"archived\" boolean NOT NULL DEFAULT false,\n53:   \"created_at\" timestamp DEFAULT now(),\n54:   \"updated_at\" timestamp DEFAULT now()\n55: );\n56: \n57: CREATE TABLE \"client_events\" (\n58:   \"id\" serial PRIMARY KEY NOT NULL,\n59:   \"client_id\" integer NOT NULL REFERENCES \"clients\"(\"id\") ON DELETE CASCADE,\n60:   \"field\" text NOT NULL,\n61:   \"old_value\" text,\n62:   \"new_value\" text,\n63:   \"changed_by\" text NOT NULL REFERENCES \"user\"(\"id\"),\n64:   \"changed_at\" timestamp DEFAULT now()\n65: );\n66: \n67: CREATE TABLE \"client_contracts\" (\n68:   \"id\" serial PRIMARY KEY NOT NULL,\n69:   \"title\" text NOT NULL,\n70:   \"description\" text,\n71:   \"client_id\" integer REFERENCES \"clients\"(\"id\"),\n72:   \"assignee_id\" text NOT NULL REFERENCES \"user\"(\"id\"),\n73:   \"rm_id\" text REFERENCES \"user\"(\"id\"),\n74:   \"start_date\" text,\n75:   \"end_date\" text,\n76:   \"signed_date\" text,\n77:   \"pdf_link\" text,\n78:   \"reference_number\" text,\n79:   \"status\" \"contract_status\" NOT NULL DEFAULT 'active',\n80:   \"archived\" boolean NOT NULL DEFAULT false,\n81:   \"created_at\" timestamp DEFAULT now(),\n82:   \"updated_at\" timestamp DEFAULT now()\n83: );\n84: \n85: CREATE TABLE \"contract_events\" (\n86:   \"id\" serial PRIMARY KEY NOT NULL,\n87:   \"contract_id\" integer NOT NULL REFERENCES \"client_contracts\"(\"id\") ON DELETE CASCADE,\n88:   \"field\" text NOT NULL,\n89:   \"old_value\" text,\n90:   \"new_value\" text,\n91:   \"changed_by\" text NOT NULL REFERENCES \"user\"(\"id\"),\n92:   \"changed_at\" timestamp DEFAULT now()\n93: );\n94: \n95: CREATE TABLE \"tasks\" (\n96:   \"id\" serial PRIMARY KEY NOT NULL,\n97:   \"title\" text NOT NULL,\n98:   \"description\" text,\n99:   \"status\" \"task_status\" NOT NULL DEFAULT 'todo',\n100:   \"assignee_id\" text NOT NULL REFERENCES \"user\"(\"id\"),\n101:   \"created_by\" text NOT NULL REFERENCES \"user\"(\"id\"),\n102:   \"start_date\" text,\n103:   \"deadline\" text,\n104:   \"archived\" boolean NOT NULL DEFAULT false,\n105:   \"created_at\" timestamp DEFAULT now(),\n106:   \"updated_at\" timestamp DEFAULT now()\n107: );\n108: \n109: CREATE TABLE \"task_links\" (\n110:   \"id\" serial PRIMARY KEY NOT NULL,\n111:   \"task_id\" integer NOT NULL REFERENCES \"tasks\"(\"id\") ON DELETE CASCADE,\n112:   \"entity_type\" text NOT NULL,\n113:   \"entity_id\" text NOT NULL\n114: );\n115: \n116: CREATE UNIQUE INDEX \"task_links_unique_idx\" ON \"task_links\" (\"task_id\", \"entity_type\", \"entity_id\");\n117: \n118: CREATE TABLE \"task_events\" (\n119:   \"id\" serial PRIMARY KEY NOT NULL,\n120:   \"task_id\" integer NOT NULL REFERENCES \"tasks\"(\"id\") ON DELETE CASCADE,\n121:   \"field\" text NOT NULL,\n122:   \"old_value\" text,\n123:   \"new_value\" text,\n124:   \"changed_by\" text NOT NULL REFERENCES \"user\"(\"id\"),\n125:   \"changed_at\" timestamp DEFAULT now()\n126: );\n127: \n128: CREATE TABLE \"reminders\" (\n129:   \"id\" serial PRIMARY KEY NOT NULL,\n130:   \"task_id\" integer REFERENCES \"tasks\"(\"id\") ON DELETE CASCADE,\n131:   \"user_id\" text NOT NULL REFERENCES \"user\"(\"id\"),\n132:   \"trigger_at\" timestamp with time zone NOT NULL,\n133:   \"offset_minutes\" integer,\n134:   \"archived\" boolean NOT NULL DEFAULT false,\n135:   \"created_at\" timestamp DEFAULT now()\n136: );\n137: \n138: CREATE TABLE \"session\" (\n139:   \"id\" text PRIMARY KEY NOT NULL,\n140:   \"expires_at\" timestamp NOT NULL,\n141:   \"token\" text NOT NULL,\n142:   \"user_id\" text NOT NULL REFERENCES \"user\"(\"id\"),\n143:   \"ip_address\" text,\n144:   \"user_agent\" text,\n145:   CONSTRAINT \"session_token_unique\" UNIQUE(\"token\")\n146: );\n147: \n148: CREATE TABLE \"account\" (\n149:   \"id\" text PRIMARY KEY NOT NULL,\n150:   \"user_id\" text NOT NULL REFERENCES \"user\"(\"id\"),\n151:   \"account_id\" text NOT NULL,\n152:   \"provider_id\" text NOT NULL,\n153:   \"access_token\" text,\n154:   \"refresh_token\" text,\n155:   \"access_token_expires_at\" timestamp,\n156:   \"refresh_token_expires_at\" timestamp,\n157:   \"scope\" text,\n158:   \"id_token\" text,\n159:   \"password\" text,\n160:   \"created_at\" timestamp DEFAULT now(),\n161:   \"updated_at\" timestamp DEFAULT now()\n162: );\n163: \n164: CREATE TABLE \"verification\" (\n165:   \"id\" text PRIMARY KEY NOT NULL,\n166:   \"identifier\" text NOT NULL,\n167:   \"value\" text NOT NULL,\n168:   \"expires_at\" timestamp NOT NULL,\n169:   \"created_at\" timestamp DEFAULT now(),\n170:   \"updated_at\" timestamp DEFAULT now()\n171: );\n172: \n173: CREATE INDEX \"tasks_assignee_id_idx\" ON \"tasks\" (\"assignee_id\");\n174: CREATE INDEX \"tasks_status_idx\" ON \"tasks\" (\"status\");\n175: CREATE INDEX \"tasks_deadline_idx\" ON \"tasks\" (\"deadline\");\n176: CREATE INDEX \"task_events_task_id_idx\" ON \"task_events\" (\"task_id\");\n177: CREATE INDEX \"reminders_trigger_at_idx\" ON \"reminders\" (\"trigger_at\");\n178: CREATE INDEX \"reminders_task_id_idx\" ON \"reminders\" (\"task_id\");\n179: CREATE INDEX \"client_contracts_client_id_idx\" ON \"client_contracts\" (\"client_id\");\n180: CREATE INDEX \"client_contracts_assignee_id_idx\" ON \"client_contracts\" (\"assignee_id\");\n181: CREATE INDEX \"client_contracts_rm_id_idx\" ON \"client_contracts\" (\"rm_id\");\n182: CREATE INDEX \"client_contracts_archived_idx\" ON \"client_contracts\" (\"archived\");\n183: CREATE INDEX \"client_contracts_status_idx\" ON \"client_contracts\" (\"status\");\n184: CREATE INDEX \"contract_events_contract_id_idx\" ON \"contract_events\" (\"contract_id\");\n185: CREATE INDEX \"clients_assignee_id_idx\" ON \"clients\" (\"assignee_id\");\n186: CREATE INDEX \"clients_archived_idx\" ON \"clients\" (\"archived\");\n187: CREATE INDEX \"client_events_client_id_idx\" ON \"client_events\" (\"client_id\");\n188: `;\n189: \n190: const TRUNCATE_SQL = `\n191: DELETE FROM \"contract_events\";\n192: DELETE FROM \"client_events\";\n193: DELETE FROM \"client_contracts\";\n194: DELETE FROM \"clients\";\n195: DELETE FROM \"task_events\";\n196: DELETE FROM \"reminders\";\n197: DELETE FROM \"task_links\";\n198: DELETE FROM \"tasks\";\n199: DELETE FROM \"account\";\n200: DELETE FROM \"session\";\n201: DELETE FROM \"verification\";\n202: DELETE FROM \"user\";\n203: `;\n204: \n205: export type TestDb = ReturnType<typeof drizzle<typeof schema>>;\n206: \n207: export async function createTestDb() {\n208:   const client = new PGlite();\n209:   await client.exec(SCHEMA_SQL);\n210:   const db = drizzle(client, { schema });\n211:   return { client, db };\n212: }\n213: \n214: export async function resetDb(client: PGlite) {\n215:   await client.exec(TRUNCATE_SQL);\n216: }\n217: \n218: export async function seedUser(\n219:   db: TestDb,\n220:   overrides: {\n221:     id?: string;\n222:     name?: string;\n223:     email?: string;\n224:     role?: string;\n225:     image?: string;\n226:     supervisorId?: string | null;\n227:   } = {},\n228: ) {\n229:   const id = overrides.id ?? \"user-1\";\n230:   const [user] = await db\n231:     .insert(schema.user)\n232:     .values({\n233:       email: overrides.email ?? `test-${id}@example.com`,\n234:       id,\n235:       image: overrides.image ?? null,\n236:       name: overrides.name ?? \"Test User\",\n237:       role: overrides.role ?? \"user\",\n238:       supervisorId: overrides.supervisorId ?? null,\n239:     })\n240:     .returning();\n241:   return user;\n242: }\n\n(End of file - total 242 lines)\n</content>",
+            "metadata": {
+              "preview": "import { PGlite } from \"@electric-sql/pglite\";\nimport { drizzle } from \"drizzle-orm/pglite\";\n\nimport * as schema from \"@/db-schemas\";\n\nconst SCHEMA_SQL = `\nCREATE TYPE \"task_status\" AS ENUM ('todo', 'in_progress', 'done');\nCREATE TYPE \"contract_status\" AS ENUM ('active', 'inactive');\nCREATE TYPE \"prospect_stage\" AS ENUM ('prospect', 'applicant', 'candidate', 'hired', 'rejected');\nCREATE TYPE \"mandate_status\" AS ENUM ('open', 'in_progress', 'hired', 'completed', 'cancelled');\nCREATE TYPE \"notification_type\" AS ENUM (\n  'task_assigned',\n  'task_status_changed',\n  'task_deadline_approaching',\n  'reminder_triggered',\n  'mandate_assigned',\n  'mandate_completed',\n  'mandate_stage_changed',\n  'prospect_stage_changed',\n  'prospect_hired',",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "tests/db.ts",
+            "time": {
+              "start": 1779777594269,
+              "end": 1779777594535
+            }
+          },
+          "id": "prt_e6302e33c001NFh2BBA4WWe85x",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_0efd2ed116b748a890b6b2c7",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/routes/(protected)/**",
+              "path": "/home/aditya/projects/alpauls-ats"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/audit-log/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/prospects/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/analytics.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/audit-log/-view-config.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/$clientId/edit.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-view-config.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/-form.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/clients/new.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/-view-config.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/-form.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/drafts.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/job-mandates/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/route.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/new.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/new.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/$reportId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/reports/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/tasks/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/members/$memberId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/dashboard.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/index.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/contracts/$contractId.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/profile.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/connections.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/sla.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/agents.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/whatsapp.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/email.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/voice.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/(app)/(phase-2)/omnichannel.tsx\n/home/aditya/projects/alpauls-ats/src/routes/(protected)/settings/index.tsx",
+            "metadata": {
+              "count": 34,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777594435,
+              "end": 1779777594578
+            }
+          },
+          "id": "prt_e6302e3a8001NpjKAMaeL9X4Fm",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 37505,
+            "input": 1245,
+            "output": 163,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 36096
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302e5bc001vbQG78j48hw6w2",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302d89d001WGI3sl4aTJGV43"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 42567,
+          "input": 4926,
+          "output": 136,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 37504
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777594950,
+          "completed": 1779777598649
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302e646001NfFead8WNhX4I3",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302ee87001nyD4TwhKuKkg5S",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        },
+        {
+          "type": "text",
+          "text": "Let me check a few more things - the oRPC router now has `prospect` and `auditLog` namespaces, and the services have `audit-log-service` and `prospect-service`. Let me also check the access control file and the components structure:",
+          "time": {
+            "start": 1779777597082,
+            "end": 1779777598225
+          },
+          "id": "prt_e6302ee9a001qnsAX9ihplKMQ3",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_f64624d0c9034a2fa1cb6539",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/lib/auth/access-control.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/lib/auth/access-control.ts</path>\n<type>file</type>\n<content>\n1: import { createAccessControl } from \"better-auth/plugins/access\";\n2: \n3: import { ROLE_DISPLAY_NAMES } from \"../constants\";\n4: \n5: export const ac = createAccessControl({\n6:   audit_logs: [\"read\"],\n7:   client_contracts: [\"create\", \"read\", \"update\", \"archive\"],\n8:   clients: [\"create\", \"read\", \"update\", \"archive\"],\n9:   drafts: [\"create\", \"read\", \"update\", \"delete\"],\n10:   filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n11:   job_mandates: [\n12:     \"create\",\n13:     \"read\",\n14:     \"update\",\n15:     \"archive\",\n16:     \"assign\",\n17:     \"link_prospect\",\n18:     \"verify\",\n19:   ],\n20:   notification: [\"read\", \"update\", \"archive\"],\n21:   prospects: [\"create\", \"read\", \"update\", \"archive\"],\n22:   reminders: [\"create\", \"read\", \"archive\"],\n23:   tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n24:   team_members: [\"create\", \"read\", \"update\", \"archive\", \"manage-roles\"],\n25: });\n26: \n27: export const roles = {\n28:   admin: ac.newRole({\n29:     audit_logs: [\"read\"],\n30:     client_contracts: [\"create\", \"read\", \"update\", \"archive\"],\n31:     clients: [\"create\", \"read\", \"update\", \"archive\"],\n32:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n33:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n34:     job_mandates: [\n35:       \"create\",\n36:       \"read\",\n37:       \"update\",\n38:       \"archive\",\n39:       \"assign\",\n40:       \"link_prospect\",\n41:       \"verify\",\n42:     ],\n43:     notification: [\"read\", \"update\", \"archive\"],\n44:     prospects: [\"create\", \"read\", \"update\", \"archive\"],\n45:     reminders: [\"create\", \"read\", \"archive\"],\n46:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n47:     team_members: [\"create\", \"read\", \"update\", \"archive\", \"manage-roles\"],\n48:   }),\n49:   bd: ac.newRole({\n50:     client_contracts: [\"create\", \"read\", \"update\", \"archive\"],\n51:     clients: [\"create\", \"read\", \"update\", \"archive\"],\n52:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n53:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n54:     job_mandates: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n55:     notification: [\"read\", \"update\", \"archive\"],\n56:     prospects: [\"create\", \"read\"],\n57:     reminders: [\"create\", \"read\", \"archive\"],\n58:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n59:     team_members: [\"read\"],\n60:   }),\n61:   caller: ac.newRole({\n62:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n63:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n64:     job_mandates: [\"read\"],\n65:     notification: [\"read\", \"update\", \"archive\"],\n66:     prospects: [\"create\", \"read\", \"update\"],\n67:     reminders: [\"create\", \"read\", \"archive\"],\n68:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n69:     team_members: [\"read\"],\n70:   }),\n71:   qc: ac.newRole({\n72:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n73:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n74:     job_mandates: [\"read\", \"verify\"],\n75:     notification: [\"read\", \"update\", \"archive\"],\n76:     prospects: [\"read\"],\n77:     reminders: [\"create\", \"read\", \"archive\"],\n78:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n79:     team_members: [\"read\"],\n80:   }),\n81:   rm: ac.newRole({\n82:     client_contracts: [\"read\"],\n83:     clients: [\"read\"],\n84:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n85:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n86:     job_mandates: [\"read\", \"assign\"],\n87:     notification: [\"read\", \"update\", \"archive\"],\n88:     prospects: [\"create\", \"read\"],\n89:     reminders: [\"create\", \"read\", \"archive\"],\n90:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n91:     team_members: [\"read\"],\n92:   }),\n93:   sc: ac.newRole({\n94:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n95:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n96:     job_mandates: [\"read\", \"link_prospect\"],\n97:     notification: [\"read\", \"update\", \"archive\"],\n98:     prospects: [\"create\", \"read\", \"update\", \"archive\"],\n99:     reminders: [\"create\", \"read\", \"archive\"],\n100:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n101:     team_members: [\"read\"],\n102:   }),\n103:   tl: ac.newRole({\n104:     drafts: [\"create\", \"read\", \"update\", \"delete\"],\n105:     filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n106:     job_mandates: [\"read\", \"assign\", \"link_prospect\"],\n107:     notification: [\"read\", \"update\", \"archive\"],\n108:     prospects: [\"create\", \"read\"],\n109:     reminders: [\"create\", \"read\", \"archive\"],\n110:     tasks: [\"create\", \"read\", \"update\", \"archive\", \"assign\"],\n111:     team_members: [\"read\"],\n112:   }),\n113: } as const;\n114: \n115: export type RoleCode = keyof typeof roles | \"custom\";\n116: export type Statement = typeof ac.statements;\n117: export type Resource = keyof Statement;\n118: export type Action<S extends Resource = Resource> = Statement[S][number];\n119: export type PermissionSet = Record<string, string[]>;\n120: export type ResolvedPermissions = string[];\n121: \n122: export function resolvePermissions({\n123:   role,\n124:   permissions,\n125: }: {\n126:   role: RoleCode;\n127:   permissions?: PermissionSet | null;\n128: }): ResolvedPermissions {\n129:   if (role === \"custom\") {\n130:     if (!permissions) return [];\n131:     return Object.entries(permissions).flatMap(([domain, actions]) =>\n132:       actions.map((access) => `${domain}:${access}`),\n133:     );\n134:   }\n135: \n136:   if (!(role in roles)) return [];\n137:   const roleDef = roles[role];\n138:   if (!roleDef) return [];\n139: \n140:   return Object.entries(roleDef.statements).flatMap(([domain, actions]) =>\n141:     actions.map((access) => `${domain}:${access}`),\n142:   );\n143: }\n144: \n145: export function listPredefinedRoles() {\n146:   const result: {\n147:     code: RoleCode;\n148:     displayName: string;\n149:     permissions: PermissionSet;\n150:   }[] = [];\n151: \n152:   for (const [code, roleDef] of Object.entries(roles)) {\n153:     const permissions: PermissionSet = {};\n154:     for (const resource of Object.keys(ac.statements) as Resource[]) {\n155:       const allowed = (roleDef as unknown as Record<string, string[]>)[\n156:         resource\n157:       ];\n158:       if (allowed && allowed.length > 0) {\n159:         permissions[resource] = allowed;\n160:       }\n161:     }\n162:     result.push({\n163:       code: code as RoleCode,\n164:       displayName: ROLE_DISPLAY_NAMES[code as RoleCode],\n165:       permissions,\n166:     });\n167:   }\n168: \n169:   result.push({\n170:     code: \"custom\",\n171:     displayName: ROLE_DISPLAY_NAMES.custom,\n172:     permissions: {},\n173:   });\n174: \n175:   return result;\n176: }\n\n(End of file - total 176 lines)\n</content>",
+            "metadata": {
+              "preview": "import { createAccessControl } from \"better-auth/plugins/access\";\n\nimport { ROLE_DISPLAY_NAMES } from \"../constants\";\n\nexport const ac = createAccessControl({\n  audit_logs: [\"read\"],\n  client_contracts: [\"create\", \"read\", \"update\", \"archive\"],\n  clients: [\"create\", \"read\", \"update\", \"archive\"],\n  drafts: [\"create\", \"read\", \"update\", \"delete\"],\n  filter_views: [\"create\", \"read\", \"update\", \"delete\"],\n  job_mandates: [\n    \"create\",\n    \"read\",\n    \"update\",\n    \"archive\",\n    \"assign\",\n    \"link_prospect\",\n    \"verify\",\n  ],\n  notification: [\"read\", \"update\", \"archive\"],",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/lib/auth/access-control.ts",
+            "time": {
+              "start": 1779777597764,
+              "end": 1779777597912
+            }
+          },
+          "id": "prt_e6302f0b4001V2BLDLJdpFJw07",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_49cad9e5dee94eb3b8b96fa1",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/src/rpc/context.ts"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/src/rpc/context.ts</path>\n<type>file</type>\n<content>\n1: import { os } from \"@orpc/server\";\n2: \n3: import type { auth } from \"@/lib/auth/server\";\n4: import type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n5: \n6: export type AuthContext = {\n7:   session: typeof auth.$Infer.Session.session;\n8:   subordinateCache: SubordinateCache;\n9:   user: typeof auth.$Infer.Session.user;\n10: };\n11: \n12: export const base = os.$context<{\n13:   headers: HeadersInit | undefined;\n14: }>();\n\n(End of file - total 14 lines)\n</content>",
+            "metadata": {
+              "preview": "import { os } from \"@orpc/server\";\n\nimport type { auth } from \"@/lib/auth/server\";\nimport type { SubordinateCache } from \"@/services/supervisor-hierarchy-service\";\n\nexport type AuthContext = {\n  session: typeof auth.$Infer.Session.session;\n  subordinateCache: SubordinateCache;\n  user: typeof auth.$Infer.Session.user;\n};\n\nexport const base = os.$context<{\n  headers: HeadersInit | undefined;\n}>();",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "src/rpc/context.ts",
+            "time": {
+              "start": 1779777597947,
+              "end": 1779777598298
+            }
+          },
+          "id": "prt_e6302f176001CZoUVo6VS7XuPI",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_a376b3d4a31343759e51a492",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/integrations"
+            },
+            "output": "<path>/home/aditya/projects/alpauls-ats/integrations</path>\n<type>directory</type>\n<entries>\nagents/\ncharts/\ndata-views/\nemail/\nforms/\nposthog/\nreports/\nvoice/\nweb-push/\nwhatsapp/\n\n(10 entries)\n</entries>",
+            "metadata": {
+              "preview": "agents/\ncharts/\ndata-views/\nemail/\nforms/\nposthog/\nreports/\nvoice/\nweb-push/\nwhatsapp/",
+              "truncated": false,
+              "loaded": []
+            },
+            "title": "integrations",
+            "time": {
+              "start": 1779777598094,
+              "end": 1779777598138
+            }
+          },
+          "id": "prt_e6302f213001S9VJO9pX4uyxE3",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_8a02833a82c84dc8ace39a6a",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": ".opencode/**"
+            },
+            "output": "No files found",
+            "metadata": {
+              "count": 0,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777598211,
+              "end": 1779777598314
+            }
+          },
+          "id": "prt_e6302f2c7001jxGJsJd5BLbEYh",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 42567,
+            "input": 4926,
+            "output": 136,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 37504
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6302f47a0016md5Oy5gKvVuda",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302e646001NfFead8WNhX4I3"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 44775,
+          "input": 2186,
+          "output": 28,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 42560
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777598664,
+          "completed": 1779777601773
+        },
+        "finish": "tool-calls",
+        "id": "msg_e6302f4c7001gLcDCwvqmZZUxA",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e6302fdee001TrKGtiauY7Zvdh",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302f4c7001gLcDCwvqmZZUxA"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_0000ea170e60441c9ad6b943",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/routes/api/**/*.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/routes/api/-auth.ts\n/home/aditya/projects/alpauls-ats/src/routes/api/$.ts\n/home/aditya/projects/alpauls-ats/src/routes/api/rpc.$.ts\n/home/aditya/projects/alpauls-ats/src/routes/api/auth.$.ts",
+            "metadata": {
+              "count": 4,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777601143,
+              "end": 1779777601261
+            }
+          },
+          "id": "prt_e6302fe34001W77MmZkCx2YD0Q",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302f4c7001gLcDCwvqmZZUxA"
+        },
+        {
+          "type": "tool",
+          "tool": "glob",
+          "callID": "call_48cc369cdddd401e85fa86cf",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "src/db-schemas/**/*.ts"
+            },
+            "output": "/home/aditya/projects/alpauls-ats/src/db-schemas/audit-log.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/index.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/filter-view.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/draft.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/client-contract.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/client.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/prospect-mandate.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/notification.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/reminder.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/auth.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/prospect.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/task.ts\n/home/aditya/projects/alpauls-ats/src/db-schemas/job-mandate.ts",
+            "metadata": {
+              "count": 13,
+              "truncated": false
+            },
+            "title": "",
+            "time": {
+              "start": 1779777601387,
+              "end": 1779777601566
+            }
+          },
+          "id": "prt_e6302fed3001bZv9aA51TeDHSu",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302f4c7001gLcDCwvqmZZUxA"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-finish",
+          "tokens": {
+            "total": 44775,
+            "input": 2186,
+            "output": 28,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 42560
+            }
+          },
+          "cost": 0,
+          "id": "prt_e63030095001GXYou1Q2Nh0Ejy",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6302f4c7001gLcDCwvqmZZUxA"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 49868,
+          "input": 365,
+          "output": 4766,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 44736
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777601781,
+          "completed": 1779777649738
+        },
+        "finish": "tool-calls",
+        "id": "msg_e630300f5001mIHo1y2kqsjA0K",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "type": "step-start",
+          "id": "prt_e63030c46001tCMnNX7Ox778WC",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e630300f5001mIHo1y2kqsjA0K"
+        },
+        {
+          "type": "text",
+          "text": "Now I have a thorough understanding of the codebase. Let me compare the existing AGENTS.md against what I've verified and update it:\n\n**Changes needed:**\n1. oRPC router namespaces: add `auditLog`, `prospect`, `contract` (now `contract` not `client.*` for contracts). Actually looking again, the router has `client`, `contract`, `draft`, `filterView`, `notification`, `reminder`, `task`, `users`, `admin`, `auditLog` — but the existing doc says `client.*`, `contract.*` etc. which is close enough. But `prospect` is missing from the router list.\n2. Service layer: add `audit-log-service` (exists now)\n3. Integrations dir has more: agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp\n4. DB schemas now has `prospect-mandate`, `job-mandate`, `audit-log`, `prospect`\n5. The `db:push` command also runs `create-audit-log-view.ts` — existing doc says only \"seed filter views\"\n6. Access control now has `job_mandates` and `prospects` resources, `team_members` resource — these are important additions\n7. The `base` context is defined in `context.ts`, not described as \"headers only\" — it has `headers: HeadersInit | undefined`\n8. Roles in access control: `admin`, `bd`, `caller`, `qc`, `rm`, `sc`, `tl` — the existing doc says `caller` and `qc` but the list in the doc is `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc` which matches.\n\nLet me write the improved AGENTS.md:",
+          "time": {
+            "start": 1779777604682,
+            "end": 1779777649329
+          },
+          "id": "prt_e63030c4a001vfr28LC2slMufd",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e630300f5001mIHo1y2kqsjA0K"
+        },
+        {
+          "type": "tool",
+          "tool": "edit",
+          "callID": "call_30d7d70c77af4852aeecbea3",
+          "state": {
+            "status": "completed",
+            "input": {
+              "filePath": "/home/aditya/projects/alpauls-ats/AGENTS.md",
+              "oldString": "# AGENTS.md\n\n## Stack\n- **Runtime**: Bun — always use `bun --bun run` for scripts\n- **Framework**: TanStack Start (React, SSR)\n- **Routing**: TanStack Router, file-based (`src/routes/`)\n- **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`\n- **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`\n- **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session\n- **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)\n- **Linting/Formatting**: Biome (`biome.json`)\n- **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)\n- **Validation**: Zod v4 (different API from Zod 3)\n- **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)\n- **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n\n## Key Commands\n```bash\nbun --bun run dev              # Dev server (port 3020)\nbun --bun run build            # Production build\nbun --bun run preview          # Preview production build\nbun --bun run test             # bun vitest run\nbun --bun run check:lint       # Biome check --fix\nbun --bun run check:types      # tsgo --noEmit\nbun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)\nbun --bun run db:studio        # Drizzle Studio\nbun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\nbun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\nbun --bun run deploy:staging   # Wrangler upload to staging\nbun --bun run deploy:prod      # Wrangler upload to production\n```\n\nFor other Biome operations, invoke directly:\n```bash\nbunx --bun @biomejs/biome lint --fix\nbunx --bun @biomejs/biome format --write\n```\n\n## Setup\n1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)\n6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n\n## Architecture\n- **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n- **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n- **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`\n- **oRPC procedure chain** (`src/rpc/middleware.ts`):\n  - `base` — raw context (headers only), defined in `src/rpc/context.ts`\n  - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.\n- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)\n- **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n- **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n- **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`\n- **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n\n## Testing\n- **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n- **Pattern**: `src/**/*.test.ts` (co-located in `__tests__/` dirs)\n- **DB**: PGlite (in-memory Postgres) — no Docker needed for tests\n- **Setup**: `tests/setup.ts` mocks `@/lib/db/server` via `vi.mock`; test files call `setTestDb()` from setup before each test. Helpers in `tests/db.ts`: `createTestDb`, `resetDb`, `seedUser`\n- **Caveat**: `vitest.config.ts` only resolves `@/*` and `#tests/*` aliases; `#/*` is NOT available in tests\n- **Service tests**: `src/services/__tests__/` cover task, task-event, task-link, client-contract, supervisor-hierarchy, and reminder services\n- **Biome relaxes rules in `__tests__/`**: `noExplicitAny: off`, `noNonNullAssertion: off`\n- **Biome also relaxes in `src/components/forms/**`**: `useComponentExportOnlyModules: off`, `noExplicitAny: off`\n\n## Domain Constraints\n- Self-registration is **disabled** — only admins can create users (enforced in `databaseHooks` in auth config)\n- Auth uses phone-number + OTP; email/password login is off\n- Tasks cannot be deleted — only archived (boolean flag)\n- Every task change produces an immutable Task Event (audit trail)\n- Relative reminders are only valid when the task has a deadline\n- See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology\n\n## Design Rules\n- **Do not use Card Design** — avoid wrapping content in `<Card>` components or card-like containers with borders/shadows. Prefer flat layouts, subtle dividers, and whitespace for visual separation.\n\n## Style Notes\n- Biome: 2-space indent, double quotes, `organizeImports: on`\n- Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`\n- Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)\n- Biome disables ALL lint rules in `src/components/ui/**` and `src/components/data-table-filter/**` (shadcn/vendored — set `recommended: false`)\n\n## Gotchas\n- `bunfig.toml` sets `install.auto = \"disable\"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.\n- Drizzle uses `db:push` only (no `generate`/`migrate` scripts) — schema is pushed directly to DB\n- `bunfig.toml` sets `test.onlyFailures = true` and `test.randomize = true` for Vitest\n- Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)\n- Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: \"PUBLIC_\"` and `src/env.ts` `clientPrefix: \"PUBLIC_\"`\n- `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)\n- `src/routes/api/-auth.ts` uses TanStack Router `-` prefix convention (dash-prefixed files are non-route helpers, not URL segments)\n\n## Animation Notes\n- No bounce\n- Durations at the lower end (100-160ms for press, 150-200ms for collapse)\n- ease-out curves that start fast and settle",
+              "newString": "# AGENTS.md\n\n## Stack\n- **Runtime**: Bun — always use `bun --bun run` for scripts\n- **Framework**: TanStack Start (React, SSR)\n- **Routing**: TanStack Router, file-based (`src/routes/`)\n- **API**: oRPC (`src/rpc/`) — NOT tRPC, NOT `src/orpc/`\n- **ORM**: Drizzle + PostgreSQL. Schema in `src/db-schemas/` (NOT `src/schema/`). DB connection in `src/lib/db/server.ts`\n- **Auth**: better-auth (`src/lib/auth/server.ts`). Phone-number + OTP login; email/password is **disabled** (`emailAndPassword.enabled: false`). Uses `customSession` plugin to inject role + resolved permissions into session\n- **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`)\n- **Linting/Formatting**: Biome (`biome.json`)\n- **Typechecking**: `tsgo` (TypeScript native preview — NOT `tsc`)\n- **Validation**: Zod v4 (different API from Zod 3)\n- **UI**: shadcn `base-nova` style, Tabler icons (both `lucide-react` and `@tabler/icons-react` installed)\n- **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n\n## Key Commands\n```bash\nbun --bun run dev              # Dev server (port 3020, strict)\nbun --bun run build            # Production build\nbun --bun run preview          # Preview production build\nbun --bun run test             # bun vitest run\nbun --bun run check:lint       # Biome check --fix\nbun --bun run check:types      # tsgo --noEmit\nbun --bun run db:push          # Drizzle push schema + create audit-log view + seed filter views\nbun --bun run db:studio        # Drizzle Studio\nbun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\nbun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\nbun --bun run deploy:staging   # Wrangler upload to staging\nbun --bun run deploy:prod      # Wrangler upload to production\n```\n\nFor other Biome operations, invoke directly:\n```bash\nbunx --bun @biomejs/biome lint --fix\nbunx --bun @biomejs/biome format --write\n```\n\n## Setup\n1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n5. `bun --bun run db:push` — sync schema to DB (also creates audit-log view + seeds filter views)\n6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n\n## Architecture\n- **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n- **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n- **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task`, `client`, `contract`, `draft`, `filterView`, `reminder`, `notification`, `users`, `auditLog`, `prospect`\n- **oRPC procedure chain** (`src/rpc/middleware.ts`):\n  - `base` — raw context (`{ headers }`), defined in `src/rpc/context.ts`\n  - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Non-admin users need the exact `resource:action` string in their resolved permissions array. Admin role has all permissions so always passes.\n- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service, audit-log-service)\n- **Access control**: `src/lib/auth/access-control.ts` — defines resources (`audit_logs`, `client_contracts`, `clients`, `drafts`, `filter_views`, `job_mandates`, `notification`, `prospects`, `reminders`, `tasks`, `team_members`), actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n- **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n- **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n- **Integrations dir**: `integrations/` (agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp) — app-level providers/clients aliased via `#/*`\n- **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n\n## Testing\n- **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n- **Pattern**: `src/**/*.test.ts` (co-located in `__tests__/` dirs)\n- **DB**: PGlite (in-memory Postgres) — no Docker needed for tests\n- **Setup**: `tests/setup.ts` mocks `@/lib/db/server` via `vi.mock`; test files call `setTestDb()` from setup before each test. Helpers in `tests/db.ts`: `createTestDb`, `resetDb`, `seedUser`\n- **Caveat**: `vitest.config.ts` only resolves `@/*` and `#tests/*` aliases; `#/*` is NOT available in tests\n- **Service tests**: `src/services/__tests__/` cover task, task-event, task-link, client-contract, supervisor-hierarchy, and reminder services\n- **Biome relaxes rules in `__tests__/`**: `noExplicitAny: off`, `noNonNullAssertion: off`\n- **Biome also relaxes in `src/components/forms/**`**: `useComponentExportOnlyModules: off`, `noExplicitAny: off`\n\n## Domain Constraints\n- Self-registration is **disabled** — only admins can create users (enforced in `databaseHooks` in auth config)\n- Auth uses phone-number + OTP; email/password login is off\n- Tasks cannot be deleted — only archived (boolean flag)\n- Every task change produces an immutable Task Event (audit trail)\n- Relative reminders are only valid when the task has a deadline\n- See `CONTEXT.md` and `UBIQUITOUS_LANGUAGE.md` for full domain model and terminology\n\n## Design Rules\n- **Do not use Card Design** — avoid wrapping content in `<Card>` components or card-like containers with borders/shadows. Prefer flat layouts, subtle dividers, and whitespace for visual separation.\n\n## Style Notes\n- Biome: 2-space indent, double quotes, `organizeImports: on`\n- Biome scope: all files except `routeTree.gen.ts`, `.opencode/`, `.agents/`, `.wrangler/`, `worker-configuration.d.ts`\n- Biome `useSortedClasses` enforced (Tailwind class sorting via `clsx`/`cva`/`tw`)\n- Biome disables ALL lint rules in `src/components/ui/**` and `src/components/data-table-filter/**` (shadcn/vendored — set `recommended: false`)\n\n## Gotchas\n- `bunfig.toml` sets `install.auto = \"disable\"` — `bun install` won't auto-install missing packages. Run `bun install` explicitly when adding deps.\n- Drizzle uses `db:push` only (no `generate`/`migrate` scripts) — schema is pushed directly to DB\n- `bunfig.toml` sets `test.onlyFailures = true` and `test.randomize = true` for Vitest\n- Changing a user's role or permissions invalidates all their active sessions (server deletes sessions on role/permission update)\n- Client env vars use `PUBLIC_` prefix (not `VITE_`) — configured in `vite.config.ts` `envPrefix: \"PUBLIC_\"` and `src/env.ts` `clientPrefix: \"PUBLIC_\"`\n- `drizzle.config.ts` reads `.env.local` + `.env` via dotenv (not Vite env loading)\n- `src/routes/api/-auth.ts` uses TanStack Router `-` prefix convention (dash-prefixed files are non-route helpers, not URL segments)\n\n## Animation Notes\n- No bounce\n- Durations at the lower end (100-160ms for press, 150-200ms for collapse)\n- ease-out curves that start fast and settle"
+            },
+            "output": "Edit applied successfully.",
+            "metadata": {
+              "diagnostics": {
+                "/home/aditya/projects/alpauls-ats/package.json": [],
+                "/home/aditya/projects/alpauls-ats/biome.json": [],
+                "/home/aditya/projects/alpauls-ats/vite.config.ts": [],
+                "/home/aditya/projects/alpauls-ats/tsconfig.json": [
+                  {
+                    "code": "parse",
+                    "message": "JSON standard does not allow comments.",
+                    "range": {
+                      "end": {
+                        "character": 22,
+                        "line": 7
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 7
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 22,
+                        "line": 8
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 8
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 23,
+                        "line": 8
+                      },
+                      "start": {
+                        "character": 22,
+                        "line": 8
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 33,
+                        "line": 8
+                      },
+                      "start": {
+                        "character": 24,
+                        "line": 8
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 34,
+                        "line": 8
+                      },
+                      "start": {
+                        "character": 33,
+                        "line": 8
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 12,
+                        "line": 9
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 9
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 13,
+                        "line": 9
+                      },
+                      "start": {
+                        "character": 12,
+                        "line": 9
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 18,
+                        "line": 9
+                      },
+                      "start": {
+                        "character": 14,
+                        "line": 9
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 19,
+                        "line": 9
+                      },
+                      "start": {
+                        "character": 18,
+                        "line": 9
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 32,
+                        "line": 10
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 10
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 33,
+                        "line": 10
+                      },
+                      "start": {
+                        "character": 32,
+                        "line": 10
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 38,
+                        "line": 10
+                      },
+                      "start": {
+                        "character": 34,
+                        "line": 10
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 39,
+                        "line": 10
+                      },
+                      "start": {
+                        "character": 38,
+                        "line": 10
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 34,
+                        "line": 11
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 11
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 35,
+                        "line": 11
+                      },
+                      "start": {
+                        "character": 34,
+                        "line": 11
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 40,
+                        "line": 11
+                      },
+                      "start": {
+                        "character": 36,
+                        "line": 11
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 41,
+                        "line": 11
+                      },
+                      "start": {
+                        "character": 40,
+                        "line": 11
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 20,
+                        "line": 12
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 12
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 21,
+                        "line": 12
+                      },
+                      "start": {
+                        "character": 20,
+                        "line": 12
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 26,
+                        "line": 12
+                      },
+                      "start": {
+                        "character": 22,
+                        "line": 12
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 27,
+                        "line": 12
+                      },
+                      "start": {
+                        "character": 26,
+                        "line": 12
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 24,
+                        "line": 13
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 13
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 25,
+                        "line": 13
+                      },
+                      "start": {
+                        "character": 24,
+                        "line": 13
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 30,
+                        "line": 13
+                      },
+                      "start": {
+                        "character": 26,
+                        "line": 13
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 31,
+                        "line": 13
+                      },
+                      "start": {
+                        "character": 30,
+                        "line": 13
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 11,
+                        "line": 14
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 14
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 12,
+                        "line": 14
+                      },
+                      "start": {
+                        "character": 11,
+                        "line": 14
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 5,
+                        "line": 18
+                      },
+                      "start": {
+                        "character": 13,
+                        "line": 14
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 17,
+                        "line": 20
+                      },
+                      "start": {
+                        "character": 5,
+                        "line": 18
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "JSON standard does not allow comments.",
+                    "range": {
+                      "end": {
+                        "character": 17,
+                        "line": 20
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 20
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 18,
+                        "line": 21
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 21
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 19,
+                        "line": 21
+                      },
+                      "start": {
+                        "character": 18,
+                        "line": 21
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 24,
+                        "line": 21
+                      },
+                      "start": {
+                        "character": 20,
+                        "line": 21
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 25,
+                        "line": 21
+                      },
+                      "start": {
+                        "character": 24,
+                        "line": 21
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 12,
+                        "line": 22
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 22
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 13,
+                        "line": 22
+                      },
+                      "start": {
+                        "character": 12,
+                        "line": 22
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 18,
+                        "line": 22
+                      },
+                      "start": {
+                        "character": 14,
+                        "line": 22
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 19,
+                        "line": 22
+                      },
+                      "start": {
+                        "character": 18,
+                        "line": 22
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 12,
+                        "line": 23
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 23
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 13,
+                        "line": 23
+                      },
+                      "start": {
+                        "character": 12,
+                        "line": 23
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 22,
+                        "line": 23
+                      },
+                      "start": {
+                        "character": 14,
+                        "line": 23
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 23,
+                        "line": 23
+                      },
+                      "start": {
+                        "character": 22,
+                        "line": 23
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 11,
+                        "line": 24
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 24
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 12,
+                        "line": 24
+                      },
+                      "start": {
+                        "character": 11,
+                        "line": 24
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 28,
+                        "line": 24
+                      },
+                      "start": {
+                        "character": 13,
+                        "line": 24
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 29,
+                        "line": 24
+                      },
+                      "start": {
+                        "character": 28,
+                        "line": 24
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 26,
+                        "line": 25
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 25
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 27,
+                        "line": 25
+                      },
+                      "start": {
+                        "character": 26,
+                        "line": 25
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 32,
+                        "line": 25
+                      },
+                      "start": {
+                        "character": 28,
+                        "line": 25
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 4,
+                        "line": 26
+                      },
+                      "start": {
+                        "character": 2,
+                        "line": 26
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 11,
+                        "line": 27
+                      },
+                      "start": {
+                        "character": 2,
+                        "line": 27
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 12,
+                        "line": 27
+                      },
+                      "start": {
+                        "character": 11,
+                        "line": 27
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 36,
+                        "line": 27
+                      },
+                      "start": {
+                        "character": 13,
+                        "line": 27
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  },
+                  {
+                    "code": "parse",
+                    "message": "End of file expected",
+                    "range": {
+                      "end": {
+                        "character": 1,
+                        "line": 28
+                      },
+                      "start": {
+                        "character": 0,
+                        "line": 28
+                      }
+                    },
+                    "severity": 1,
+                    "source": "biome"
+                  }
+                ],
+                "/home/aditya/projects/alpauls-ats/drizzle.config.ts": [],
+                "/home/aditya/projects/alpauls-ats/vitest.config.ts": [],
+                "/home/aditya/projects/alpauls-ats/src/env.ts": [],
+                "/home/aditya/projects/alpauls-ats/src/rpc/router/index.ts": [],
+                "/home/aditya/projects/alpauls-ats/src/rpc/middleware.ts": [],
+                "/home/aditya/projects/alpauls-ats/tests/setup.ts": [],
+                "/home/aditya/projects/alpauls-ats/tests/db.ts": [],
+                "/home/aditya/projects/alpauls-ats/src/lib/auth/access-control.ts": [],
+                "/home/aditya/projects/alpauls-ats/src/rpc/context.ts": [],
+                "/home/aditya/projects/alpauls-ats/docker-compose.yml": []
+              },
+              "diff": "Index: /home/aditya/projects/alpauls-ats/AGENTS.md\n===================================================================\n--- /home/aditya/projects/alpauls-ats/AGENTS.md\n+++ /home/aditya/projects/alpauls-ats/AGENTS.md\n@@ -15,15 +15,15 @@\n - **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n \n ## Key Commands\n ```bash\n-bun --bun run dev              # Dev server (port 3020)\n+bun --bun run dev              # Dev server (port 3020, strict)\n bun --bun run build            # Production build\n bun --bun run preview          # Preview production build\n bun --bun run test             # bun vitest run\n bun --bun run check:lint       # Biome check --fix\n bun --bun run check:types      # tsgo --noEmit\n-bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)\n+bun --bun run db:push          # Drizzle push schema + create audit-log view + seed filter views\n bun --bun run db:studio        # Drizzle Studio\n bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\n bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\n bun --bun run deploy:staging   # Wrangler upload to staging\n@@ -40,26 +40,26 @@\n 1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n 2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n-5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)\n+5. `bun --bun run db:push` — sync schema to DB (also creates audit-log view + seeds filter views)\n 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n 7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n \n ## Architecture\n - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n-- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`\n+- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task`, `client`, `contract`, `draft`, `filterView`, `reminder`, `notification`, `users`, `auditLog`, `prospect`\n - **oRPC procedure chain** (`src/rpc/middleware.ts`):\n-  - `base` — raw context (headers only), defined in `src/rpc/context.ts`\n+  - `base` — raw context (`{ headers }`), defined in `src/rpc/context.ts`\n   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n-- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.\n-- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)\n-- **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n+- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Non-admin users need the exact `resource:action` string in their resolved permissions array. Admin role has all permissions so always passes.\n+- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service, audit-log-service)\n+- **Access control**: `src/lib/auth/access-control.ts` — defines resources (`audit_logs`, `client_contracts`, `clients`, `drafts`, `filter_views`, `job_mandates`, `notification`, `prospects`, `reminders`, `tasks`, `team_members`), actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n-- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`\n+- **Integrations dir**: `integrations/` (agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp) — app-level providers/clients aliased via `#/*`\n - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n \n ## Testing\n - **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n",
+              "filediff": {
+                "file": "/home/aditya/projects/alpauls-ats/AGENTS.md",
+                "patch": "Index: /home/aditya/projects/alpauls-ats/AGENTS.md\n===================================================================\n--- /home/aditya/projects/alpauls-ats/AGENTS.md\n+++ /home/aditya/projects/alpauls-ats/AGENTS.md\n@@ -15,15 +15,15 @@\n - **Deploy**: Cloudflare (Wrangler) — see deploy commands below\n \n ## Key Commands\n ```bash\n-bun --bun run dev              # Dev server (port 3020)\n+bun --bun run dev              # Dev server (port 3020, strict)\n bun --bun run build            # Production build\n bun --bun run preview          # Preview production build\n bun --bun run test             # bun vitest run\n bun --bun run check:lint       # Biome check --fix\n bun --bun run check:types      # tsgo --noEmit\n-bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)\n+bun --bun run db:push          # Drizzle push schema + create audit-log view + seed filter views\n bun --bun run db:studio        # Drizzle Studio\n bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts\n bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types\n bun --bun run deploy:staging   # Wrangler upload to staging\n@@ -40,26 +40,26 @@\n 1. `docker compose up -d` — PostgreSQL on `localhost:5432` (user/pass/db: `postgres`/`postgres`/`mydb`)\n 2. Set `DATABASE_URL` in `.env.local` (default: `REDACTED`)\n 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`\n 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)\n-5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)\n+5. `bun --bun run db:push` — sync schema to DB (also creates audit-log view + seeds filter views)\n 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables\n 7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)\n \n ## Architecture\n - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore\n - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`\n - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)\n-- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`\n+- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task`, `client`, `contract`, `draft`, `filterView`, `reminder`, `notification`, `users`, `auditLog`, `prospect`\n - **oRPC procedure chain** (`src/rpc/middleware.ts`):\n-  - `base` — raw context (headers only), defined in `src/rpc/context.ts`\n+  - `base` — raw context (`{ headers }`), defined in `src/rpc/context.ts`\n   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)\n-- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.\n-- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)\n-- **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n+- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Non-admin users need the exact `resource:action` string in their resolved permissions array. Admin role has all permissions so always passes.\n+- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service, audit-log-service)\n+- **Access control**: `src/lib/auth/access-control.ts` — defines resources (`audit_logs`, `client_contracts`, `clients`, `drafts`, `filter_views`, `job_mandates`, `notification`, `prospects`, `reminders`, `tasks`, `team_members`), actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `\"custom\"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.\n - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.\n - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`\n-- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`\n+- **Integrations dir**: `integrations/` (agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp) — app-level providers/clients aliased via `#/*`\n - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)\n \n ## Testing\n - **Runner**: Vitest via `bun vitest run` (`bun --bun run test`)\n",
+                "additions": 9,
+                "deletions": 9
+              },
+              "truncated": false
+            },
+            "title": "AGENTS.md",
+            "time": {
+              "start": 1779777649356,
+              "end": 1779777649369
+            }
+          },
+          "id": "prt_e630321d100112VjKeJ9qiHhqX",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e630300f5001mIHo1y2kqsjA0K"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "ef5b2166787800f87b38f236c0aba00fd094ca03",
+          "type": "step-finish",
+          "tokens": {
+            "total": 49868,
+            "input": 365,
+            "output": 4766,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 44736
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6303bbef001W9OX7c23OiZdg7",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e630300f5001mIHo1y2kqsjA0K"
+        },
+        {
+          "type": "patch",
+          "hash": "1eb008ce97a6fd217bc680532603a54ca562cecc",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/AGENTS.md",
+            "/home/aditya/projects/alpauls-ats/src/services/audit-log-service.ts"
+          ],
+          "id": "prt_e6303bc46001fsNHCdRfFlOULe",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e630300f5001mIHo1y2kqsjA0K"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_e6302adf8001TZcRG2swqBgXtn",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/aditya/projects/alpauls-ats",
+          "root": "/home/aditya/projects/alpauls-ats"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 50163,
+          "input": 49870,
+          "output": 228,
+          "reasoning": 1,
+          "cache": {
+            "write": 0,
+            "read": 64
+          }
+        },
+        "modelID": "GLM-5.1",
+        "providerID": "wafer.ai",
+        "time": {
+          "created": 1779777649749,
+          "completed": 1779777665722
+        },
+        "finish": "stop",
+        "id": "msg_e6303bc550017YJbnYDyXc05z0",
+        "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0"
+      },
+      "parts": [
+        {
+          "snapshot": "ef5b2166787800f87b38f236c0aba00fd094ca03",
+          "type": "step-start",
+          "id": "prt_e6303d31a001JWLYo01U6DmBTZ",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6303bc550017YJbnYDyXc05z0"
+        },
+        {
+          "type": "text",
+          "text": "Updated `AGENTS.md` with these corrections:\n\n1. **oRPC router namespaces** — added `auditLog` and `prospect` (verified from `src/rpc/router/index.ts`)\n2. **Service layer** — added `audit-log-service` (verified it exists)\n3. **Access control resources** — now lists all 11 resources explicitly including `job_mandates`, `prospects`, `team_members` (verified from `access-control.ts`)\n4. **`db:push` command** — now correctly notes it also creates the audit-log view (verified from `package.json` script)\n5. **Integrations dir** — updated to full list: agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp\n6. **oRPC context** — clarified `base` context shape is `{ headers }` not \"headers only\" (verified from `context.ts`)\n7. **Dev server** — noted `strictPort: true` in the port comment\n8. **Permission middleware** — simplified wording, removed redundant sentence",
+          "time": {
+            "start": 1779777663846,
+            "end": 1779777665608
+          },
+          "id": "prt_e6303f366001WTNV7xXGjQFxCO",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6303bc550017YJbnYDyXc05z0"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "043062689be4e2d0b4941bf0b20c7564fd3b789b",
+          "type": "step-finish",
+          "tokens": {
+            "total": 50163,
+            "input": 49870,
+            "output": 228,
+            "reasoning": 1,
+            "cache": {
+              "write": 0,
+              "read": 64
+            }
+          },
+          "cost": 0,
+          "id": "prt_e6303fa87001hYQqF6dzRBc3lC",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6303bc550017YJbnYDyXc05z0"
+        },
+        {
+          "type": "patch",
+          "hash": "ef5b2166787800f87b38f236c0aba00fd094ca03",
+          "files": [
+            "/home/aditya/projects/alpauls-ats/scripts/create-audit-log-view.ts",
+            "/home/aditya/projects/alpauls-ats/src/db-schemas/audit-log.ts"
+          ],
+          "id": "prt_e6303fab7001pi9nbJYIQM1657",
+          "sessionID": "ses_19cfd5218ffenIGPvFULsmbsY0",
+          "messageID": "msg_e6303bc550017YJbnYDyXc05z0"
+        }
+      ]
+    }
+  ]
+}
