@@ -3,14 +3,17 @@
   "checkpoint_id": "933ac22aed9f",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 1,
+  "checkpoints_count": 4,
   "files_touched": [
+    "Pulumi.yaml",
     "TODO.md",
+    "bun.lock",
     "docker-compose.yml",
     "images/postgres/Dockerfile",
     "infra/app.ts",
     "infra/db.ts",
     "infra/docker/images.ts",
+    "infra/docker/services.ts",
     "infra/index.ts",
     "package.json"
   ],
@@ -20,13 +23,19 @@
       "transcript": "/93/3ac22aed9f/0/full.jsonl",
       "content_hash": "/93/3ac22aed9f/0/content_hash.txt",
       "prompt": "/93/3ac22aed9f/0/prompt.txt"
+    },
+    {
+      "metadata": "/93/3ac22aed9f/1/metadata.json",
+      "transcript": "/93/3ac22aed9f/1/full.jsonl",
+      "content_hash": "/93/3ac22aed9f/1/content_hash.txt",
+      "prompt": "/93/3ac22aed9f/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 13325,
+    "input_tokens": 116830,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 51968,
-    "output_tokens": 2869,
-    "api_call_count": 6
+    "cache_read_tokens": 2397056,
+    "output_tokens": 11318,
+    "api_call_count": 51
   }
 }
