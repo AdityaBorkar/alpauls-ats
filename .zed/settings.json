@@ -10,8 +10,8 @@
   "format_on_save": "on",
   "formatter": {
     "external": {
-      "arguments": ["format", "--stdin-file-path", "{buffer_path}"],
-      "command": "biome"
+      "arguments": ["biome", "format", "--stdin-file-path", "{buffer_path}"],
+      "command": "bun"
     }
   },
   "language_servers": ["!eslint", "!typescript-language-server", "..."]

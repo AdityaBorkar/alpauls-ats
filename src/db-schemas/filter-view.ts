@@ -17,7 +17,7 @@ export type FilterViewDisplay = {
   fields: string[];
 };
 
-export type FilterViewDomain = "clients" | "prospects";
+export type FilterViewDomain = "audit_log" | "clients" | "prospects";
 
 export const filterViews = pgTable(
   "filter_views",

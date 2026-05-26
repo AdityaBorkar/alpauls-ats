@@ -16,13 +16,13 @@
 
 ## Key Commands
 ```bash
-bun --bun run dev              # Dev server (port 3020)
+bun --bun run dev              # Dev server (port 3020, strict)
 bun --bun run build            # Production build
 bun --bun run preview          # Preview production build
 bun --bun run test             # bun vitest run
 bun --bun run check:lint       # Biome check --fix
 bun --bun run check:types      # tsgo --noEmit
-bun --bun run db:push          # Drizzle push schema to DB + seed filter views (dev only — no generate/migrate scripts)
+bun --bun run db:push          # Drizzle push schema + seed filter views
 bun --bun run db:studio        # Drizzle Studio
 bun --bun run gen:auth-schema  # Regenerate better-auth schema → src/db-schemas/auth.ts
 bun --bun run gen:cf-types     # Generate Wrangler/Cloudflare types
@@ -41,7 +41,7 @@ bunx --bun @biomejs/biome format --write
 2. Set `DATABASE_URL` in `.env.local` (default: `postgresql://postgres:postgres@localhost:5432/mydb`)
 3. Generate `BETTER_AUTH_SECRET`: `bunx --bun @better-auth/cli secret`
 4. Set `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` in `.env.local` (optional, analytics)
-5. `bun --bun run db:push` — sync schema to DB (also seeds default filter views)
+5. `bun --bun run db:push` — sync schema to DB (also creates audit-log view + seeds filter views)
 6. `bunx --bun @better-auth/cli migrate` — create better-auth tables
 7. `bun scripts/seed-admin.ts` — interactive CLI to create first admin user (no npm script; fails if any users already exist)
 
@@ -49,16 +49,16 @@ bunx --bun @biomejs/biome format --write
 - **Route tree** auto-generated to `src/routeTree.gen.ts` — never edit manually; excluded from Biome and VCS ignore
 - **Protected routes**: `src/routes/(protected)/` uses `beforeLoad` guard calling `getSession()` from `src/routes/api/-auth.ts` — redirects unauthenticated users to `/`
 - **API routes**: `src/routes/api/$.ts` (OpenAPI), `src/routes/api/auth.$.ts` (better-auth), `src/routes/api/rpc.$.ts` (oRPC proxy), `src/routes/api/-auth.ts` (`getSession` server function)
-- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task.*`, `client.*`, `contract.*`, `draft.*`, `filterView.*`, `reminder.*`, `notification.*`, `users.*`
+- **oRPC router**: `src/rpc/router/index.ts` — namespaces: `admin`, `task`, `client`, `contract`, `draft`, `filterView`, `reminder`, `notification`, `users`, `auditLog`, `prospect`
 - **oRPC procedure chain** (`src/rpc/middleware.ts`):
-  - `base` — raw context (headers only), defined in `src/rpc/context.ts`
+  - `base` — raw context (`{ headers }`), defined in `src/rpc/context.ts`
   - `protectedProcedure` — base + auth + permission middleware (checks `meta.permission`)
-- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Admin role has all permissions in `resolvePermissions()` output so passes every check. Non-admin users need the exact `resource:action` string in their resolved permissions array.
-- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service)
-- **Access control**: `src/lib/auth/access-control.ts` — defines resources, actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `"custom"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.
+- **Permission middleware**: set `meta: { permission: { resource, action } }` on a procedure to enforce RBAC. Non-admin users need the exact `resource:action` string in their resolved permissions array. Admin role has all permissions so always passes.
+- **Service layer**: `src/services/` — business logic (task-service, task-event-service, task-link-service, client-service, client-event-service, draft-service, prospect-service, prospect-event-service, reminder-service, notification-service, supervisor-hierarchy-service, audit-log-service)
+- **Access control**: `src/lib/auth/access-control.ts` — defines resources (`audit_logs`, `client_contracts`, `clients`, `drafts`, `filter_views`, `job_mandates`, `notification`, `prospects`, `reminders`, `tasks`, `team_members`), actions, roles, and `resolvePermissions()`. The `permissions` JSON column on user stores per-user overrides for `"custom"` role. Predefined roles: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`.
 - **Env vars**: `src/env.ts` using `@t3-oss/env-core` — client vars need `PUBLIC_` prefix (set in `vite.config.ts` `envPrefix`). Server vars: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_SECRET_ACCESS_KEY`. Client vars: `PUBLIC_POSTHOG_HOST`, `PUBLIC_POSTHOG_KEY`, `PUBLIC_R2_PUBLIC_URL`.
 - **Import aliases**: `@/*` → `./src/*`, `#/*` → `./integrations/*`, `#tests/*` → `./tests/*`
-- **Integrations dir**: `integrations/` (forms, posthog, reports, whatsapp) — app-level providers/clients aliased via `#/*`
+- **Integrations dir**: `integrations/` (agents, charts, data-views, email, forms, posthog, reports, voice, web-push, whatsapp) — app-level providers/clients aliased via `#/*`
 - **oRPC client**: `src/rpc/client.ts` — isomorphic (server-side calls router directly, client uses fetch link to `/api/rpc`)
 
 ## Testing

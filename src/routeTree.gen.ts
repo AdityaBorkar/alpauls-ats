@@ -18,17 +18,17 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as protectedSettingsSlaRouteImport } from './routes/(protected)/settings/sla'
 import { Route as protectedSettingsProfileRouteImport } from './routes/(protected)/settings/profile'
 import { Route as protectedSettingsConnectionsRouteImport } from './routes/(protected)/settings/connections'
-import { Route as protectedappProspectsRouteImport } from './routes/(protected)/(app)/prospects'
 import { Route as protectedappDraftsRouteImport } from './routes/(protected)/(app)/drafts'
 import { Route as protectedappDashboardRouteImport } from './routes/(protected)/(app)/dashboard'
-import { Route as protectedappAuditLogRouteImport } from './routes/(protected)/(app)/audit-log'
 import { Route as protectedappAnalyticsRouteImport } from './routes/(protected)/(app)/analytics'
 import { Route as protectedSettingsMembersIndexRouteImport } from './routes/(protected)/settings/members/index'
 import { Route as protectedappTasksIndexRouteImport } from './routes/(protected)/(app)/tasks/index'
 import { Route as protectedappReportsIndexRouteImport } from './routes/(protected)/(app)/reports/index'
+import { Route as protectedappProspectsIndexRouteImport } from './routes/(protected)/(app)/prospects/index'
 import { Route as protectedappJobMandatesIndexRouteImport } from './routes/(protected)/(app)/job-mandates/index'
 import { Route as protectedappContractsIndexRouteImport } from './routes/(protected)/(app)/contracts/index'
 import { Route as protectedappClientsIndexRouteImport } from './routes/(protected)/(app)/clients/index'
+import { Route as protectedappAuditLogIndexRouteImport } from './routes/(protected)/(app)/audit-log/index'
 import { Route as protectedSettingsMembersNewRouteImport } from './routes/(protected)/settings/members/new'
 import { Route as protectedSettingsMembersMemberIdRouteImport } from './routes/(protected)/settings/members/$memberId'
 import { Route as protectedappReportsReportIdRouteImport } from './routes/(protected)/(app)/reports/$reportId'
@@ -89,11 +89,6 @@ const protectedSettingsConnectionsRoute =
     path: '/settings/connections',
     getParentRoute: () => protectedRouteRoute,
   } as any)
-const protectedappProspectsRoute = protectedappProspectsRouteImport.update({
-  id: '/(app)/prospects',
-  path: '/prospects',
-  getParentRoute: () => protectedRouteRoute,
-} as any)
 const protectedappDraftsRoute = protectedappDraftsRouteImport.update({
   id: '/(app)/drafts',
   path: '/drafts',
@@ -102,11 +97,6 @@ const protectedappDraftsRoute = protectedappDraftsRouteImport.update({
 const protectedappDashboardRoute = protectedappDashboardRouteImport.update({
   id: '/(app)/dashboard',
   path: '/dashboard',
-  getParentRoute: () => protectedRouteRoute,
-} as any)
-const protectedappAuditLogRoute = protectedappAuditLogRouteImport.update({
-  id: '/(app)/audit-log',
-  path: '/audit-log',
   getParentRoute: () => protectedRouteRoute,
 } as any)
 const protectedappAnalyticsRoute = protectedappAnalyticsRouteImport.update({
@@ -131,6 +121,12 @@ const protectedappReportsIndexRoute =
     path: '/reports/',
     getParentRoute: () => protectedRouteRoute,
   } as any)
+const protectedappProspectsIndexRoute =
+  protectedappProspectsIndexRouteImport.update({
+    id: '/(app)/prospects/',
+    path: '/prospects/',
+    getParentRoute: () => protectedRouteRoute,
+  } as any)
 const protectedappJobMandatesIndexRoute =
   protectedappJobMandatesIndexRouteImport.update({
     id: '/(app)/job-mandates/',
@@ -147,6 +143,12 @@ const protectedappClientsIndexRoute =
   protectedappClientsIndexRouteImport.update({
     id: '/(app)/clients/',
     path: '/clients/',
+    getParentRoute: () => protectedRouteRoute,
+  } as any)
+const protectedappAuditLogIndexRoute =
+  protectedappAuditLogIndexRouteImport.update({
+    id: '/(app)/audit-log/',
+    path: '/audit-log/',
     getParentRoute: () => protectedRouteRoute,
   } as any)
 const protectedSettingsMembersNewRoute =
@@ -229,10 +231,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
   '/analytics': typeof protectedappAnalyticsRoute
-  '/audit-log': typeof protectedappAuditLogRoute
   '/dashboard': typeof protectedappDashboardRoute
   '/drafts': typeof protectedappDraftsRoute
-  '/prospects': typeof protectedappProspectsRoute
   '/settings/connections': typeof protectedSettingsConnectionsRoute
   '/settings/profile': typeof protectedSettingsProfileRoute
   '/settings/sla': typeof protectedSettingsSlaRoute
@@ -250,9 +250,11 @@ export interface FileRoutesByFullPath {
   '/reports/$reportId': typeof protectedappReportsReportIdRoute
   '/settings/members/$memberId': typeof protectedSettingsMembersMemberIdRoute
   '/settings/members/new': typeof protectedSettingsMembersNewRoute
+  '/audit-log/': typeof protectedappAuditLogIndexRoute
   '/clients/': typeof protectedappClientsIndexRoute
   '/contracts/': typeof protectedappContractsIndexRoute
   '/job-mandates/': typeof protectedappJobMandatesIndexRoute
+  '/prospects/': typeof protectedappProspectsIndexRoute
   '/reports/': typeof protectedappReportsIndexRoute
   '/tasks/': typeof protectedappTasksIndexRoute
   '/settings/members/': typeof protectedSettingsMembersIndexRoute
@@ -263,10 +265,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
   '/analytics': typeof protectedappAnalyticsRoute
-  '/audit-log': typeof protectedappAuditLogRoute
   '/dashboard': typeof protectedappDashboardRoute
   '/drafts': typeof protectedappDraftsRoute
-  '/prospects': typeof protectedappProspectsRoute
   '/settings/connections': typeof protectedSettingsConnectionsRoute
   '/settings/profile': typeof protectedSettingsProfileRoute
   '/settings/sla': typeof protectedSettingsSlaRoute
@@ -284,9 +284,11 @@ export interface FileRoutesByTo {
   '/reports/$reportId': typeof protectedappReportsReportIdRoute
   '/settings/members/$memberId': typeof protectedSettingsMembersMemberIdRoute
   '/settings/members/new': typeof protectedSettingsMembersNewRoute
+  '/audit-log': typeof protectedappAuditLogIndexRoute
   '/clients': typeof protectedappClientsIndexRoute
   '/contracts': typeof protectedappContractsIndexRoute
   '/job-mandates': typeof protectedappJobMandatesIndexRoute
+  '/prospects': typeof protectedappProspectsIndexRoute
   '/reports': typeof protectedappReportsIndexRoute
   '/tasks': typeof protectedappTasksIndexRoute
   '/settings/members': typeof protectedSettingsMembersIndexRoute
@@ -299,10 +301,8 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
   '/(protected)/(app)/analytics': typeof protectedappAnalyticsRoute
-  '/(protected)/(app)/audit-log': typeof protectedappAuditLogRoute
   '/(protected)/(app)/dashboard': typeof protectedappDashboardRoute
   '/(protected)/(app)/drafts': typeof protectedappDraftsRoute
-  '/(protected)/(app)/prospects': typeof protectedappProspectsRoute
   '/(protected)/settings/connections': typeof protectedSettingsConnectionsRoute
   '/(protected)/settings/profile': typeof protectedSettingsProfileRoute
   '/(protected)/settings/sla': typeof protectedSettingsSlaRoute
@@ -320,9 +320,11 @@ export interface FileRoutesById {
   '/(protected)/(app)/reports/$reportId': typeof protectedappReportsReportIdRoute
   '/(protected)/settings/members/$memberId': typeof protectedSettingsMembersMemberIdRoute
   '/(protected)/settings/members/new': typeof protectedSettingsMembersNewRoute
+  '/(protected)/(app)/audit-log/': typeof protectedappAuditLogIndexRoute
   '/(protected)/(app)/clients/': typeof protectedappClientsIndexRoute
   '/(protected)/(app)/contracts/': typeof protectedappContractsIndexRoute
   '/(protected)/(app)/job-mandates/': typeof protectedappJobMandatesIndexRoute
+  '/(protected)/(app)/prospects/': typeof protectedappProspectsIndexRoute
   '/(protected)/(app)/reports/': typeof protectedappReportsIndexRoute
   '/(protected)/(app)/tasks/': typeof protectedappTasksIndexRoute
   '/(protected)/settings/members/': typeof protectedSettingsMembersIndexRoute
@@ -335,10 +337,8 @@ export interface FileRouteTypes {
     | '/'
     | '/api/$'
     | '/analytics'
-    | '/audit-log'
     | '/dashboard'
     | '/drafts'
-    | '/prospects'
     | '/settings/connections'
     | '/settings/profile'
     | '/settings/sla'
@@ -356,9 +356,11 @@ export interface FileRouteTypes {
     | '/reports/$reportId'
     | '/settings/members/$memberId'
     | '/settings/members/new'
+    | '/audit-log/'
     | '/clients/'
     | '/contracts/'
     | '/job-mandates/'
+    | '/prospects/'
     | '/reports/'
     | '/tasks/'
     | '/settings/members/'
@@ -369,10 +371,8 @@ export interface FileRouteTypes {
     | '/'
     | '/api/$'
     | '/analytics'
-    | '/audit-log'
     | '/dashboard'
     | '/drafts'
-    | '/prospects'
     | '/settings/connections'
     | '/settings/profile'
     | '/settings/sla'
@@ -390,9 +390,11 @@ export interface FileRouteTypes {
     | '/reports/$reportId'
     | '/settings/members/$memberId'
     | '/settings/members/new'
+    | '/audit-log'
     | '/clients'
     | '/contracts'
     | '/job-mandates'
+    | '/prospects'
     | '/reports'
     | '/tasks'
     | '/settings/members'
@@ -404,10 +406,8 @@ export interface FileRouteTypes {
     | '/(protected)'
     | '/api/$'
     | '/(protected)/(app)/analytics'
-    | '/(protected)/(app)/audit-log'
     | '/(protected)/(app)/dashboard'
     | '/(protected)/(app)/drafts'
-    | '/(protected)/(app)/prospects'
     | '/(protected)/settings/connections'
     | '/(protected)/settings/profile'
     | '/(protected)/settings/sla'
@@ -425,9 +425,11 @@ export interface FileRouteTypes {
     | '/(protected)/(app)/reports/$reportId'
     | '/(protected)/settings/members/$memberId'
     | '/(protected)/settings/members/new'
+    | '/(protected)/(app)/audit-log/'
     | '/(protected)/(app)/clients/'
     | '/(protected)/(app)/contracts/'
     | '/(protected)/(app)/job-mandates/'
+    | '/(protected)/(app)/prospects/'
     | '/(protected)/(app)/reports/'
     | '/(protected)/(app)/tasks/'
     | '/(protected)/settings/members/'
@@ -508,13 +510,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedSettingsConnectionsRouteImport
       parentRoute: typeof protectedRouteRoute
     }
-    '/(protected)/(app)/prospects': {
-      id: '/(protected)/(app)/prospects'
-      path: '/prospects'
-      fullPath: '/prospects'
-      preLoaderRoute: typeof protectedappProspectsRouteImport
-      parentRoute: typeof protectedRouteRoute
-    }
     '/(protected)/(app)/drafts': {
       id: '/(protected)/(app)/drafts'
       path: '/drafts'
@@ -527,13 +522,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof protectedappDashboardRouteImport
-      parentRoute: typeof protectedRouteRoute
-    }
-    '/(protected)/(app)/audit-log': {
-      id: '/(protected)/(app)/audit-log'
-      path: '/audit-log'
-      fullPath: '/audit-log'
-      preLoaderRoute: typeof protectedappAuditLogRouteImport
       parentRoute: typeof protectedRouteRoute
     }
     '/(protected)/(app)/analytics': {
@@ -564,6 +552,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedappReportsIndexRouteImport
       parentRoute: typeof protectedRouteRoute
     }
+    '/(protected)/(app)/prospects/': {
+      id: '/(protected)/(app)/prospects/'
+      path: '/prospects'
+      fullPath: '/prospects/'
+      preLoaderRoute: typeof protectedappProspectsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
     '/(protected)/(app)/job-mandates/': {
       id: '/(protected)/(app)/job-mandates/'
       path: '/job-mandates'
@@ -583,6 +578,13 @@ declare module '@tanstack/react-router' {
       path: '/clients'
       fullPath: '/clients/'
       preLoaderRoute: typeof protectedappClientsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/(app)/audit-log/': {
+      id: '/(protected)/(app)/audit-log/'
+      path: '/audit-log'
+      fullPath: '/audit-log/'
+      preLoaderRoute: typeof protectedappAuditLogIndexRouteImport
       parentRoute: typeof protectedRouteRoute
     }
     '/(protected)/settings/members/new': {
@@ -681,10 +683,8 @@ declare module '@tanstack/react-router' {
 
 interface protectedRouteRouteChildren {
   protectedappAnalyticsRoute: typeof protectedappAnalyticsRoute
-  protectedappAuditLogRoute: typeof protectedappAuditLogRoute
   protectedappDashboardRoute: typeof protectedappDashboardRoute
   protectedappDraftsRoute: typeof protectedappDraftsRoute
-  protectedappProspectsRoute: typeof protectedappProspectsRoute
   protectedSettingsConnectionsRoute: typeof protectedSettingsConnectionsRoute
   protectedSettingsProfileRoute: typeof protectedSettingsProfileRoute
   protectedSettingsSlaRoute: typeof protectedSettingsSlaRoute
@@ -700,9 +700,11 @@ interface protectedRouteRouteChildren {
   protectedappReportsReportIdRoute: typeof protectedappReportsReportIdRoute
   protectedSettingsMembersMemberIdRoute: typeof protectedSettingsMembersMemberIdRoute
   protectedSettingsMembersNewRoute: typeof protectedSettingsMembersNewRoute
+  protectedappAuditLogIndexRoute: typeof protectedappAuditLogIndexRoute
   protectedappClientsIndexRoute: typeof protectedappClientsIndexRoute
   protectedappContractsIndexRoute: typeof protectedappContractsIndexRoute
   protectedappJobMandatesIndexRoute: typeof protectedappJobMandatesIndexRoute
+  protectedappProspectsIndexRoute: typeof protectedappProspectsIndexRoute
   protectedappReportsIndexRoute: typeof protectedappReportsIndexRoute
   protectedappTasksIndexRoute: typeof protectedappTasksIndexRoute
   protectedSettingsMembersIndexRoute: typeof protectedSettingsMembersIndexRoute
@@ -712,10 +714,8 @@ interface protectedRouteRouteChildren {
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedappAnalyticsRoute: protectedappAnalyticsRoute,
-  protectedappAuditLogRoute: protectedappAuditLogRoute,
   protectedappDashboardRoute: protectedappDashboardRoute,
   protectedappDraftsRoute: protectedappDraftsRoute,
-  protectedappProspectsRoute: protectedappProspectsRoute,
   protectedSettingsConnectionsRoute: protectedSettingsConnectionsRoute,
   protectedSettingsProfileRoute: protectedSettingsProfileRoute,
   protectedSettingsSlaRoute: protectedSettingsSlaRoute,
@@ -731,9 +731,11 @@ const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedappReportsReportIdRoute: protectedappReportsReportIdRoute,
   protectedSettingsMembersMemberIdRoute: protectedSettingsMembersMemberIdRoute,
   protectedSettingsMembersNewRoute: protectedSettingsMembersNewRoute,
+  protectedappAuditLogIndexRoute: protectedappAuditLogIndexRoute,
   protectedappClientsIndexRoute: protectedappClientsIndexRoute,
   protectedappContractsIndexRoute: protectedappContractsIndexRoute,
   protectedappJobMandatesIndexRoute: protectedappJobMandatesIndexRoute,
+  protectedappProspectsIndexRoute: protectedappProspectsIndexRoute,
   protectedappReportsIndexRoute: protectedappReportsIndexRoute,
   protectedappTasksIndexRoute: protectedappTasksIndexRoute,
   protectedSettingsMembersIndexRoute: protectedSettingsMembersIndexRoute,

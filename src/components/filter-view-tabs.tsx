@@ -1,5 +1,3 @@
-"use client";
-
 import {
   IconCopy,
   IconPencil,
@@ -7,11 +5,9 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { parseAsJson, parseAsString, useQueryState } from "nuqs";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { z } from "zod";
 
-import type { FiltersState } from "@/components/data-table-filter/core/types";
 import { Button } from "@/components/ui/button";
 import {
   ContextMenu,
@@ -30,53 +26,48 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import type { filterViews } from "@/db-schemas";
 import { rpc } from "@/rpc/client";
 
-type FilterViewTab = {
-  display: unknown;
-  domain: string;
-  id: string;
-  isSystemCreated: boolean;
-  label: string;
-  refine: FiltersState;
-};
+type FilterViewRow = typeof filterViews.$inferSelect;
 
 type FilterViewTabsProps = {
   domain: string;
 };
 
-const filtersSchema = z.custom<FiltersState>((val): val is FiltersState =>
-  Array.isArray(val),
-);
-
 export function FilterViewTabs({ domain }: FilterViewTabsProps) {
-  const [view, setView] = useQueryState("view", parseAsString.withDefault(""));
-  const [, setFilters] = useQueryState<FiltersState>(
-    "filters",
-    parseAsJson(filtersSchema.parse).withDefault([]),
-  );
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const searchRecord = search as Record<string, unknown>;
+  const view = typeof searchRecord.view === "string" ? searchRecord.view : "";
 
   const queryClient = useQueryClient();
 
   const { data: filterViews } = useQuery({
     ...rpc.filterView.list.queryOptions({ input: { domain } }),
-    select: (data) => data as FilterViewTab[],
+    select: (data) => data as FilterViewRow[],
   });
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [editingView, setEditingView] = useState<FilterViewTab | null>(null);
-  const [deletingView, setDeletingView] = useState<FilterViewTab | null>(null);
+  const [editingView, setEditingView] = useState<FilterViewRow | null>(null);
+  const [deletingView, setDeletingView] = useState<FilterViewRow | null>(null);
   const [editLabel, setEditLabel] = useState("");
 
   const views = filterViews ?? [];
 
-  function handleTabClick(fv: FilterViewTab) {
-    setView(fv.id);
-    setFilters(null);
+  function handleTabClick(fv: FilterViewRow) {
+    navigate({
+      replace: true,
+      search: ((prev: Record<string, unknown>) => ({
+        ...prev,
+        filters: undefined,
+        view: fv.id,
+      })) as never,
+    });
   }
 
-  function handleEdit(fv: FilterViewTab) {
+  function handleEdit(fv: FilterViewRow) {
     setEditingView(fv);
     setEditLabel(fv.label);
     setEditDialogOpen(true);
@@ -95,13 +86,13 @@ export function FilterViewTabs({ domain }: FilterViewTabsProps) {
     setEditingView(null);
   }
 
-  function handleCopyLink(fv: FilterViewTab) {
+  function handleCopyLink(fv: FilterViewRow) {
     const url = new URL(window.location.href);
     url.searchParams.set("view", fv.id);
     navigator.clipboard.writeText(url.toString());
   }
 
-  function handleDelete(fv: FilterViewTab) {
+  function handleDelete(fv: FilterViewRow) {
     setDeletingView(fv);
     setDeleteDialogOpen(true);
   }
@@ -113,8 +104,14 @@ export function FilterViewTabs({ domain }: FilterViewTabsProps) {
       rpc.filterView.list.queryOptions({ input: { domain } }),
     );
     if (view === deletingView.id) {
-      setView(null);
-      setFilters(null);
+      navigate({
+        replace: true,
+        search: ((prev: Record<string, unknown>) => ({
+          ...prev,
+          filters: undefined,
+          view: undefined,
+        })) as never,
+      });
     }
     setDeleteDialogOpen(false);
     setDeletingView(null);

@@ -1,0 +1,8 @@
+name: alpauls-ats
+runtime: nodejs
+main: ./infra/index.ts
+config:
+  ocid: ocid1.compartment.oc1..aaaaaaaaax5oxgujxr57ggu6ohuweldrcbudzq24qskddlxtkpebwkozrsfa
+  db_name: alpauls-ats
+  db_password: alpauls-ats
+  db_user: admin

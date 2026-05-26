@@ -3,6 +3,7 @@ import { createAccessControl } from "better-auth/plugins/access";
 import { ROLE_DISPLAY_NAMES } from "../constants";
 
 export const ac = createAccessControl({
+  audit_logs: ["read"],
   client_contracts: ["create", "read", "update", "archive"],
   clients: ["create", "read", "update", "archive"],
   drafts: ["create", "read", "update", "delete"],
@@ -25,6 +26,7 @@ export const ac = createAccessControl({
 
 export const roles = {
   admin: ac.newRole({
+    audit_logs: ["read"],
     client_contracts: ["create", "read", "update", "archive"],
     clients: ["create", "read", "update", "archive"],
     drafts: ["create", "read", "update", "delete"],

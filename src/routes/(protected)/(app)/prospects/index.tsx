@@ -7,7 +7,7 @@ import { ProspectDetailPanel } from "@/components/prospect-detail-panel";
 import { ProspectListView } from "@/components/prospect-list-view";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/(protected)/(app)/prospects")({
+export const Route = createFileRoute("/(protected)/(app)/prospects/")({
   component: ProspectsPage,
 });
 

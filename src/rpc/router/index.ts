@@ -1,4 +1,5 @@
 import * as admin from "./admin";
+import { auditLogList } from "./audit-log";
 import {
   clientArchive,
   clientCreate,
@@ -50,6 +51,9 @@ import { usersList } from "./users";
 
 export const router = {
   admin,
+  auditLog: {
+    list: auditLogList,
+  },
   client: {
     archive: clientArchive,
     create: clientCreate,

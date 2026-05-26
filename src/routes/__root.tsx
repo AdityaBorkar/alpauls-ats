@@ -1,5 +1,4 @@
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import { NuqsAdapter } from "nuqs/adapters/tanstack-router";
 
 import PostHogProvider from "#/posthog/provider";
 import { Devtools } from "@/components/devtools";
@@ -26,12 +25,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-sidebar">
-        <NuqsAdapter>
-          <PostHogProvider>
-            <TooltipProvider>{children}</TooltipProvider>
-            <Devtools />
-          </PostHogProvider>
-        </NuqsAdapter>
+        <PostHogProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+          <Devtools />
+        </PostHogProvider>
         <Scripts />
       </body>
     </html>

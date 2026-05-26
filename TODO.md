@@ -2,10 +2,11 @@
 
 - "/" - Fix Forms and solve for React Scan
 
+- GOAL: Add expect and create a test to test filters, display and search "data-view-layout"
 - Single line Audit Log
-- Remove the card layout
 - Add the buttons are ghost-styled links
 
+---
 
 ## Search
 
@@ -32,3 +33,58 @@
   - Alt + S = Search
   - Alt + N = New
   - Alt + V = New View
+
+---
+
+- /opt/apps
+  - alpauls-ats-0-0-1
+  - alpauls-ats-0-0-2
+  - alpauls-ats-0-0-3
+  - Once all traffic is NULL and 48 hours have been passed, delete the old app.
+
+Cookie
+
+Debian
+  ↓
+Caddy
+  ↓
+Version-aware reverse proxy
+  ↓
+systemd-managed immutable app releases
+  ↓
+Shared DB/Redis
+
+## Session Compatibility
+
+Critical requirement:
+
+Sessions must remain compatible across versions.
+
+Avoid:
+
+changing session serialization abruptly
+incompatible auth token formats
+breaking API contracts instantly
+
+Prefer:
+
+backward-compatible deployments
+additive schema evolution
+
+Skew protection reduces failures but does not eliminate compatibility requirements.
+
+## Database Migration Strategy
+
+Bad:
+
+Deploy app requiring new DB column immediately
+
+Good:
+
+Add nullable column
+Deploy compatible app
+Backfill
+Switch reads
+Remove legacy later
+
+Classic expand-contract migration pattern.
