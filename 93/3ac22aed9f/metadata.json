@@ -3,11 +3,13 @@
   "checkpoint_id": "933ac22aed9f",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 6,
+  "checkpoints_count": 8,
   "files_touched": [
+    "Dockerfile",
     "Pulumi.yaml",
     "TODO.md",
     "bun.lock",
+    "docker-compose.prod.yml",
     "docker-compose.yml",
     "images/postgres/Dockerfile",
     "infra/app.ts",
@@ -15,7 +17,8 @@
     "infra/docker/images.ts",
     "infra/docker/services.ts",
     "infra/index.ts",
-    "package.json"
+    "package.json",
+    "scripts/deploy.ts"
   ],
   "sessions": [
     {
@@ -35,13 +38,19 @@
       "transcript": "/93/3ac22aed9f/2/full.jsonl",
       "content_hash": "/93/3ac22aed9f/2/content_hash.txt",
       "prompt": "/93/3ac22aed9f/2/prompt.txt"
+    },
+    {
+      "metadata": "/93/3ac22aed9f/3/metadata.json",
+      "transcript": "/93/3ac22aed9f/3/full.jsonl",
+      "content_hash": "/93/3ac22aed9f/3/content_hash.txt",
+      "prompt": "/93/3ac22aed9f/3/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 118476,
+    "input_tokens": 242654,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 2483136,
-    "output_tokens": 11608,
-    "api_call_count": 54
+    "cache_read_tokens": 4484544,
+    "output_tokens": 24805,
+    "api_call_count": 98
   }
 }
