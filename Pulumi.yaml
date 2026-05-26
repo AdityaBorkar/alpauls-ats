@@ -6,3 +6,9 @@ config:
   db_name: alpauls-ats
   db_password: alpauls-ats
   db_user: admin
+  appImage: ghcr.io/alpauls/alpauls-ats
+  appDomain:
+  betterAuthUrl:
+  r2AccountId:
+  r2BucketName:
+  publicR2PublicUrl:

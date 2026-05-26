@@ -36,6 +36,12 @@
 
 ---
 
+Run daily DB dumps off-host (cron on the VM running a script that dumps, encrypts, and uploads).
+
+Enable Caddy’s automatic HTTPS and set appropriate timeouts for long-running requests if your power users do big imports/exports.
+
+- /opt/caddy
+- /opt/system-manager
 - /opt/apps
   - alpauls-ats-0-0-1
   - alpauls-ats-0-0-2
@@ -88,3 +94,15 @@ Switch reads
 Remove legacy later
 
 Classic expand-contract migration pattern.
+
+----
+
+When to separate VM for DB and app:
+
+- Allowing API access to external apps/clients
+- The free limit has surpassed (4 OCPU + 24 GB RAM)
+- The app slows down during DB maintenance or backup windows.
+- The app needs multiple replicas (horizontal scaling) to handle concurrent requests, but the database does not.
+- You need to move the app to a different machine type (e.g., compute-optimised) while the DB stays on a memory‑ or IO‑optimised instance. You can’t do that on one VM.
+- You need database replication (standby, streaming replica) for failover. That demands at least two machines.
+- Regulations like PCI DSS, HIPAA, or internal security policies often require the database to be in a separate network segment with stricter firewall rules.
