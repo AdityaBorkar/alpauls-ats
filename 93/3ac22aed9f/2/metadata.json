@@ -1,0 +1,60 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "933ac22aed9f",
+  "session_id": "ses_19bea0efdffeVHiQPOh83LuqZO",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T13:24:07.602830176Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "TODO.md",
+    "docker-compose.yml",
+    "infra/app.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "9bd4fdb3d6ad",
+  "token_usage": {
+    "input_tokens": 1646,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 86080,
+    "output_tokens": 290,
+    "api_call_count": 3
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T13:24:07.600415707Z",
+    "agent_lines": 24,
+    "agent_removed": 208,
+    "human_added": 4948,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 4972,
+    "total_lines_changed": 5361,
+    "agent_percentage": 4.3275508300690175,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 84,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "Dockerfile": 19,
+        "TODO.md": 2,
+        "docker-compose.prod.yml": 63
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 218,
+      "agent_lines_removed": 86
+    }
+  ]
+}

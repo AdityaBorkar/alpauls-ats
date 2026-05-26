@@ -1,0 +1,26 @@
+@docker-compose.yml add resources limits 
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/docker-compose.yml"}
+<path>/home/aditya/projects/alpauls-ats/docker-compose.yml</path>
+<type>file</type>
+<content>
+1: name: alpauls-ats
+2: 
+3: services:
+4:   db:
+5:     image: postgres:18-alpine
+6:     ports:
+7:       - "5432:5432"
+8:     environment:
+9:       POSTGRES_USER: postgres
+10:       POSTGRES_PASSWORD: postgres
+11:       POSTGRES_DB: mydb
+12:     volumes:
+13:       - ./.local/postgres:/var/lib/postgresql/18/data
+14:     healthcheck:
+15:       test: ["CMD-SHELL", "pg_isready -U postgres"]
+16:       interval: 5s
+17:       timeout: 5s
+18:       retries: 5
+
+(End of file - total 18 lines)
+</content>
