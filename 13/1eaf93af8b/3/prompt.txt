@@ -1,0 +1,242 @@
+@src/components/layouts/data-view-layout.tsx and @src/components/data-table-filter/ The applied filters must be visible inside of the <Input > component. Make another special input component if required. Make it navigatable and editable using keyboard keys and support adding new filters using the keyboard (combobox-like UI)
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx"}
+<path>/home/aditya/projects/alpauls-ats/src/components/layouts/data-view-layout.tsx</path>
+<type>file</type>
+<content>
+1: import type { UseQueryOptions } from "@tanstack/react-query";
+2: import { useQuery } from "@tanstack/react-query";
+3: import type { ColumnDef } from "@tanstack/react-table";
+4: import {
+5:   flexRender,
+6:   getCoreRowModel,
+7:   useReactTable,
+8: } from "@tanstack/react-table";
+9: import { Search } from "lucide-react";
+10: import { useState } from "react";
+11: 
+12: import { DataTableFilter } from "@/components/data-table-filter";
+13: import type {
+14:   ColumnConfig,
+15:   ColumnOption,
+16:   FiltersState,
+17: } from "@/components/data-table-filter/core/types";
+18: import { useDataTableFilters } from "@/components/data-table-filter/hooks/use-data-table-filters";
+19: import { FilterViewTabs } from "@/components/filter-view-tabs";
+20: import { useFilterViewState } from "@/hooks/use-filter-view-state";
+21: 
+22: import { Button } from "../ui/button";
+23: import { Input } from "../ui/input";
+24: import {
+25:   Table,
+26:   TableBody,
+27:   TableCell,
+28:   TableHead,
+29:   TableHeader,
+30:   TableRow,
+31: } from "../ui/table";
+32: import NavLayout from "./nav-layout";
+33: 
+34: type ListQueryResult<TItem> = {
+35:   items: TItem[];
+36:   nextCursor?: string | null;
+37: };
+38: 
+39: export function DataViewLayout<TItem>({
+40:   baseUrl,
+41:   columnsConfig,
+42:   domain,
+43:   emptyMessage = "No items found",
+44:   filterOptions,
+45:   getRowId,
+46:   label,
+47:   buildQueryOptions,
+48:   onRowClick,
+49:   rightItems,
+50:   searchPlaceholder = "Search...",
+51:   columnDefs,
+52: }: {
+53:   baseUrl: string;
+54:   columnDefs: ColumnDef<TItem>[];
+55:   columnsConfig: ReadonlyArray<ColumnConfig<TItem, any, any, any>>;
+56:   domain: string;
+57:   emptyMessage?: string;
+58:   filterOptions?: Record<string, ColumnOption[] | undefined>;
+59:   getRowId: (row: TItem) => string;
+60:   label: string;
+61:   buildQueryOptions: (opts: {
+62:     filters: FiltersState;
+63:     cursor?: string;
+64:     limit: number;
+65:     search?: string;
+66:   }) => UseQueryOptions<ListQueryResult<TItem>>;
+67:   onRowClick?: (row: TItem) => void;
+68:   rightItems?: React.ReactNode;
+69:   searchPlaceholder?: string;
+70: }) {
+71:   const [search, setSearch] = useState("");
+72:   const [cursor, setCursor] = useState<string | undefined>();
+73: 
+74:   const { effectiveFilters, updateFilters } = useFilterViewState(domain);
+75: 
+76:   const [prevFiltersKey, setPrevFiltersKey] = useState("");
+77:   const filtersKey = JSON.stringify(effectiveFilters);
+78:   if (prevFiltersKey !== filtersKey) {
+79:     setPrevFiltersKey(filtersKey);
+80:     setCursor(undefined);
+81:   }
+82: 
+83:   const {
+84:     columns,
+85:     filters: filterState,
+86:     actions,
+87:     strategy,
+88:   } = useDataTableFilters({
+89:     columnsConfig,
+90:     data: [] as TItem[],
+91:     filters: effectiveFilters,
+92:     onFiltersChange: updateFilters,
+93:     options: filterOptions as any,
+94:     strategy: "server",
+95:   });
+96: 
+97:   const queryResult = useQuery(
+98:     buildQueryOptions({
+99:       cursor,
+100:       filters: effectiveFilters,
+101:       limit: 20,
+102:       search: search || undefined,
+103:     }),
+104:   );
+105: 
+106:   const items = queryResult.data?.items ?? [];
+107:   const nextCursor = queryResult.data?.nextCursor;
+108: 
+109:   const table = useReactTable({
+110:     columns: columnDefs,
+111:     data: items,
+112:     getCoreRowModel: getCoreRowModel(),
+113:     getRowId: (row) => getRowId(row as TItem),
+114:   });
+115: 
+116:   return (
+117:     <NavLayout
+118:       baseUrl={baseUrl}
+119:       label={label}
+120:       leftItems={<FilterViewTabs domain={domain} />}
+121:       rightItems={rightItems}
+122:     >
+123:       <header className="flex flex-row gap-2">
+124:         <div className="relative grow">
+125:           <Search className="absolute top-2 left-2.5 size-4 text-muted-foreground" />
+126:           <Input
+127:             className="w-full pl-8"
+128:             onChange={(e) => {
+129:               setSearch(e.target.value);
+130:               setCursor(undefined);
+131:             }}
+132:             placeholder={searchPlaceholder}
+133:             value={search}
+134:           />
+135:         </div>
+136:         <DataTableFilter
+137:           actions={actions}
+138:           columns={columns}
+139:           filters={filterState}
+140:           locale="en"
+141:           strategy={strategy}
+142:         />
+143:         <div className="flex h-8 items-center justify-center rounded-md border px-2">
+144:           Display
+145:         </div>
+146:       </header>
+147: 
+148:       <div className="mt-4 rounded-lg border bg-card">
+149:         <Table>
+150:           <TableHeader>
+151:             {table.getHeaderGroups().map((headerGroup) => (
+152:               <TableRow key={headerGroup.id}>
+153:                 {headerGroup.headers.map((header) => (
+154:                   <TableHead key={header.id}>
+155:                     {header.isPlaceholder
+156:                       ? null
+157:                       : flexRender(
+158:                           header.column.columnDef.header,
+159:                           header.getContext(),
+160:                         )}
+161:                   </TableHead>
+162:                 ))}
+163:               </TableRow>
+164:             ))}
+165:           </TableHeader>
+166:           <TableBody>
+167:             {queryResult.isLoading ? (
+168:               <TableRow>
+169:                 <TableCell
+170:                   className="text-center text-muted-foreground"
+171:                   colSpan={columnDefs.length}
+172:                 >
+173:                   Loading...
+174:                 </TableCell>
+175:               </TableRow>
+176:             ) : items.length === 0 ? (
+177:               <TableRow>
+178:                 <TableCell
+179:                   className="text-center text-muted-foreground"
+180:                   colSpan={columnDefs.length}
+181:                 >
+182:                   {emptyMessage}
+183:                 </TableCell>
+184:               </TableRow>
+185:             ) : (
+186:               table.getRowModel().rows.map((row) => (
+187:                 <TableRow
+188:                   className="cursor-pointer"
+189:                   key={row.id}
+190:                   onClick={() => onRowClick?.(row.original as TItem)}
+191:                 >
+192:                   {row.getVisibleCells().map((cell) => (
+193:                     <TableCell key={cell.id}>
+194:                       {flexRender(
+195:                         cell.column.columnDef.cell,
+196:                         cell.getContext(),
+197:                       )}
+198:                     </TableCell>
+199:                   ))}
+200:                 </TableRow>
+201:               ))
+202:             )}
+203:           </TableBody>
+204:         </Table>
+205:       </div>
+206: 
+207:       {nextCursor && (
+208:         <div className="flex justify-center">
+209:           <Button
+210:             onClick={() => setCursor(nextCursor)}
+211:             size="sm"
+212:             variant="outline"
+213:           >
+214:             Load more
+215:           </Button>
+216:         </div>
+217:       )}
+218:     </NavLayout>
+219:   );
+220: }
+
+(End of file - total 220 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/src/components/data-table-filter/"}
+<path>/home/aditya/projects/alpauls-ats/src/components/data-table-filter/</path>
+<type>directory</type>
+<entries>
+components/
+core/
+hooks/
+index.tsx
+lib/
+locales/
+ui/
+
+(7 entries)
+</entries>
