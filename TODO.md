@@ -1,8 +1,9 @@
 # TODO
 
+- GOAL: Add expect and create a test to test filters, display and search "data-explorer"
+- 
 - "/" - Fix Forms and solve for React Scan
 
-- GOAL: Add expect and create a test to test filters, display and search "data-view-layout"
 - Single line Audit Log
 - Add the buttons are ghost-styled links
 

@@ -112,6 +112,46 @@ _Avoid_: Stage log, transition record
 A service-level agreement defining performance targets (e.g., time-to-fill, response time) for a Client Contract or Job Mandate. Stored as a static JSON config file — not a database entity and not access-controlled.
 _Avoid_: OLA, KPI, target, metric
 
+**Data Explorer**:
+The full table page component that combines filtering, sorting, column display, virtualized rows, row selection, and batch actions. Replaces the old DataViewLayout. Filter conditions, display state, and sort are managed via a React context provider.
+_Avoid_: Data table, table view, grid view
+
+**Filter Condition**:
+A single filter statement: a column, an operator, a value, and a combinator (AND/OR) connecting it to the previous condition. The first condition always has `combinator: "and"` (ignored during evaluation). Conditions are stored as a flat array; AND precedence produces auto-generated groups for evaluation.
+_Avoid_: Filter rule, filter clause, predicate
+
+**Filter Panel**:
+A Sheet (side drawer) that provides a structured editing surface for the same filter conditions shown in the filter bar. Not a separate state — it edits the same conditions. Includes Save View and Reset to Saved actions.
+_Avoid_: Advanced filter modal, filter builder
+
+**Filter View**:
+A named, persisted set of filter conditions + display settings (sort, column visibility, column widths, density) stored in the `filter_views` DB table. System-created views are seeded; users can create custom views. View state is base + URL overrides.
+_Avoid_: Saved filter, filter preset
+
+**Column Config**:
+A serializable data structure defining a column's filter capabilities: ID, display name, icon name, data type, valid operators, and static options. Shared between frontend (UI) and server (SQL builder). Separate from TanStack Table's ColumnDef (rendering).
+_Avoid_: Column definition, column schema
+
+**Column Data Type**:
+The kind of data a column holds, determining which filter operators are available: `string`, `number`, `date`, `boolean`, `enum`, `multiEnum`.
+_Avoid_: Field type, data kind
+
+**Filter Operator**:
+A programmatic key (e.g., `eq`, `contains`, `gte`, `in`) stored in the database and URL. Displayed to users as human-readable labels (e.g., "is", "contains", "is greater than or equal to", "is any of").
+_Avoid_: Comparison, comparator
+
+**Virtual Search Column**:
+A special column with ID `_search` and type `string` that expands server-side into multi-column ILIKE search across all columns marked `searchable: true`. Only supports `contains` and `notContains` operators.
+_Avoid_: Global search, full-text search, search bar
+
+**Auto-Grouping**:
+The algorithm that converts a flat list of FilterConditions (with per-condition combinators) into a tree of FilterGroups, honoring AND-over-OR precedence. Shared between client (for rendering bracket groups) and server (for building SQL WHERE clauses).
+_Avoid_: Query parsing, filter compilation
+
+**Display State**:
+The subset of a Filter View that controls presentation: sort column and direction, visible columns (ordered list), column widths, and row density. Persisted in the `display` JSONB column of `filter_views`.
+_Avoid_: View settings, table config
+
 ## Relationships
 
 - A **User** has exactly one **Role** (one of: `admin`, `bd`, `rm`, `sc`, `tl`, `caller`, `qc`, `custom`)
