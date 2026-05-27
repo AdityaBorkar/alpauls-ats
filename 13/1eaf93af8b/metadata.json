@@ -3,10 +3,11 @@
   "checkpoint_id": "131eaf93af8b",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 1,
+  "checkpoints_count": 13,
   "files_touched": [
     ".gitignore",
     "TODO.md",
+    "docs/plans/linear-tables.md",
     "infra/docker/images.ts",
     "infra/docker/services.ts",
     "infra/index.ts",
@@ -15,6 +16,8 @@
     "package.json",
     "src/components/data-table-filter/components/data-table-filter.tsx",
     "src/components/data-table-filter/components/filter-actions.tsx",
+    "src/components/data-table-filter/components/filter-combobox.tsx",
+    "src/components/data-table-filter/components/filter-pill.tsx",
     "src/components/data-table-filter/index.tsx",
     "src/components/layouts/data-view-layout.tsx",
     "src/components/layouts/nav-layout.tsx"
@@ -25,13 +28,19 @@
       "transcript": "/13/1eaf93af8b/0/full.jsonl",
       "content_hash": "/13/1eaf93af8b/0/content_hash.txt",
       "prompt": "/13/1eaf93af8b/0/prompt.txt"
+    },
+    {
+      "metadata": "/13/1eaf93af8b/1/metadata.json",
+      "transcript": "/13/1eaf93af8b/1/full.jsonl",
+      "content_hash": "/13/1eaf93af8b/1/content_hash.txt",
+      "prompt": "/13/1eaf93af8b/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 111518,
+    "input_tokens": 198287,
     "cache_creation_tokens": 0,
-    "cache_read_tokens": 606656,
-    "output_tokens": 6396,
-    "api_call_count": 16
+    "cache_read_tokens": 1192576,
+    "output_tokens": 9897,
+    "api_call_count": 29
   }
 }
