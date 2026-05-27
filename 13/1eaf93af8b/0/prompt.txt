@@ -1,0 +1,14 @@
+Explore the codebase thoroughly to understand:
+
+1. What table components already exist (look for TanStack Table usage, data tables, etc.)
+2. What filtering infrastructure already exists (look for filter components, filter state, filter views in the DB schema)
+3. What the existing data-table component looks like (src/components/data-table* or similar)
+4. Whether Zustand is already a dependency (check package.json)
+5. What shadcn UI components are available (check src/components/ui/ for command, popover, dialog, combobox, etc.)
+6. Whether TanStack Virtual is already installed
+7. The existing filter view system mentioned in AGENTS.md (filter views seeded via db:push)
+8. The existing column definitions for the main tables (tasks, clients, prospects)
+9. Whether there's any existing keyboard shortcut system
+10. The existing CONTEXT.md and UBIQUITOUS_LANGUAGE.md files
+
+Return all findings in detail, including file paths and relevant code snippets.

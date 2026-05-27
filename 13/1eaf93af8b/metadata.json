@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "131eaf93af8b",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".gitignore",
+    "TODO.md",
+    "infra/docker/images.ts",
+    "infra/docker/services.ts",
+    "infra/index.ts",
+    "infra/instance.ts",
+    "infra/postgres.ts",
+    "package.json",
+    "src/components/data-table-filter/components/data-table-filter.tsx",
+    "src/components/data-table-filter/components/filter-actions.tsx",
+    "src/components/data-table-filter/index.tsx",
+    "src/components/layouts/data-view-layout.tsx",
+    "src/components/layouts/nav-layout.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/13/1eaf93af8b/0/metadata.json",
+      "transcript": "/13/1eaf93af8b/0/full.jsonl",
+      "content_hash": "/13/1eaf93af8b/0/content_hash.txt",
+      "prompt": "/13/1eaf93af8b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 111518,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 606656,
+    "output_tokens": 6396,
+    "api_call_count": 16
+  }
+}
