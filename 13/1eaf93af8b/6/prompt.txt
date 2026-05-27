@@ -1,0 +1,79 @@
+Write @docker-compose.prod.yml in pulumi docker provider in @infra/docker/services.ts 
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/docker-compose.prod.yml"}
+<path>/home/aditya/projects/alpauls-ats/docker-compose.prod.yml</path>
+<type>file</type>
+<content>
+1: name: alpauls-ats
+2: 
+3: services:
+4:   db:
+5:     image: postgres:18-alpine
+6:     restart: always
+7:     environment:
+8:       POSTGRES_USER: ${DB_USER}
+9:       POSTGRES_PASSWORD: ${DB_PASSWORD}
+10:       POSTGRES_DB: ${DB_NAME}
+11:     volumes:
+12:       - db-data:/var/lib/postgresql/18/data
+13:     healthcheck:
+14:       test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+15:       interval: 5s
+16:       timeout: 5s
+17:       retries: 5
+18:     networks:
+19:       - alpauls-net
+20: 
+21:   app:
+22:     image: ${APP_IMAGE}
+23:     restart: always
+24:     depends_on:
+25:       db:
+26:         condition: service_healthy
+27:     environment:
+28:       DATABASE_URL: REDACTED
+29:       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+30:       BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+31:       R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+32:       R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+33:       R2_ACCOUNT_ID: ${R2_ACCOUNT_ID}
+34:       R2_BUCKET_NAME: ${R2_BUCKET_NAME}
+35:       PUBLIC_R2_PUBLIC_URL: ${PUBLIC_R2_PUBLIC_URL}
+36:       PUBLIC_POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
+37:       PUBLIC_POSTHOG_HOST: ${PUBLIC_POSTHOG_HOST:-}
+38:     networks:
+39:       - alpauls-net
+40: 
+41:   caddy:
+42:     image: caddy:2-alpine
+43:     restart: always
+44:     ports:
+45:       - "80:80"
+46:       - "443:443"
+47:     volumes:
+48:       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+49:       - caddy-data:/data
+50:       - caddy-config:/config
+51:     depends_on:
+52:       - app
+53:     networks:
+54:       - alpauls-net
+55: 
+56: volumes:
+57:   db-data:
+58:   caddy-data:
+59:   caddy-config:
+60: 
+61: networks:
+62:   alpauls-net:
+63:     driver: bridge
+
+(End of file - total 63 lines)
+</content>
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/infra/docker/services.ts"}
+<path>/home/aditya/projects/alpauls-ats/infra/docker/services.ts</path>
+<type>file</type>
+<content>
+
+
+(End of file - total 0 lines)
+</content>

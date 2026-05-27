@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.6.1",
+  "checkpoint_id": "131eaf93af8b",
+  "session_id": "ses_19bd1d779ffeRTidAu1gJ0wShE",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-27T12:16:05.921934858Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "infra/docker/services.ts",
+    "infra/index.ts"
+  ],
+  "agent": "OpenCode",
+  "model": "GLM-5.1",
+  "turn_id": "8e046831da75",
+  "token_usage": {
+    "input_tokens": 103505,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 2345088,
+    "output_tokens": 8449,
+    "api_call_count": 45
+  },
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-27T12:16:05.899275984Z",
+    "agent_lines": 76,
+    "agent_removed": 4409,
+    "human_added": 1278,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1354,
+    "total_lines_changed": 6062,
+    "agent_percentage": 73.98548333883207,
+    "metric_version": 2
+  }
+}
