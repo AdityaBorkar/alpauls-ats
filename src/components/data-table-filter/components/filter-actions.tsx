@@ -21,7 +21,7 @@ function __FilterActions({
 }: FilterActionsProps) {
   return (
     <Button
-      className={cn("!px-2 h-7", !hasFilters && "hidden")}
+      className={cn("!px-2 h-8", !hasFilters && "hidden")}
       onClick={actions?.removeAllFilters}
       variant="destructive"
     >

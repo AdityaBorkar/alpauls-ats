@@ -6,10 +6,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Search } from "lucide-react";
 import { useState } from "react";
 
-import { DataTableFilter } from "@/components/data-table-filter";
+import { FilterCombobox } from "@/components/data-table-filter";
 import type {
   ColumnConfig,
   ColumnOption,
@@ -20,7 +19,6 @@ import { FilterViewTabs } from "@/components/filter-view-tabs";
 import { useFilterViewState } from "@/hooks/use-filter-view-state";
 
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import {
   Table,
   TableBody,
@@ -120,100 +118,95 @@ export function DataViewLayout<TItem>({
       leftItems={<FilterViewTabs domain={domain} />}
       rightItems={rightItems}
     >
-      <div className="space-y-4">
-        <div className="flex items-start gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute top-2.5 left-2.5 size-4 text-muted-foreground" />
-            <Input
-              className="pl-8"
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCursor(undefined);
-              }}
-              placeholder={searchPlaceholder}
-              value={search}
-            />
-          </div>
-          <DataTableFilter
-            actions={actions}
-            columns={columns}
-            filters={filterState}
-            locale="en"
-            strategy={strategy}
-          />
+      <header className="flex flex-row gap-2">
+        <FilterCombobox
+          actions={actions}
+          columns={columns}
+          filters={filterState}
+          locale="en"
+          onSearchChange={(v) => {
+            setSearch(v);
+            setCursor(undefined);
+          }}
+          searchPlaceholder={searchPlaceholder}
+          searchValue={search}
+          strategy={strategy}
+        />
+        <div className="flex h-8 items-center justify-center rounded-md border px-2">
+          Display
         </div>
+      </header>
 
-        <div className="rounded-lg border bg-card">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
+      <div className="mt-4 rounded-lg border bg-card">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {queryResult.isLoading ? (
+              <TableRow>
+                <TableCell
+                  className="text-center text-muted-foreground"
+                  colSpan={columnDefs.length}
+                >
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : items.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  className="text-center text-muted-foreground"
+                  colSpan={columnDefs.length}
+                >
+                  {emptyMessage}
+                </TableCell>
+              </TableRow>
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  className="cursor-pointer"
+                  key={row.id}
+                  onClick={() => onRowClick?.(row.original as TItem)}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {queryResult.isLoading ? (
-                <TableRow>
-                  <TableCell
-                    className="text-center text-muted-foreground"
-                    colSpan={columnDefs.length}
-                  >
-                    Loading...
-                  </TableCell>
-                </TableRow>
-              ) : items.length === 0 ? (
-                <TableRow>
-                  <TableCell
-                    className="text-center text-muted-foreground"
-                    colSpan={columnDefs.length}
-                  >
-                    {emptyMessage}
-                  </TableCell>
-                </TableRow>
-              ) : (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    className="cursor-pointer"
-                    key={row.id}
-                    onClick={() => onRowClick?.(row.original as TItem)}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {nextCursor && (
-          <div className="flex justify-center">
-            <Button
-              onClick={() => setCursor(nextCursor)}
-              size="sm"
-              variant="outline"
-            >
-              Load more
-            </Button>
-          </div>
-        )}
+              ))
+            )}
+          </TableBody>
+        </Table>
       </div>
+
+      {nextCursor && (
+        <div className="flex justify-center">
+          <Button
+            onClick={() => setCursor(nextCursor)}
+            size="sm"
+            variant="outline"
+          >
+            Load more
+          </Button>
+        </div>
+      )}
     </NavLayout>
   );
 }

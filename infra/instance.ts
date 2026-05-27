@@ -105,6 +105,10 @@ runcmd:
 `;
 
   const instance = new core.Instance(`${projectName}-vm`, {
+    availabilityConfig: {
+      isLiveMigrationPreferred: true,
+      recoveryAction: "RESTORE_INSTANCE",
+    },
     availabilityDomain: ads.availabilityDomains[0].name,
     compartmentId,
     createVnicDetails: {
@@ -125,6 +129,7 @@ runcmd:
     },
     sourceDetails: {
       bootVolumeSizeInGbs: "50",
+      bootVolumeVpusPerGb: "10",
       sourceId: images.id,
       sourceType: "image",
     },

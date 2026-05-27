@@ -31,7 +31,7 @@ export function DataTableFilter<TData>({
   const isMobile = useIsMobile();
   if (isMobile) {
     return (
-      <div className="flex w-full items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-2">
         <div className="flex gap-1">
           <FilterSelector
             actions={actions}
@@ -60,7 +60,7 @@ export function DataTableFilter<TData>({
   }
 
   return (
-    <div className="flex w-full items-start justify-between gap-2">
+    <div className="flex items-start justify-between gap-2">
       <div className="flex w-full flex-1 gap-2 md:flex-wrap">
         <FilterSelector
           actions={actions}

@@ -37,8 +37,37 @@
 ---
 
 Run daily DB dumps off-host (cron on the VM running a script that dumps, encrypts, and uploads).
+- Backblaze B2 backups everyday 3AM
+- Retention for 15 days
+- Encryption
+systemd timers
+cron
+
+restic/rclone
+
+A backup is not valid until restore-tested.
+
+Regularly test:
+docker volume create restore_test
+docker run --rm \
+  -v restore_test:/target \
+  -v $(pwd):/backup \
+  alpine \
+  tar xzf /backup/postgres_data.tar.gz -C /target
 
 Enable Caddy’s automatic HTTPS and set appropriate timeouts for long-running requests if your power users do big imports/exports.
+
+Use an image and PULL from github/remote-desktop and BUILD and PUBLISH
+
+---
+
+## Monitoring
+
+- Netdata
+- Dozzle
+- Uptime Kuma
+- Coolify
+- Signoz
 
 - /opt/caddy
 - /opt/system-manager
