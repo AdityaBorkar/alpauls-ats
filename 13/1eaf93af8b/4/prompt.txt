@@ -1,0 +1,151 @@
+@infra/docker/services.ts Configure Caddy using Caddy API in the same script
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/infra/docker/services.ts"}
+<path>/home/aditya/projects/alpauls-ats/infra/docker/services.ts</path>
+<type>file</type>
+<content>
+1: import * as command from "@pulumi/command/remote";
+2: import { Container, Network, Provider, Volume } from "@pulumi/docker";
+3: import * as pulumi from "@pulumi/pulumi";
+4: 
+5: interface DbCredentials {
+6:   USER: pulumi.Input<string>;
+7:   PASSWORD: pulumi.Input<string>;
+8:   NAME: pulumi.Input<string>;
+9: }
+10: 
+11: export function setupDockerServices({
+12:   sshPrivateKey,
+13:   host,
+14:   ...args
+15: }: {
+16:   publicIp: pulumi.Input<string>;
+17:   sshPrivateKey: pulumi.Input<string>;
+18:   appImage: pulumi.Input<string>;
+19:   appDomain: pulumi.Input<string>;
+20:   dbCredentials: DbCredentials;
+21:   betterAuthSecret: pulumi.Input<string>;
+22:   betterAuthUrl: pulumi.Input<string>;
+23:   r2AccessKeyId: pulumi.Input<string>;
+24:   r2SecretAccessKey: pulumi.Input<string>;
+25:   r2AccountId: pulumi.Input<string>;
+26:   r2BucketName: pulumi.Input<string>;
+27:   publicR2PublicUrl: pulumi.Input<string>;
+28:   publicPosthogKey?: pulumi.Input<string>;
+29:   publicPosthogHost?: pulumi.Input<string>;
+30: }) {
+31:   // ------------ Docker ------------
+32: 
+33:   const provider = new Provider("docker", { host });
+34: 
+35:   // ------------ Volumes ------------
+36: 
+37:   const data_db = new Volume("db-data", { name: "db-data" }, { provider });
+38: 
+39:   const data_caddy = new Volume(
+40:     "caddy-data",
+41:     { name: "caddy-data" },
+42:     { provider },
+43:   );
+44: 
+45:   const data_caddyConfig = new Volume(
+46:     "caddy-config",
+47:     { name: "caddy-config" },
+48:     { provider },
+49:   );
+50: 
+51:   // ------------ Network ------------
+52: 
+53:   const network = new Network(
+54:     "alpauls-net",
+55:     { driver: "bridge", name: "alpauls-net" },
+56:     { provider },
+57:   );
+58: 
+59:   // ------------ Containers ------------
+60: 
+61:   // const sshConnection: command.ConnectionArgs = {
+62:   //   host: args.publicIp,
+63:   //   privateKey: args.sshPrivateKey,
+64:   //   user: "ubuntu",
+65:   // };
+66: 
+67:   const dbContainer = new Container(
+68:     "db",
+69:     {
+70:       envs: [
+71:         pulumi.interpolate`POSTGRES_USER=${args.dbCredentials.USER}`,
+72:         pulumi.interpolate`POSTGRES_PASSWORD=REDACTED,
+73:         pulumi.interpolate`POSTGRES_DB=${args.dbCredentials.NAME}`,
+74:       ],
+75:       healthcheck: {
+76:         interval: "5s",
+77:         retries: 5,
+78:         tests: [
+79:           "CMD-SHELL",
+80:           pulumi.interpolate`pg_isready -U ${args.dbCredentials.USER}`,
+81:         ],
+82:         timeout: "5s",
+83:       },
+84:       image: "postgres:18-alpine",
+85:       mounts: [
+86:         {
+87:           source: data_db.name,
+88:           target: "/var/lib/postgresql/18/data",
+89:           type: "volume",
+90:         },
+91:       ],
+92:       name: "db",
+93:       networksAdvanced: [{ name: network.name }],
+94:       restart: "always",
+95:     },
+96:     { provider: provider },
+97:   );
+98: 
+99:   const app = new Container(
+100:     "app",
+101:     {
+102:       image: args.appImage,
+103:       name: "app",
+104:       networksAdvanced: [{ name: network.name }],
+105:       restart: "always",
+106:     },
+107:     { dependsOn: [dbContainer], provider: provider },
+108:   );
+109: 
+110:   const caddyfileContent = pulumi.interpolate`${args.appDomain} {
+111:   reverse_proxy app:3020
+112: }`;
+113: 
+114:   const caddy = new Container(
+115:     "caddy",
+116:     {
+117:       image: "caddy:2-alpine",
+118:       mounts: [
+119:         { source: data_caddy.name, target: "/data", type: "volume" },
+120:         { source: data_caddyConfig.name, target: "/config", type: "volume" },
+121:       ],
+122:       name: "caddy",
+123:       networksAdvanced: [{ name: network.name }],
+124:       ports: [
+125:         { external: 80, internal: 80, ip: "0.0.0.0", protocol: "tcp" },
+126:         { external: 443, internal: 443, ip: "0.0.0.0", protocol: "tcp" },
+127:       ],
+128:       restart: "always",
+129:       uploads: [{ content: caddyfileContent, file: "/etc/caddy/Caddyfile" }],
+130:     },
+131:     { dependsOn: [app], provider: provider },
+132:   );
+133: 
+134:   return {
+135:     networks: { network },
+136:     services: { app, caddy, db },
+137:     volumes: {
+138:       appDataVol,
+139:       caddyConfigVol: data_caddyConfig,
+140:       caddyDataVol: data_caddy,
+141:     },
+142:   };
+143: }
+
+(End of file - total 143 lines)
+</content>
