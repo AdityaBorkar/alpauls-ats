@@ -1,0 +1,10 @@
+Explore the directory /home/aditya/projects/alpauls-ats/infra/ thoroughly. I need to understand:
+
+1. What files exist in infra/docker/ and their contents
+2. What files exist in infra/ at the top level (especially index.ts, config, etc.)
+3. Any package.json or tsconfig in the infra/ directory
+4. What Pulumi packages are used (check package.json at project root or in infra/)
+5. How the Pulumi Docker provider is configured — look for any existing Docker provider setup, remote references, config patterns
+6. Any existing Pulumi stack config files (Pulumi.yaml, Pulumi.dev.yaml, etc.)
+
+Return all file contents you find and a summary of the project structure and conventions.
