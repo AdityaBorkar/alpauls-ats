@@ -1,0 +1,12 @@
+@infra/ revise the code to ensure DB and app runs on the same instance. We shall use docker to deploy DB and Apps. 
+Called the Read tool with the following input: {"filePath":"/home/aditya/projects/alpauls-ats/infra/"}
+<path>/home/aditya/projects/alpauls-ats/infra/</path>
+<type>directory</type>
+<entries>
+app.ts
+db.ts
+docker/
+index.ts
+
+(4 entries)
+</entries>
